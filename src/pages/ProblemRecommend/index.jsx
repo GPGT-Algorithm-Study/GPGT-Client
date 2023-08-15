@@ -25,9 +25,12 @@ function ProblemRecommend() {
   const [startTier, setStartTier] = useState(0);
   const [endTier, setEndTier] = useState(4);
   const [problem, setProblem] = useState({});
+  const [problemList, setProblemList] = useState({});
   const [idError, setIdError] = useState(false);
   const [tierMarks, setTierMarks] = useState([]);
   const [showTags, setShowTags] = useState(false);
+  const [loadFlag, setLoadFlag] = useState(true);
+  const [problemIdx, setProblemIdx] = useState(0);
 
   useEffect(() => {
     // 슬라이더에 마커 설정 (5 단위, 티어 색상이 변경될 때 마다 티어 이미지 삽입)
@@ -54,15 +57,35 @@ function ProblemRecommend() {
     // id 유효성 검사
     const regExp = /^[a-z0-9](?!_)[a-z0-9_]{1,19}$/g;
     setIdError(id == '' || !regExp.test(id));
+    setLoadFlag(true);
   }, []);
 
   /**
    * 슬라이더 변경 핸들러
    */
   const onChangeSlider = useCallback((range) => {
+    setLoadFlag(true);
     setStartTier(range[0]);
     setEndTier(range[1]);
   }, []);
+
+  /**
+   * 문제 목록 중 추천 문제를 지정한다.
+   */
+  useEffect(() => {
+    if (problemList.length == 0) {
+      setProblem({ id: 0 });
+    } else if (problemList.length <= problemIdx) return;
+    if (problemList.length > 0) {
+      const newProblem = {
+        id: problemList[problemIdx].problemId,
+        title: problemList[problemIdx].titleKo,
+        level: problemList[problemIdx].level,
+        tags: problemList[problemIdx].tags,
+      };
+      setProblem(newProblem);
+    }
+  }, [problemIdx, problemList]);
 
   /**
    * 문제 추천 버튼 클릭 시 폼 제출 핸들러
@@ -75,6 +98,11 @@ function ProblemRecommend() {
         setIdError(true);
         return;
       }
+      // 새로 로드하지 않아도 되는 경우
+      if (!loadFlag && problemIdx + 1 < problemList.length) {
+        setProblemIdx((prev) => prev + 1);
+        return;
+      }
       // 숫자로 설정된 티어를 문자열로 변경(1 -> b5)
       const startTierStr = numToTierStr(startTier);
       const endTierStr = numToTierStr(endTier);
@@ -82,18 +110,9 @@ function ProblemRecommend() {
         .then((res) => {
           if (res.status == 200 && res.data) {
             const { data } = res;
-            let problem = {
-              id: 0,
-            };
-            if (data.length > 0) {
-              problem = {
-                id: data[0].problemId,
-                title: data[0].titleKo,
-                level: data[0].level,
-                tags: data[0].tags,
-              };
-            }
-            setProblem(problem);
+            setProblemList(data);
+            setProblemIdx(0);
+            setLoadFlag(false);
           }
           // 데이터 제대로 못 받았을 경우 에러처리
         })
@@ -101,7 +120,7 @@ function ProblemRecommend() {
           throw new Error(e);
         });
     },
-    [bojId, startTier, endTier],
+    [bojId, startTier, endTier, loadFlag, problemIdx],
   );
 
   /**
