@@ -1,12 +1,12 @@
 import React from 'react';
 import GlobalStyle from './style';
-import ProblemRecommend from './pages/ProblemRecommend';
+import Main from './pages/Main';
 
 function App() {
   return (
     <div>
       <GlobalStyle />
-      <ProblemRecommend />
+      <Main />
     </div>
   );
 }

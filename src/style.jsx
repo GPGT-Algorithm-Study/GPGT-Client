@@ -2,16 +2,28 @@ import React from 'react';
 import { Global, css } from '@emotion/react';
 
 const baseStyle = css`
-  @font-face {
-    font-family: 'DungGeunMo';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff')
-      format('woff');
-    font-weight: normal;
-    font-style: normal;
+  :root {
+    --color-primary: rgb(18, 146, 250);
+    --color-background: rgb(240, 240, 240);
+    --color-textgrey: rgb(112, 112, 112);
+    --color-textlight: rgb(150, 150, 150);
+    --color-error: #f24343;
+    --color-unchecked: rgb(220, 220, 220);
+    --color-checked: #81cc67;
+    --color-point: #546ffa;
+    --width-usercard: 340px;
+  }
+  body {
+    background-color: var(--color-background);
+    margin: 0;
   }
 
-  body {
-    font-family: 'DungGeunMo';
+  input:focus {
+    outline: none;
+  }
+  a {
+    text-decoration: none;
+    color: black;
   }
 `;
 
