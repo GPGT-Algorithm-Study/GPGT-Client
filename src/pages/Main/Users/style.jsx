@@ -11,8 +11,18 @@ export const UsersWrapper = styled.div`
   display: flex;
 `;
 
-export const ScrollButton = styled.button`
+export const ScrollButton = styled.div`
+  position: fixed;
+  left: ${(props) => (props.type == 'prev' ? '0' : '')};
+  right: ${(props) => (props.type == 'next' ? '-1px' : '')};
   border: none;
+  background: transparent;
   cursor: pointer;
-  width: 20px;
+  text-align: center;
+  width: 80px;
+  height: 100%;
+  z-index: 999;
+  & div {
+    margin-top: 150px;
+  }
 `;

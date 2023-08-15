@@ -17,7 +17,7 @@ function ProblemCard({ problem }) {
     <Card>
       <ProblemTitle>
         <TierImg
-          src="https://static.solved.ac/tier_small/15.svg"
+          src={`https://static.solved.ac/tier_small/${problem.tier}.svg`}
           width="20px"
           height="20px"
         />

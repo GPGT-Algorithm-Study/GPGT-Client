@@ -68,7 +68,10 @@ function UserInfo({ user }) {
         {solvedProblems.length > 0 &&
           solvedProblems.map((problem) => {
             return (
-              <a href={`https://www.acmicpc.net/problem/${problem.problemId}`}>
+              <a
+                href={`https://www.acmicpc.net/problem/${problem.problemId}`}
+                key={problem.problemId}
+              >
                 <ProblemCard problem={problem} key={problem.problemId} />
               </a>
             );
