@@ -29,7 +29,7 @@ export const ProblemWrapper = styled.div`
 
 export const TagWrapper = styled.div`
   margin-top: 15px;
-  max-width: 280px;
+  max-width: 220px;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -43,7 +43,7 @@ export const LanguageTag = styled.span`
   border: none;
   background-color: var(--color-checked);
   margin: 0px 5px 5px 0px;
-  text-overflow: 'ellipsis';
+  text-overflow: 'clip';
 `;
 
 export const Tag = styled.span`
@@ -54,5 +54,4 @@ export const Tag = styled.span`
   border: none;
   background-color: var(--color-background);
   margin: 0px 5px 5px 0px;
-  text-overflow: 'ellipsis';
 `;

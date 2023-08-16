@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import moment from 'moment';
 import {
   Card,
@@ -15,6 +15,8 @@ import {
   WarningMsg,
   WarningWrapper,
 } from './style';
+import StreakIcon from './StreakIcon';
+import StreakTooltip from './StreakTooltip';
 import SolvedIcon from '../../../../components/SolvedIcon';
 
 /**
@@ -23,6 +25,8 @@ import SolvedIcon from '../../../../components/SolvedIcon';
 function UserCard({ user, randomStreak }) {
   const MAX_STREAK = 51;
   const [streakList, setStreakList] = useState([]);
+  const refArr = [...Array(MAX_STREAK)].map((_) => useRef());
+  const [hoveringStreakIdx, setHoveringStreakIdx] = useState(-1);
 
   /**
    * 오늘 날짜에서 i번째 이전 날짜를 반환한다.
@@ -48,14 +52,14 @@ function UserCard({ user, randomStreak }) {
     // 스트릭 정보에는 날짜, x,y좌표, 그 날짜에 해결했는지 여부가 포함된다.
     setStreakList(
       [...Array(MAX_STREAK)].map((_, i) => {
-        const streakDate = getPreviousDate(MAX_STREAK - i - 1);
+        const streakDate = moment(getPreviousDate(MAX_STREAK - i - 1));
         const formatDate = moment(streakDate).format('YYYY-MM-DD');
         const solved =
           streakInfo.hasOwnProperty(formatDate) && streakInfo[formatDate];
         return {
-          date: streakDate,
-          x: parseInt(i / 3) * 20,
-          y: (i % 3) * 20,
+          date: formatDate,
+          x: parseInt(i / 3) * 20 + 2,
+          y: (i % 3) * 20 + 2,
           solved: solved,
         };
       }),
@@ -123,24 +127,26 @@ function UserCard({ user, randomStreak }) {
           Random Streak <span>{user.currentRandomStreak}</span> days
         </div>
         <Streak>
-          <svg height="60" width="340">
-            {streakList.map((streak) => (
-              <rect
-                key={streak.date}
-                width="18"
-                height="18"
-                x={streak.x}
-                y={streak.y}
-                rx="5"
-                fill={
-                  streak.solved
-                    ? 'var(--color-checked)'
-                    : 'var(--color-unchecked)'
-                }
-                strokeWidth="2.5"
-                stroke="transparent"
-              ></rect>
+          <svg height="65" width="345">
+            {streakList.map((streak, i) => (
+              <React.Fragment key={`${streak.date}-fragment`}>
+                <StreakIcon
+                  ref={refArr[i]}
+                  isHovering={hoveringStreakIdx == i}
+                  onMouseEnter={() => {
+                    setHoveringStreakIdx(i);
+                  }}
+                  onMouseOut={() => {
+                    setHoveringStreakIdx(-1);
+                  }}
+                  streak={streak}
+                />
+              </React.Fragment>
             ))}
+            {/* 툴팁 */}
+            {hoveringStreakIdx != -1 && (
+              <StreakTooltip streak={streakList[hoveringStreakIdx]} />
+            )}
           </svg>
         </Streak>
         <MaxStreak>
