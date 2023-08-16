@@ -96,7 +96,7 @@ function UserCard({ user, randomStreak }) {
               <Warning key={i} warning={i + 1 <= user.warning} />
             ))}
           </WarningWrapper>
-          {user.warning == 4 && <WarningMsg>WARNING !</WarningMsg>}
+          {user.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
         </div>
         <div className="tier-wrapper">
           <TierImg

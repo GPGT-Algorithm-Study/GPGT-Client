@@ -48,7 +48,7 @@ export const ProfileImage = styled.div`
   background-position: center;
   filter: ${(props) =>
     props.isWarning
-      ? 'invert(33%) sepia(64%) saturate(2789%) hue-rotate(341deg) brightness(104%) contrast(90%)'
+      ? 'invert(93%) sepia(0%) saturate(2715%) hue-rotate(48deg) brightness(84%) contrast(87%)'
       : ''};
 `;
 
