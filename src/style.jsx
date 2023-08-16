@@ -2,6 +2,8 @@ import React from 'react';
 import { Global, css } from '@emotion/react';
 
 const baseStyle = css`
+  @import url('https://webfontworld.github.io/kopus/KoPubWorldDotum.css');
+
   :root {
     --color-primary: rgb(18, 146, 250);
     --color-background: rgb(240, 240, 240);
@@ -16,6 +18,7 @@ const baseStyle = css`
   body {
     background-color: var(--color-background);
     margin: 0;
+    font-family: 'KoPubWorldDotum';
   }
 
   input:focus {

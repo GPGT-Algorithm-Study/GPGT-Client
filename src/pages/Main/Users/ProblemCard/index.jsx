@@ -30,7 +30,7 @@ function ProblemCard({ problem }) {
           {problem.tags &&
             problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
         </TagWrapper>
-        <LanguageTag>python</LanguageTag>
+        <LanguageTag>{problem.language}</LanguageTag>
       </ProblemWrapper>
     </Card>
   );

@@ -17,6 +17,21 @@ export const Card = styled.div`
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
 `;
 
+export const CardContent = styled.div`
+  filter: ${(props) => (props.isBlur ? 'blur(3px) opacity(25%)' : '')};
+`;
+
+export const NoRandomProblem = styled.div`
+  z-index: 999;
+  position: relative;
+  & div {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    font-weight: bold;
+  }
+`;
+
 export const Title = styled.div`
   font-weight: bold;
   & p {

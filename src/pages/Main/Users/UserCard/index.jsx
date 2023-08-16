@@ -26,6 +26,10 @@ function UserCard({ user, randomStreak }) {
    */
   const getPreviousDate = useCallback((i) => {
     const today = new Date();
+    // 오전 6시 기준으로 오늘이 나뉨. 오전 6시 이전이라면 어제를 오늘로 친다.
+    if (today.getHours() < 6) {
+      today.setDate(today.getDate() - 1);
+    }
     const previousDate = new Date(today);
     previousDate.setDate(today.getDate() - i);
     return previousDate;

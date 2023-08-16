@@ -36,7 +36,18 @@ function UserInfo({ user }) {
       .then((res) => {
         if (res.status == 200 && res.data) {
           const { data } = res;
-          setRandomProblem(data);
+          let { todayRandomProblem } = data;
+          todayRandomProblem.isTodayRandomSolved = data.isTodayRandomSolved;
+          if (todayRandomProblem.problemId == 0) {
+            todayRandomProblem = {
+              ...todayRandomProblem,
+              titleKo: '랜덤 문제 제목',
+              point: 10,
+              tags: ['그래프 이론', '그래프 탐색'],
+              level: 9,
+            };
+          }
+          setRandomProblem(todayRandomProblem);
         }
         // 데이터 제대로 못 받았을 경우 에러처리
       })
@@ -64,7 +75,16 @@ function UserInfo({ user }) {
         <a href={`https://solved.ac/profile/${user.bojHandle}`}>
           <UserCard user={user} randomStreak={randomStreak} />
         </a>
-        <RandomProblemCard problem={randomProblem} />
+        {randomProblem.problemId != 0 && (
+          <a
+            href={`https://www.acmicpc.net/problem/${randomProblem.problemId}`}
+          >
+            <RandomProblemCard problem={randomProblem} />
+          </a>
+        )}
+        {randomProblem.problemId == 0 && (
+          <RandomProblemCard problem={randomProblem} />
+        )}
         {solvedProblems.length > 0 &&
           solvedProblems.map((problem) => {
             return (
