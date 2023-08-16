@@ -46,17 +46,29 @@ export const ProfileImage = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  filter: ${(props) =>
+    props.isWarning
+      ? 'invert(33%) sepia(64%) saturate(2789%) hue-rotate(341deg) brightness(104%) contrast(90%)'
+      : ''};
 `;
+
+export const WarningMsg = styled.div`
+  font-weight: bold;
+  color: var(--color-error);
+  margin-top: 8px;
+`;
+
+export const WarningWrapper = styled.div`
+  width: 70px;
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const SolvedInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
-  .warning-wrapper {
-    width: 70px;
-    display: flex;
-    justify-content: space-between;
-  }
   .tier-wrapper {
     margin-left: 10px;
     width: 200px;
@@ -100,10 +112,22 @@ export const Line = styled.div`
 export const RandomStreakInfo = styled.div`
   margin-top: 15px;
   & div {
-    font-weight: bold;
+    & span {
+      font-weight: bold;
+    }
   }
 `;
 
 export const Streak = styled.div`
   margin-top: 10px;
+`;
+
+export const MaxStreak = styled.div`
+  color: var(--color-textgrey);
+  font-weight: normal !important;
+  font-size: 0.9rem;
+  & span {
+    color: black;
+    font-weight: bold;
+  }
 `;

@@ -10,7 +10,10 @@ import {
   StreakSolved,
   RandomStreakInfo,
   Line,
+  MaxStreak,
   Streak,
+  WarningMsg,
+  WarningWrapper,
 } from './style';
 import SolvedIcon from '../../../../components/SolvedIcon';
 
@@ -63,13 +66,16 @@ function UserCard({ user, randomStreak }) {
     <Card>
       {/* 상단 유저 아이디, 포인트, 프로필 이미지 */}
       <UserInfo>
-        <ProfileImage
-          src={
-            user.profileImg != 'null'
-              ? user.profileImg
-              : 'https://static.solved.ac/misc/360x360/default_profile.png'
-          }
-        />
+        <div>
+          <ProfileImage
+            src={
+              user.profileImg != 'null'
+                ? user.profileImg
+                : 'https://static.solved.ac/misc/360x360/default_profile.png'
+            }
+            isWarning={user.warning == 4}
+          />
+        </div>
         <div className="id-wrapper">
           <div className="user-id">
             {user.notionId} {user.emoji}
@@ -84,10 +90,13 @@ function UserCard({ user, randomStreak }) {
 
       {/* 가운데 경고, 티어, 스트릭, 푼 문제 수 정보 */}
       <SolvedInfo>
-        <div className="warning-wrapper">
-          {[...Array(3)].map((_, i) => (
-            <Warning key={i} warning={i + 1 <= user.warning} />
-          ))}
+        <div>
+          <WarningWrapper>
+            {[...Array(3)].map((_, i) => (
+              <Warning key={i} warning={i + 1 <= user.warning} />
+            ))}
+          </WarningWrapper>
+          {user.warning == 4 && <WarningMsg>WARNING !</WarningMsg>}
         </div>
         <div className="tier-wrapper">
           <TierImg
@@ -110,7 +119,9 @@ function UserCard({ user, randomStreak }) {
 
       {/* 맨 밑에 랜덤 스트릭 정보 */}
       <RandomStreakInfo>
-        <div>Random Streak {user.currentRandomStreak} days</div>
+        <div>
+          Random Streak <span>{user.currentRandomStreak}</span> days
+        </div>
         <Streak>
           <svg height="60" width="340">
             {streakList.map((streak) => (
@@ -132,6 +143,9 @@ function UserCard({ user, randomStreak }) {
             ))}
           </svg>
         </Streak>
+        <MaxStreak>
+          최장<span> {user.maxRandomStreak}</span>일
+        </MaxStreak>
       </RandomStreakInfo>
     </Card>
   );

@@ -33,10 +33,22 @@ export const NoRandomProblem = styled.div`
 `;
 
 export const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
   font-weight: bold;
   & p {
     display: inline;
     color: var(--color-point);
+  }
+`;
+
+export const TagSwitchWrapper = styled.div`
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  & span {
+    margin-right: 5px;
   }
 `;
 
