@@ -31,7 +31,7 @@ import SolvedIcon from '../../../../components/SolvedIcon';
  * 사용자 정보 카드 컴포넌트
  */
 function UserCard({ user, randomStreak, setIsShowProblems, isShowProblems }) {
-  const MAX_STREAK = 60;
+  const MAX_STREAK = 84;
   const [streakList, setStreakList] = useState([]);
   const refArr = [...Array(MAX_STREAK)].map((_) => useRef());
   const [hoveringStreakIdx, setHoveringStreakIdx] = useState(-1);
@@ -177,7 +177,7 @@ function UserCard({ user, randomStreak, setIsShowProblems, isShowProblems }) {
               )}
             </ScrollButton>
             <div ref={horizontalScrollRef}>
-              <svg height="65" width="400" overflow="auto">
+              <svg height="65" width="572" overflow="auto">
                 {streakList.map((streak, i) => (
                   <React.Fragment key={`${streak.date}-fragment`}>
                     <StreakIcon
