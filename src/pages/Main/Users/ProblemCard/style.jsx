@@ -5,7 +5,6 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 7px;
-  width: var(--width-usercard);
   padding: 20px 20px 20px 20px;
   background-color: white;
   border-radius: 10px;
@@ -29,7 +28,7 @@ export const ProblemWrapper = styled.div`
 
 export const TagWrapper = styled.div`
   margin-top: 15px;
-  max-width: 220px;
+  max-width: 260px;
   display: flex;
   flex-wrap: wrap;
 `;

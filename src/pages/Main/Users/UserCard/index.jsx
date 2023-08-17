@@ -14,7 +14,15 @@ import {
   Streak,
   WarningMsg,
   WarningWrapper,
+  ToggleButton,
+  ScrollButton,
 } from './style';
+import {
+  FaChevronDown,
+  FaChevronUp,
+  FaChevronRight,
+  FaChevronLeft,
+} from 'react-icons/fa';
 import StreakIcon from './StreakIcon';
 import StreakTooltip from './StreakTooltip';
 import SolvedIcon from '../../../../components/SolvedIcon';
@@ -22,11 +30,36 @@ import SolvedIcon from '../../../../components/SolvedIcon';
 /**
  * 사용자 정보 카드 컴포넌트
  */
-function UserCard({ user, randomStreak }) {
-  const MAX_STREAK = 51;
+function UserCard({ user, randomStreak, setIsShowProblems, isShowProblems }) {
+  const MAX_STREAK = 60;
   const [streakList, setStreakList] = useState([]);
   const refArr = [...Array(MAX_STREAK)].map((_) => useRef());
   const [hoveringStreakIdx, setHoveringStreakIdx] = useState(-1);
+  const [leftArrowHovering, setLeftArrowHovering] = useState(false);
+  const [rightArrowHovering, setRightArrowHovering] = useState(false);
+  const horizontalScrollRef = useRef();
+
+  /**
+   * 스트릭 좌우 스크롤 버튼 클릭 리스너
+   */
+  const handleNextButtonClick = useCallback((nextType) => {
+    if (!horizontalScrollRef.current) return;
+    if (nextType === 'prev') {
+      horizontalScrollRef.current.scrollTo({
+        left:
+          horizontalScrollRef.current.scrollLeft -
+          horizontalScrollRef.current.offsetWidth,
+        behavior: 'smooth',
+      });
+    } else {
+      horizontalScrollRef.current.scrollTo({
+        left:
+          horizontalScrollRef.current.scrollLeft +
+          horizontalScrollRef.current.offsetWidth,
+        behavior: 'smooth',
+      });
+    }
+  });
 
   /**
    * 오늘 날짜에서 i번째 이전 날짜를 반환한다.
@@ -58,8 +91,8 @@ function UserCard({ user, randomStreak }) {
           streakInfo.hasOwnProperty(formatDate) && streakInfo[formatDate];
         return {
           date: formatDate,
-          x: parseInt(i / 3) * 20 + 2,
-          y: (i % 3) * 20 + 2,
+          x: parseInt(i / 3) * 20 + 1,
+          y: (i % 3) * 20 + 1,
           solved: solved,
         };
       }),
@@ -67,93 +100,136 @@ function UserCard({ user, randomStreak }) {
   }, [randomStreak]);
 
   return (
-    <Card>
-      {/* 상단 유저 아이디, 포인트, 프로필 이미지 */}
-      <UserInfo>
-        <div>
-          <ProfileImage
-            src={
-              user.profileImg != 'null'
-                ? user.profileImg
-                : 'https://static.solved.ac/misc/360x360/default_profile.png'
-            }
-            isWarning={user.warning == 4}
-          />
-        </div>
-        <div className="id-wrapper">
-          <div className="user-id">
-            {user.notionId} {user.emoji}
-          </div>
-          <div className="boj-handle">
-            <span>{user.bojHandle}</span>
-            <span className="point-icon">P</span>
-            <span className="points">{user.point}</span>
-          </div>
-        </div>
-      </UserInfo>
-
-      {/* 가운데 경고, 티어, 스트릭, 푼 문제 수 정보 */}
-      <SolvedInfo>
-        <div>
-          <WarningWrapper>
-            {[...Array(3)].map((_, i) => (
-              <Warning key={i} warning={i + 1 <= user.warning} />
-            ))}
-          </WarningWrapper>
-          {user.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
-        </div>
-        <div className="tier-wrapper">
-          <TierImg
-            src={`https://static.solved.ac/tier_small/${user.tier}.svg`}
-            width="40px"
-            height="40px"
-          />
-          <StreakSolved>
+    <div>
+      <Card>
+        <a href={`https://solved.ac/profile/${user.bojHandle}`}>
+          {/* 상단 유저 아이디, 포인트, 프로필 이미지 */}
+          <UserInfo>
             <div>
-              <span>streak</span> &nbsp;{user.currentStreak}
+              <ProfileImage
+                src={
+                  user.profileImg != 'null'
+                    ? user.profileImg
+                    : 'https://static.solved.ac/misc/360x360/default_profile.png'
+                }
+                isWarning={user.warning == 4}
+              />
             </div>
-            <div>
-              <span>solved</span> &nbsp;{user.totalSolved}
+            <div className="id-wrapper">
+              <div className="user-id">
+                {user.notionId} {user.emoji}
+              </div>
+              <div className="boj-handle">
+                <span>{user.bojHandle}</span>
+                <span className="point-icon">P</span>
+                <span className="points">{user.point}</span>
+              </div>
             </div>
-          </StreakSolved>
-        </div>
-        <SolvedIcon solved={user.isTodaySolved} />
-      </SolvedInfo>
-      <Line />
+          </UserInfo>
 
-      {/* 맨 밑에 랜덤 스트릭 정보 */}
-      <RandomStreakInfo>
-        <div>
-          Random Streak <span>{user.currentRandomStreak}</span> days
-        </div>
-        <Streak>
-          <svg height="65" width="345">
-            {streakList.map((streak, i) => (
-              <React.Fragment key={`${streak.date}-fragment`}>
-                <StreakIcon
-                  ref={refArr[i]}
-                  isHovering={hoveringStreakIdx == i}
-                  onMouseEnter={() => {
-                    setHoveringStreakIdx(i);
-                  }}
-                  onMouseOut={() => {
-                    setHoveringStreakIdx(-1);
-                  }}
-                  streak={streak}
-                />
-              </React.Fragment>
-            ))}
-            {/* 툴팁 */}
-            {hoveringStreakIdx != -1 && (
-              <StreakTooltip streak={streakList[hoveringStreakIdx]} />
-            )}
-          </svg>
-        </Streak>
-        <MaxStreak>
-          최장<span> {user.maxRandomStreak}</span>일
-        </MaxStreak>
-      </RandomStreakInfo>
-    </Card>
+          {/* 가운데 경고, 티어, 스트릭, 푼 문제 수 정보 */}
+          <SolvedInfo>
+            <div>
+              <WarningWrapper>
+                {[...Array(3)].map((_, i) => (
+                  <Warning key={i} warning={i + 1 <= user.warning} />
+                ))}
+              </WarningWrapper>
+              {user.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
+            </div>
+            <div className="tier-wrapper">
+              <TierImg
+                src={`https://static.solved.ac/tier_small/${user.tier}.svg`}
+                width="40px"
+                height="40px"
+              />
+              <StreakSolved>
+                <div>
+                  <span>streak</span> &nbsp;{user.currentStreak}
+                </div>
+                <div>
+                  <span>solved</span> &nbsp;{user.totalSolved}
+                </div>
+              </StreakSolved>
+            </div>
+            <SolvedIcon solved={user.isTodaySolved} />
+          </SolvedInfo>
+          <Line />
+        </a>
+        {/* 맨 밑에 랜덤 스트릭 정보 */}
+        <RandomStreakInfo>
+          <div>
+            Random Streak <span>{user.currentRandomStreak}</span> days
+          </div>
+          <Streak>
+            <ScrollButton
+              onClick={() => {
+                handleNextButtonClick('prev');
+              }}
+              onMouseOver={() => setLeftArrowHovering(true)}
+              onMouseOut={() => setLeftArrowHovering(false)}
+              type="prev"
+            >
+              {leftArrowHovering && (
+                <div>
+                  <FaChevronLeft />
+                </div>
+              )}
+            </ScrollButton>
+            <div ref={horizontalScrollRef}>
+              <svg height="65" width="400" overflow="auto">
+                {streakList.map((streak, i) => (
+                  <React.Fragment key={`${streak.date}-fragment`}>
+                    <StreakIcon
+                      ref={refArr[i]}
+                      isHovering={hoveringStreakIdx == i}
+                      onMouseEnter={() => {
+                        setHoveringStreakIdx(i);
+                      }}
+                      onMouseOut={() => {
+                        setHoveringStreakIdx(-1);
+                      }}
+                      streak={streak}
+                    />
+                  </React.Fragment>
+                ))}
+                {/* 툴팁 */}
+                {hoveringStreakIdx != -1 && (
+                  <StreakTooltip streak={streakList[hoveringStreakIdx]} />
+                )}
+              </svg>
+            </div>
+            <ScrollButton
+              onClick={() => {
+                handleNextButtonClick('next');
+              }}
+              onMouseOver={() => setRightArrowHovering(true)}
+              onMouseOut={() => setRightArrowHovering(false)}
+              type="next"
+            >
+              {rightArrowHovering && (
+                <div>
+                  <FaChevronRight />
+                </div>
+              )}
+            </ScrollButton>
+          </Streak>
+          <MaxStreak>
+            최장<span> {user.maxRandomStreak}</span>일
+          </MaxStreak>
+        </RandomStreakInfo>
+        <ToggleButton
+          onClick={() => {
+            setIsShowProblems((prev) => !prev);
+          }}
+        >
+          <span>
+            {!isShowProblems && <FaChevronDown />}
+            {isShowProblems && <FaChevronUp />}
+          </span>
+        </ToggleButton>
+      </Card>
+    </div>
   );
 }
 

@@ -13,8 +13,10 @@ export function getAllUsers() {
  * bojHandle에 해당하는 사용자가 오늘 푼 문제 정보를 조회한다.
  * @param {string} bojHandle 백준아이디
  */
-export function getUserTodaySolvedProblems(bojHandle) {
-  return axios.get(`${PREFIX_URL}/info/today-solved?bojHandle=${bojHandle}`);
+export function getUserTodaySolvedProblems(params) {
+  return axios.get(
+    `${PREFIX_URL}/info/today-solved?bojHandle=${params.bojHandle}`,
+  );
 }
 
 /**
@@ -22,8 +24,8 @@ export function getUserTodaySolvedProblems(bojHandle) {
  * bojHandle에 해당하는 사용자가 오늘의 랜덤 문제 정보를 조회한다.
  * @param {string} bojHandle 백준아이디
  */
-export function getUserTodayRandomProblem(bojHandle) {
-  return axios.get(`${PREFIX_URL}/streak/streak?bojHandle=${bojHandle}`);
+export function getUserTodayRandomProblem(params) {
+  return axios.get(`${PREFIX_URL}/streak/streak?bojHandle=${params.bojHandle}`);
 }
 
 /**
@@ -31,6 +33,6 @@ export function getUserTodayRandomProblem(bojHandle) {
  * bojHandle에 해당하는 사용자의 랜덤 스트릭 정보를 조회한다. (잔디 조회)
  * @param {string} bojHandle 백준아이디
  */
-export function getUserRandomStreakGrass(bojHandle) {
-  return axios.get(`${PREFIX_URL}/streak/grass?bojHandle=${bojHandle}`);
+export function getUserRandomStreakGrass(params) {
+  return axios.get(`${PREFIX_URL}/streak/grass?bojHandle=${params.bojHandle}`);
 }

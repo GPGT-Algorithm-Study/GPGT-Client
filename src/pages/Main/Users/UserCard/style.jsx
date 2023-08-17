@@ -1,12 +1,10 @@
 import styled from '@emotion/styled';
 
 export const Card = styled.div`
-  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  width: var(--width-usercard);
+  padding: 20px 20px 0 20px;
   margin-bottom: 7px;
-  padding: 20px 20px 20px 20px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
@@ -120,6 +118,17 @@ export const RandomStreakInfo = styled.div`
 
 export const Streak = styled.div`
   margin-top: 10px;
+  position: relative;
+  display: flex;
+  & div {
+    width: 100%;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  & div::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const MaxStreak = styled.div`
@@ -129,5 +138,35 @@ export const MaxStreak = styled.div`
   & span {
     color: black;
     font-weight: bold;
+  }
+`;
+
+export const ToggleButton = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 20px -20px 0 -20px;
+  color: #b6b6b6;
+  background-color: #f5f5f5;
+  /* border-top: 1px solid var(--color-unchecked); */
+  height: 25px;
+  cursor: pointer;
+  & span {
+    margin-top: 5px;
+  }
+`;
+
+export const ScrollButton = styled.button`
+  border: none;
+  position: absolute;
+  background: transparent;
+  text-align: center;
+  cursor: pointer;
+  z-index: 999;
+  right: ${(props) => (props.type == 'next' ? '0' : '')};
+  margin-right: ${(props) => (props.type == 'next' ? '-20px' : '')};
+  margin-left: ${(props) => (props.type == 'prev' ? '-20px' : '')};
+  height: 60px;
+  & div {
+    color: #b6b6b6;
   }
 `;

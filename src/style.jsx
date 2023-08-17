@@ -13,7 +13,6 @@ const baseStyle = css`
     --color-unchecked: rgb(220, 220, 220);
     --color-checked: #81cc67;
     --color-point: #546ffa;
-    --width-usercard: 340px;
   }
   body {
     background-color: var(--color-background);

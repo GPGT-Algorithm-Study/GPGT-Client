@@ -1,5 +1,6 @@
-import React, { useRef, useCallback, useEffect, useState } from 'react';
-import { CardWrapper, UsersWrapper, ScrollButton } from './style';
+import React, { useRef, useCallback } from 'react';
+import useFetch from '../../../hooks/useFetch';
+import { CardWrapper } from './style';
 import { getAllUsers } from '../../../api/user';
 import UserInfo from './UserInfo';
 
@@ -7,53 +8,39 @@ import UserInfo from './UserInfo';
  * 사용자 탭 내용 컴포넌트
  */
 function Users() {
-  const [users, setUsers] = useState([]);
-  const [leftArrowHovering, setLeftArrowHovering] = useState(false);
-  const [rightArrowHovering, setRightArrowHovering] = useState(false);
-  const horizontalScrollRef = useRef();
+  // 모든 사용자 정보 조회
+  const [users] = useFetch(getAllUsers, null, []);
+  // const [leftArrowHovering, setLeftArrowHovering] = useState(false);
+  // const [rightArrowHovering, setRightArrowHovering] = useState(false);
+  // const horizontalScrollRef = useRef();
 
   /**
    * 좌우 스크롤 버튼 클릭 리스너
    */
-  const handleNextButtonClick = useCallback((nextType) => {
-    if (!horizontalScrollRef.current) return;
-    if (nextType === 'prev') {
-      horizontalScrollRef.current.scrollTo({
-        left:
-          horizontalScrollRef.current.scrollLeft -
-          horizontalScrollRef.current.offsetWidth +
-          (horizontalScrollRef.current.offsetWidth <= 380 ? 0 : 380),
-        behavior: 'smooth',
-      });
-    } else {
-      horizontalScrollRef.current.scrollTo({
-        left:
-          horizontalScrollRef.current.scrollLeft +
-          horizontalScrollRef.current.offsetWidth -
-          (horizontalScrollRef.current.offsetWidth <= 380 ? 0 : 380),
-        behavior: 'smooth',
-      });
-    }
-  });
-
-  // 모든 사용자 정보 조회
-  useEffect(() => {
-    getAllUsers()
-      .then((res) => {
-        if (res.status == 200 && res.data) {
-          const { data } = res;
-          setUsers(data);
-        }
-        // 데이터 제대로 못 받았을 경우 에러처리
-      })
-      .catch((e) => {
-        throw new Error(e);
-      });
-  }, []);
+  // const handleNextButtonClick = useCallback((nextType) => {
+  //   if (!horizontalScrollRef.current) return;
+  //   if (nextType === 'prev') {
+  //     horizontalScrollRef.current.scrollTo({
+  //       left:
+  //         horizontalScrollRef.current.scrollLeft -
+  //         horizontalScrollRef.current.offsetWidth +
+  //         (horizontalScrollRef.current.offsetWidth <= 380 ? 0 : 380),
+  //       behavior: 'smooth',
+  //     });
+  //   } else {
+  //     horizontalScrollRef.current.scrollTo({
+  //       left:
+  //         horizontalScrollRef.current.scrollLeft +
+  //         horizontalScrollRef.current.offsetWidth -
+  //         (horizontalScrollRef.current.offsetWidth <= 380 ? 0 : 380),
+  //       behavior: 'smooth',
+  //     });
+  //   }
+  // });
 
   return (
     <div>
-      <ScrollButton
+      {/* <ScrollButton
         onClick={() => {
           handleNextButtonClick('prev');
         }}
@@ -106,8 +93,9 @@ function Users() {
             </svg>
           </div>
         )}
-      </ScrollButton>
-      <CardWrapper ref={horizontalScrollRef}>
+      </ScrollButton> */}
+      {/* <CardWrapper ref={horizontalScrollRef}> */}
+      <CardWrapper>
         {users &&
           users.map((user) => <UserInfo key={user.notionId} user={user} />)}
       </CardWrapper>

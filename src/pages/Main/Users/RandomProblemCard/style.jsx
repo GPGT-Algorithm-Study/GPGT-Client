@@ -4,7 +4,6 @@ export const Card = styled.div`
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  width: var(--width-usercard);
   margin-bottom: 7px;
   padding: 20px 20px 20px 20px;
   background-image: linear-gradient(
@@ -27,7 +26,7 @@ export const NoRandomProblem = styled.div`
   & div {
     position: absolute;
     top: 40px;
-    left: 40px;
+    left: 15%;
     font-weight: bold;
   }
 `;
