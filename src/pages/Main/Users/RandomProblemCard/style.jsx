@@ -26,7 +26,7 @@ export const NoRandomProblem = styled.div`
   & div {
     position: absolute;
     top: 40px;
-    left: 15%;
+    left: 10%;
     font-weight: bold;
   }
 `;
