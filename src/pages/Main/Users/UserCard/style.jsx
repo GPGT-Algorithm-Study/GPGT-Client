@@ -125,6 +125,7 @@ export const Streak = styled.div`
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    direction: rtl;
   }
   & div::-webkit-scrollbar {
     display: none;

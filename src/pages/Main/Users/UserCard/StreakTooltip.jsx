@@ -12,7 +12,7 @@ function StreakTooltip({ streak }) {
         fill="#2a2a2a"
       />
       <text
-        x={9 + (streak.x - 85 > 0 ? streak.x - 88 : streak.x + 22)}
+        x={streak.x - 85 > 0 ? streak.x - 10 : streak.x + 98}
         y={14 + streak.y}
         fontSize={12}
         fill="white"

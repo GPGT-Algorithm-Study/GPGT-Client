@@ -20,6 +20,7 @@ export const HeaderWrapper = styled.div`
   right: 0;
   background-color: transparent;
   backdrop-filter: blur(4px);
+  z-index: 1000;
 `;
 
 export const Board = styled.div`
