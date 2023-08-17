@@ -5,5 +5,4 @@ export const CardWrapper = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
-  overflow-x: auto;
 `;

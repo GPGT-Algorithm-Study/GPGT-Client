@@ -39,6 +39,11 @@ function UserCard({ user, randomStreak, setIsShowProblems, isShowProblems }) {
   const [rightArrowHovering, setRightArrowHovering] = useState(false);
   const horizontalScrollRef = useRef();
 
+  // 기본 스크롤 맨 오른쪽으로 이동
+  useEffect(() => {
+    horizontalScrollRef.current.scrollTo({ left: 400, behavior: 'smooth' });
+  }, []);
+
   /**
    * 스트릭 좌우 스크롤 버튼 클릭 리스너
    */

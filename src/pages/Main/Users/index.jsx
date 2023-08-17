@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import useFetch from '../../../hooks/useFetch';
 import { CardWrapper } from './style';
 import { getAllUsers } from '../../../api/user';
@@ -10,6 +10,16 @@ import UserInfo from './UserInfo';
 function Users() {
   // 모든 사용자 정보 조회
   const [users] = useFetch(getAllUsers, null, []);
+  const [sortedUsers, setSortedUsers] = useState([]);
+  useEffect(() => {
+    setSortedUsers(
+      [...users].sort(
+        (a, b) =>
+          parseInt(b.todaySolvedProblemCount) -
+          parseInt(a.todaySolvedProblemCount),
+      ),
+    );
+  }, [users]);
   // const [leftArrowHovering, setLeftArrowHovering] = useState(false);
   // const [rightArrowHovering, setRightArrowHovering] = useState(false);
   // const horizontalScrollRef = useRef();
@@ -96,8 +106,10 @@ function Users() {
       </ScrollButton> */}
       {/* <CardWrapper ref={horizontalScrollRef}> */}
       <CardWrapper>
-        {users &&
-          users.map((user) => <UserInfo key={user.notionId} user={user} />)}
+        {sortedUsers &&
+          sortedUsers.map((user) => (
+            <UserInfo key={user.notionId} user={user} />
+          ))}
       </CardWrapper>
     </div>
   );

@@ -11,7 +11,7 @@ import {
 import useFetch from '../../../../hooks/useFetch';
 
 /**
- * 사용자 정보 컴포넌트 (User탭에서 세로 한 줄로 주어지는 사용자 정보)
+ * 사용자 정보 컴포넌트 (User탭에서 세로 한 줄로 주어지는 사용자와 사용자의 문제 정보)
  */
 function UserInfo({ user }) {
   const [isShowProblems, setIsShowProblems] = useState(false);
@@ -33,7 +33,7 @@ function UserInfo({ user }) {
     [],
   );
   // 유저의 랜덤 문제
-  const [randomProblem, setRandomProblem] = useFetch(
+  const [randomProblem] = useFetch(
     getUserTodayRandomProblem,
     {
       bojHandle: user.bojHandle,
