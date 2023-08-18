@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import useFetch from '../../../hooks/useFetch';
-import { CardWrapper } from './style';
-import { getAllUsers } from '../../../api/user';
-import UserInfo from './UserInfo';
+import useFetch from 'hooks/useFetch';
+import { CardWrapper, UserInfoWrapper, UserProblemInfo } from './style';
+import { getAllUsers } from 'api/user';
+import UserCard from './UserCard';
+import RandomProblemCard from './RandomProblemCard';
+import ProblemCard from './ProblemCard';
 
 /**
  * 사용자 탭 내용 컴포넌트
@@ -11,6 +13,16 @@ function Users() {
   // 모든 사용자 정보 조회
   const [users] = useFetch(getAllUsers, null, []);
   const [sortedUsers, setSortedUsers] = useState([]);
+  // 하단 문제 정보 펼칠지 여부
+  const [showProblemsId, setShowProblemsId] = useState({});
+
+  const toggleShowProblemsId = (key) => {
+    setShowProblemsId((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
   useEffect(() => {
     setSortedUsers(
       [...users].sort(
@@ -20,10 +32,11 @@ function Users() {
       ),
     );
   }, [users]);
+
+  // 좌우 스크롤 버튼 일단 주석처리
   // const [leftArrowHovering, setLeftArrowHovering] = useState(false);
   // const [rightArrowHovering, setRightArrowHovering] = useState(false);
   // const horizontalScrollRef = useRef();
-
   /**
    * 좌우 스크롤 버튼 클릭 리스너
    */
@@ -105,12 +118,26 @@ function Users() {
         )}
       </ScrollButton> */}
       {/* <CardWrapper ref={horizontalScrollRef}> */}
-      <CardWrapper>
+      <UserInfoWrapper>
         {sortedUsers &&
           sortedUsers.map((user) => (
-            <UserInfo key={user.notionId} user={user} />
+            <CardWrapper key={user.notionId}>
+              <UserProblemInfo>
+                <UserCard
+                  user={user}
+                  toggleShowProblemsId={toggleShowProblemsId}
+                  showProblemsId={showProblemsId}
+                />
+                {showProblemsId[user.notionId] && (
+                  <>
+                    <RandomProblemCard user={user} />
+                    <ProblemCard user={user} />
+                  </>
+                )}
+              </UserProblemInfo>
+            </CardWrapper>
           ))}
-      </CardWrapper>
+      </UserInfoWrapper>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import Header from '../../layouts/Header';
+import Header from 'layouts/Header';
 import { Banner, Tabs, Board, ContentWrapper } from './style';
 import Users from './Users';
 import Teams from './Teams';

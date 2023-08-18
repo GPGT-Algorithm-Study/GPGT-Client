@@ -24,7 +24,7 @@ const useFetch = (axiosRequest, params, initialValue) => {
         throw new Error(e);
       });
 
-  return [data, setData];
+  return [data, fetchData];
 };
 
 export default useFetch;

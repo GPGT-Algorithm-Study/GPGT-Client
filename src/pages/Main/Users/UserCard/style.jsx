@@ -146,6 +146,8 @@ export const ToggleButton = styled.div`
   display: flex;
   justify-content: center;
   margin: 20px -20px 0 -20px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   color: #b6b6b6;
   background-color: #f5f5f5;
   /* border-top: 1px solid var(--color-unchecked); */

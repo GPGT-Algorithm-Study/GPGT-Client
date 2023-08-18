@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
+import useFetch from 'hooks/useFetch';
+import { getUserRandomStreakGrass } from 'api/user';
 import moment from 'moment';
 import {
   Card,
@@ -25,12 +27,12 @@ import {
 } from 'react-icons/fa';
 import StreakIcon from './StreakIcon';
 import StreakTooltip from './StreakTooltip';
-import SolvedIcon from '../../../../components/SolvedIcon';
+import SolvedIcon from 'components/SolvedIcon';
 
 /**
  * 사용자 정보 카드 컴포넌트
  */
-function UserCard({ user, randomStreak, setIsShowProblems, isShowProblems }) {
+function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
   const MAX_STREAK = 84;
   const [streakList, setStreakList] = useState([]);
   const refArr = [...Array(MAX_STREAK)].map((_) => useRef());
@@ -38,6 +40,14 @@ function UserCard({ user, randomStreak, setIsShowProblems, isShowProblems }) {
   const [leftArrowHovering, setLeftArrowHovering] = useState(false);
   const [rightArrowHovering, setRightArrowHovering] = useState(false);
   const horizontalScrollRef = useRef();
+  // 유저의 스트릭 잔디 정보
+  const [randomStreak] = useFetch(
+    getUserRandomStreakGrass,
+    {
+      bojHandle: user.bojHandle,
+    },
+    [],
+  );
 
   /**
    * 스트릭 좌우 스크롤 버튼 클릭 리스너
@@ -220,12 +230,12 @@ function UserCard({ user, randomStreak, setIsShowProblems, isShowProblems }) {
         </RandomStreakInfo>
         <ToggleButton
           onClick={() => {
-            setIsShowProblems((prev) => !prev);
+            toggleShowProblemsId(user.notionId);
           }}
         >
           <span>
-            {!isShowProblems && <FaChevronDown />}
-            {isShowProblems && <FaChevronUp />}
+            {!showProblemsId[user.notionId] && <FaChevronDown />}
+            {showProblemsId[user.notionId] && <FaChevronUp />}
           </span>
         </ToggleButton>
       </Card>

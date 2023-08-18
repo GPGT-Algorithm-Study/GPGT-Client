@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { isEmpty } from 'lodash';
-import SolvedIcon from '../../../../components/SolvedIcon';
+import useFetch from 'hooks/useFetch';
+import { getUserTodayRandomProblem } from 'api/user';
+import SolvedIcon from 'components/SolvedIcon';
 import Switch from 'react-switch';
 import {
   Card,
@@ -18,9 +20,18 @@ import { TierImg } from '../UserCard/style';
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트
  */
-function RandomProblemCard({ randomProblem }) {
+function RandomProblemCard({ user }) {
   const [showTags, setShowTags] = useState(false);
   const [problem, setProblem] = useState({});
+
+  // 유저의 랜덤 문제
+  const [randomProblem] = useFetch(
+    getUserTodayRandomProblem,
+    {
+      bojHandle: user.bojHandle,
+    },
+    {},
+  );
 
   // 랜덤 문제 데이터 가공
   useEffect(() => {

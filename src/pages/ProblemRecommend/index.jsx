@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { getRecommend } from '../../api/recommend';
+import { getRecommend } from 'api/recommend';
 import ProblemResult from './ProblemResult';
-import { numToTierStr } from '../../utils/tier';
+import { numToTierStr } from 'utils/tier';
 import Switch from 'react-switch';
 import {
   Input,
