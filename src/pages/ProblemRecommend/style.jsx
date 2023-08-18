@@ -35,6 +35,8 @@ export const Title = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-weight: bold;
+  margin-bottom: 50px;
   & div {
     display: flex;
     align-items: center;
@@ -42,7 +44,6 @@ export const Title = styled.div`
       margin-right: 8px;
       color: var(--color-textgrey);
       font-size: 0.9rem;
-      font-weight: bold;
     }
   }
 `;
@@ -98,7 +99,7 @@ export const ProblemWrapper = styled.div`
 
 export const Tag = styled.span`
   border-radius: 50px;
-  padding: 5px 10px 5px 10px;
+  padding: 7px 10px 5px 10px;
   font-size: 0.8rem;
   border: none;
   background-color: var(--color-background);
