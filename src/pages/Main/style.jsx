@@ -4,11 +4,15 @@ export const Banner = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-bottom: 1px solid #dbdbdb;
   background-image: linear-gradient(
-    to right,
-    #a3e5e1 0%,
-    #9fd2e6 50%,
-    #9face6 100%
+    90deg,
+    rgba(222, 238, 247, 1) 0%,
+    rgba(235, 231, 245, 1) 20%,
+    rgba(249, 243, 230, 1) 38%,
+    rgba(249, 235, 239, 1) 56%,
+    rgba(249, 243, 230, 1) 74%,
+    rgba(222, 238, 247, 1) 93%
   );
   height: 20rem;
 `;
@@ -16,18 +20,21 @@ export const Banner = styled.div`
 export const Tabs = styled.div`
   display: flex;
   justify-content: start;
-  margin-bottom: 0;
+  margin-bottom: -2px;
   & div {
+    color: var(--color-textgrey);
     text-align: center;
     padding: 10px 15px 10px 15px;
     width: 50px;
     cursor: pointer;
     :hover {
       font-weight: bold;
+      color: black;
     }
   }
   .selected {
     font-weight: bold;
+    color: black;
     border-bottom: 3px solid black;
   }
 `;

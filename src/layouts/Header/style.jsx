@@ -18,7 +18,7 @@ export const HeaderWrapper = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(4px);
   z-index: 1000;
 `;
@@ -26,6 +26,5 @@ export const HeaderWrapper = styled.div`
 export const Board = styled.div`
   display: flex;
   justify-content: center;
-  background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
   height: 20rem;
 `;
