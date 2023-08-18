@@ -85,14 +85,14 @@ export const ErrorMsg = styled.div`
 
 export const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: end;
+  justify-content: center;
   margin-top: 60px;
 `;
 
 export const ProblemWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 30px;
   flex-wrap: wrap;
 `;

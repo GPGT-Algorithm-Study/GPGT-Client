@@ -144,7 +144,8 @@ function ProblemRecommend() {
             uncheckedIcon={false}
             width={40}
             height={20}
-            onColor="#1292FA"
+            onColor="#69b5f8"
+            offColor="#d2d2d2"
           />
         </div>
       </Title>
@@ -181,7 +182,7 @@ function ProblemRecommend() {
             allowCross={false}
             onChange={onChangeSlider}
             marks={tierMarks}
-            trackStyle={{ backgroundColor: 'var(--color-primary)' }}
+            trackStyle={{ backgroundColor: 'var(--color-toggle)' }}
           />
         </div>
         <ButtonWrapper>

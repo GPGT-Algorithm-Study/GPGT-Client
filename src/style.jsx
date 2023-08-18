@@ -143,6 +143,7 @@ const baseStyle = css`
     --color-point: #546ffa;
     --color-teamsun: #fff1f1;
     --color-teammoon: #fff8e7;
+    --color-toggle: #69b5f8;
   }
   body {
     background-color: var(--color-background);
