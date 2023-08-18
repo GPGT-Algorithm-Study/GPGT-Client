@@ -10,18 +10,15 @@ export const CardWrapper = styled.div`
     width: calc(25% - 3px);
   }
 
-  /* PC (해상도 1024px)*/
-  @media all and (min-width: 1024px) and (max-width: 1500px) {
+  @media all and (min-width: 1180px) and (max-width: 1500px) {
     width: calc(33% - 3px);
   }
 
-  /* 테블릿 가로, 테블릿 세로 (해상도 768px ~ 1023px)*/
-  @media all and (min-width: 700px) and (max-width: 1023px) {
+  @media all and (min-width: 784px) and (max-width: 1180px) {
     width: calc(50% - 3px);
   }
 
-  /* 모바일 가로, 모바일 세로 (해상도 480px ~ 767px)*/
-  @media all and (max-width: 700px) {
+  @media all and (max-width: 784px) {
     width: calc(100% - 3px);
   }
 `;

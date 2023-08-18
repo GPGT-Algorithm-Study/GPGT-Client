@@ -13,6 +13,7 @@ export const Card = styled.div`
 export const UserInfo = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   .id-wrapper {
     margin-left: 15px;
   }
@@ -172,4 +173,13 @@ export const ScrollButton = styled.button`
   & div {
     color: #b6b6b6;
   }
+`;
+
+export const IconWrapper = styled.div`
+  margin-top: -34px;
+`;
+
+export const ProfileWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;

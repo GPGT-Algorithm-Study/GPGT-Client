@@ -18,6 +18,8 @@ import {
   WarningWrapper,
   ToggleButton,
   ScrollButton,
+  IconWrapper,
+  ProfileWrapper,
 } from './style';
 import {
   FaChevronDown,
@@ -28,12 +30,13 @@ import {
 import StreakIcon from './StreakIcon';
 import StreakTooltip from './StreakTooltip';
 import SolvedIcon from 'components/SolvedIcon';
+import TeamIcon from 'components/TeamIcon';
 
 /**
  * 사용자 정보 카드 컴포넌트
  */
 function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
-  const MAX_STREAK = 84;
+  const MAX_STREAK = 102;
   const [streakList, setStreakList] = useState([]);
   const refArr = [...Array(MAX_STREAK)].map((_) => useRef());
   const [hoveringStreakIdx, setHoveringStreakIdx] = useState(-1);
@@ -115,26 +118,31 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
         <a href={`https://solved.ac/profile/${user.bojHandle}`}>
           {/* 상단 유저 아이디, 포인트, 프로필 이미지 */}
           <UserInfo>
-            <div>
-              <ProfileImage
-                src={
-                  user.profileImg != 'null'
-                    ? user.profileImg
-                    : 'https://static.solved.ac/misc/360x360/default_profile.png'
-                }
-                isWarning={user.warning == 4}
-              />
-            </div>
-            <div className="id-wrapper">
-              <div className="user-id">
-                {user.notionId} {user.emoji}
+            <ProfileWrapper>
+              <div>
+                <ProfileImage
+                  src={
+                    user.profileImg != 'null'
+                      ? user.profileImg
+                      : 'https://static.solved.ac/misc/360x360/default_profile.png'
+                  }
+                  isWarning={user.warning == 4}
+                />
               </div>
-              <div className="boj-handle">
-                <span>{user.bojHandle}</span>
-                <span className="point-icon">P</span>
-                <span className="points">{user.point}</span>
+              <div className="id-wrapper">
+                <div className="user-id">
+                  {user.notionId} {user.emoji}
+                </div>
+                <div className="boj-handle">
+                  <span>{user.bojHandle}</span>
+                  <span className="point-icon">P</span>
+                  <span className="points">{user.point}</span>
+                </div>
               </div>
-            </div>
+            </ProfileWrapper>
+            <IconWrapper>
+              <TeamIcon team={user.team} width={60} />
+            </IconWrapper>
           </UserInfo>
 
           {/* 가운데 경고, 티어, 스트릭, 푼 문제 수 정보 */}
@@ -187,7 +195,7 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
               )}
             </ScrollButton>
             <div ref={horizontalScrollRef}>
-              <svg height="65" width="572" overflow="auto">
+              <svg height="65" width="680" overflow="auto">
                 {streakList.map((streak, i) => (
                   <React.Fragment key={`${streak.date}-fragment`}>
                     <StreakIcon
