@@ -77,7 +77,7 @@ export const TagWrapper = styled.div`
 export const Tag = styled.span`
   border-radius: 50px;
   font-weight: normal;
-  padding: 3px 8px 3px 8px;
+  padding: 5px 8px 3px 8px;
   font-size: 0.8rem;
   border: none;
   background-color: white;
