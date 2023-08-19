@@ -32,7 +32,13 @@ function TeamCard({ team }) {
         <ContributorWrapper>
           <div>Top Contributor</div>
           <ImageWrapper>
-            <ProfileImage src={team?.topContributor.profileImg} />
+            <ProfileImage
+              src={
+                team?.topContributor.profileImg != 'null'
+                  ? team?.topContributor.profileImg
+                  : 'https://static.solved.ac/misc/360x360/default_profile.png'
+              }
+            />
             <p>
               {team?.topContributor.notionId} {team?.topContributor.emoji}{' '}
             </p>
