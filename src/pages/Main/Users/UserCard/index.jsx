@@ -91,7 +91,7 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
   useEffect(() => {
     // 스트릭 정보 생성. 스트릭의 날짜를 key값으로 가지는 객체를 생성한다.
     const streakInfo = randomStreak.reduce((result, item) => {
-      result[item.date] = item.grassInfo;
+      result[item.date] = item;
       return result;
     }, {});
     // MAX_STREAK개수 만큼 스트릭을 생성한다.
@@ -101,12 +101,15 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
         const streakDate = moment(getPreviousDate(MAX_STREAK - i - 1));
         const formatDate = moment(streakDate).format('YYYY-MM-DD');
         const solved =
-          streakInfo.hasOwnProperty(formatDate) && streakInfo[formatDate];
+          streakInfo.hasOwnProperty(formatDate) &&
+          streakInfo[formatDate].grassInfo;
+        const isFreeze = solved && streakInfo[formatDate].problemId == 0;
         return {
           date: formatDate,
           x: parseInt(i / 3) * 20 + 1,
           y: (i % 3) * 20 + 1,
           solved: solved,
+          isFreeze: isFreeze,
         };
       }),
     );

@@ -10,7 +10,13 @@ const StreakIcon = forwardRef(
         x={streak.x}
         y={streak.y}
         rx="5"
-        fill={streak.solved ? 'var(--color-checked)' : 'var(--color-unchecked)'}
+        fill={
+          streak.solved
+            ? streak.isFreeze
+              ? 'var(--color-toggle)'
+              : 'var(--color-checked)'
+            : 'var(--color-unchecked)'
+        }
         strokeWidth="2.5"
         stroke={isHovering ? '#000000' : 'transparent'}
         onMouseEnter={onMouseEnter}
