@@ -1,59 +1,44 @@
 import React from 'react';
 import {
   Card,
-  UserInfoWrapper,
   FlexWrapper,
   ColumnWrapper,
   ImageWrapper,
   ContributorWrapper,
   ProfileImage,
   IconWrapper,
-  UserTag,
 } from './style';
 import TeamIcon from 'components/TeamIcon';
 
 /**
  * 팀 카드 컴포넌트
  */
-function TeamCard({ team, users }) {
+function TeamCard({ team }) {
   return (
     <Card>
       <FlexWrapper>
         <IconWrapper>
-          <TeamIcon height="180" width="100" team={team} />
+          <TeamIcon height="150" width="80" team={team?.team.teamNumber} />
         </IconWrapper>
         <ColumnWrapper>
-          <div>Rank</div> <p>#1</p>
+          <div>Rank</div> <p>#{team?.rank}</p>
         </ColumnWrapper>
         <ColumnWrapper>
-          <div>Score</div> <p>124</p>
+          <div>Score</div> <p>{team?.team.teamPoint}</p>
         </ColumnWrapper>
         <ColumnWrapper>
-          <div>Solved</div> <p>30</p>
+          <div>Solved</div> <p>{team?.solved}</p>
         </ColumnWrapper>
         <ContributorWrapper>
           <div>Top Contributor</div>
           <ImageWrapper>
-            <ProfileImage src="https://static.solved.ac/uploads/profile/360x360/asdf016182-picture-1683285947529.png" />
-            <p>klloo 🏖️ </p>
+            <ProfileImage src={team?.topContributor.profileImg} />
+            <p>
+              {team?.topContributor.notionId} {team?.topContributor.emoji}{' '}
+            </p>
           </ImageWrapper>
         </ContributorWrapper>
       </FlexWrapper>
-      <UserInfoWrapper>
-        {users.map((user) => {
-          if (user.team == team) {
-            return (
-              <UserTag key={user.notionId} team={team}>
-                {user.notionId}
-                &nbsp;
-                {user.emoji}
-              </UserTag>
-            );
-          } else {
-            return null;
-          }
-        })}
-      </UserInfoWrapper>
     </Card>
   );
 }

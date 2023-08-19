@@ -15,26 +15,7 @@ export const FlexWrapper = styled.div`
   justify-content: space-around;
   align-items: start;
   flex-wrap: wrap;
-`;
-
-export const UserInfoWrapper = styled.div`
-  margin-top: 15px;
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: start;
-  flex-wrap: wrap;
-  width: 100%;
-`;
-
-export const UserTag = styled.span`
-  border-radius: 50px;
-  font-weight: normal;
-  padding: 3px 10px 3px 10px;
-  font-size: 0.9rem;
-  border: none;
-  background-color: ${(props) =>
-    props.team == 0 ? 'var(--color-teamsun)' : 'var(--color-teammoon)'};
-  margin: 5px 7px 5px 0px;
+  padding-bottom: 20px;
 `;
 
 export const ColumnWrapper = styled.div`
@@ -81,5 +62,5 @@ export const ImageWrapper = styled.div`
 `;
 
 export const IconWrapper = styled.div`
-  margin-top: -42px;
+  margin-top: -41px;
 `;
