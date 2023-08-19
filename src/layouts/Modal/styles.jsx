@@ -12,7 +12,7 @@ export const CreateModal = styled.div`
   & > div {
     margin-top: 100px;
     display: inline-block;
-    width: 480px;
+    width: 60%;
     background: white;
     --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.5);
     box-shadow:

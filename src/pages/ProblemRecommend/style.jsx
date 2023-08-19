@@ -24,7 +24,6 @@ export const Wrapper = styled.div`
   margin: 5rem 0 0 0;
   border-radius: 7px;
   padding: 3rem 3rem 5rem 3rem;
-  max-width: 30rem;
   margin-right: auto;
   margin-left: auto;
   background-color: white;
@@ -53,7 +52,6 @@ export const Slider = styled(RcSlider)`
 `;
 
 export const Form = styled.form`
-  width: 100%;
   margin: 10px;
   .form-item {
     display: flex;

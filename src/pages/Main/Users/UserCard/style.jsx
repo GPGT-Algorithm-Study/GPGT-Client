@@ -14,6 +14,7 @@ export const UserInfo = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
   .id-wrapper {
     margin-left: 15px;
   }
@@ -176,10 +177,17 @@ export const ScrollButton = styled.button`
 `;
 
 export const IconWrapper = styled.div`
+  position: absolute;
   margin-top: -34px;
+  right: 10px;
 `;
 
 export const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  padding-right: 10px;
 `;

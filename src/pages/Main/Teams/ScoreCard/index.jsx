@@ -13,7 +13,7 @@ function ScoreCard({ team, users }) {
       {users.map((user) => {
         if (user.team == team) {
           return (
-            <RankWrapper>
+            <RankWrapper key={user.notionId}>
               <NameWrapper>
                 <ProfileImage
                   src={
