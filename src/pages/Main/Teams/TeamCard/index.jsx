@@ -40,12 +40,8 @@ function TeamCard({ team, users }) {
         </ContributorWrapper>
       </FlexWrapper>
       <UserInfoWrapper>
-        {users.map((user, i) => {
-          // 임시 코드
-          if (team == 0 && i >= 11) return null;
-          if (team == 1 && i < 11) return null;
-          // 임시 코드
-          if (user.team == team || true) {
+        {users.map((user) => {
+          if (user.team == team) {
             return (
               <UserTag key={user.notionId} team={team}>
                 {user.notionId}

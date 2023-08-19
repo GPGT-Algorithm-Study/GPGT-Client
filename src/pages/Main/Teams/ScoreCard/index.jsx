@@ -10,12 +10,8 @@ import {
 function ScoreCard({ team, users }) {
   return (
     <Card>
-      {users.map((user, i) => {
-        // 임시 코드
-        if (team == 0 && i >= 11) return null;
-        if (team == 1 && i < 11) return null;
-        // 임시 코드
-        if (user.team == team || true) {
+      {users.map((user) => {
+        if (user.team == team) {
           return (
             <RankWrapper>
               <NameWrapper>
