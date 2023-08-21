@@ -22,7 +22,7 @@ function TodaySolved() {
       <Content>
         <UserWrapper ref={horizontalScrollRef}>
           {users.map((user) => (
-            <User>
+            <User key={user.bojHandle}>
               <div>
                 {user.notionId} {user.emoji}
               </div>
