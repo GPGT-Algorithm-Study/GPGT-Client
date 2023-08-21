@@ -28,3 +28,15 @@ export const Board = styled.div`
   justify-content: center;
   height: 20rem;
 `;
+
+export const ProfileImage = styled.div`
+  width: 38px;
+  height: 38px;
+  border-radius: 50px;
+  background-image: url(${(props) => props.src});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 10px;
+  cursor: pointer;
+`;

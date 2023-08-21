@@ -2,6 +2,7 @@ import React from 'react';
 import GlobalStyle from './style';
 import Main from './pages/Main';
 import Login from 'pages/Login';
+import MyPage from 'pages/MyPage';
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -11,8 +12,9 @@ function App() {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/my-page" element={<MyPage />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

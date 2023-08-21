@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { HeaderWrapper, FlexWrapper } from './style';
+import { Link } from 'react-router-dom';
+import { HeaderWrapper, FlexWrapper, ProfileImage } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
@@ -17,7 +18,9 @@ function Header() {
     <div>
       <HeaderWrapper>
         <FlexWrapper>
-          <div>좋은 사람 좋은 시간</div>
+          <div>
+            <Link to="/">좋은 사람 좋은 시간</Link>
+          </div>
           <FlexWrapper>
             <div
               className="clickable"
@@ -35,6 +38,9 @@ function Header() {
             >
               상점
             </div>
+            <Link to="/my-page">
+              <ProfileImage src="https://static.solved.ac/misc/360x360/default_profile.png" />
+            </Link>
           </FlexWrapper>
         </FlexWrapper>
       </HeaderWrapper>
