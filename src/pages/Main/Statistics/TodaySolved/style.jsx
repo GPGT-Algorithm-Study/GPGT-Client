@@ -31,6 +31,7 @@ export const User = styled.div`
   width: 130px;
   display: flex;
   flex: 0 0 auto;
+  padding: 10px 0 10px 0;
   flex-direction: column;
   align-items: center;
   font-weight: bold;
