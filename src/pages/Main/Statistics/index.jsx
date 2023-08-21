@@ -1,7 +1,12 @@
 import React from 'react';
+import TodaySolved from './TodaySolved';
 
 function Statistics() {
-  return <div>Statistics</div>;
+  return (
+    <div>
+      <TodaySolved />
+    </div>
+  );
 }
 
 export default Statistics;
