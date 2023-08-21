@@ -23,7 +23,7 @@ export const ColumnWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 10px 0 10px;
+  padding: 10px 10px 15px 10px;
   & p {
     font-size: 1.4rem;
     font-weight: bold;
@@ -62,5 +62,5 @@ export const ImageWrapper = styled.div`
 `;
 
 export const IconWrapper = styled.div`
-  margin-top: -41px;
+  margin-top: -35px;
 `;

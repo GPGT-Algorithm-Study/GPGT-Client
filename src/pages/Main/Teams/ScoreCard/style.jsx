@@ -38,6 +38,9 @@ export const NameWrapper = styled.div`
   }
   .boj-handle {
     color: var(--color-textlight);
+    @media all and (max-width: 410px) {
+      display: none;
+    }
   }
 `;
 

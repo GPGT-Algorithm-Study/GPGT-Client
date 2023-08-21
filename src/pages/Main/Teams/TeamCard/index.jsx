@@ -18,7 +18,7 @@ function TeamCard({ team }) {
     <Card>
       <FlexWrapper>
         <IconWrapper>
-          <TeamIcon height="150" width="80" team={team?.team.teamNumber} />
+          <TeamIcon height="140" width="80" team={team?.team.teamNumber} />
         </IconWrapper>
         <ColumnWrapper>
           <div>Rank</div> <p>#{team?.rank}</p>
