@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
-import { TierImg, Title } from './style';
+import { Title } from './style';
+import { CommonTierImg } from 'commonStyle';
 
 /**
  * 추천된 문제 정보 컴포넌트
@@ -23,7 +24,7 @@ function ProblemResult({ problem }) {
   return (
     <div>
       <Title href={`${linkPrefix}${problem.id}`}>
-        <TierImg src={imageUrl} />
+        <CommonTierImg width={25} height={25} src={imageUrl} />
         <span>
           {problem.id}번 : {problem.title}
         </span>

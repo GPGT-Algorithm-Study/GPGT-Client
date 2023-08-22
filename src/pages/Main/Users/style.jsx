@@ -6,11 +6,7 @@ export const CardWrapper = styled.div`
   flex-direction: column;
   padding-bottom: 20px;
 
-  @media all and (min-width: 1500px) {
-    width: calc(25% - 3px);
-  }
-
-  @media all and (min-width: 1180px) and (max-width: 1500px) {
+  @media all and (min-width: 1440px) {
     width: calc(33% - 3px);
   }
 
@@ -32,23 +28,3 @@ export const UserInfoWrapper = styled.div`
 export const UserProblemInfo = styled.div`
   margin: 0 10px 0 10px;
 `;
-
-// export const UsersWrapper = styled.div`
-//   display: flex;
-// `;
-
-// export const ScrollButton = styled.div`
-//   position: fixed;
-//   left: ${(props) => (props.type == 'prev' ? '0' : '')};
-//   right: ${(props) => (props.type == 'next' ? '-1px' : '')};
-//   border: none;
-//   background: transparent;
-//   cursor: pointer;
-//   text-align: center;
-//   width: 80px;
-//   height: 100%;
-//   z-index: 999;
-//   & div {
-//     margin-top: 150px;
-//   }
-// `;

@@ -47,4 +47,7 @@ export const Board = styled.div`
 
 export const ContentWrapper = styled.div`
   margin: 30px 20px 20px 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--width-maxwidth);
 `;

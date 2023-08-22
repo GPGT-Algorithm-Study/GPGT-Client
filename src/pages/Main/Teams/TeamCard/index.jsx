@@ -5,9 +5,9 @@ import {
   ColumnWrapper,
   ImageWrapper,
   ContributorWrapper,
-  ProfileImage,
   IconWrapper,
 } from './style';
+import { CommonProfileImage } from 'commonStyle';
 import TeamIcon from 'components/TeamIcon';
 
 /**
@@ -32,7 +32,9 @@ function TeamCard({ team }) {
         <ContributorWrapper>
           <div>Top Contributor</div>
           <ImageWrapper>
-            <ProfileImage
+            <CommonProfileImage
+              width={40}
+              height={40}
               src={
                 team?.topContributor.profileImg != 'null'
                   ? team?.topContributor.profileImg

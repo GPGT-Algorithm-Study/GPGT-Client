@@ -1,15 +1,10 @@
 import styled from '@emotion/styled';
+import { CommonCard } from 'commonStyle';
 
-export const Card = styled.div`
+export const Card = styled(CommonCard)`
   position: relative;
-  display: flex;
-  flex-direction: column;
   flex-wrap: nowrap;
-  margin-bottom: 7px;
-  background-color: white;
-  border-radius: 10px;
   padding: 20px 0 20px 0;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
 `;
 
 export const UserWrapper = styled.div`

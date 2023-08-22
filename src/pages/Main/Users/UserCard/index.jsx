@@ -7,7 +7,6 @@ import {
   UserInfo,
   SolvedInfo,
   Warning,
-  TierImg,
   StreakSolved,
   RandomStreakInfo,
   Line,
@@ -19,6 +18,7 @@ import {
   ProfileWrapper,
 } from './style';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { CommonTierImg } from 'commonStyle';
 import SolvedIcon from 'components/SolvedIcon';
 import TeamIcon from 'components/TeamIcon';
 import Streak from 'components/Streak';
@@ -46,6 +46,8 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
             <ProfileWrapper>
               <div>
                 <ProfileImage
+                  width={80}
+                  height={80}
                   src={
                     user.profileImg != 'null'
                       ? user.profileImg
@@ -81,10 +83,10 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
               {user.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
             </div>
             <div className="tier-wrapper">
-              <TierImg
+              <CommonTierImg
                 src={`https://static.solved.ac/tier_small/${user.tier}.svg`}
-                width="40px"
-                height="40px"
+                width="40"
+                height="40"
               />
               <StreakSolved>
                 <div>
@@ -104,7 +106,13 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
           <div>
             Random Streak <span>{user.currentRandomStreak}</span> days
           </div>
-          <Streak randomStreak={randomStreak} maxStreak={MAX_STREAK} />
+          <Streak
+            randomStreak={randomStreak}
+            maxStreak={MAX_STREAK}
+            line={3}
+            width={680}
+            height={65}
+          />
           <MaxStreak>
             최장<span> {user.maxRandomStreak}</span>일
           </MaxStreak>

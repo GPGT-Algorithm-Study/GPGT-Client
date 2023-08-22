@@ -15,7 +15,7 @@ import {
   ProblemWrapper,
   Tag,
 } from './style';
-import { TierImg } from './ProblemResult/style';
+import { CommonTierImg } from 'commonStyle';
 
 /**
  * 문제 추천 화면
@@ -37,7 +37,11 @@ function ProblemRecommend() {
     const marks = [...Array(30)].map((_, i) => {
       if (i % 5 == 0)
         return (
-          <TierImg src={`https://static.solved.ac/tier_small/${i + 1}.svg`} />
+          <CommonTierImg
+            width={18}
+            height={18}
+            src={`https://static.solved.ac/tier_small/${i + 1}.svg`}
+          />
         );
     });
     // 배열을 객체로 바꿈
@@ -166,11 +170,15 @@ function ProblemRecommend() {
         <div className="form-item">
           <Label>
             <span>난이도</span>
-            <TierImg
+            <CommonTierImg
+              width={18}
+              height={18}
               src={`https://static.solved.ac/tier_small/${startTier + 1}.svg`}
             />
             &nbsp;~&nbsp;
-            <TierImg
+            <CommonTierImg
+              width={18}
+              height={18}
               src={`https://static.solved.ac/tier_small/${endTier + 1}.svg`}
             />
           </Label>

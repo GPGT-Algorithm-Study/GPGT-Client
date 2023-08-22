@@ -1,14 +1,9 @@
 import styled from '@emotion/styled';
+import { CommonCard } from 'commonStyle';
 
-export const Card = styled.div`
+export const Card = styled(CommonCard)`
   flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 7px;
   padding: 20px 20px 20px 20px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
 `;
 
 export const ProblemTitle = styled.div`

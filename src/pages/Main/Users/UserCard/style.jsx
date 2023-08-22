@@ -1,13 +1,9 @@
 import styled from '@emotion/styled';
+import { CommonProfileImage } from 'commonStyle';
+import { CommonCard } from 'commonStyle';
 
-export const Card = styled.div`
-  display: flex;
-  flex-direction: column;
+export const Card = styled(CommonCard)`
   padding: 20px 20px 0 20px;
-  margin-bottom: 7px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
 `;
 
 export const UserInfo = styled.div`
@@ -38,14 +34,7 @@ export const UserInfo = styled.div`
     }
   }
 `;
-export const ProfileImage = styled.div`
-  width: 80px;
-  height: 80px;
-  border-radius: 50px;
-  background-image: url(${(props) => props.src});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+export const ProfileImage = styled(CommonProfileImage)`
   filter: ${(props) =>
     props.isWarning
       ? 'invert(93%) sepia(0%) saturate(2715%) hue-rotate(48deg) brightness(84%) contrast(87%)'
@@ -85,13 +74,6 @@ export const Warning = styled.div`
   border-radius: 50px;
 `;
 
-export const TierImg = styled.img`
-  line-height: inherit;
-  width: ${(props) => props.width && props.width};
-  height: ${(props) => props.height && props.height};
-  vertical-align: middle;
-`;
-
 export const StreakSolved = styled.div`
   display: flex;
   flex-direction: column;
@@ -115,22 +97,6 @@ export const RandomStreakInfo = styled.div`
     & span {
       font-weight: bold;
     }
-  }
-`;
-
-export const Streak = styled.div`
-  margin-top: 10px;
-  position: relative;
-  display: flex;
-  & div {
-    width: 100%;
-    overflow-x: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    direction: rtl;
-  }
-  & div::-webkit-scrollbar {
-    display: none;
   }
 `;
 

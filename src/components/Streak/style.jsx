@@ -26,7 +26,7 @@ export const ScrollButton = styled.button`
   right: ${(props) => (props.type == 'next' ? '0' : '')};
   margin-right: ${(props) => (props.type == 'next' ? '-20px' : '')};
   margin-left: ${(props) => (props.type == 'prev' ? '-20px' : '')};
-  height: 60px;
+  height: ${(props) => props.height}px;
   & div {
     color: #b6b6b6;
   }

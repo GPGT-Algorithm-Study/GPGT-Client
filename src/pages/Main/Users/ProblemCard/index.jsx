@@ -9,7 +9,7 @@ import {
   Tag,
   TagWrapper,
 } from './style';
-import { TierImg } from '../UserCard/style';
+import { CommonTierImg } from 'commonStyle';
 
 /**
  * 사용자가 해결한 문제 카드 컴포넌트
@@ -31,10 +31,10 @@ function ProblemCard({ user }) {
           <Card key={problem.problemId}>
             <a href={`https://www.acmicpc.net/problem/${problem.problemId}`}>
               <ProblemTitle>
-                <TierImg
+                <CommonTierImg
                   src={`https://static.solved.ac/tier_small/${problem.tier}.svg`}
-                  width="20px"
-                  height="20px"
+                  width="20"
+                  height="20"
                 />
                 <p>
                   {problem.problemId}번 : {problem.title}

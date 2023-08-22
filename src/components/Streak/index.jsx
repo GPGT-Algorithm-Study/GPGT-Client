@@ -6,7 +6,7 @@ import StreakTooltip from './StreakTooltip';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import useScroll from 'hooks/useScroll';
 
-function Streak({ randomStreak, maxStreak }) {
+function Streak({ randomStreak, maxStreak, line, width, height }) {
   const refArr = [...Array(maxStreak)].map((_) => useRef());
   const [hoveringStreakIdx, setHoveringStreakIdx] = useState(-1);
   const [streakList, setStreakList] = useState([]);
@@ -50,8 +50,8 @@ function Streak({ randomStreak, maxStreak }) {
         const isFreeze = solved && streakInfo[formatDate].problemId == 0;
         return {
           date: formatDate,
-          x: parseInt(i / 3) * 20 + 1,
-          y: (i % 3) * 20 + 1,
+          x: parseInt(i / line) * 20 + 1,
+          y: (i % line) * 20 + 1,
           solved: solved,
           isFreeze: isFreeze,
         };
@@ -68,6 +68,7 @@ function Streak({ randomStreak, maxStreak }) {
         onMouseOver={() => setArrowHovering('prev', true)}
         onMouseOut={() => setArrowHovering('prev', false)}
         type="prev"
+        height={line * 20}
       >
         {leftArrowHovering && (
           <div>
@@ -82,6 +83,7 @@ function Streak({ randomStreak, maxStreak }) {
         onMouseOver={() => setArrowHovering('next', true)}
         onMouseOut={() => setArrowHovering('next', false)}
         type="next"
+        height={line * 20}
       >
         {rightArrowHovering && (
           <div>
@@ -90,7 +92,7 @@ function Streak({ randomStreak, maxStreak }) {
         )}
       </ScrollButton>
       <div ref={horizontalScrollRef}>
-        <svg height="65" width="680" overflow="auto">
+        <svg height={height} width={width} overflow="auto">
           {streakList.map((streak, i) => (
             <React.Fragment key={`${streak.date}-fragment`}>
               <StreakIcon

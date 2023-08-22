@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Card,
-  ProfileImage,
-  NameWrapper,
-  RankWrapper,
-  ScoreWrappeer,
-} from './style';
+import { Card, NameWrapper, RankWrapper, ScoreWrappeer } from './style';
+import { CommonProfileImage } from 'commonStyle';
 
 function ScoreCard({ team }) {
   const [users, setUsers] = useState([]);
@@ -20,7 +15,9 @@ function ScoreCard({ team }) {
       {users?.map((user) => (
         <RankWrapper key={user.notionId}>
           <NameWrapper>
-            <ProfileImage
+            <CommonProfileImage
+              width={40}
+              height={40}
               src={
                 user.profileImg != 'null'
                   ? user.profileImg

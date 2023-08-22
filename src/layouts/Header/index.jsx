@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HeaderWrapper, FlexWrapper, ProfileImage } from './style';
+import { HeaderWrapper, FlexWrapper } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
+import { CommonProfileImage } from 'commonStyle';
 
 function Header() {
   const [showRecommend, setShowRecommend] = useState(false);
@@ -39,7 +40,11 @@ function Header() {
               상점
             </div>
             <Link to="/my-page">
-              <ProfileImage src="https://static.solved.ac/misc/360x360/default_profile.png" />
+              <CommonProfileImage
+                width="38"
+                height="38"
+                src="https://static.solved.ac/misc/360x360/default_profile.png"
+              />
             </Link>
           </FlexWrapper>
         </FlexWrapper>

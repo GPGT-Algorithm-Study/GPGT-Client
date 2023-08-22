@@ -15,7 +15,7 @@ import {
   NoRandomProblem,
   TagSwitchWrapper,
 } from './style';
-import { TierImg } from '../UserCard/style';
+import { CommonTierImg } from 'commonStyle';
 
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트
@@ -93,10 +93,10 @@ function RandomProblemCard({ user }) {
           </Title>
           <ProblemTitle>
             {problem.level && (
-              <TierImg
+              <CommonTierImg
                 src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
-                width="20px"
-                height="20px"
+                width="20"
+                height="20"
               />
             )}
             <p>
