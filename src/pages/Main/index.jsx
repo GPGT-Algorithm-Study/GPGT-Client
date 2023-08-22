@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import Header from 'layouts/Header';
-import { Banner, Tabs, Board, ContentWrapper } from './style';
+import { Banner, Tabs, Board, ContentWrapper, Content } from './style';
 import Users from './Users';
 import Teams from './Teams';
 import Statistics from './Statistics';
@@ -26,6 +26,8 @@ function Main() {
       <Header />
       <Banner>
         <Board />
+      </Banner>
+      <ContentWrapper>
         <Tabs>
           {Object.keys(tabs).map((key) => (
             <div
@@ -39,8 +41,8 @@ function Main() {
             </div>
           ))}
         </Tabs>
-      </Banner>
-      <ContentWrapper>{currentTab.content}</ContentWrapper>
+        <Content>{currentTab.content}</Content>
+      </ContentWrapper>
     </div>
   );
 }
