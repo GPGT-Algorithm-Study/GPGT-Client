@@ -3,10 +3,25 @@ import styled from '@emotion/styled';
 export const FlexWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   & div {
     font-weight: bold;
     margin: 10px 15px 10px 15px;
+  }
+  .clickable {
+    cursor: pointer;
+  }
+`;
+
+export const RightWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  & div {
+    font-weight: bold;
+    margin: 10px 15px 10px 0px;
   }
   .clickable {
     cursor: pointer;

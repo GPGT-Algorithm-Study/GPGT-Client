@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HeaderWrapper, FlexWrapper } from './style';
+import { HeaderWrapper, FlexWrapper, RightWrapper } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
@@ -22,7 +22,7 @@ function Header() {
           <div>
             <Link to="/">좋은 사람 좋은 시간</Link>
           </div>
-          <FlexWrapper>
+          <RightWrapper>
             <div
               className="clickable"
               onClick={() => {
@@ -46,7 +46,7 @@ function Header() {
                 src="https://static.solved.ac/misc/360x360/default_profile.png"
               />
             </Link>
-          </FlexWrapper>
+          </RightWrapper>
         </FlexWrapper>
       </HeaderWrapper>
       <Modal show={showRecommend} onCloseModal={onCloseModal}>
