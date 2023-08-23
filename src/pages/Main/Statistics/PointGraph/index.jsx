@@ -74,7 +74,7 @@ function PointGraph() {
         title: {
           text: '',
         },
-        tickInterval: 5, // y축 간격
+        minTickInterval: 1, // 최소 간격
       },
       tooltip: {
         headerFormat: '<b>{point.x}</b> ',

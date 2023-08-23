@@ -21,7 +21,7 @@ export const RightWrapper = styled.div`
   align-items: center;
   & div {
     font-weight: bold;
-    margin: 10px 15px 10px 0px;
+    margin: 10px 30px 10px 0px;
   }
   .clickable {
     cursor: pointer;

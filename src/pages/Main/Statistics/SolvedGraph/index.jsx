@@ -112,7 +112,7 @@ function SolvedGraph() {
         title: {
           text: '',
         },
-        tickInterval: 1, // y축 간격
+        minTickInterval: 1, // 최소 간격
       },
       tooltip: {
         headerFormat: '<b>{point.x}</b><br/>',
@@ -123,6 +123,14 @@ function SolvedGraph() {
       plotOptions: {
         series: {
           stacking: 'normal',
+          states: {
+            inactive: {
+              enabled: false,
+            },
+            hover: {
+              enabled: false,
+            },
+          },
         },
       },
       series: series,
