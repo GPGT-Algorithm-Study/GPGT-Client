@@ -6,16 +6,11 @@ import {
   Warning,
   WarningWrapper,
   UserInfo,
-  RandomStreakInfo,
-  MaxStreak,
 } from './style';
 import { CommonProfileImage, CommonTierImg } from 'commonStyle';
 import SolvedIcon from 'components/SolvedIcon';
-import Streak from 'components/Streak';
 
 function MyInfoCard() {
-  const MAX_STREAK = 365;
-  const randomStreak = [];
   return (
     <Card>
       <ProfileWrapper>
@@ -42,21 +37,6 @@ function MyInfoCard() {
         </UserInfo>
         <SolvedIcon solved={true} />
       </ProfileWrapper>
-      <RandomStreakInfo>
-        <div>
-          Random Streak <span>0</span> days
-        </div>
-        <Streak
-          randomStreak={randomStreak}
-          maxStreak={MAX_STREAK}
-          line={4}
-          width={1840}
-          height={90}
-        />
-        <MaxStreak>
-          최장<span> 1</span>일
-        </MaxStreak>
-      </RandomStreakInfo>
     </Card>
   );
 }

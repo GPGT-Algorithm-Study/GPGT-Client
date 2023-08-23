@@ -45,22 +45,3 @@ export const Warning = styled.div`
   height: 10px;
   border-radius: 50px;
 `;
-
-export const RandomStreakInfo = styled.div`
-  margin-top: 30px;
-  & div {
-    & span {
-      font-weight: bold;
-    }
-  }
-`;
-
-export const MaxStreak = styled.div`
-  color: var(--color-textgrey);
-  font-weight: normal !important;
-  font-size: 0.9rem;
-  & span {
-    color: black;
-    font-weight: bold;
-  }
-`;
