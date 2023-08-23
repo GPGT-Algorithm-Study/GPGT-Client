@@ -9,7 +9,7 @@ import {
   Tag,
   TagWrapper,
 } from './style';
-import { CommonTierImg } from 'commonStyle';
+import { CommonTierImg } from 'style/commonStyle';
 
 /**
  * 사용자가 해결한 문제 카드 컴포넌트

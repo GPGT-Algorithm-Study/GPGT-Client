@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, NameWrapper, RankWrapper, ScoreWrappeer } from './style';
-import { CommonProfileImage } from 'commonStyle';
+import { CommonProfileImage } from 'style/commonStyle';
 
 function ScoreCard({ team }) {
   const [users, setUsers] = useState([]);

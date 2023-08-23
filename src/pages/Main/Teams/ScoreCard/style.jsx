@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { CommonCard } from 'commonStyle';
+import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   padding: 20px 50px 20px 40px;

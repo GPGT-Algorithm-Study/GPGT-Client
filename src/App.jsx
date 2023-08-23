@@ -1,5 +1,5 @@
 import React from 'react';
-import GlobalStyle from './style';
+import GlobalStyle from 'style/globalStyle';
 import Main from './pages/Main';
 import Login from 'pages/Login';
 import MyPage from 'pages/MyPage';

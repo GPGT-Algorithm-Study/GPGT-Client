@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { CommonCard } from 'commonStyle';
+import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   flex: 0 0 auto;

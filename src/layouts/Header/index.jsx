@@ -4,7 +4,7 @@ import { HeaderWrapper, FlexWrapper, RightWrapper } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
-import { CommonProfileImage } from 'commonStyle';
+import { CommonProfileImage } from 'style/commonStyle';
 
 function Header() {
   const [showRecommend, setShowRecommend] = useState(false);

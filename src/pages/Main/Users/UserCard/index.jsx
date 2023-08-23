@@ -18,7 +18,7 @@ import {
   ProfileWrapper,
 } from './style';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { CommonTierImg } from 'commonStyle';
+import { CommonTierImg } from 'style/commonStyle';
 import SolvedIcon from 'components/SolvedIcon';
 import TeamIcon from 'components/TeamIcon';
 import Streak from 'components/Streak';

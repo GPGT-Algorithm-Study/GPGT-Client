@@ -7,7 +7,7 @@ import {
   ContributorWrapper,
   IconWrapper,
 } from './style';
-import { CommonProfileImage } from 'commonStyle';
+import { CommonProfileImage } from 'style/commonStyle';
 import TeamIcon from 'components/TeamIcon';
 
 /**

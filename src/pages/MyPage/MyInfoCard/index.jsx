@@ -7,7 +7,7 @@ import {
   WarningWrapper,
   UserInfo,
 } from './style';
-import { CommonProfileImage, CommonTierImg } from 'commonStyle';
+import { CommonProfileImage, CommonTierImg } from 'style/commonStyle';
 import SolvedIcon from 'components/SolvedIcon';
 
 function MyInfoCard() {

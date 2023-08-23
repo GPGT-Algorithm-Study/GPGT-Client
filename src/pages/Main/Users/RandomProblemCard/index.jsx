@@ -15,7 +15,7 @@ import {
   NoRandomProblem,
   TagSwitchWrapper,
 } from './style';
-import { CommonTierImg } from 'commonStyle';
+import { CommonTierImg } from 'style/commonStyle';
 
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트

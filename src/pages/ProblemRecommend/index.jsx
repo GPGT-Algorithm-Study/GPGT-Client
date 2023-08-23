@@ -15,7 +15,7 @@ import {
   ProblemWrapper,
   Tag,
 } from './style';
-import { CommonTierImg } from 'commonStyle';
+import { CommonTierImg } from 'style/commonStyle';
 
 /**
  * 문제 추천 화면

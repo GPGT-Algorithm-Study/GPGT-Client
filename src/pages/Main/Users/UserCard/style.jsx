@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { CommonProfileImage } from 'commonStyle';
-import { CommonCard } from 'commonStyle';
+import { CommonProfileImage } from 'style/commonStyle';
+import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   padding: 20px 20px 0 20px;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { Title } from './style';
-import { CommonTierImg } from 'commonStyle';
+import { CommonTierImg } from 'style/commonStyle';
 
 /**
  * 추천된 문제 정보 컴포넌트
