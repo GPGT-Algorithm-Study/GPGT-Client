@@ -40,7 +40,7 @@ function Main() {
       <Header />
       <Banner>
         <Board>
-          {!isEmpty(message) && (
+          {!isEmpty(message.user) && (
             <Message>
               <MessageContent>"{message.message}"</MessageContent>
               <Writer>
