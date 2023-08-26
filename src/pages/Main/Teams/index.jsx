@@ -8,7 +8,7 @@ import { getAllTeams } from 'api/team';
  * 팀 탭 내용 컴포넌트
  */
 function Teams() {
-  const [teamInfo] = useFetch(getAllTeams, null, {});
+  const [teamInfo] = useFetch(getAllTeams, {});
   const [teams, setTeams] = useState([]);
 
   // 랭킹에 따라 팀 정렬

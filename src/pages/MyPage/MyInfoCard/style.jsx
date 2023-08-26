@@ -11,6 +11,17 @@ export const ProfileWrapper = styled.div`
   align-items: end;
 `;
 
+export const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  margin-bottom: -15px;
+  @media all and (max-width: 542px) {
+    margin-bottom: 15px;
+    justify-content: start;
+  }
+`;
+
 export const UserInfo = styled.div`
   display: flex;
   align-items: center;
@@ -43,5 +54,15 @@ export const Warning = styled.div`
     props.warning ? 'var(--color-error)' : 'var(--color-unchecked)'};
   width: 10px;
   height: 10px;
+  border-radius: 50px;
+`;
+
+export const Button = styled.div`
+  color: var(--color-textgrey);
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-left: ${(props) => (props.marginLeft ? props.marginLeft : '')};
+  background-color: var(--color-background);
+  padding: 7px 12px 7px 12px;
   border-radius: 50px;
 `;

@@ -12,7 +12,8 @@ export const Label = styled.span`
 export const Logo = styled.div`
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 25px;
+  margin-bottom: 35px;
+  align-self: center;
 `;
 
 export const Input = styled.input`
@@ -30,15 +31,17 @@ export const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   border-radius: 7px;
   margin: auto;
   margin-top: 150px;
   background-color: white;
-  width: 500px;
+  width: 450px;
   height: 400px;
-  max-width: 50%;
-  padding: 0 50px 0 50px;
+  max-width: 80%;
+  padding: 0 80px 0 80px;
+  @media all and (max-width: 400px) {
+    padding: 0 20px 0 20px;
+  }
 `;
 
 export const Button = styled.button`
@@ -51,4 +54,11 @@ export const Button = styled.button`
   border-radius: 7px;
   color: white;
   font-weight: bold;
+  cursor: pointer;
+`;
+
+export const ErrorMsg = styled.div`
+  margin-top: 7px;
+  color: var(--color-error);
+  font-size: 0.9rem;
 `;

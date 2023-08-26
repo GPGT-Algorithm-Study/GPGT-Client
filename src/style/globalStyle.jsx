@@ -159,6 +159,11 @@ const baseStyle = css`
     text-decoration: none;
     color: black;
   }
+  // Toastify 토스트 메시지 커스텀 스타일
+  .Toastify__toast {
+    font-size: 14px;
+    line-height: 1.2;
+  }
 `;
 
 const GlobalStyle = () => <Global styles={baseStyle} />;

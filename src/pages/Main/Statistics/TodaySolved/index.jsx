@@ -7,7 +7,7 @@ import useScroll from 'hooks/useScroll';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
 function TodaySolved() {
-  const [users] = useFetch(getAllUsers, null, []);
+  const [users] = useFetch(getAllUsers, []);
   const [
     leftArrowHovering,
     rightArrowHovering,

@@ -29,13 +29,9 @@ import Streak from 'components/Streak';
 function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
   const MAX_STREAK = 102;
   // 유저의 스트릭 잔디 정보
-  const [randomStreak] = useFetch(
-    getUserRandomStreakGrass,
-    {
-      bojHandle: user.bojHandle,
-    },
-    [],
-  );
+  const [randomStreak] = useFetch(getUserRandomStreakGrass, [], {
+    bojHandle: user.bojHandle,
+  });
 
   return (
     <div>

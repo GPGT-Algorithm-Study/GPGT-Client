@@ -18,7 +18,7 @@ function PointGraph() {
     { key: 'weekly', name: '주간' },
     { key: 'total', name: '전체' },
   ];
-  const [statData] = useFetch(getUserPointStat, null, {});
+  const [statData] = useFetch(getUserPointStat, {});
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState({});
   const [mode, setMode] = useState(modeList[0].key);

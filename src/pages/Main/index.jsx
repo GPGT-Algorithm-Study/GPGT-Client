@@ -1,9 +1,21 @@
 import React, { useCallback, useState } from 'react';
 import Header from 'layouts/Header';
-import { Banner, Tabs, Board, ContentWrapper, Content } from './style';
+import {
+  Banner,
+  Tabs,
+  Board,
+  ContentWrapper,
+  Content,
+  MessageContent,
+  Message,
+  Writer,
+} from './style';
+import moment from 'moment';
 import Users from './Users';
 import Teams from './Teams';
 import Statistics from './Statistics';
+import useFetch from 'hooks/useFetch';
+import { getLastComment } from 'api/item';
 
 /**
  * 메인 화면
@@ -15,6 +27,7 @@ function Main() {
     Statistics: { id: 3, name: '통계', content: <Statistics /> },
   };
 
+  const [message] = useFetch(getLastComment, '');
   const [currentTab, setCurrentTab] = useState(tabs.Users);
 
   const onClickTab = useCallback((key) => {
@@ -25,7 +38,15 @@ function Main() {
     <div>
       <Header />
       <Banner>
-        <Board />
+        <Board>
+          <Message>
+            <MessageContent>"{message.message}"</MessageContent>
+            <Writer>
+              {message.user?.notionId} {message.user?.emoji},{' '}
+              {moment(message.writtenDate).format('YYYY-MM-DD')}
+            </Writer>
+          </Message>
+        </Board>
       </Banner>
       <ContentWrapper>
         <Tabs>

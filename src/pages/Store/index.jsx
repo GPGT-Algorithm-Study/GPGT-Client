@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Button,
   Container,
@@ -7,26 +7,66 @@ import {
   Item,
   ItemName,
   Point,
+  Description,
 } from './style';
-import { AiOutlineWarning } from 'react-icons/ai';
+import useFetch from 'hooks/useFetch';
+import { buyItem, getAllItems } from 'api/item';
+import { useSelector } from 'react-redux';
+import ItemIcon from 'components/ItemIcon';
+import { toast } from 'react-toastify';
 
 function Store() {
+  const [items] = useFetch(getAllItems, []);
+  const user = useSelector((state) => state.user);
+
+  const clickBuyButton = useCallback((itemId) => {
+    const params = {
+      bojHandle: user.bojHandle,
+      itemId: itemId,
+    };
+    buyItem(params)
+      .then((res) => {
+        const { data } = res;
+        if (data.code == 200) {
+          toast.success('아이템을 구매했습니다.');
+        } else {
+          toast.error('아이템 구매에 실패했습니다.');
+        }
+      })
+      .catch((e) => {
+        const res = e.response;
+        toast.error(res.data.message);
+      });
+  }, []);
+
   return (
     <Container>
       <Title>
         <h2>상점</h2>
       </Title>
       <ItemWrapper>
-        <Item>
-          <div>
-            <AiOutlineWarning size="38" color="#81cc67" />
-          </div>
-          <ItemName>경고 면제권</ItemName>
-          <Point>
-            123 <span>P</span>
-          </Point>
-          <Button>구매하기</Button>
-        </Item>
+        {items.map((item) => (
+          <Item key={item.id}>
+            <div>
+              <ItemIcon itemId={item.id} size="38" color="#81cc67" />
+            </div>
+            <ItemName>{item.name}</ItemName>
+            <Description>
+              {item.description}
+              <div>(최대 {item.maxItemCount}개 보유 가능)</div>
+            </Description>
+            <Point>
+              {item.itemValue} <span>P</span>
+            </Point>
+            <Button
+              onClick={() => {
+                clickBuyButton(item.id);
+              }}
+            >
+              구매하기
+            </Button>
+          </Item>
+        ))}
       </ItemWrapper>
     </Container>
   );

@@ -14,7 +14,6 @@ export const Banner = styled.div`
     rgba(249, 243, 230, 1) 74%,
     rgba(222, 238, 247, 1) 93%
   );
-  height: 20rem;
 `;
 
 export const Tabs = styled.div`
@@ -43,6 +42,7 @@ export const Board = styled.div`
   display: flex;
   justify-content: center;
   background-color: transparent;
+  margin-top: 130px;
 `;
 
 export const ContentWrapper = styled.div`
@@ -53,4 +53,20 @@ export const ContentWrapper = styled.div`
 
 export const Content = styled.div`
   margin: 30px 20px 20px 20px;
+`;
+
+export const Message = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 50px 80px 50px;
+`;
+export const MessageContent = styled.div`
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  /* font-weight: bold; */
+`;
+export const Writer = styled.div`
+  color: var(--color-textgrey);
 `;

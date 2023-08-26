@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-const useFetch = (axiosRequest, params, initialValue) => {
+const useFetch = (axiosRequest, initialValue, params) => {
   const [data, setData] = useState(initialValue);
 
   useEffect(() => {
@@ -17,11 +17,12 @@ const useFetch = (axiosRequest, params, initialValue) => {
             setData(data);
           }
         } else {
-          toast.error(res.message);
+          toast.error('데이터를 받아오지 못했습니다.');
         }
       })
       .catch((e) => {
-        throw new Error(e);
+        const res = e.response;
+        toast.error(res.data.message);
       });
 
   return [data, fetchData];

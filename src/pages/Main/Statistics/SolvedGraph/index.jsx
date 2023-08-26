@@ -18,7 +18,7 @@ function SolvedGraph() {
     { key: 'weekly', name: '주간' },
     { key: 'total', name: '전체' },
   ];
-  const [statData] = useFetch(getUserSolvedStat, null, {});
+  const [statData] = useFetch(getUserSolvedStat, {});
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState({});
   const [mode, setMode] = useState(modeList[0].key);

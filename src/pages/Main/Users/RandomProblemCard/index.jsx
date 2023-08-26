@@ -27,10 +27,10 @@ function RandomProblemCard({ user }) {
   // 유저의 랜덤 문제
   const [randomProblem] = useFetch(
     getUserTodayRandomProblem,
+    {},
     {
       bojHandle: user.bojHandle,
     },
-    {},
   );
 
   // 랜덤 문제 데이터 가공

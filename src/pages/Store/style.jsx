@@ -16,17 +16,15 @@ export const ItemWrapper = styled.div`
 export const Item = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  width: 30%;
+  width: calc(50% - 10px);
   margin: 0 5px 40px 5px;
-  @media all and (max-width: 660px) {
-    width: calc(50% - 10px);
-  }
-  @media all and (max-width: 342px) {
+  @media all and (max-width: 558px) {
     width: 100%;
   }
   & div {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 `;
 
@@ -36,9 +34,9 @@ export const ItemName = styled.div`
 
 export const Point = styled.div`
   font-size: 0.9rem;
+  font-weight: bold;
   & span {
     color: var(--color-point);
-    font-weight: bold;
   }
 `;
 
@@ -56,4 +54,15 @@ export const Button = styled.button`
   color: black;
   font-weight: bold;
   cursor: pointer;
+`;
+
+export const Description = styled.div`
+  font-size: 0.9rem;
+  color: var(--color-textgrey);
+  width: 150px;
+  line-height: 1.2;
+  word-break: keep-all;
+  & div {
+    margin-top: 7px;
+  }
 `;
