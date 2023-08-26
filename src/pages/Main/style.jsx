@@ -5,7 +5,8 @@ export const Banner = styled.div`
   flex-direction: column;
   justify-content: space-between;
   border-bottom: 1px solid #dbdbdb;
-  background-image: linear-gradient(
+  background-color: white;
+  /* background-image: linear-gradient(
     90deg,
     rgba(222, 238, 247, 1) 0%,
     rgba(235, 231, 245, 1) 20%,
@@ -13,7 +14,7 @@ export const Banner = styled.div`
     rgba(249, 235, 239, 1) 56%,
     rgba(249, 243, 230, 1) 74%,
     rgba(222, 238, 247, 1) 93%
-  );
+  ); */
 `;
 
 export const Tabs = styled.div`

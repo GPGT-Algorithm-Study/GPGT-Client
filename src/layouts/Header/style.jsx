@@ -7,7 +7,7 @@ export const FlexWrapper = styled.div`
   align-items: center;
   & div {
     font-weight: bold;
-    margin: 10px 15px 10px 15px;
+    margin: 5px 15px 5px 15px;
   }
   .clickable {
     cursor: pointer;
@@ -33,8 +33,7 @@ export const HeaderWrapper = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255);
   z-index: 1000;
 `;
 

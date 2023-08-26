@@ -10,6 +10,7 @@ import {
   Message,
   Writer,
 } from './style';
+import { isEmpty } from 'lodash';
 import moment from 'moment';
 import Users from './Users';
 import Teams from './Teams';
@@ -39,13 +40,15 @@ function Main() {
       <Header />
       <Banner>
         <Board>
-          <Message>
-            <MessageContent>"{message.message}"</MessageContent>
-            <Writer>
-              {message.user?.notionId} {message.user?.emoji},{' '}
-              {moment(message.writtenDate).format('YYYY-MM-DD')}
-            </Writer>
-          </Message>
+          {!isEmpty(message) && (
+            <Message>
+              <MessageContent>"{message.message}"</MessageContent>
+              <Writer>
+                {message.user?.notionId} {message.user?.emoji},{' '}
+                {moment(message.writtenDate).format('YYYY-MM-DD')}
+              </Writer>
+            </Message>
+          )}
         </Board>
       </Banner>
       <ContentWrapper>
