@@ -1,11 +1,12 @@
 import React from 'react';
+import Cookies from 'universal-cookie';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 
 export default function PrivateRoute({ authentication }) {
-  const user = useSelector((state) => state.user);
-  const isLogin = !isEmpty(user) && !isEmpty(user?.bojHandle);
+  const cookies = new Cookies();
+  const token = cookies.get('refresh_token');
+  const isLogin = !isEmpty(token);
 
   if (authentication) {
     // 인증이 반드시 필요한 페이지

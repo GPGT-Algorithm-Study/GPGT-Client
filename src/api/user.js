@@ -71,3 +71,18 @@ export function getUserPointLog(params) {
 export function userLogin(params) {
   return axios.post(`${PREFIX_URL}/auth/login`, params);
 }
+
+/**
+ * refresh token으로 access token을 재발급 한다.
+ * 헤더로 refresh token을 전달한다.
+ */
+export function refreshToken(config) {
+  return axios.get(`${PREFIX_URL}/auth/refresh`, config);
+}
+
+/**
+ * 리프레시 토큰을 헤더에 전달하여 bojHandle을 가져온다.
+ */
+export function parseBoj(config) {
+  return axios.get(`${PREFIX_URL}/auth/parse/boj`, config);
+}

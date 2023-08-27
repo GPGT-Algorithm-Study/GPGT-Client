@@ -1,19 +1,21 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
-import { userLogin } from 'api/user';
-import { LoginWrapper, Input, Logo, Button, ErrorMsg } from './style';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from 'redux/user';
+import { userLogin } from 'api/user';
+import { LoginWrapper, Input, Logo, Button, ErrorMsg } from './style';
+import { onSilentRefresh, setRefreshTokenToCookie } from 'utils/auth';
+import { useNavigate } from 'react-router-dom';
+
+const JWT_EXPIRY_TIME = 60 * 1000; // 만료 시간: 1분
 
 function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const changeId = useCallback((e) => {
     setId(e.target.value);
@@ -44,11 +46,15 @@ function Login() {
         .then((response) => {
           const { data } = response;
           const { accessToken, refreshToken } = data.jwt;
-          // API 요청마다 헤더에 jwt 담아 보내도록 설정
           axios.defaults.headers.common['Access_Token'] = accessToken;
-          // 로그인 성공 시 리덕스에 사용자 아이디 저장하고 쿠키에 refreshToken 저장
           dispatch(setUser({ bojHandle: data.bojHandle }));
-          auth.setRefreshTokenToCookie(refreshToken);
+          // 리프레쉬 토큰 저장
+          setRefreshTokenToCookie(refreshToken);
+          // 액세스 토큰 만료 3초전에 재발급
+          setTimeout(() => {
+            onSilentRefresh(dispatch);
+          }, JWT_EXPIRY_TIME - 3000);
+          navigate('/');
         })
         .catch((e) => {
           setLoginError(true);

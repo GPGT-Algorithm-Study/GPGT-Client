@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import GlobalStyle from 'style/globalStyle';
 import Main from './pages/Main';
 import Login from 'pages/Login';
@@ -7,8 +7,15 @@ import { ToastContainer, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PrivateRoute from 'components/PrivateRoute';
+import { onSilentRefresh } from 'utils/auth';
+import { useDispatch } from 'react-redux';
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    onSilentRefresh(dispatch);
+  }, []);
+
   return (
     <div>
       <GlobalStyle />
