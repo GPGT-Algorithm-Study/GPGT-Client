@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import Cookies from 'universal-cookie';
 import {
   Card,
   ProfileWrapper,
@@ -13,7 +12,7 @@ import {
 import { CommonTierImg } from 'style/commonStyle';
 import { WarningMsg, ProfileImage } from 'pages/Main/Users/UserCard/style';
 import { userLogout } from 'api/user';
-import { logoutProc } from 'utils/auth';
+import { getRefreshTokenToCookie, logoutProc } from 'utils/auth';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,12 +20,11 @@ import { useNavigate } from 'react-router-dom';
  * 마이페이지 내 정보 카드
  */
 function MyInfoCard({ userInfo }) {
-  const cookies = new Cookies();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onClickLogout = useCallback(() => {
-    const token = cookies.get('refresh_token');
+    const token = getRefreshTokenToCookie();
     const config = {
       headers: {
         Refresh_Token: `${token}`,

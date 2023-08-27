@@ -11,8 +11,12 @@ export function setRefreshTokenToCookie(refreshToken) {
   cookies.set('refresh_token', refreshToken, { sameSite: 'strict' });
 }
 
+export function getRefreshTokenToCookie() {
+  return cookies.get('refresh_token');
+}
+
 export function getUserBojHandle(dispatch) {
-  const token = cookies.get('refresh_token');
+  const token = getRefreshTokenToCookie();
   if (isEmpty(token)) return;
   const refreshConfig = {
     headers: {
@@ -30,7 +34,7 @@ export function getUserBojHandle(dispatch) {
 }
 
 export function onSilentRefresh(dispatch) {
-  const token = cookies.get('refresh_token');
+  const token = getRefreshTokenToCookie();
   if (isEmpty(token)) return;
   const refreshConfig = {
     headers: {
@@ -42,10 +46,9 @@ export function onSilentRefresh(dispatch) {
     .then((response) => {
       const { data } = response;
       const { accessToken } = data;
-      // 재발급 실패 시 리프레시 토큰 삭제
+      // 재발급 실패 시 로그아웃 처리
       if (isEmpty(accessToken)) {
-        cookies.remove('refresh_token');
-        dispatch(logout());
+        logoutProc(dispatch);
         return;
       }
       axios.defaults.headers.common['Access_Token'] = accessToken;

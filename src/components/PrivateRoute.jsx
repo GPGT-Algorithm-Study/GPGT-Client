@@ -1,11 +1,10 @@
 import React from 'react';
-import Cookies from 'universal-cookie';
 import { Navigate, Outlet } from 'react-router-dom';
 import { isEmpty } from 'lodash';
+import { getRefreshTokenToCookie } from 'utils/auth';
 
 export default function PrivateRoute({ authentication }) {
-  const cookies = new Cookies();
-  const token = cookies.get('refresh_token');
+  const token = getRefreshTokenToCookie();
   const isLogin = !isEmpty(token);
 
   if (authentication) {
