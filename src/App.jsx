@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { isEmpty } from 'lodash';
 import GlobalStyle from 'style/globalStyle';
 import Main from './pages/Main';
 import Login from 'pages/Login';
@@ -8,13 +9,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PrivateRoute from 'components/PrivateRoute';
 import { onSilentRefresh } from 'utils/auth';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
   useEffect(() => {
     onSilentRefresh(dispatch);
   }, []);
+
+  if (isEmpty(user.bojHandle)) {
+    return <></>;
+  }
 
   return (
     <div>
