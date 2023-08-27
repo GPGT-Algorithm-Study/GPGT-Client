@@ -66,6 +66,7 @@ export const MessageContent = styled.div`
   margin-bottom: 20px;
   font-size: 1.2rem;
   line-height: 1.5;
+  word-break: break-all;
   /* font-weight: bold; */
 `;
 export const Writer = styled.div`
