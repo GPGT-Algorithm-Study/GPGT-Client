@@ -8,6 +8,7 @@ import { CommonProfileImage } from 'style/commonStyle';
 import useFetch from 'hooks/useFetch';
 import { getUserInfo } from 'api/user';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function Header() {
   const [showRecommend, setShowRecommend] = useState(false);
@@ -15,6 +16,14 @@ function Header() {
   const user = useSelector((state) => state.user);
 
   const [userInfo] = useFetch(getUserInfo, {}, { bojHandle: user.bojHandle });
+
+  const onClickStore = useCallback(() => {
+    if (userInfo.warning == 4) {
+      toast.error('상점을 이용하실 수 없습니다.');
+      return;
+    }
+    setShowStore(true);
+  }, [userInfo]);
 
   const onCloseModal = useCallback(() => {
     setShowRecommend(false);
@@ -37,12 +46,7 @@ function Header() {
             >
               문제추천
             </div>
-            <div
-              className="clickable"
-              onClick={() => {
-                setShowStore(true);
-              }}
-            >
+            <div className="clickable" onClick={onClickStore}>
               상점
             </div>
             <Link to="/my-page">

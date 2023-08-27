@@ -9,7 +9,8 @@ import {
   UserInfo,
   Button,
 } from './style';
-import { CommonProfileImage, CommonTierImg } from 'style/commonStyle';
+import { CommonTierImg } from 'style/commonStyle';
+import { WarningMsg, ProfileImage } from 'pages/Main/Users/UserCard/style';
 
 /**
  * 마이페이지 내 정보 카드
@@ -23,25 +24,29 @@ function MyInfoCard({ userInfo }) {
       </ButtonWrapper>
       <ProfileWrapper>
         <UserInfo>
-          <CommonProfileImage
-            width="80"
-            height="80"
+          <ProfileImage
+            width={80}
+            height={80}
             src={
-              userInfo.profileImg == 'null'
-                ? 'https://static.solved.ac/misc/360x360/default_profile.png'
-                : userInfo.profileImg
+              userInfo.profileImg != 'null'
+                ? userInfo.profileImg
+                : 'https://static.solved.ac/misc/360x360/default_profile.png'
             }
+            isWarning={userInfo.warning == 4}
           />
           <UserId>
             <div className="user-id">
               {userInfo.notionId} {userInfo.emoji}
             </div>
             <div className="boj-handle">{userInfo.bojHandle}</div>
-            <WarningWrapper>
-              {[...Array(3)].map((_, i) => (
-                <Warning key={i} warning={i + 1 <= userInfo.warning} />
-              ))}
-            </WarningWrapper>
+            {userInfo.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
+            {userInfo.warning < 4 && (
+              <WarningWrapper>
+                {[...Array(3)].map((_, i) => (
+                  <Warning key={i} warning={i + 1 <= userInfo.warning} />
+                ))}
+              </WarningWrapper>
+            )}
           </UserId>
           <CommonTierImg
             src={`https://static.solved.ac/tier_small/${userInfo.tier}.svg`}

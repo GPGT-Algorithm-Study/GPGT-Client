@@ -1,6 +1,7 @@
 import Header from 'layouts/Header';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { isEmpty } from 'lodash';
 import { Content } from './style';
 import MyInfoCard from './MyInfoCard';
 import MyItemCard from './MyItemCard';
@@ -19,14 +20,22 @@ function MyPage() {
     { bojHandle: user.bojHandle },
     { bojHandle: user.bojHandle },
   );
+  const [isBlocked, setIsBlocked] = useState(false);
+
+  useEffect(() => {
+    if (isEmpty(userInfo)) return;
+    setIsBlocked(userInfo.warning == 4);
+  }, [userInfo]);
 
   return (
     <div>
       <Header />
       <Content>
         <MyInfoCard userInfo={userInfo} />
-        <MyItemCard userInfo={userInfo} fetchUserInfo={fetchUserInfo} />
-        <RandomCard userInfo={userInfo} />
+        {!isBlocked && (
+          <MyItemCard userInfo={userInfo} fetchUserInfo={fetchUserInfo} />
+        )}
+        {!isBlocked && <RandomCard userInfo={userInfo} />}
         <PointCard userInfo={userInfo} />
       </Content>
     </div>
