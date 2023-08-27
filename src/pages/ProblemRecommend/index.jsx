@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { getRecommend } from 'api/recommend';
+import { useSelector } from 'react-redux';
 import ProblemResult from './ProblemResult';
 import { numToTierStr } from 'utils/tier';
 import Switch from 'react-switch';
@@ -21,7 +22,8 @@ import { CommonTierImg } from 'style/commonStyle';
  * 문제 추천 화면
  */
 function ProblemRecommend() {
-  const [bojId, setBojId] = useState('');
+  const user = useSelector((state) => state.user);
+  const [bojId, setBojId] = useState(user.bojHandle);
   const [startTier, setStartTier] = useState(0);
   const [endTier, setEndTier] = useState(4);
   const [problem, setProblem] = useState({});

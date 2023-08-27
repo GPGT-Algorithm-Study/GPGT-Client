@@ -5,10 +5,16 @@ import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
 import { CommonProfileImage } from 'style/commonStyle';
+import useFetch from 'hooks/useFetch';
+import { getUserInfo } from 'api/user';
+import { useSelector } from 'react-redux';
 
 function Header() {
   const [showRecommend, setShowRecommend] = useState(false);
   const [showStore, setShowStore] = useState(false);
+  const user = useSelector((state) => state.user);
+
+  const [userInfo] = useFetch(getUserInfo, {}, { bojHandle: user.bojHandle });
 
   const onCloseModal = useCallback(() => {
     setShowRecommend(false);
@@ -43,7 +49,11 @@ function Header() {
               <CommonProfileImage
                 width="38"
                 height="38"
-                src="https://static.solved.ac/misc/360x360/default_profile.png"
+                src={
+                  userInfo.profileImg == 'null'
+                    ? 'https://static.solved.ac/misc/360x360/default_profile.png'
+                    : userInfo.profileImg
+                }
               />
             </Link>
           </RightWrapper>
