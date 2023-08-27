@@ -25,8 +25,7 @@ export function getUserBojHandle(dispatch) {
       dispatch(setUser({ bojHandle: claim }));
     })
     .catch((e) => {
-      cookies.remove('refresh_token');
-      dispatch(logout());
+      logoutProc(dispatch);
     });
 }
 
@@ -57,7 +56,18 @@ export function onSilentRefresh(dispatch) {
       }, JWT_EXPIRY_TIME - 3000);
     })
     .catch((e) => {
-      cookies.remove('refresh_token');
-      dispatch(logout());
+      logoutProc(dispatch);
     });
+}
+
+/**
+ * 로그아웃 한다.
+ * 1. 쿠키에 설정된 리프레시 토큰 삭제
+ * 2. redux에 저장된 사용자 정보 삭제
+ * 3. axios 헤더에 설정해둔 access 토큰 삭제
+ */
+export function logoutProc(dispatch) {
+  cookies.remove('refresh_token');
+  dispatch(logout());
+  axios.defaults.headers.common['Access_Token'] = '';
 }

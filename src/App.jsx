@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { isEmpty } from 'lodash';
+import Cookies from 'universal-cookie';
 import GlobalStyle from 'style/globalStyle';
 import Main from './pages/Main';
 import Login from 'pages/Login';
@@ -15,12 +16,14 @@ import { useDispatch } from 'react-redux';
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const cookies = new Cookies();
 
   useEffect(() => {
     onSilentRefresh(dispatch);
   }, []);
 
-  if (isEmpty(user.bojHandle)) {
+  const refreshToken = cookies.get('refresh_token');
+  if (isEmpty(user.bojHandle) && !isEmpty(refreshToken)) {
     return <></>;
   }
 

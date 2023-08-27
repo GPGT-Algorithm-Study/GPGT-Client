@@ -86,3 +86,12 @@ export function refreshToken(config) {
 export function parseBoj(config) {
   return axios.get(`${PREFIX_URL}/auth/parse/boj`, config);
 }
+
+/**
+ * 로그아웃한다.
+ * 헤더에 리프레쉬 토큰 전달
+ * @param params { bojHandle }
+ */
+export function userLogout(params, config) {
+  return axios.post(`${PREFIX_URL}/auth/logout`, params, config);
+}
