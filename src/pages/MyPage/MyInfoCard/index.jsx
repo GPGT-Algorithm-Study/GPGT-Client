@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Card,
   ProfileWrapper,
@@ -12,9 +12,10 @@ import {
 import { CommonTierImg } from 'style/commonStyle';
 import { WarningMsg, ProfileImage } from 'pages/Main/Users/UserCard/style';
 import { userLogout } from 'api/user';
-import { getRefreshTokenToCookie, logoutProc } from 'utils/auth';
+import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import PasswordChangeModal from './PasswordChangeModal';
 
 /**
  * 마이페이지 내 정보 카드
@@ -23,14 +24,11 @@ function MyInfoCard({ userInfo }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [showPwChangeModal, setShowPwChangeModal] = useState(false);
+
   const onClickLogout = useCallback(() => {
-    const token = getRefreshTokenToCookie();
-    const config = {
-      headers: {
-        Refresh_Token: `${token}`,
-      },
-    };
     const params = { bojHandle: userInfo.bojHandle };
+    const config = getHeaderRefreshTokenConfing();
     userLogout(params, config)
       .then((response) => {
         // 로그아웃 처리 후 로그인 페이지로 이동
@@ -45,7 +43,13 @@ function MyInfoCard({ userInfo }) {
   return (
     <Card>
       <ButtonWrapper>
-        <Button>비밀번호 변경</Button>
+        <Button
+          onClick={() => {
+            setShowPwChangeModal(true);
+          }}
+        >
+          비밀번호 변경
+        </Button>
         <Button marginLeft="12px" onClick={onClickLogout}>
           로그아웃
         </Button>
@@ -83,6 +87,12 @@ function MyInfoCard({ userInfo }) {
           />
         </UserInfo>
       </ProfileWrapper>
+      <PasswordChangeModal
+        showModal={showPwChangeModal}
+        closeModal={() => {
+          setShowPwChangeModal(false);
+        }}
+      />
     </Card>
   );
 }

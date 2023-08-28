@@ -15,14 +15,18 @@ export function getRefreshTokenToCookie() {
   return cookies.get('refresh_token');
 }
 
-export function getUserBojHandle(dispatch) {
+export function getHeaderRefreshTokenConfing() {
   const token = getRefreshTokenToCookie();
-  if (isEmpty(token)) return;
-  const refreshConfig = {
+  if (isEmpty(token)) return null;
+  return {
     headers: {
       Refresh_Token: `${token}`,
     },
   };
+}
+
+export function getUserBojHandle(dispatch) {
+  const refreshConfig = getHeaderRefreshTokenConfing();
   parseBoj(refreshConfig)
     .then((response) => {
       const { claim } = response.data;
@@ -34,14 +38,7 @@ export function getUserBojHandle(dispatch) {
 }
 
 export function onSilentRefresh(dispatch) {
-  const token = getRefreshTokenToCookie();
-  if (isEmpty(token)) return;
-  const refreshConfig = {
-    headers: {
-      Refresh_Token: `${token}`,
-      Access_Token: '',
-    },
-  };
+  const refreshConfig = getHeaderRefreshTokenConfing();
   refreshToken(refreshConfig)
     .then((response) => {
       const { data } = response;

@@ -95,3 +95,11 @@ export function parseBoj(config) {
 export function userLogout(params, config) {
   return axios.post(`${PREFIX_URL}/auth/logout`, params, config);
 }
+
+/**
+ * 비밀번호를 변경한다.
+ * @param params { bojHandle, oldPassword, newPassword }
+ */
+export function changePassword(params, config) {
+  return axios.post(`${PREFIX_URL}/auth/pwchange`, params, config);
+}
