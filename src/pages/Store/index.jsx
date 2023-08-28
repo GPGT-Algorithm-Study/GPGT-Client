@@ -48,7 +48,7 @@ function Store() {
         {items.map((item) => (
           <Item key={item.id}>
             <div>
-              <ItemIcon itemId={item.id} size="38" color="#81cc67" />
+              <ItemIcon itemId={item.id} size="38" color="#3362c5" />
             </div>
             <ItemName>{item.name}</ItemName>
             <Description>

@@ -104,7 +104,7 @@ function MyItemCard({ userInfo, fetchUserInfo }) {
         {items.map((item) => (
           <Item key={item.item.id}>
             <div>
-              <ItemIcon itemId={item.item.id} size="38" color="#81cc67" />
+              <ItemIcon itemId={item.item.id} size="38" color="#3362c5" />
             </div>
             <ItemName>{item.item.name}</ItemName>
             <Left>{item.count}개 보유</Left>
