@@ -36,9 +36,9 @@ function PointCard({ userInfo }) {
               <LogMsg>{log.description}</LogMsg>
             </TextWrapper>
             <Point plus={log.changedValue >= 0}>
+              {log.changedValue >= 0 ? '+ ' : '- '}
               {Math.abs(log.changedValue)}
               <p>P</p>
-              {log.changedValue >= 0 ? ' +' : ' -'}
             </Point>
           </Log>
         ))}

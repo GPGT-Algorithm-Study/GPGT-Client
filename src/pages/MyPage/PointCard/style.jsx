@@ -15,7 +15,7 @@ export const Point = styled.div`
   font-weight: bold;
   color: ${(props) =>
     props.plus ? 'var(--color-point)' : 'var(--color-textgrey)'};
-  direction: rtl;
+  text-align: right;
   & p {
     display: inline;
     margin-left: 7px;
