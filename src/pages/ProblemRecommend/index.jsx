@@ -122,9 +122,7 @@ function ProblemRecommend() {
           }
           // 데이터 제대로 못 받았을 경우 에러처리
         })
-        .catch((e) => {
-          throw new Error(e);
-        });
+        .catch((e) => {});
     },
     [bojId, startTier, endTier, loadFlag, problemIdx],
   );

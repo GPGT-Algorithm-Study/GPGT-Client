@@ -35,9 +35,8 @@ function PasswordChangeModal({ showModal, closeModal }) {
         // 비밀번호 변경 성공 시 로그아웃 처리한다.
         if (response.status == 200) {
           toast.success('비밀번호를 변경하였습니다. 다시 로그인해주세요.');
-          // 로그아웃 처리 후 로그인 페이지로 이동
+          // 로그아웃 처리
           logoutProc(dispatch);
-          navigate('/login');
           return;
         }
         toast.error('비밀번호 변경에 실패하였습니다.');

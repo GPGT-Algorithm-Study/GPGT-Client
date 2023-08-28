@@ -75,6 +75,7 @@ export function onSilentRefresh(dispatch) {
  */
 export function logoutProc(dispatch) {
   cookies.remove('refresh_token');
-  dispatch(logout());
-  axios.defaults.headers.common['Access_Token'] = '';
+  if (dispatch) dispatch(logout());
+  axios.defaults.headers.common['Access_Token'] = '.';
+  window.location.href = '/login';
 }
