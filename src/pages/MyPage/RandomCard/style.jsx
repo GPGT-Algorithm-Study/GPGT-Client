@@ -30,6 +30,7 @@ export const NoDifficulty = styled.div`
   justify-content: center;
   margin: 20px 0 40px 0;
   color: var(--color-textgrey);
+  line-height: 1.2;
 `;
 
 export const SliderWrapper = styled.div`
