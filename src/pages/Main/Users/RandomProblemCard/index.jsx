@@ -88,6 +88,7 @@ function RandomProblemCard({ user }) {
                 height={20}
                 onColor="#69b5f8"
                 offColor="#d2d2d2"
+                disabled={problem.problemId == 0}
               />
             </TagSwitchWrapper>
           </Title>
