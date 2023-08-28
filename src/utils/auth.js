@@ -38,7 +38,14 @@ export function getUserBojHandle(dispatch) {
 }
 
 export function onSilentRefresh(dispatch) {
-  const refreshConfig = getHeaderRefreshTokenConfing();
+  const token = getRefreshTokenToCookie();
+  if (isEmpty(token)) return null;
+  const refreshConfig = {
+    headers: {
+      Refresh_Token: `${token}`,
+      Access_Token: '',
+    },
+  };
   refreshToken(refreshConfig)
     .then((response) => {
       const { data } = response;
