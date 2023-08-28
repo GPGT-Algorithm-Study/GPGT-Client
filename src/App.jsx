@@ -11,6 +11,7 @@ import PrivateRoute from 'components/PrivateRoute';
 import { getRefreshTokenToCookie, onSilentRefresh } from 'utils/auth';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import Admin from 'pages/Admin';
 
 function App() {
   const dispatch = useDispatch();
@@ -31,14 +32,26 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* 인증을 반드시 하지 않아야만 접속 가능한 페이지 정의 */}
-          <Route element={<PrivateRoute authentication={false} />}>
+          <Route element={<PrivateRoute userAuthentication={false} />}>
             <Route path="/login" element={<Login />} />
           </Route>
 
           {/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
-          <Route element={<PrivateRoute authentication={true} />}>
+          <Route element={<PrivateRoute userAuthentication={true} />}>
             <Route path="/my-page" element={<MyPage />} />
             <Route path="/" element={<Main />} />
+          </Route>
+
+          {/* 관리자만 접속 가능한 페이지 정의 */}
+          <Route
+            element={
+              <PrivateRoute
+                userAuthentication={true}
+                adminAuthentication={true}
+              />
+            }
+          >
+            <Route path="/admin" element={<Admin />} />
           </Route>
         </Routes>
       </BrowserRouter>
