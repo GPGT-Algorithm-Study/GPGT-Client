@@ -120,13 +120,14 @@ function MyItemCard({ userInfo, fetchUserInfo }) {
         ))}
       </ItemWrapper>
       <Modal show={showMyComment} onCloseModal={onCloseModal}>
-        <CommentTitle>나의 한마디 입력</CommentTitle>
+        <CommentTitle>
+          <div>나의 한마디 입력</div>
+        </CommentTitle>
         <InputWrapper>
           <Input value={comment} onChange={onChangeComment} />
           {commentError && <ErrorMsg>{commentErrorMsg}</ErrorMsg>}
         </InputWrapper>
         <ButtonWrapper>
-          <CommentButton onClick={onCloseModal}>취소</CommentButton>
           <CommentButton onClick={useMyCommentItem} isConfirm={true}>
             확인
           </CommentButton>

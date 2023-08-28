@@ -152,6 +152,7 @@ const baseStyle = css`
     font-family: 'KoPubWorldDotum';
   }
 
+  textarea,
   input:focus {
     outline: none;
   }

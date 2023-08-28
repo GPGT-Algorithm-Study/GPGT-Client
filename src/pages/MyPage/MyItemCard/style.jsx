@@ -58,6 +58,8 @@ export const NoItem = styled.div`
 export const CommentTitle = styled.div`
   margin-bottom: 15px;
   font-weight: bold;
+  display: flex;
+  align-items: start;
 `;
 
 export const ButtonWrapper = styled.div`
@@ -66,15 +68,16 @@ export const ButtonWrapper = styled.div`
   margin-top: 10px;
 `;
 
-export const CommentButton = styled.div`
-  width: 70px;
-  border-radius: 50px;
-  padding: 10px 20px 10px 20px;
+export const CommentButton = styled.button`
   border: none;
-  background-color: ${(props) =>
-    props.isConfirm ? 'var(--color-primary)' : 'var(--color-background)'};
-  color: ${(props) => (props.isConfirm ? 'white' : 'black')};
-  margin: 0 10px 0 10px;
+  width: 100%;
+  padding: 10px 0 10px 20px;
+  background-color: var(--color-primary);
+  height: 40px;
+  margin-top: 10px;
+  border-radius: 7px;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
 `;
 
@@ -83,6 +86,11 @@ export const Input = styled.textarea`
   height: 120px;
   resize: none;
   overflow: auto;
+  border: none;
+  background-color: var(--color-background);
+  border-radius: 7px;
+  padding: 10px;
+  box-sizing: border-box;
 `;
 
 export const ErrorMsg = styled.div`
