@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from 'redux/user';
 import { userLogin } from 'api/user';
-import { LoginWrapper, Input, Logo, Button, ErrorMsg } from './style';
+import { LoginWrapper, Input, LogoWrapper, Button, ErrorMsg } from './style';
 import { onSilentRefresh, setRefreshTokenToCookie } from 'utils/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -66,7 +66,9 @@ function Login() {
 
   return (
     <LoginWrapper>
-      <Logo>GPGT</Logo>
+      <LogoWrapper>
+        <img width="180" src="headerLogo.svg" />
+      </LogoWrapper>
       <form onSubmit={loginProc}>
         <Input onChange={changeId} value={id} placeholder="ID" />
         <Input

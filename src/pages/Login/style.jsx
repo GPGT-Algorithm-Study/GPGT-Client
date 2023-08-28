@@ -9,13 +9,6 @@ export const Label = styled.span`
   }
 `;
 
-export const Logo = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 35px;
-  align-self: center;
-`;
-
 export const Input = styled.input`
   border: none;
   background-color: var(--color-background);
@@ -36,7 +29,7 @@ export const LoginWrapper = styled.div`
   margin-top: 150px;
   background-color: white;
   width: 450px;
-  height: 400px;
+  height: 420px;
   max-width: 80%;
   padding: 0 80px 0 80px;
   @media all and (max-width: 400px) {
@@ -61,4 +54,10 @@ export const ErrorMsg = styled.div`
   margin-top: 7px;
   color: var(--color-error);
   font-size: 0.9rem;
+`;
+
+export const LogoWrapper = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-bottom: 40px;
 `;

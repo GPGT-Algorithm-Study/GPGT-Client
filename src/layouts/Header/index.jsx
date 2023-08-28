@@ -35,7 +35,9 @@ function Header() {
       <HeaderWrapper>
         <FlexWrapper>
           <div>
-            <Link to="/">좋은 사람 좋은 시간</Link>
+            <Link to="/">
+              <img src="headerLogo.svg" />
+            </Link>
           </div>
           <RightWrapper>
             <div
