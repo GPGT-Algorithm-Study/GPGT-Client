@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-const useFetch = (axiosRequest, initialValue, params) => {
+const useFetch = (axiosRequest, initialValue, initialParams) => {
   const [data, setData] = useState(initialValue);
+  const [params, setParams] = useState(initialParams);
 
   useEffect(() => {
     fetchData();
-  }, [axiosRequest]);
+  }, [axiosRequest, params]);
 
   const fetchData = () =>
     axiosRequest(params)
@@ -25,7 +26,7 @@ const useFetch = (axiosRequest, initialValue, params) => {
         toast.error(res.data.message);
       });
 
-  return [data, fetchData];
+  return [data, fetchData, setParams];
 };
 
 export default useFetch;

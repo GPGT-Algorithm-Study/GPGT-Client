@@ -62,3 +62,14 @@ export const Date = styled.div`
   width: 100px;
   color: var(--color-textgrey);
 `;
+
+export const Button = styled.button`
+  width: 80px;
+  padding: 12px 0 12px 0;
+  border-radius: 7px;
+  background-color: var(--color-background);
+  border: none;
+  cursor: pointer;
+  align-self: center;
+  margin: 15px 0 15px 0;
+`;

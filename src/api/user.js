@@ -58,10 +58,12 @@ export function getUserRandomStreakGrass(params) {
 /**
  *
  * bojHandle에 해당하는 사용자의 포인트 로그를 조회한다.
- * @param params { bojHandle }
+ * @param params { bojHandle, page, size }
  */
 export function getUserPointLog(params) {
-  return axios.get(`/api/v1/log/point/user?bojHandle=${params.bojHandle}`);
+  return axios.get(
+    `/api/v1/log/point/user/page?bojHandle=${params.bojHandle}&page=${params.page}&size=${params.size}`,
+  );
 }
 
 /**

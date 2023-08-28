@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
 import {
   Card,
@@ -10,7 +10,9 @@ import {
   TextWrapper,
   Date,
   TotalPoint,
+  Button,
 } from './style';
+import { isEmpty } from 'lodash';
 import useFetch from 'hooks/useFetch';
 import { getUserPointLog } from 'api/user';
 
@@ -18,9 +20,30 @@ import { getUserPointLog } from 'api/user';
  * 마이페이지 포인트 현황 카드
  */
 function PointCard({ userInfo }) {
-  const [pointLogs] = useFetch(getUserPointLog, [], {
+  const SIZE = 10;
+  const [page, setPage] = useState(0);
+  const [pointLogs, setPointLogs] = useState([]);
+  const [pointLogsPaging, , setParams] = useFetch(getUserPointLog, [], {
     bojHandle: userInfo.bojHandle,
+    page,
+    size: SIZE,
   });
+
+  useEffect(() => {
+    if (isEmpty(pointLogsPaging)) {
+      return;
+    }
+    setPointLogs((prev) => [...prev, ...pointLogsPaging]);
+    setPage((prev) => prev + 1);
+  }, [pointLogsPaging]);
+
+  const onClickMoreButton = useCallback(() => {
+    setParams({
+      bojHandle: userInfo.bojHandle,
+      page,
+      size: SIZE,
+    });
+  }, [userInfo, page, SIZE]);
 
   return (
     <Card>
@@ -43,6 +66,7 @@ function PointCard({ userInfo }) {
           </Log>
         ))}
       </LogWrapper>
+      <Button onClick={onClickMoreButton}>더 보기</Button>
     </Card>
   );
 }
