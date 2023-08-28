@@ -42,8 +42,17 @@ export const Point = styled.div`
 
 export const Title = styled.div`
   display: flex;
+  align-items: center;
   font-weight: bold;
   margin-bottom: 50px;
+  & div {
+    margin-left: 7px;
+    color: var(--color-textgrey);
+    font-size: 0.8rem;
+  }
+  & span {
+    color: var(--color-point);
+  }
 `;
 
 export const Button = styled.button`

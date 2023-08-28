@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Button,
   Container,
@@ -10,14 +10,17 @@ import {
   Description,
 } from './style';
 import useFetch from 'hooks/useFetch';
+import { isEmpty } from 'lodash';
 import { buyItem, getAllItems } from 'api/item';
 import { useSelector } from 'react-redux';
 import ItemIcon from 'components/ItemIcon';
 import { toast } from 'react-toastify';
+import { getUserInfo } from 'api/user';
 
 function Store() {
   const [items] = useFetch(getAllItems, []);
   const user = useSelector((state) => state.user);
+  const [userInfo] = useFetch(getUserInfo, {}, { bojHandle: user.bojHandle });
 
   const clickBuyButton = useCallback((itemId) => {
     const params = {
@@ -43,6 +46,10 @@ function Store() {
     <Container>
       <Title>
         <h2>상점</h2>
+        <div>
+          (보유 포인트: {userInfo.point}
+          <span> P</span>)
+        </div>
       </Title>
       <ItemWrapper>
         {items.map((item) => (
