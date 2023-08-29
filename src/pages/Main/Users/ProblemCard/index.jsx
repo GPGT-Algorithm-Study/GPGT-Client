@@ -25,7 +25,11 @@ function ProblemCard({ user }) {
       {problems.length > 0 &&
         problems.map((problem) => (
           <Card key={problem.problemId}>
-            <a href={`https://www.acmicpc.net/problem/${problem.problemId}`}>
+            <a
+              href={`https://www.acmicpc.net/problem/${problem.problemId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <ProblemTitle>
                 <CommonTierImg
                   src={`https://static.solved.ac/tier_small/${problem.tier}.svg`}

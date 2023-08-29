@@ -70,6 +70,8 @@ function RandomProblemCard({ user }) {
             ? `https://www.acmicpc.net/problem/${problem.problemId}`
             : ''
         }
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <CardContent isBlur={problem.problemId == 0}>
           <Title>

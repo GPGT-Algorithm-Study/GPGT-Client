@@ -36,7 +36,11 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
   return (
     <div>
       <Card>
-        <a href={`https://solved.ac/profile/${user.bojHandle}`}>
+        <a
+          href={`https://solved.ac/profile/${user.bojHandle}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {/* 상단 유저 아이디, 포인트, 프로필 이미지 */}
           <UserInfo>
             <ProfileWrapper>
