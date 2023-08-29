@@ -10,7 +10,6 @@ import {
   Description,
 } from './style';
 import useFetch from 'hooks/useFetch';
-import { isEmpty } from 'lodash';
 import { buyItem, getAllItems } from 'api/item';
 import { useSelector } from 'react-redux';
 import ItemIcon from 'components/ItemIcon';
@@ -20,7 +19,11 @@ import { getUserInfo } from 'api/user';
 function Store() {
   const [items] = useFetch(getAllItems, []);
   const user = useSelector((state) => state.user);
-  const [userInfo] = useFetch(getUserInfo, {}, { bojHandle: user.bojHandle });
+  const [userInfo, fetchUserInfo] = useFetch(
+    getUserInfo,
+    {},
+    { bojHandle: user.bojHandle },
+  );
 
   const clickBuyButton = useCallback((itemId) => {
     const params = {
@@ -32,6 +35,7 @@ function Store() {
         const { data } = res;
         if (data.code == 200) {
           toast.success('아이템을 구매했습니다.');
+          fetchUserInfo();
         } else {
           toast.error('아이템 구매에 실패했습니다.');
         }
