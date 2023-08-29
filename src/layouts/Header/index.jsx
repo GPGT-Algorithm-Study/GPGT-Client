@@ -36,7 +36,7 @@ function Header() {
         <FlexWrapper>
           <div>
             <Link to="/">
-              <img src="headerLogo.svg" />
+              <img src={`${process.env.PUBLIC_URL}/headerLogo.svg`} />
             </Link>
           </div>
           <RightWrapper>
