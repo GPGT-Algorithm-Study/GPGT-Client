@@ -60,7 +60,7 @@ export const SolvedInfo = styled.div`
   margin-top: 20px;
   .tier-wrapper {
     margin-left: 10px;
-    width: 200px;
+    width: 150px;
     display: flex;
     justify-content: start;
   }
