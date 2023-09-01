@@ -128,20 +128,6 @@ function RandomCard({ userInfo }) {
                 height={18}
                 src={`https://static.solved.ac/tier_small/${endTier + 1}.svg`}
               />
-              <SwitchWrapper>
-                <span>한국어 문제만 추천 받기</span>
-                <Switch
-                  onChange={onClickKoButton}
-                  checked={isKo}
-                  checkedIcon={false}
-                  uncheckedIcon={false}
-                  width={40}
-                  height={20}
-                  onColor="#69b5f8"
-                  offColor="#d2d2d2"
-                  disabled={!isEdit}
-                />
-              </SwitchWrapper>
             </InfoWRapper>
           )}
         </Title>
@@ -158,19 +144,35 @@ function RandomCard({ userInfo }) {
         </NoDifficulty>
       )}
       {(hasLevel || isEdit) && (
-        <SliderWrapper>
-          <Slider
-            range
-            min={0}
-            max={29}
-            value={[startTier, endTier]}
-            allowCross={false}
-            onChange={onChangeSlider}
-            marks={tierMarks}
-            disabled={!isEdit}
-            trackStyle={{ backgroundColor: 'var(--color-toggle)' }}
-          />
-        </SliderWrapper>
+        <>
+          <SliderWrapper>
+            <Slider
+              range
+              min={0}
+              max={29}
+              value={[startTier, endTier]}
+              allowCross={false}
+              onChange={onChangeSlider}
+              marks={tierMarks}
+              disabled={!isEdit}
+              trackStyle={{ backgroundColor: 'var(--color-toggle)' }}
+            />
+          </SliderWrapper>
+          <SwitchWrapper>
+            <span>한국어 문제만 추천 받기</span>
+            <Switch
+              onChange={onClickKoButton}
+              checked={isKo}
+              checkedIcon={false}
+              uncheckedIcon={false}
+              width={40}
+              height={20}
+              onColor="#69b5f8"
+              offColor="#d2d2d2"
+              disabled={!isEdit}
+            />
+          </SwitchWrapper>
+        </>
       )}
     </Card>
   );

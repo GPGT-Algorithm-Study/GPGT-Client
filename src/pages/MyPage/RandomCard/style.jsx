@@ -44,7 +44,7 @@ export const SwitchWrapper = styled.div`
   align-items: center;
   font-size: 0.9rem;
   color: var(--color-textgrey);
-  margin-left: 20px;
+  margin: 0 0 10px 10px;
   & span {
     margin-right: 7px;
   }
