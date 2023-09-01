@@ -121,7 +121,8 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
           </MaxStreak>
         </RandomStreakInfo>
         <ToggleButton
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             toggleShowProblemsId(user.notionId);
           }}
         >
