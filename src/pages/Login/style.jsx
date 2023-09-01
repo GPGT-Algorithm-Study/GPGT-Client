@@ -40,7 +40,7 @@ export const LoginWrapper = styled.div`
 export const Button = styled.button`
   border: none;
   width: 100%;
-  padding: 10px 0 10px 20px;
+  padding: 10px 0 10px 0;
   background-color: var(--color-primary);
   height: 40px;
   margin-top: 20px;
