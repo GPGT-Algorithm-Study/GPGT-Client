@@ -25,7 +25,7 @@ import Modal from 'layouts/Modal';
 /**
  * 마이페이지 보유 아이템 카드
  */
-function MyItemCard({ userInfo, fetchUserInfo }) {
+function MyItemCard({ userInfo, reload }) {
   const [items, fetchItems] = useFetch(getUserItems, [], {
     bojHandle: userInfo.bojHandle,
   });
@@ -72,7 +72,7 @@ function MyItemCard({ userInfo, fetchUserInfo }) {
         const { data } = res;
         if (data.code == 200) {
           toast.success('아이템을 사용했습니다.');
-          fetchUserInfo();
+          reload();
           fetchItems();
         } else {
           toast.error('아이템 사용에 실패했습니다.');

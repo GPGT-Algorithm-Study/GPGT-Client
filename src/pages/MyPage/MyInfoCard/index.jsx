@@ -14,7 +14,6 @@ import { WarningMsg, ProfileImage } from 'pages/Main/Users/UserCard/style';
 import { userLogout } from 'api/user';
 import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import PasswordChangeModal from './PasswordChangeModal';
 
 /**
@@ -22,7 +21,6 @@ import PasswordChangeModal from './PasswordChangeModal';
  */
 function MyInfoCard({ userInfo }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [showPwChangeModal, setShowPwChangeModal] = useState(false);
 

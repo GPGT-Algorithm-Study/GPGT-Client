@@ -51,7 +51,7 @@ function Header() {
             <div className="clickable" onClick={onClickStore}>
               상점
             </div>
-            <Link to="/my-page">
+            <Link to={`/my-page/${user.bojHandle}`}>
               <CommonProfileImage
                 width="38"
                 height="38"

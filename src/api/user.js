@@ -56,17 +56,6 @@ export function getUserRandomStreakGrass(params) {
 }
 
 /**
- *
- * bojHandle에 해당하는 사용자의 포인트 로그를 조회한다.
- * @param params { bojHandle, page, size }
- */
-export function getUserPointLog(params) {
-  return axios.get(
-    `/api/v1/log/point/user/page?bojHandle=${params.bojHandle}&page=${params.page}&size=${params.size}`,
-  );
-}
-
-/**
  * 로그인한다.
  * @param params { bojHandle, password }
  */

@@ -1,6 +1,7 @@
 import React from 'react';
 import useFetch from 'hooks/useFetch';
 import { getUserRandomStreakGrass } from 'api/user';
+import { Link } from 'react-router-dom';
 import {
   Card,
   ProfileImage,
@@ -41,6 +42,7 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
           target="_blank"
           rel="noopener noreferrer"
         >
+          {/* <Link to={`/my-page/${user.bojHandle}`}> */}
           {/* 상단 유저 아이디, 포인트, 프로필 이미지 */}
           <UserInfo>
             <ProfileWrapper>
@@ -71,36 +73,37 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
               <TeamIcon team={user.team} width={60} />
             </IconWrapper>
           </UserInfo>
-
-          {/* 가운데 경고, 티어, 스트릭, 푼 문제 수 정보 */}
-          <SolvedInfo>
-            <div>
-              <WarningWrapper>
-                {[...Array(3)].map((_, i) => (
-                  <Warning key={i} warning={i + 1 <= user.warning} />
-                ))}
-              </WarningWrapper>
-              {user.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
-            </div>
-            <div className="tier-wrapper">
-              <CommonTierImg
-                src={`https://static.solved.ac/tier_small/${user.tier}.svg`}
-                width="40"
-                height="40"
-              />
-              <StreakSolved>
-                <div>
-                  <span>streak</span> &nbsp;{user.currentStreak}
-                </div>
-                <div>
-                  <span>solved</span> &nbsp;{user.totalSolved}
-                </div>
-              </StreakSolved>
-            </div>
-            <SolvedIcon solved={user.isTodaySolved} />
-          </SolvedInfo>
-          <Line />
+          {/* </Link> */}
         </a>
+
+        {/* 가운데 경고, 티어, 스트릭, 푼 문제 수 정보 */}
+        <SolvedInfo>
+          <div>
+            <WarningWrapper>
+              {[...Array(3)].map((_, i) => (
+                <Warning key={i} warning={i + 1 <= user.warning} />
+              ))}
+            </WarningWrapper>
+            {user.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
+          </div>
+          <div className="tier-wrapper">
+            <CommonTierImg
+              src={`https://static.solved.ac/tier_small/${user.tier}.svg`}
+              width="40"
+              height="40"
+            />
+            <StreakSolved>
+              <div>
+                <span>streak</span> &nbsp;{user.currentStreak}
+              </div>
+              <div>
+                <span>solved</span> &nbsp;{user.totalSolved}
+              </div>
+            </StreakSolved>
+          </div>
+          <SolvedIcon solved={user.isTodaySolved} />
+        </SolvedInfo>
+        <Line />
         {/* 맨 밑에 랜덤 스트릭 정보 */}
         <RandomStreakInfo>
           <div>

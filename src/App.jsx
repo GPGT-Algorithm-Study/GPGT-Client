@@ -38,7 +38,7 @@ function App() {
 
           {/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
           <Route element={<PrivateRoute userAuthentication={true} />}>
-            <Route path="/my-page" element={<MyPage />} />
+            <Route path="/my-page/:bojHandle" element={<MyPage />} />
             <Route path="/" element={<Main />} />
           </Route>
 
