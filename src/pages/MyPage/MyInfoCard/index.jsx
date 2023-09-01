@@ -19,7 +19,7 @@ import PasswordChangeModal from './PasswordChangeModal';
 /**
  * 마이페이지 내 정보 카드
  */
-function MyInfoCard({ userInfo }) {
+function MyInfoCard({ userInfo, isUser }) {
   const dispatch = useDispatch();
 
   const [showPwChangeModal, setShowPwChangeModal] = useState(false);
@@ -39,18 +39,20 @@ function MyInfoCard({ userInfo }) {
 
   return (
     <Card>
-      <ButtonWrapper>
-        <Button
-          onClick={() => {
-            setShowPwChangeModal(true);
-          }}
-        >
-          비밀번호 변경
-        </Button>
-        <Button marginLeft="12px" onClick={onClickLogout}>
-          로그아웃
-        </Button>
-      </ButtonWrapper>
+      {isUser && (
+        <ButtonWrapper>
+          <Button
+            onClick={() => {
+              setShowPwChangeModal(true);
+            }}
+          >
+            비밀번호 변경
+          </Button>
+          <Button marginLeft="12px" onClick={onClickLogout}>
+            로그아웃
+          </Button>
+        </ButtonWrapper>
+      )}
       <ProfileWrapper>
         <UserInfo>
           <ProfileImage

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { CommonProfileImage } from 'style/commonStyle';
 
 export const FlexWrapper = styled.div`
   display: flex;
@@ -41,4 +42,8 @@ export const Board = styled.div`
   display: flex;
   justify-content: center;
   height: 20rem;
+`;
+
+export const ProfileImage = styled(CommonProfileImage)`
+  cursor: pointer;
 `;

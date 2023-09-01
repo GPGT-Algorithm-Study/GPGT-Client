@@ -21,7 +21,7 @@ import { toast } from 'react-toastify';
 /**
  * 마이페이지 랜덤 문제 난이도 설정 카드
  */
-function RandomCard({ userInfo }) {
+function RandomCard({ userInfo, isUser }) {
   const [startTier, setStartTier] = useState(0);
   const [endTier, setEndTier] = useState(0);
   const [hasLevel, setHasLevel] = useState(false);
@@ -131,15 +131,18 @@ function RandomCard({ userInfo }) {
             </InfoWRapper>
           )}
         </Title>
-        <EditButton onClick={clickEditButton}>
-          {isEdit ? '편집 완료' : '편집하기'}
-        </EditButton>
+        {isUser && (
+          <EditButton onClick={clickEditButton}>
+            {isEdit ? '편집 완료' : '편집하기'}
+          </EditButton>
+        )}
       </TitleWrapper>
       {!hasLevel && !isEdit && (
         <NoDifficulty>
           <div>
-            랜덤 문제 난이도가 설정되지 않았습니다. ‘편집하기’ 버튼을 클릭하여
-            랜덤으로 추천받을 문제의 난이도를 설정해주세요.
+            랜덤 문제 난이도가 설정되지 않았습니다.
+            {isUser &&
+              '‘편집하기’ 버튼을 클릭하여 랜덤으로 추천받을 문제의 난이도를 설정해주세요.'}
           </div>
         </NoDifficulty>
       )}

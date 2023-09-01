@@ -18,10 +18,11 @@ import { useParams } from 'react-router-dom';
 function MyPage() {
   const { bojHandle } = useParams();
   const user = useSelector((state) => state.user);
+  const [isUser] = useState(bojHandle == user.bojHandle);
   const [userInfo, fetchUserInfo] = useFetch(
     getUserInfo,
-    { bojHandle: user.bojHandle },
-    { bojHandle: user.bojHandle },
+    { bojHandle: bojHandle },
+    { bojHandle: bojHandle },
   );
   const [isBlocked, setIsBlocked] = useState(false);
 
@@ -43,9 +44,11 @@ function MyPage() {
     <div>
       <Header />
       <Content>
-        <MyInfoCard userInfo={userInfo} />
-        {!isBlocked && <MyItemCard userInfo={userInfo} reload={reload} />}
-        {!isBlocked && <RandomCard userInfo={userInfo} />}
+        <MyInfoCard userInfo={userInfo} isUser={isUser} />
+        {!isBlocked && (
+          <MyItemCard userInfo={userInfo} reload={reload} isUser={isUser} />
+        )}
+        {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
         <PointLogCard userInfo={userInfo} ref={pointCardRef} />
         <WarningLogCard userInfo={userInfo} />
       </Content>

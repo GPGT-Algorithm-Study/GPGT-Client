@@ -15,6 +15,8 @@ import {
   ErrorMsg,
   ProblemWrapper,
   Tag,
+  SwitchWrapper,
+  SettingWrapper,
 } from './style';
 import { CommonTierImg } from 'style/commonStyle';
 
@@ -32,6 +34,7 @@ function ProblemRecommend() {
   const [tierMarks, setTierMarks] = useState([]);
   const [showTags, setShowTags] = useState(false);
   const [loadFlag, setLoadFlag] = useState(true);
+  const [isKo, setIsKo] = useState(true);
   const [problemIdx, setProblemIdx] = useState(0);
 
   useEffect(() => {
@@ -76,6 +79,14 @@ function ProblemRecommend() {
   }, []);
 
   /**
+   * 한국어 문제 추천 버튼 핸들러
+   */
+  const onClickKoButton = useCallback(() => {
+    setLoadFlag(true);
+    setIsKo((prev) => !prev);
+  }, []);
+
+  /**
    * 문제 목록 중 추천 문제를 지정한다.
    */
   useEffect(() => {
@@ -112,7 +123,7 @@ function ProblemRecommend() {
       // 숫자로 설정된 티어를 문자열로 변경(1 -> b5)
       const startTierStr = numToTierStr(startTier);
       const endTierStr = numToTierStr(endTier);
-      getRecommend(bojId, startTierStr, endTierStr)
+      getRecommend(bojId, startTierStr, endTierStr, isKo)
         .then((res) => {
           if (res.status == 200 && res.data) {
             const { data } = res;
@@ -124,7 +135,7 @@ function ProblemRecommend() {
         })
         .catch((e) => {});
     },
-    [bojId, startTier, endTier, loadFlag, problemIdx],
+    [bojId, startTier, endTier, loadFlag, problemIdx, isKo],
   );
 
   /**
@@ -139,19 +150,35 @@ function ProblemRecommend() {
       {/* 상단 제목 및 토글 버튼 */}
       <Title>
         <h2>오늘 뭐 풀지?</h2>
-        <div>
-          <span>Tags</span>
-          <Switch
-            onChange={onClickTagButton}
-            checked={showTags}
-            checkedIcon={false}
-            uncheckedIcon={false}
-            width={40}
-            height={20}
-            onColor="#69b5f8"
-            offColor="#d2d2d2"
-          />
-        </div>
+        <SettingWrapper>
+          <SwitchWrapper>
+            <div>한국어 문제만 추천 받기</div>
+            <Switch
+              onChange={onClickKoButton}
+              checked={isKo}
+              checkedIcon={false}
+              uncheckedIcon={false}
+              width={40}
+              height={20}
+              onColor="#69b5f8"
+              offColor="#d2d2d2"
+              className="switch"
+            />
+          </SwitchWrapper>
+          <SwitchWrapper>
+            <div>Tags</div>
+            <Switch
+              onChange={onClickTagButton}
+              checked={showTags}
+              checkedIcon={false}
+              uncheckedIcon={false}
+              width={40}
+              height={20}
+              onColor="#69b5f8"
+              offColor="#d2d2d2"
+            />
+          </SwitchWrapper>
+        </SettingWrapper>
       </Title>
 
       {/* 아이디, 난이도 입력 폼 */}

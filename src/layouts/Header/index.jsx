@@ -1,10 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { HeaderWrapper, FlexWrapper, RightWrapper } from './style';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  HeaderWrapper,
+  FlexWrapper,
+  RightWrapper,
+  ProfileImage,
+} from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
-import { CommonProfileImage } from 'style/commonStyle';
 import useFetch from 'hooks/useFetch';
 import { getUserInfo } from 'api/user';
 import { useSelector } from 'react-redux';
@@ -30,6 +34,11 @@ function Header() {
     setShowStore(false);
   }, []);
 
+  const navigate = useNavigate();
+  const onClickUserProfile = useCallback(() => {
+    window.location.href = `/my-page/${user.bojHandle}`;
+  }, [user]);
+
   return (
     <div>
       <HeaderWrapper>
@@ -51,8 +60,8 @@ function Header() {
             <div className="clickable" onClick={onClickStore}>
               상점
             </div>
-            <Link to={`/my-page/${user.bojHandle}`}>
-              <CommonProfileImage
+            <div onClick={onClickUserProfile}>
+              <ProfileImage
                 width="38"
                 height="38"
                 src={
@@ -61,7 +70,7 @@ function Header() {
                     : userInfo.profileImg
                 }
               />
-            </Link>
+            </div>
           </RightWrapper>
         </FlexWrapper>
       </HeaderWrapper>

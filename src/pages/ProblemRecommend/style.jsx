@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import RcSlider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
+const MAX_WIDTH = '610px';
+
 export const Label = styled.span`
   color: var(--color-textgrey);
   font-size: 0.8rem;
@@ -39,16 +41,46 @@ export const Title = styled.div`
   & div {
     display: flex;
     align-items: center;
+    text-align: start;
     & span {
       margin-right: 8px;
       color: var(--color-textgrey);
       font-size: 0.9rem;
     }
   }
+  @media all and (max-width: ${MAX_WIDTH}) {
+    flex-direction: column;
+    align-items: start;
+  }
+`;
+
+export const SwitchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  color: var(--color-textgrey);
+  font-size: 0.8rem;
+  font-weight: bold;
+  & div {
+    margin-right: 5px;
+  }
+  .switch {
+    margin-right: 20px;
+  }
+  @media all and (max-width: ${MAX_WIDTH}) {
+    margin-top: 15px;
+    align-self: start;
+  }
+`;
+
+export const SettingWrapper = styled.div`
+  @media all and (max-width: ${MAX_WIDTH}) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const Slider = styled(RcSlider)`
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 
 export const Form = styled.form`

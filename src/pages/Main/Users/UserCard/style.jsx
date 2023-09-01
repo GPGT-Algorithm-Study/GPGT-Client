@@ -11,6 +11,9 @@ export const UserInfo = styled.div`
   align-items: center;
   justify-content: space-between;
   position: relative;
+  & img {
+    margin-right: 4px;
+  }
   .id-wrapper {
     margin-left: 15px;
   }
@@ -21,6 +24,8 @@ export const UserInfo = styled.div`
   .boj-handle {
     display: flex;
     margin-top: 5px;
+    align-items: center;
+    flex-wrap: wrap;
     color: var(--color-textlight);
     .point-icon {
       margin-left: 15px;
@@ -30,10 +35,24 @@ export const UserInfo = styled.div`
     .points {
       color: black;
       font-weight: bold;
-      margin-left: 4px;
+      margin: 0 0 0 4px;
     }
   }
 `;
+
+export const Point = styled.div`
+  font-size: 1rem;
+  .point-icon {
+    font-weight: bold;
+    color: var(--color-point);
+  }
+  .points {
+    color: black;
+    font-weight: bold;
+    margin: 0 0 0 4px;
+  }
+`;
+
 export const ProfileImage = styled(CommonProfileImage)`
   filter: ${(props) =>
     props.isWarning
@@ -151,9 +170,15 @@ export const IconWrapper = styled.div`
 export const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   position: relative;
   z-index: 999;
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   padding-right: 10px;
+`;
+
+export const AcLogoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

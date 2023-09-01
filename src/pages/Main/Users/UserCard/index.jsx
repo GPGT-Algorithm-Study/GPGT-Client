@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import useFetch from 'hooks/useFetch';
 import { getUserRandomStreakGrass } from 'api/user';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,7 @@ import {
   ToggleButton,
   IconWrapper,
   ProfileWrapper,
+  Point,
 } from './style';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { CommonTierImg } from 'style/commonStyle';
@@ -34,47 +35,46 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
     bojHandle: user.bojHandle,
   });
 
+  const clickAcLogo = useCallback((e) => {
+    e.preventDefault();
+    const url = `https://solved.ac/profile/${user.bojHandle}`;
+    window.open(url, '_blank');
+  }, []);
+
   return (
-    <div>
+    <Link to={`/my-page/${user.bojHandle}`}>
       <Card>
-        <a
-          href={`https://solved.ac/profile/${user.bojHandle}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {/* <Link to={`/my-page/${user.bojHandle}`}> */}
-          {/* 상단 유저 아이디, 포인트, 프로필 이미지 */}
-          <UserInfo>
-            <ProfileWrapper>
-              <div>
-                <ProfileImage
-                  width={80}
-                  height={80}
-                  src={
-                    user.profileImg != 'null'
-                      ? user.profileImg
-                      : 'https://static.solved.ac/misc/360x360/default_profile.png'
-                  }
-                  isWarning={user.warning == 4}
-                />
+        {/* 상단 유저 아이디, 포인트, 프로필 이미지 */}
+        <UserInfo>
+          <ProfileWrapper>
+            <div>
+              <ProfileImage
+                width={80}
+                height={80}
+                src={
+                  user.profileImg != 'null'
+                    ? user.profileImg
+                    : 'https://static.solved.ac/misc/360x360/default_profile.png'
+                }
+                isWarning={user.warning == 4}
+              />
+            </div>
+            <div className="id-wrapper">
+              <div className="user-id">
+                {user.notionId} {user.emoji}
               </div>
-              <div className="id-wrapper">
-                <div className="user-id">
-                  {user.notionId} {user.emoji}
-                </div>
-                <div className="boj-handle">
-                  <span>{user.bojHandle}</span>
-                  <span className="point-icon">P</span>
-                  <span className="points">{user.point}</span>
-                </div>
+              <div className="boj-handle" onClick={clickAcLogo}>
+                <img src="https://static.solved.ac/logo.svg" width={35} />
+                <span>{user.bojHandle}</span>
+                <span className="point-icon">P</span>
+                <span className="points">{user.point}</span>
               </div>
-            </ProfileWrapper>
-            <IconWrapper>
-              <TeamIcon team={user.team} width={60} />
-            </IconWrapper>
-          </UserInfo>
-          {/* </Link> */}
-        </a>
+            </div>
+          </ProfileWrapper>
+          <IconWrapper>
+            <TeamIcon team={user.team} width={60} />
+          </IconWrapper>
+        </UserInfo>
 
         {/* 가운데 경고, 티어, 스트릭, 푼 문제 수 정보 */}
         <SolvedInfo>
@@ -131,7 +131,7 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
           </span>
         </ToggleButton>
       </Card>
-    </div>
+    </Link>
   );
 }
 

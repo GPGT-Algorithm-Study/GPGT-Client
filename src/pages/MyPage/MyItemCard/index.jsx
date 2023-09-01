@@ -25,7 +25,7 @@ import Modal from 'layouts/Modal';
 /**
  * 마이페이지 보유 아이템 카드
  */
-function MyItemCard({ userInfo, reload }) {
+function MyItemCard({ userInfo, reload, isUser }) {
   const [items, fetchItems] = useFetch(getUserItems, [], {
     bojHandle: userInfo.bojHandle,
   });
@@ -108,14 +108,16 @@ function MyItemCard({ userInfo, reload }) {
             </div>
             <ItemName>{item.item.name}</ItemName>
             <Left>{item.count}개 보유</Left>
-            <Button
-              disabled={item.item.id == 3}
-              onClick={() => {
-                clickUseButton(item.item.id);
-              }}
-            >
-              {item.item.id == 3 ? '장착 중' : '사용하기'}
-            </Button>
+            {isUser && (
+              <Button
+                disabled={item.item.id == 3}
+                onClick={() => {
+                  clickUseButton(item.item.id);
+                }}
+              >
+                {item.item.id == 3 ? '장착 중' : '사용하기'}
+              </Button>
+            )}
           </Item>
         ))}
       </ItemWrapper>
