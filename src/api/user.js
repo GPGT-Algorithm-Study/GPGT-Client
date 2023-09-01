@@ -38,11 +38,11 @@ export function getUserTodayRandomProblem(params) {
 
 /**
  * bojHandle에 해당하는 사용자의 랜덤 문제 난이도 정보를 설정한다.
- * @param params { bojHandle, start, end }
+ * @param params { bojHandle, start, end, isKo }
  */
 export function putUserRandomLevel(params) {
   return axios.put(
-    `${PREFIX_URL}/streak/streak/level?bojHandle=${params.bojHandle}&start=${params.start}&end=${params.end}`,
+    `${PREFIX_URL}/streak/streak/level?bojHandle=${params.bojHandle}&start=${params.start}&end=${params.end}&isKo=${params.isKo}`,
   );
 }
 

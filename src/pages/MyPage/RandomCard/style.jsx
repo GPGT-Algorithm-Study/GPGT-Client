@@ -6,6 +6,7 @@ export const Card = styled(CommonCard)`
 `;
 
 export const Title = styled.div`
+  display: flex;
   font-weight: bold;
 `;
 
@@ -35,4 +36,21 @@ export const NoDifficulty = styled.div`
 
 export const SliderWrapper = styled.div`
   padding: 30px 20px 70px 20px;
+`;
+
+export const SwitchWrapper = styled.div`
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--color-textgrey);
+  margin-left: 20px;
+  & span {
+    margin-right: 7px;
+  }
+`;
+
+export const InfoWRapper = styled.span`
+  display: flex;
+  align-items: start;
 `;

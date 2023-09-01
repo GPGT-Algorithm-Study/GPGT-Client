@@ -7,12 +7,16 @@ import {
   EditButton,
   NoDifficulty,
   SliderWrapper,
+  SwitchWrapper,
+  InfoWRapper,
 } from './style';
 import Slider from 'rc-slider';
 import { CommonTierImg } from 'style/commonStyle';
 import useFetch from 'hooks/useFetch';
 import { getUserTodayRandomProblem, putUserRandomLevel } from 'api/user';
 import { numToTierStr, tierStrToNum } from 'utils/tier';
+import Switch from 'react-switch';
+import { toast } from 'react-toastify';
 
 /**
  * 마이페이지 랜덤 문제 난이도 설정 카드
@@ -23,6 +27,7 @@ function RandomCard({ userInfo }) {
   const [hasLevel, setHasLevel] = useState(false);
   const [tierMarks, setTierMarks] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+  const [isKo, setIsKo] = useState(true);
   const [randomStreak, fetchRandomStreak] = useFetch(
     getUserTodayRandomProblem,
     {},
@@ -35,6 +40,7 @@ function RandomCard({ userInfo }) {
     setHasLevel(true);
     setStartTier(tierStrToNum(randomStreak.startLevel));
     setEndTier(tierStrToNum(randomStreak.endLevel));
+    if (randomStreak.isKo != null) setIsKo(randomStreak.isKo);
   }, [randomStreak]);
 
   useEffect(() => {
@@ -65,6 +71,15 @@ function RandomCard({ userInfo }) {
     setEndTier(range[1]);
   }, []);
 
+  /**
+   * 한국어 문제 추천 버튼 핸들러
+   */
+  const onClickKoButton = useCallback(() => {
+    setIsKo((prev) => !prev);
+  }, []);
+  /**
+   * 수정버튼 클릭 리스너
+   */
   const clickEditButton = useCallback(() => {
     if (!isEdit && !hasLevel) {
       setEndTier(4);
@@ -73,6 +88,7 @@ function RandomCard({ userInfo }) {
         bojHandle: userInfo.bojHandle,
         start: numToTierStr(startTier),
         end: numToTierStr(endTier),
+        isKo,
       };
       putUserRandomLevel(params)
         .then((res) => {
@@ -81,21 +97,26 @@ function RandomCard({ userInfo }) {
             return;
           }
           fetchRandomStreak();
+          setIsEdit((prev) => !prev);
         })
         .catch((e) => {
-          // 에러 처리
+          const { data } = e.response;
+          if (data && data.code == 400) {
+            toast.error(data.message);
+          }
         });
+    } else {
+      setIsEdit((prev) => !prev);
     }
-    setIsEdit((prev) => !prev);
-  }, [userInfo, startTier, endTier]);
+  }, [userInfo, startTier, endTier, isKo]);
 
   return (
     <Card>
       <TitleWrapper>
         <Title>
-          랜덤 문제 난이도 &nbsp;
+          <div>랜덤 문제 난이도 &nbsp;</div>
           {(hasLevel || isEdit) && (
-            <>
+            <InfoWRapper>
               <CommonTierImg
                 width={18}
                 height={18}
@@ -107,7 +128,21 @@ function RandomCard({ userInfo }) {
                 height={18}
                 src={`https://static.solved.ac/tier_small/${endTier + 1}.svg`}
               />
-            </>
+              <SwitchWrapper>
+                <span>한국어 문제만 추천 받기</span>
+                <Switch
+                  onChange={onClickKoButton}
+                  checked={isKo}
+                  checkedIcon={false}
+                  uncheckedIcon={false}
+                  width={40}
+                  height={20}
+                  onColor="#69b5f8"
+                  offColor="#d2d2d2"
+                  disabled={!isEdit}
+                />
+              </SwitchWrapper>
+            </InfoWRapper>
           )}
         </Title>
         <EditButton onClick={clickEditButton}>
