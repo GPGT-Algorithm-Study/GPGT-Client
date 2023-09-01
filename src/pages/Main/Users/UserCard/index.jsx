@@ -90,7 +90,7 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
               />
               <StreakSolved>
                 <div>
-                  <span>streak</span> &nbsp;{user.currentStreak}
+                  <span>streak</span> &nbsp;{user.maxRandomStreak}
                 </div>
                 <div>
                   <span>solved</span> &nbsp;{user.totalSolved}
