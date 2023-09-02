@@ -21,7 +21,7 @@ import { setIsBuyItem } from 'redux/item';
 /**
  * 마이페이지 포인트 현황 카드
  */
-function PointLogCard({ userInfo }) {
+function PointLogCard({ userInfo, isUser }) {
   const SIZE = 10;
   const [page, setPage] = useState(0);
   const [pointLogs, setPointLogs] = useState([]);
@@ -35,7 +35,7 @@ function PointLogCard({ userInfo }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isBuyItem) return;
+    if (!isBuyItem || !isUser) return;
     reload();
     dispatch(setIsBuyItem(false));
   }, [isBuyItem]);

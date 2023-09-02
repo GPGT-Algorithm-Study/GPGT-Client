@@ -44,8 +44,8 @@ function MyPage() {
           />
         )}
         {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
-        <PointLogCard userInfo={userInfo} />
-        <WarningLogCard userInfo={userInfo} />
+        <PointLogCard userInfo={userInfo} isUser={isUser} />
+        <WarningLogCard userInfo={userInfo} isUser={isUser} />
       </Content>
     </div>
   );

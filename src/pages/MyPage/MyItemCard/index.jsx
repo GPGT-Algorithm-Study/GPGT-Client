@@ -39,7 +39,7 @@ function MyItemCard({ userInfo, fetchUserInfo, isUser }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isBuyItem) return;
+    if (!isBuyItem || !isUser) return;
     fetchItems();
     dispatch(setIsBuyItem(false));
   }, [isBuyItem]);

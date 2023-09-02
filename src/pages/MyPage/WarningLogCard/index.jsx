@@ -22,7 +22,7 @@ import { setIsUseItem } from 'redux/item';
 /**
  * 마이페이지 경고 현황 카드
  */
-function WarningLogCard({ userInfo }) {
+function WarningLogCard({ userInfo, isUser }) {
   const SIZE = 10;
   const [page, setPage] = useState(0);
   const [warningLogs, setWarningLogs] = useState([]);
@@ -36,7 +36,7 @@ function WarningLogCard({ userInfo }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isUseItem) return;
+    if (!isUseItem || !isUser) return;
     reload();
     dispatch(setIsUseItem(false));
   }, [isUseItem]);
