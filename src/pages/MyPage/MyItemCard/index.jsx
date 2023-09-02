@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import {
   Card,
   Button,
@@ -21,11 +21,13 @@ import { getUserItems, useItem } from 'api/item';
 import ItemIcon from 'components/ItemIcon';
 import { toast } from 'react-toastify';
 import Modal from 'layouts/Modal';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsBuyItem, setIsUseItem } from 'redux/item';
 
 /**
  * 마이페이지 보유 아이템 카드
  */
-function MyItemCard({ userInfo, reload, isUser }) {
+function MyItemCard({ userInfo, fetchUserInfo, isUser }) {
   const [items, fetchItems] = useFetch(getUserItems, [], {
     bojHandle: userInfo.bojHandle,
   });
@@ -33,6 +35,14 @@ function MyItemCard({ userInfo, reload, isUser }) {
   const [comment, setComment] = useState('');
   const [commentError, setCommentError] = useState(false);
   const [commentErrorMsg, setCommentErrorMsg] = useState('');
+  const { isBuyItem } = useSelector((state) => state.item);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isBuyItem) return;
+    fetchItems();
+    dispatch(setIsBuyItem(false));
+  }, [isBuyItem]);
 
   const onCloseModal = useCallback(() => {
     setShowMyComment(false);
@@ -72,8 +82,9 @@ function MyItemCard({ userInfo, reload, isUser }) {
         const { data } = res;
         if (data.code == 200) {
           toast.success('아이템을 사용했습니다.');
-          reload();
+          fetchUserInfo();
           fetchItems();
+          dispatch(setIsUseItem(true));
         } else {
           toast.error('아이템 사용에 실패했습니다.');
         }

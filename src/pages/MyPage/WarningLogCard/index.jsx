@@ -16,6 +16,8 @@ import {
 import { isEmpty } from 'lodash';
 import useFetch from 'hooks/useFetch';
 import { getUserWarningLog } from 'api/log';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsUseItem } from 'redux/item';
 
 /**
  * 마이페이지 경고 현황 카드
@@ -30,6 +32,25 @@ function WarningLogCard({ userInfo }) {
     page,
     size: SIZE,
   });
+  const { isUseItem } = useSelector((state) => state.item);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isUseItem) return;
+    reload();
+    dispatch(setIsUseItem(false));
+  }, [isUseItem]);
+
+  const reload = useCallback(() => {
+    setPage(0);
+    setWarningLogs([]);
+    setIsEndPage(false);
+    setParams({
+      bojHandle: userInfo.bojHandle,
+      page: 0,
+      size: SIZE,
+    });
+  }, []);
 
   useEffect(() => {
     if (isEmpty(wraningLogsPaging)) {

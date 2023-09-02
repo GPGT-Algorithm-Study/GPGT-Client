@@ -31,25 +31,20 @@ function MyPage() {
     setIsBlocked(userInfo.warning == 4);
   }, [userInfo]);
 
-  const pointCardRef = useRef();
-  /**
-   * 마이페이지 모든 데이터를 다시 로드하는 함수
-   */
-  const reload = useCallback(() => {
-    fetchUserInfo();
-    console.log(pointCardRef);
-  }, []);
-
   return (
     <div>
       <Header />
       <Content>
         <MyInfoCard userInfo={userInfo} isUser={isUser} />
         {!isBlocked && (
-          <MyItemCard userInfo={userInfo} reload={reload} isUser={isUser} />
+          <MyItemCard
+            userInfo={userInfo}
+            fetchUserInfo={fetchUserInfo}
+            isUser={isUser}
+          />
         )}
         {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
-        <PointLogCard userInfo={userInfo} ref={pointCardRef} />
+        <PointLogCard userInfo={userInfo} />
         <WarningLogCard userInfo={userInfo} />
       </Content>
     </div>

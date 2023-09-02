@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import {
   Button,
   Container,
@@ -11,10 +11,12 @@ import {
 } from './style';
 import useFetch from 'hooks/useFetch';
 import { buyItem, getAllItems } from 'api/item';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import ItemIcon from 'components/ItemIcon';
 import { toast } from 'react-toastify';
 import { getUserInfo } from 'api/user';
+import { setIsBuyItem } from 'redux/item';
 
 function Store() {
   const [items] = useFetch(getAllItems, []);
@@ -24,6 +26,8 @@ function Store() {
     {},
     { bojHandle: user.bojHandle },
   );
+
+  const dispatch = useDispatch();
 
   const clickBuyButton = useCallback((itemId) => {
     const params = {
@@ -36,6 +40,7 @@ function Store() {
         if (data.code == 200) {
           toast.success('아이템을 구매했습니다.');
           fetchUserInfo();
+          dispatch(setIsBuyItem(true));
         } else {
           toast.error('아이템 구매에 실패했습니다.');
         }

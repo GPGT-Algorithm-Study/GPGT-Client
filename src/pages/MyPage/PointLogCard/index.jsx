@@ -15,6 +15,8 @@ import {
 import { isEmpty } from 'lodash';
 import useFetch from 'hooks/useFetch';
 import { getUserPointLog } from 'api/log';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsBuyItem } from 'redux/item';
 
 /**
  * 마이페이지 포인트 현황 카드
@@ -29,6 +31,14 @@ function PointLogCard({ userInfo }) {
     page,
     size: SIZE,
   });
+  const { isBuyItem } = useSelector((state) => state.item);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isBuyItem) return;
+    reload();
+    dispatch(setIsBuyItem(false));
+  }, [isBuyItem]);
 
   const reload = useCallback(() => {
     setPage(0);

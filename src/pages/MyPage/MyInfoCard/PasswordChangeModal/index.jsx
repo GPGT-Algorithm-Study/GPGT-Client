@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import Modal from 'layouts/Modal';
 import { Content, Title, Input, Button, ErrorMsg, InfoMsg } from './style';
-import { changePassword, userLogout } from 'api/user';
+import { changePassword } from 'api/user';
 import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 
 function PasswordChangeModal({ showModal, closeModal }) {
   const [pwError, setPwError] = useState(false);
@@ -16,7 +15,6 @@ function PasswordChangeModal({ showModal, closeModal }) {
 
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const onChangeNewPassword = useCallback((e) => {
     setNewPassword(e.target.value);
