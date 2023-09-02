@@ -7,8 +7,10 @@ import {
   ContentWrapper,
   Content,
   MessageContent,
-  Message,
   Writer,
+  NoticeCard,
+  Title,
+  CardWrapper,
 } from './style';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
@@ -40,15 +42,21 @@ function Main() {
       <Header />
       <Banner>
         <Board>
-          {!isEmpty(message.user) && (
-            <Message>
-              <MessageContent>"{message.message}"</MessageContent>
-              <Writer>
-                {message.user?.notionId} {message.user?.emoji},{' '}
-                {moment(message.writtenDate).format('YYYY-MM-DD')}
-              </Writer>
-            </Message>
-          )}
+          <CardWrapper>
+            {/* <NoticeCard>
+              <Title>공지 사항</Title>
+            </NoticeCard> */}
+            {!isEmpty(message.user) && (
+              <NoticeCard>
+                <Title>나의 한마디</Title>
+                <MessageContent>"{message.message}"</MessageContent>
+                <Writer>
+                  {message.user?.notionId} {message.user?.emoji},{' '}
+                  {moment(message.writtenDate).format('YYYY-MM-DD')}
+                </Writer>
+              </NoticeCard>
+            )}
+          </CardWrapper>
         </Board>
       </Banner>
       <ContentWrapper>

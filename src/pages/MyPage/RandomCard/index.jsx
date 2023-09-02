@@ -83,7 +83,8 @@ function RandomCard({ userInfo, isUser }) {
   const clickEditButton = useCallback(() => {
     if (!isEdit && !hasLevel) {
       setEndTier(4);
-    } else if (isEdit) {
+    }
+    if (isEdit) {
       const params = {
         bojHandle: userInfo.bojHandle,
         start: numToTierStr(startTier),
@@ -105,7 +106,8 @@ function RandomCard({ userInfo, isUser }) {
             toast.error(data.message);
           }
         });
-    } else {
+    }
+    if (!isEdit) {
       setIsEdit((prev) => !prev);
     }
   }, [userInfo, startTier, endTier, isKo]);

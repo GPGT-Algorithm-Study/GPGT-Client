@@ -23,7 +23,7 @@ export const RightWrapper = styled.div`
   align-items: center;
   & div {
     font-weight: bold;
-    margin: 10px 20px 10px 0px;
+    margin: 3px 20px 3px 0px;
   }
   .clickable {
     cursor: pointer;
@@ -41,4 +41,10 @@ export const HeaderWrapper = styled.div`
 
 export const ProfileImage = styled(CommonProfileImage)`
   cursor: pointer;
+`;
+
+export const Content = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--width-maxwidth);
 `;

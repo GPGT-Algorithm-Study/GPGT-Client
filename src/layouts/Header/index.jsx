@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   HeaderWrapper,
   FlexWrapper,
   RightWrapper,
   ProfileImage,
+  Content,
 } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
@@ -14,7 +15,7 @@ import { getUserInfo } from 'api/user';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
-function Header() {
+function Header({ children }) {
   const [showRecommend, setShowRecommend] = useState(false);
   const [showStore, setShowStore] = useState(false);
   const user = useSelector((state) => state.user);
@@ -34,7 +35,6 @@ function Header() {
     setShowStore(false);
   }, []);
 
-  const navigate = useNavigate();
   const onClickUserProfile = useCallback(() => {
     window.location.href = `/my-page/${user.bojHandle}`;
   }, [user]);
@@ -74,6 +74,7 @@ function Header() {
           </RightWrapper>
         </FlexWrapper>
       </HeaderWrapper>
+      <Content>{children}</Content>
       <Modal show={showRecommend} onCloseModal={onCloseModal}>
         <ProblemRecommend />
       </Modal>

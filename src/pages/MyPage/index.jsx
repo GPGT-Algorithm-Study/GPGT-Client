@@ -33,20 +33,21 @@ function MyPage() {
 
   return (
     <div>
-      <Header />
-      <Content>
-        <MyInfoCard userInfo={userInfo} isUser={isUser} />
-        {!isBlocked && (
-          <MyItemCard
-            userInfo={userInfo}
-            fetchUserInfo={fetchUserInfo}
-            isUser={isUser}
-          />
-        )}
-        {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
-        <PointLogCard userInfo={userInfo} isUser={isUser} />
-        <WarningLogCard userInfo={userInfo} isUser={isUser} />
-      </Content>
+      <Header>
+        <Content>
+          <MyInfoCard userInfo={userInfo} isUser={isUser} />
+          {!isBlocked && (
+            <MyItemCard
+              userInfo={userInfo}
+              fetchUserInfo={fetchUserInfo}
+              isUser={isUser}
+            />
+          )}
+          {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
+          <PointLogCard userInfo={userInfo} isUser={isUser} />
+          <WarningLogCard userInfo={userInfo} isUser={isUser} />
+        </Content>
+      </Header>
     </div>
   );
 }
