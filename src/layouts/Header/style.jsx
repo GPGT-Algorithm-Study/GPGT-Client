@@ -6,9 +6,10 @@ export const FlexWrapper = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
+  border-bottom: 1px solid var(--color-background);
   & div {
     font-weight: bold;
-    margin: 5px 15px 5px 15px;
+    margin: 3px 15px 3px 15px;
   }
   .clickable {
     cursor: pointer;
@@ -36,12 +37,6 @@ export const HeaderWrapper = styled.div`
   right: 0;
   background-color: rgba(255, 255, 255);
   z-index: 1000;
-`;
-
-export const Board = styled.div`
-  display: flex;
-  justify-content: center;
-  height: 20rem;
 `;
 
 export const ProfileImage = styled(CommonProfileImage)`

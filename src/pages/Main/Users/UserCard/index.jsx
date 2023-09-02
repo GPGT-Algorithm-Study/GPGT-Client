@@ -66,8 +66,10 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
               <div className="boj-handle" onClick={clickAcLogo}>
                 <img src="https://static.solved.ac/logo.svg" width={35} />
                 <span>{user.bojHandle}</span>
-                <span className="point-icon">P</span>
-                <span className="points">{user.point}</span>
+                <Point>
+                  <span className="point-icon">P</span>
+                  <span className="points">{user.point}</span>
+                </Point>
               </div>
             </div>
           </ProfileWrapper>

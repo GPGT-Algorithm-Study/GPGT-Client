@@ -5,11 +5,11 @@ export const CardWrapper = styled.div`
   flex-direction: column;
   padding-bottom: 20px;
 
-  @media all and (min-width: 1024px) {
+  @media all and (min-width: 1218px) {
     width: calc(50% - 5px);
   }
 
-  @media all and (max-width: 1024px) {
+  @media all and (max-width: 1218px) {
     width: calc(100% - 5px);
   }
 `;
