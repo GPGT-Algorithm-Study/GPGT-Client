@@ -145,7 +145,7 @@ function Layout({ children }) {
             <FlexWrapper>
               <MobileMenuIcon>
                 <RxHamburgerMenu
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: 'pointer', marginLeft: '10px' }}
                   onClick={() => {
                     setShowMobileMenu((prev) => !prev);
                   }}
