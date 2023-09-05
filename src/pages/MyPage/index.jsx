@@ -1,5 +1,5 @@
-import Header from 'layouts/Header';
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import Layout from 'layouts/Layout';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { Content } from './style';
@@ -33,7 +33,7 @@ function MyPage() {
 
   return (
     <div>
-      <Header>
+      <Layout>
         <Content>
           <MyInfoCard userInfo={userInfo} isUser={isUser} />
           {!isBlocked && (
@@ -47,7 +47,7 @@ function MyPage() {
           <PointLogCard userInfo={userInfo} isUser={isUser} />
           <WarningLogCard userInfo={userInfo} isUser={isUser} />
         </Content>
-      </Header>
+      </Layout>
     </div>
   );
 }

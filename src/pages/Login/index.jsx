@@ -54,7 +54,7 @@ function Login() {
           setTimeout(() => {
             onSilentRefresh(dispatch);
           }, JWT_EXPIRY_TIME - 3000);
-          navigate('/');
+          navigate('/home');
         })
         .catch((e) => {
           setLoginError(true);

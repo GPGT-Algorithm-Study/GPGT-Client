@@ -10,7 +10,7 @@ import {
   Button,
 } from './style';
 import { CommonTierImg } from 'style/commonStyle';
-import { WarningMsg, ProfileImage } from 'pages/Main/Users/UserCard/style';
+import { WarningMsg, ProfileImage } from 'pages/Users/UserCard/style';
 import { userLogout } from 'api/user';
 import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
 import { useDispatch } from 'react-redux';

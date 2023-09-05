@@ -1,50 +1,37 @@
 import styled from '@emotion/styled';
+import { CommonCard } from 'style/commonStyle';
 
-export const Banner = styled.div`
+export const BannerCard = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  border-bottom: 1px solid #dbdbdb;
-  background-color: white;
-  /* background-image: linear-gradient(
-    90deg,
-    rgba(222, 238, 247, 1) 0%,
-    rgba(235, 231, 245, 1) 20%,
-    rgba(249, 243, 230, 1) 38%,
-    rgba(249, 235, 239, 1) 56%,
-    rgba(249, 243, 230, 1) 74%,
-    rgba(222, 238, 247, 1) 93%
-  ); */
+  justify-content: center;
+  background-color: transparent;
+  margin: 0 0 25px 0;
+  padding: 15px 25px 15px 25px;
 `;
 
 export const Tabs = styled.div`
   display: flex;
   justify-content: start;
-  margin: -43px 0 0 30px;
+  margin: 0 0 0 30px;
   & div {
-    color: var(--color-textgrey);
+    background-color: var(--color-tag);
     text-align: center;
-    padding: 10px 15px 15px 15px;
-    width: 50px;
+    margin-right: 15px;
+    padding: 15px 25px 15px 25px;
+    border-radius: 50px;
     cursor: pointer;
     :hover {
       font-weight: bold;
-      color: black;
+      color: white;
+      background-color: var(--color-primary);
     }
   }
   .selected {
     font-weight: bold;
-    color: black;
-    border-bottom: 3px solid black;
+    color: white;
+    background-color: var(--color-primary);
   }
-`;
-
-export const Board = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: transparent;
-  margin: 80px 0 45px 0;
 `;
 
 export const ContentWrapper = styled.div`
@@ -72,14 +59,14 @@ export const MessageContent = styled.div`
 export const Writer = styled.div`
   font-size: 0.9rem;
   color: var(--color-textgrey);
+  margin-bottom: 25px;
 `;
 
-export const NoticeCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 7px;
+export const NoticeCard = styled(CommonCard)`
   padding: 12px;
-  margin: 0 10px 15px 10px;
+  margin: 0 20px 50px 20px;
+  /* color: white;
+  background-color: var(--color-primary); */
 `;
 
 export const Title = styled.div`
@@ -91,4 +78,63 @@ export const CardWrapper = styled.div`
   margin-right: auto;
   max-width: var(--width-maxwidth);
   width: 100%;
+`;
+
+export const ContentTitle = styled.div`
+  margin: 0 0 20px 30px;
+  align-items: center;
+  font-weight: bold;
+  font-size: 21px;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const Info = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: var(--color-textgrey);
+  & b {
+    font-weight: bold;
+  }
+  & div {
+    margin-right: 5px;
+  }
+`;
+
+export const UtilWrapper = styled.div`
+  margin: 30px 20px 50px 20px;
+  display: flex;
+`;
+
+export const Util = styled.div`
+  display: flex;
+  margin-right: 15px;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+`;
+
+export const UtilIcon = styled.div`
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+  background: white;
+  background-image: url(${(props) => props.url});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 50px 50px;
+  margin-bottom: 10px;
+`;
+
+export const BannerInfo = styled.div`
+  font-size: 28px;
+  & b {
+    font-weight: bold;
+  }
+  word-break: keep-all;
+  line-height: 1.5;
 `;

@@ -23,7 +23,11 @@ function ProblemResult({ problem }) {
 
   return (
     <div>
-      <Title href={`${linkPrefix}${problem.id}`}>
+      <Title
+        href={`${linkPrefix}${problem.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <CommonTierImg width={25} height={25} src={imageUrl} />
         <span>
           {problem.id}번 : {problem.title}
