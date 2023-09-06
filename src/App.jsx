@@ -6,7 +6,7 @@ import Login from 'pages/Login';
 import MyPage from 'pages/MyPage';
 import { ToastContainer, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PrivateRoute from 'components/PrivateRoute';
 import { getRefreshTokenToCookie, onSilentRefresh } from 'utils/auth';
 import { useSelector } from 'react-redux';
@@ -59,6 +59,8 @@ function App() {
           >
             <Route path="/admin" element={<Admin />} />
           </Route>
+          {/* 이 경로가 없을 때 "/home"로 리다이렉트된다 */}
+          <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer
