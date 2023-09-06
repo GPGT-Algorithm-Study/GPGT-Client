@@ -74,7 +74,7 @@ function Main() {
         <ContentTitle>공지 사항</ContentTitle>
         <NoticeCard>
           <MessageContent>
-            📣 레이아웃을 변경하여 패치하였습니다. (2023-09-05)
+            📣 레이아웃을 변경하여 패치하였습니다. (2023-09-06)
           </MessageContent>
         </NoticeCard>
       </Layout>
