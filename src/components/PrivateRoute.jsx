@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import { getRefreshTokenToCookie } from 'utils/auth';
+import { useSelector } from 'react-redux';
 
 export default function PrivateRoute({
   userAuthentication,
@@ -9,7 +10,7 @@ export default function PrivateRoute({
 }) {
   const token = getRefreshTokenToCookie();
   const isLogin = !isEmpty(token);
-  const isAdmin = false;
+  const { isAdmin } = useSelector((state) => state.user);
 
   if (userAuthentication) {
     // 사용자 인증이 반드시 필요한 페이지
