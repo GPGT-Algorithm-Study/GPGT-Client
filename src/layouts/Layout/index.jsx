@@ -1,20 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Header,
   FlexWrapper,
   RightWrapper,
   ProfileImage,
   Content,
-  Side,
   Menu,
   MenuItem,
-  MyInfo,
-  Title,
   FoldSide,
-  FoldLogo,
   FoldMyInfo,
-  MobileMenu,
   MobileMenuWrapper,
   MobileMenuIcon,
 } from './style';
@@ -32,7 +26,6 @@ import { BsBarChartFill } from 'react-icons/bs';
 import { FiLogOut } from 'react-icons/fi';
 import { BiSolidBuilding } from 'react-icons/bi';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { IoMdArrowRoundBack } from 'react-icons/io';
 import { useLocation } from 'react-router-dom';
 import { userLogout } from 'api/user';
 import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
@@ -78,12 +71,6 @@ function Layout({ children }) {
         throw new Error(e);
       });
   }, []);
-
-  let title = '';
-  if (currentTab != 'home' && tabs.hasOwnProperty(currentTab)) {
-    title = tabs[currentTab].name;
-  }
-  if (currentTab.includes('my-page')) title = '마이페이지';
 
   const [userInfo] = useFetch(getUserInfo, {}, { bojHandle: user.bojHandle });
 
@@ -223,4 +210,4 @@ function Layout({ children }) {
   );
 }
 
-export default Layout;
+export default React.memo(Layout);
