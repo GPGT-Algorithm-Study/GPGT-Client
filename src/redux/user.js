@@ -4,14 +4,17 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     bojHandle: null,
+    isAdmin: false,
   },
   reducers: {
     setUser: (state, action) => {
       state.bojHandle = action.payload.bojHandle;
+      state.isAdmin = action.payload.isAdmin;
     },
     logout: (state) => {
       state = {
         bojHandle: null,
+        isAdmin: false,
       };
     },
   },

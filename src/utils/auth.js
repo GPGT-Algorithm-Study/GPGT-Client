@@ -29,8 +29,8 @@ export function getUserBojHandle(dispatch) {
   const refreshConfig = getHeaderRefreshTokenConfing();
   parseBoj(refreshConfig)
     .then((response) => {
-      const { claim } = response.data;
-      dispatch(setUser({ bojHandle: claim }));
+      const { claim, manager } = response.data;
+      dispatch(setUser({ bojHandle: claim, isAdmin: manager }));
     })
     .catch((e) => {
       logoutProc(dispatch);
