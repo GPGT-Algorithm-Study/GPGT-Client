@@ -50,7 +50,10 @@ export const Content = styled.div`
   height: 100vh;
   overflow: scroll;
   & section {
-    padding: 0 10px 70px 10px;
+    padding: 0 10px 100px 10px;
+  }
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
   }
 `;
 

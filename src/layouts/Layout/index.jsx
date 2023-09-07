@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FlexWrapper,
@@ -20,7 +20,7 @@ import { getUserInfo } from 'api/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowRecommendModal, setShowStoreModal } from 'redux/modal';
 import { toast } from 'react-toastify';
-import { AiFillHome } from 'react-icons/ai';
+import { AiFillHome, AiFillSetting } from 'react-icons/ai';
 import { HiUsers } from 'react-icons/hi';
 import { BsBarChartFill } from 'react-icons/bs';
 import { FiLogOut } from 'react-icons/fi';
@@ -40,9 +40,10 @@ function Layout({ children }) {
   const currentTab = useLocation().pathname.slice(1);
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { isAdmin } = useSelector((state) => state.user);
 
   // 좌측 탭 목록
-  const tabs = {
+  const [tabs, setTabs] = useState({
     home: { id: 0, name: '홈', icon: <AiFillHome />, route: '/home' },
     users: { id: 1, name: '스터디원', icon: <HiUsers />, route: '/users' },
     teams: {
@@ -57,7 +58,22 @@ function Layout({ children }) {
       icon: <BsBarChartFill />,
       route: '/statistics',
     },
-  };
+  });
+
+  useEffect(() => {
+    // 관리자일 경우 관리자 탭 추가
+    if (isAdmin) {
+      setTabs((prev) => ({
+        ...prev,
+        admin: {
+          id: 4,
+          name: '관리자',
+          icon: <AiFillSetting />,
+          route: '/admin',
+        },
+      }));
+    }
+  }, [isAdmin]);
 
   const onClickLogout = useCallback(() => {
     const params = { bojHandle: user.bojHandle };
