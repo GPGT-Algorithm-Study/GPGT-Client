@@ -15,6 +15,7 @@ import {
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
+import WarningManage from 'pages/Admin/WarningManage';
 import useFetch from 'hooks/useFetch';
 import { getUserInfo } from 'api/user';
 import { useDispatch, useSelector } from 'react-redux';
@@ -233,7 +234,7 @@ function Layout({ children }) {
         <Store />
       </Modal>
       <Modal show={showWarningManageModal} onCloseModal={onCloseModal}>
-        warningManageModal
+        <WarningManage />
       </Modal>
       <Modal show={showUserManageModal} onCloseModal={onCloseModal}>
         UserManageModal

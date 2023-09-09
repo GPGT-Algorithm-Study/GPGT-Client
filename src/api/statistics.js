@@ -22,3 +22,7 @@ export function getUserSolvedStat() {
 export function getUserPointStat() {
   return axios.get(`${PREFIX_URL}/graph/point`);
 }
+
+export function getYesterdayUnsolvedUsers() {
+  return axios.get(`${PREFIX_URL}/user/yesterday-unsolved-users`);
+}

@@ -31,3 +31,13 @@ export function getUserWarningLog(params) {
 export function getAllWarningLog() {
   return axios.get(`${PREFIX_URL}/warning/all`);
 }
+
+/**
+ * bojHandle에 해당하는 사용자에게 경고를 부여/차감한다
+ * @param params { bojHandle, changedValue, description }
+ */
+export function postUserWarning(params) {
+  return axios.post(
+    `${PREFIX_URL}/warning/user/save?bojHandle=${params.bojHandle}&changedValue=${params.changedValue}&description=${params.description}`,
+  );
+}
