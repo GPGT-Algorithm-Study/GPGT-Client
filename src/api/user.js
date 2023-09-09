@@ -94,3 +94,21 @@ export function userLogout(params, config) {
 export function changePassword(params, config) {
   return axios.post(`${PREFIX_URL}/auth/pwchange`, params, config);
 }
+
+/**
+ * 새 유저를 추가
+ * @param params { bojHandle, notionId, isManager, emoji, password }
+ */
+export function addNewUser(params) {
+  return axios.put(
+    `${PREFIX_URL}/add?bojHandle=${params.bojHandle}&notionId=${params.notionId}&manager=${params.isManager}&emoji=${params.emoji}&password=${params.password}`,
+  );
+}
+
+/**
+ * params.bojHandle에 해당하는 유저 삭제
+ * @param params { bojHandle }
+ */
+export function delUser(params) {
+  return axios.delete(`${PREFIX_URL}/del?bojHandle=${params.bojHandle}`);
+}

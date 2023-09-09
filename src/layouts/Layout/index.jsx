@@ -18,7 +18,12 @@ import Store from 'pages/Store';
 import useFetch from 'hooks/useFetch';
 import { getUserInfo } from 'api/user';
 import { useDispatch, useSelector } from 'react-redux';
-import { setShowRecommendModal, setShowStoreModal } from 'redux/modal';
+import {
+  setShowRecommendModal,
+  setShowStoreModal,
+  setShowWarningManageModal,
+  setShowUserManageModal,
+} from 'redux/modal';
 import { toast } from 'react-toastify';
 import { AiFillHome, AiFillSetting } from 'react-icons/ai';
 import { HiUsers } from 'react-icons/hi';
@@ -33,9 +38,12 @@ import { CommonFlexWrapper } from 'style/commonStyle';
 
 function Layout({ children }) {
   const dispatch = useDispatch();
-  const { showStoreModal, showRecommendModal } = useSelector(
-    (state) => state.modal,
-  );
+  const {
+    showStoreModal,
+    showRecommendModal,
+    showWarningManageModal,
+    showUserManageModal,
+  } = useSelector((state) => state.modal);
   const user = useSelector((state) => state.user);
   const currentTab = useLocation().pathname.slice(1);
   const navigate = useNavigate();
@@ -101,6 +109,8 @@ function Layout({ children }) {
   const onCloseModal = useCallback(() => {
     dispatch(setShowStoreModal(false));
     dispatch(setShowRecommendModal(false));
+    dispatch(setShowWarningManageModal(false));
+    dispatch(setShowUserManageModal(false));
   }, []);
 
   const onClickUserProfile = useCallback(() => {
@@ -221,6 +231,12 @@ function Layout({ children }) {
       </Modal>
       <Modal show={showStoreModal} onCloseModal={onCloseModal}>
         <Store />
+      </Modal>
+      <Modal show={showWarningManageModal} onCloseModal={onCloseModal}>
+        warningManageModal
+      </Modal>
+      <Modal show={showUserManageModal} onCloseModal={onCloseModal}>
+        UserManageModal
       </Modal>
     </div>
   );

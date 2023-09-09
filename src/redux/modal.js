@@ -5,6 +5,8 @@ export const modalSlice = createSlice({
   initialState: {
     showStoreModal: false,
     showRecommendModal: false,
+    showWarningManageModal: false,
+    showUserManageModal: false,
   },
   reducers: {
     setShowStoreModal: (state, action) => {
@@ -13,11 +15,22 @@ export const modalSlice = createSlice({
     setShowRecommendModal: (state, action) => {
       state.showRecommendModal = action.payload;
     },
+    setShowWarningManageModal: (state, action) => {
+      state.showWarningManageModal = action.payload;
+    },
+    setShowUserManageModal: (state, action) => {
+      state.showUserManageModal = action.payload;
+    },
   },
 });
 
 // actions
-export const { setShowStoreModal, setShowRecommendModal } = modalSlice.actions;
+export const {
+  setShowStoreModal,
+  setShowRecommendModal,
+  setShowWarningManageModal,
+  setShowUserManageModal,
+} = modalSlice.actions;
 
 //reducer
 export default modalSlice.reducer;

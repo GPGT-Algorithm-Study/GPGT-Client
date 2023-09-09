@@ -23,3 +23,11 @@ export function getUserWarningLog(params) {
     `${PREFIX_URL}/warning/user/page?bojHandle=${params.bojHandle}&page=${params.page}&size=${params.size}`,
   );
 }
+
+/**
+ *
+ * 전체 사용자 경고 로그를 조회
+ */
+export function getAllWarningLog() {
+  return axios.get(`${PREFIX_URL}/warning/all`);
+}
