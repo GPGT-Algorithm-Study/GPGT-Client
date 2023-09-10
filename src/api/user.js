@@ -99,8 +99,8 @@ export function changePassword(params, config) {
  * 새 유저를 추가
  * @param params { bojHandle, notionId, isManager, emoji, password }
  */
-export function addNewUser(params) {
-  return axios.put(
+export function postNewUser(params) {
+  return axios.post(
     `${PREFIX_URL}/add?bojHandle=${params.bojHandle}&notionId=${params.notionId}&manager=${params.isManager}&emoji=${params.emoji}&password=${params.password}`,
   );
 }

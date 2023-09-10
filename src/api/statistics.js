@@ -24,5 +24,5 @@ export function getUserPointStat() {
 }
 
 export function getYesterdayUnsolvedUsers() {
-  return axios.get(`${PREFIX_URL}/user/yesterday-unsolved-users`);
+  return axios.get(`/api/v1/stat/user/yesterday-unsolved-users`);
 }
