@@ -1,5 +1,4 @@
-import Header from 'layouts/Header';
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { Content } from './style';
@@ -33,21 +32,19 @@ function MyPage() {
 
   return (
     <div>
-      <Header>
-        <Content>
-          <MyInfoCard userInfo={userInfo} isUser={isUser} />
-          {!isBlocked && (
-            <MyItemCard
-              userInfo={userInfo}
-              fetchUserInfo={fetchUserInfo}
-              isUser={isUser}
-            />
-          )}
-          {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
-          <PointLogCard userInfo={userInfo} isUser={isUser} />
-          <WarningLogCard userInfo={userInfo} isUser={isUser} />
-        </Content>
-      </Header>
+      <Content>
+        <MyInfoCard userInfo={userInfo} isUser={isUser} />
+        {!isBlocked && (
+          <MyItemCard
+            userInfo={userInfo}
+            fetchUserInfo={fetchUserInfo}
+            isUser={isUser}
+          />
+        )}
+        {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
+        <PointLogCard userInfo={userInfo} isUser={isUser} />
+        <WarningLogCard userInfo={userInfo} isUser={isUser} />
+      </Content>
     </div>
   );
 }

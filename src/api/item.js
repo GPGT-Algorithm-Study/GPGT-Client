@@ -41,8 +41,8 @@ export function useItem(params) {
 }
 
 /**
- *
+ * 유저가 남긴 가장 최근 나의 한마디를 조회한다.
  */
 export function getLastComment() {
-  return axios.get('api/v1/boolshit/last');
+  return axios.get('api/v2/boolshit/last');
 }

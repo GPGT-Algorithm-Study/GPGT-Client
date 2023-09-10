@@ -20,7 +20,7 @@ export const CreateModal = styled.div`
       0 4px 12px 0 rgba(0, 0, 0, 0.12);
     border-radius: 6px;
     user-select: none;
-    max-width: 480px;
+    max-width: 620px;
     padding: 30px 40px 30px;
     z-index: 1012;
     position: relative;

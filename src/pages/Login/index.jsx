@@ -47,14 +47,16 @@ function Login() {
           const { data } = response;
           const { accessToken, refreshToken } = data.jwt;
           axios.defaults.headers.common['Access_Token'] = accessToken;
-          dispatch(setUser({ bojHandle: data.bojHandle }));
+          dispatch(
+            setUser({ bojHandle: data.bojHandle, isAdmin: data.manager }),
+          );
           // 리프레쉬 토큰 저장
           setRefreshTokenToCookie(refreshToken);
           // 액세스 토큰 만료 3초전에 재발급
           setTimeout(() => {
             onSilentRefresh(dispatch);
           }, JWT_EXPIRY_TIME - 3000);
-          navigate('/');
+          navigate('/home');
         })
         .catch((e) => {
           setLoginError(true);
@@ -67,7 +69,7 @@ function Login() {
   return (
     <LoginWrapper>
       <LogoWrapper>
-        <img width="180" src={process.env.PUBLIC_URL + '/HeaderLogo.svg'} />
+        <img width="180" src={process.env.PUBLIC_URL + '/header_logo.svg'} />
       </LogoWrapper>
       <form onSubmit={loginProc}>
         <Input onChange={changeId} value={id} placeholder="ID" />

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ScrollButton, StreakWrapper } from './style';
 import moment from 'moment';
 import StreakIcon from './StreakIcon';
@@ -7,7 +7,6 @@ import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import useScroll from 'hooks/useScroll';
 
 function Streak({ randomStreak, maxStreak, line, width, height }) {
-  const refArr = [...Array(maxStreak)].map((_) => useRef());
   const [hoveringStreakIdx, setHoveringStreakIdx] = useState(-1);
   const [streakList, setStreakList] = useState([]);
   const [
@@ -62,7 +61,8 @@ function Streak({ randomStreak, maxStreak, line, width, height }) {
   return (
     <StreakWrapper>
       <ScrollButton
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           handleNextButtonClick('prev');
         }}
         onMouseOver={() => setArrowHovering('prev', true)}
@@ -77,7 +77,8 @@ function Streak({ randomStreak, maxStreak, line, width, height }) {
         )}
       </ScrollButton>
       <ScrollButton
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           handleNextButtonClick('next');
         }}
         onMouseOver={() => setArrowHovering('next', true)}
@@ -96,7 +97,6 @@ function Streak({ randomStreak, maxStreak, line, width, height }) {
           {streakList.map((streak, i) => (
             <React.Fragment key={`${streak.date}-fragment`}>
               <StreakIcon
-                ref={refArr[i]}
                 isHovering={hoveringStreakIdx == i}
                 onMouseEnter={() => {
                   setHoveringStreakIdx(i);

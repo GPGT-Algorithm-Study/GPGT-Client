@@ -1,80 +1,80 @@
-import React, { useCallback, useState } from 'react';
-import Header from 'layouts/Header';
+import React from 'react';
+import { isEmpty } from 'lodash';
 import {
-  Banner,
-  Tabs,
-  Board,
-  ContentWrapper,
-  Content,
+  BannerCard,
   MessageContent,
   Writer,
   NoticeCard,
-  Title,
-  CardWrapper,
+  ContentTitle,
+  UtilWrapper,
+  Util,
+  UtilIcon,
+  BannerInfo,
 } from './style';
-import { isEmpty } from 'lodash';
 import moment from 'moment';
-import Users from './Users';
-import Teams from './Teams';
-import Statistics from './Statistics';
 import useFetch from 'hooks/useFetch';
 import { getLastComment } from 'api/item';
+import { useDispatch } from 'react-redux';
+import { setShowRecommendModal, setShowStoreModal } from 'redux/modal';
 
 /**
  * 메인 화면
  */
 function Main() {
-  const tabs = {
-    Users: { id: 1, name: 'Users', content: <Users /> },
-    Teams: { id: 2, name: 'Teams', content: <Teams /> },
-    Statistics: { id: 3, name: '통계', content: <Statistics /> },
-  };
-
+  const dispatch = useDispatch();
+  // 유틸 기능 목록
+  const utils = [
+    {
+      id: 1,
+      name: '문제 추천',
+      iconUrl: `${process.env.PUBLIC_URL}/recommend_icon.svg`,
+      clickListener: () => {
+        dispatch(setShowRecommendModal(true));
+      },
+    },
+    {
+      id: 2,
+      name: '상점',
+      iconUrl: `${process.env.PUBLIC_URL}/store_icon.svg`,
+      clickListener: () => {
+        dispatch(setShowStoreModal(true));
+      },
+    },
+  ];
   const [message] = useFetch(getLastComment, '');
-  const [currentTab, setCurrentTab] = useState(tabs.Users);
-
-  const onClickTab = useCallback((key) => {
-    setCurrentTab(tabs[key]);
-  }, []);
 
   return (
     <div>
-      <Header />
-      <Banner>
-        <Board>
-          <CardWrapper>
-            {/* <NoticeCard>
-              <Title>공지 사항</Title>
-            </NoticeCard> */}
-            {!isEmpty(message.user) && (
-              <NoticeCard>
-                <Title>나의 한마디</Title>
-                <MessageContent>"{message.message}"</MessageContent>
-                <Writer>
-                  {message.user?.notionId} {message.user?.emoji},{' '}
-                  {moment(message.writtenDate).format('YYYY-MM-DD')}
-                </Writer>
-              </NoticeCard>
-            )}
-          </CardWrapper>
-        </Board>
-      </Banner>
-      <ContentWrapper>
-        <Tabs>
-          {Object.keys(tabs).map((key) => (
-            <div
-              key={key}
-              className={currentTab.id === tabs[key].id ? 'selected' : ''}
-              onClick={() => {
-                onClickTab(key);
-              }}
-            >
-              {tabs[key].name}
-            </div>
-          ))}
-        </Tabs>
-        <Content>{currentTab.content}</Content>
-      </ContentWrapper>
+      <BannerCard>
+        <BannerInfo>
+          <b>좋은사람 좋은시간</b>
+          <br />
+          알고리즘 스터디입니다.
+        </BannerInfo>
+        {!isEmpty(message.notionId) && (
+          <div>
+            <MessageContent>"{message.message}"</MessageContent>
+            <Writer>
+              {message.notionId} {message.emoji},{' '}
+              {moment(message.writtenDate).format('YYYY-MM-DD')}
+            </Writer>
+          </div>
+        )}
+      </BannerCard>
+      <UtilWrapper>
+        {utils.map((util) => (
+          <Util key={util.id} onClick={util.clickListener}>
+            <UtilIcon url={util.iconUrl}></UtilIcon>
+            <div> {util.name} </div>
+          </Util>
+        ))}
+      </UtilWrapper>
+      <ContentTitle>공지 사항</ContentTitle>
+      <NoticeCard>
+        <MessageContent>
+          📣 레이아웃을 변경하여 패치하였습니다. (2023-09-06)
+        </MessageContent>
+      </NoticeCard>
     </div>
   );
 }
