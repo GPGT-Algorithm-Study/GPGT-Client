@@ -4,7 +4,6 @@ import TeamCard from './TeamCard';
 import ScoreCard from './ScoreCard';
 import { TeamWrapper, CardWrapper } from './style';
 import { getAllTeams } from 'api/team';
-import Layout from 'layouts/Layout';
 import LeftTime from 'components/LeftTime';
 import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
 /**
@@ -20,7 +19,7 @@ function Teams() {
   }, [teamInfo]);
 
   return (
-    <Layout>
+    <div>
       <CommonFlexWrapper>
         <CommonTitle>팀</CommonTitle>
         <LeftTime />
@@ -33,7 +32,7 @@ function Teams() {
           </CardWrapper>
         ))}
       </TeamWrapper>
-    </Layout>
+    </div>
   );
 }
 
