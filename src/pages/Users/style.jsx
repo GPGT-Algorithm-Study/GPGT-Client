@@ -5,8 +5,11 @@ export const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 20px;
+  @media all and (min-width: 1440px) {
+    width: calc(25% - 1px);
+  }
 
-  @media all and (min-width: 1180px) {
+  @media all and (min-width: 1180px) and (max-width: 1440px) {
     width: calc(33% - 1px);
   }
 
@@ -21,7 +24,6 @@ export const CardWrapper = styled.div`
 
 export const UserInfoWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
 `;
 

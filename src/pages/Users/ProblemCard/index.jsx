@@ -16,9 +16,11 @@ import { CommonTierImg } from 'style/commonStyle';
  */
 function ProblemCard({ user }) {
   // 유저의 오늘 푼 문제들
-  const [problems] = useFetch(getUserTodaySolvedProblems, [], {
-    bojHandle: user.bojHandle,
-  });
+  // const [problems] = useFetch(getUserTodaySolvedProblems, [], {
+  //   bojHandle: user.bojHandle,
+  // });
+
+  const problems = [{ problemId: 0, title: '아레나 문제', tier: 0 }];
 
   return (
     <>
@@ -37,18 +39,21 @@ function ProblemCard({ user }) {
                   height="20"
                 />
                 <p>
-                  {problem.problemId}번 : {problem.title}
+                  {problem.problemId != 0 && `${problem.problemId}번 : `}
+                  {problem.title}
                 </p>
               </ProblemTitle>
-              <ProblemWrapper>
-                <TagWrapper>
-                  {problem.tags &&
-                    problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
-                </TagWrapper>
-                <TagWrapper>
-                  <LanguageTag>{problem.language}</LanguageTag>
-                </TagWrapper>
-              </ProblemWrapper>
+              {problem.problemId != 0 && (
+                <ProblemWrapper>
+                  <TagWrapper>
+                    {problem.tags &&
+                      problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
+                  </TagWrapper>
+                  <TagWrapper>
+                    <LanguageTag>{problem.language}</LanguageTag>
+                  </TagWrapper>
+                </ProblemWrapper>
+              )}
             </a>
           </Card>
         ))}

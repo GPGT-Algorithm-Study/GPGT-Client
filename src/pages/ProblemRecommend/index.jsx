@@ -8,7 +8,6 @@ import {
   Input,
   Slider,
   Form,
-  Button,
   Label,
   Title,
   ButtonWrapper,
@@ -18,7 +17,7 @@ import {
   SwitchWrapper,
   SettingWrapper,
 } from './style';
-import { CommonTierImg } from 'style/commonStyle';
+import { CommonTierImg, CommonButton } from 'style/commonStyle';
 
 /**
  * 문제 추천 화면
@@ -160,7 +159,7 @@ function ProblemRecommend() {
               uncheckedIcon={false}
               width={40}
               height={20}
-              onColor="#69b5f8"
+              onColor="#3362c5"
               offColor="#d2d2d2"
               className="switch"
             />
@@ -174,7 +173,7 @@ function ProblemRecommend() {
               uncheckedIcon={false}
               width={40}
               height={20}
-              onColor="#69b5f8"
+              onColor="#3362c5"
               offColor="#d2d2d2"
             />
           </SwitchWrapper>
@@ -221,7 +220,7 @@ function ProblemRecommend() {
           />
         </div>
         <ButtonWrapper>
-          <Button>추천 받기</Button>
+          <CommonButton primary>추천 받기</CommonButton>
         </ButtonWrapper>
       </Form>
 
