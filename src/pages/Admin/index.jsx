@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { getYesterdayUnsolvedUsers } from 'api/statistics';
 import useFetch from 'hooks/useFetch';
 import YesterdayUnsolved from './YesterdayUnsolved';
+import UserManageList from './UserManageList';
 
 /**
  * 오늘 날짜에서 i번째 이전 날짜를 반환한다.
@@ -58,6 +59,7 @@ function Admin() {
         ))}
       </UtilWrapper>
       <YesterdayUnsolved />
+      <UserManageList />
     </div>
   );
 }

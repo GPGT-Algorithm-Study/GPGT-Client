@@ -29,46 +29,31 @@ function YesterdayUnsolved() {
       emoji: '🚀',
     },
     {
-      bojHandle: 'seoheo',
-      notionId: 'SY Heo',
+      bojHandle: 'fin',
+      notionId: '성민',
       profileImg:
-        'https://static.solved.ac/uploads/profile/seoheo-picture-1679724776174.png',
-      emoji: '🚀',
+        'https://static.solved.ac/uploads/profile/fin-picture-1665752455693.png',
+      emoji: '🍟',
     },
     {
-      bojHandle: 'seoheo',
-      notionId: 'SY Heo',
+      bojHandle: 'asdf016182',
+      notionId: 'klloo',
       profileImg:
-        'https://static.solved.ac/uploads/profile/seoheo-picture-1679724776174.png',
-      emoji: '🚀',
+        'https://static.solved.ac/uploads/profile/asdf016182-picture-1683285947529.png',
+      emoji: '🏖️',
     },
     {
-      bojHandle: 'seoheo',
-      notionId: 'SY Heo',
+      bojHandle: 'hdaisywd',
+      notionId: 'Dahee Hong',
       profileImg:
-        'https://static.solved.ac/uploads/profile/seoheo-picture-1679724776174.png',
-      emoji: '🚀',
+        'https://static.solved.ac/uploads/profile/hdaisywd-picture-1688838721986.png',
+      emoji: '☃️',
     },
     {
-      bojHandle: 'seoheo',
-      notionId: 'SY Heo',
-      profileImg:
-        'https://static.solved.ac/uploads/profile/seoheo-picture-1679724776174.png',
-      emoji: '🚀',
-    },
-    {
-      bojHandle: 'seoheo',
-      notionId: 'SY Heo',
-      profileImg:
-        'https://static.solved.ac/uploads/profile/seoheo-picture-1679724776174.png',
-      emoji: '🚀',
-    },
-    {
-      bojHandle: 'seoheo',
-      notionId: 'SY Heo',
-      profileImg:
-        'https://static.solved.ac/uploads/profile/seoheo-picture-1679724776174.png',
-      emoji: '🚀',
+      bojHandle: 'testUser',
+      notionId: 'testUser',
+      profileImg: 'null',
+      emoji: '😊',
     },
   ];
   const [

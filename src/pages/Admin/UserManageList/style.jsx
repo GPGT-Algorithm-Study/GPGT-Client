@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { CommonCard } from 'style/commonStyle';
+import { CommonCard, CommonButton } from 'style/commonStyle';
 export const Card = styled(CommonCard)`
   position: relative;
   flex-wrap: nowrap;
@@ -21,6 +21,13 @@ export const Content = styled.div`
   display: flex;
 `;
 
+export const VerticalUserListWrapper = styled.div`
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
 export const User = styled.div`
   width: 130px;
   display: flex;
@@ -36,7 +43,7 @@ export const User = styled.div`
 `;
 
 export const Title = styled.div`
-  position: relative;
+  position: sticky;
   top: 0;
   left: 0;
   font-weight: bold;
@@ -57,4 +64,21 @@ export const ScrollButton = styled.button`
   & div {
     color: #b6b6b6;
   }
+`;
+
+export const Button = styled(CommonButton)`
+  text-align: center;
+  height: 10px;
+  width: 40px;
+  background-color: ${(props) => (props.isAdd ? 'green' : 'crimson')};
+  color: white;
+  font-size: 1px;
+  font-weight: hard;
+  margin-right: 20px;
+`;
+
+export const UserItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 20px;
 `;
