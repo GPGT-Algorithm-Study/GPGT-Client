@@ -23,7 +23,7 @@ import {
   setShowRecommendModal,
   setShowStoreModal,
   setShowWarningManageModal,
-  setShowUserManageModal,
+  setShowPointManageModal,
 } from 'redux/modal';
 import { toast } from 'react-toastify';
 import { AiFillHome, AiFillSetting } from 'react-icons/ai';
@@ -44,7 +44,7 @@ function Layout({ children }) {
     showStoreModal,
     showRecommendModal,
     showWarningManageModal,
-    showUserManageModal,
+    showPointManageModal,
   } = useSelector((state) => state.modal);
   const user = useSelector((state) => state.user);
   const currentTab = useLocation().pathname.slice(1).split('/')[0];
@@ -118,7 +118,7 @@ function Layout({ children }) {
     dispatch(setShowStoreModal(false));
     dispatch(setShowRecommendModal(false));
     dispatch(setShowWarningManageModal(false));
-    dispatch(setShowUserManageModal(false));
+    dispatch(setShowPointManageModal(false));
   }, []);
 
   const onClickUserProfile = useCallback(() => {
@@ -243,8 +243,8 @@ function Layout({ children }) {
       <Modal show={showWarningManageModal} onCloseModal={onCloseModal}>
         <WarningManage />
       </Modal>
-      <Modal show={showUserManageModal} onCloseModal={onCloseModal}>
-        UserManageModal
+      <Modal show={showPointManageModal} onCloseModal={onCloseModal}>
+        PointManageModal
       </Modal>
     </div>
   );

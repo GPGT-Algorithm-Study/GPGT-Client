@@ -1,6 +1,9 @@
 import Layout from 'layouts/Layout';
 import React from 'react';
-import { setShowWarningManageModal, setShowUserManageModal } from 'redux/modal';
+import {
+  setShowWarningManageModal,
+  setShowPointManageModal,
+} from 'redux/modal';
 import { UtilWrapper, Util, UtilIcon } from 'pages/Main/style';
 import { useDispatch } from 'react-redux';
 import { getYesterdayUnsolvedUsers } from 'api/statistics';
@@ -35,17 +38,17 @@ function Admin() {
     },
     {
       id: 2,
-      name: '유저 추가/삭제',
+      name: '포인트 관리',
       iconUrl: `${process.env.PUBLIC_URL}/recommend_icon.svg`,
       clickListener: () => {
-        dispatch(setShowUserManageModal(true));
+        dispatch(setShowPointManageModal(true));
       },
     },
   ];
   const [yesterdayUnsolvedUsers] = useFetch(getYesterdayUnsolvedUsers, []);
 
   return (
-    <Layout>
+    <div>
       <UtilWrapper>
         {utils.map((util) => (
           <Util key={util.id} onClick={util.clickListener}>
@@ -54,8 +57,8 @@ function Admin() {
           </Util>
         ))}
       </UtilWrapper>
-      <YesterdayUnsolved></YesterdayUnsolved>
-    </Layout>
+      <YesterdayUnsolved />
+    </div>
   );
 }
 
