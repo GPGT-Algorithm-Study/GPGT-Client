@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import {
-  Button,
   Container,
   ItemWrapper,
   Title,
@@ -9,6 +8,7 @@ import {
   Point,
   Description,
 } from './style';
+import { CommonButton } from 'style/commonStyle';
 import useFetch from 'hooks/useFetch';
 import { buyItem, getAllItems } from 'api/item';
 import { useDispatch } from 'react-redux';
@@ -74,13 +74,13 @@ function Store() {
             <Point>
               {item.itemValue} <span>P</span>
             </Point>
-            <Button
+            <CommonButton
               onClick={() => {
                 clickBuyButton(item.id);
               }}
             >
               구매하기
-            </Button>
+            </CommonButton>
           </Item>
         ))}
       </ItemWrapper>

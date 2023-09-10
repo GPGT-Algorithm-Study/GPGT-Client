@@ -46,7 +46,7 @@ function Users() {
   }, [users]);
 
   return (
-    <Layout>
+    <div>
       <CommonFlexWrapper>
         <CommonTitle>스터디원</CommonTitle>
         <LeftTime />
@@ -75,7 +75,7 @@ function Users() {
             }
           })}
       </UserInfoWrapper>
-    </Layout>
+    </div>
   );
 }
 

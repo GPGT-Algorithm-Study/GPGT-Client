@@ -30,8 +30,9 @@ import { AiFillHome, AiFillSetting } from 'react-icons/ai';
 import { HiUsers } from 'react-icons/hi';
 import { BsBarChartFill } from 'react-icons/bs';
 import { FiLogOut } from 'react-icons/fi';
-import { BiSolidBuilding } from 'react-icons/bi';
+import { LuSwords } from 'react-icons/lu';
 import { RxHamburgerMenu } from 'react-icons/rx';
+import { FaClipboardList } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { userLogout } from 'api/user';
 import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
@@ -46,7 +47,7 @@ function Layout({ children }) {
     showUserManageModal,
   } = useSelector((state) => state.modal);
   const user = useSelector((state) => state.user);
-  const currentTab = useLocation().pathname.slice(1);
+  const currentTab = useLocation().pathname.slice(1).split('/')[0];
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const { isAdmin } = useSelector((state) => state.user);
@@ -58,7 +59,7 @@ function Layout({ children }) {
     teams: {
       id: 2,
       name: '팀',
-      icon: <BiSolidBuilding />,
+      icon: <LuSwords />,
       route: '/teams',
     },
     statistics: {
@@ -66,6 +67,12 @@ function Layout({ children }) {
       name: '통계',
       icon: <BsBarChartFill />,
       route: '/statistics',
+    },
+    board: {
+      id: 4,
+      name: '게시판',
+      icon: <FaClipboardList />,
+      route: '/board',
     },
   });
 
@@ -75,7 +82,7 @@ function Layout({ children }) {
       setTabs((prev) => ({
         ...prev,
         admin: {
-          id: 4,
+          id: 5,
           name: '관리자',
           icon: <AiFillSetting />,
           route: '/admin',

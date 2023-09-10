@@ -1,4 +1,3 @@
-import Layout from 'layouts/Layout';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
@@ -33,21 +32,19 @@ function MyPage() {
 
   return (
     <div>
-      <Layout>
-        <Content>
-          <MyInfoCard userInfo={userInfo} isUser={isUser} />
-          {!isBlocked && (
-            <MyItemCard
-              userInfo={userInfo}
-              fetchUserInfo={fetchUserInfo}
-              isUser={isUser}
-            />
-          )}
-          {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
-          <PointLogCard userInfo={userInfo} isUser={isUser} />
-          <WarningLogCard userInfo={userInfo} isUser={isUser} />
-        </Content>
-      </Layout>
+      <Content>
+        <MyInfoCard userInfo={userInfo} isUser={isUser} />
+        {!isBlocked && (
+          <MyItemCard
+            userInfo={userInfo}
+            fetchUserInfo={fetchUserInfo}
+            isUser={isUser}
+          />
+        )}
+        {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
+        <PointLogCard userInfo={userInfo} isUser={isUser} />
+        <WarningLogCard userInfo={userInfo} isUser={isUser} />
+      </Content>
     </div>
   );
 }

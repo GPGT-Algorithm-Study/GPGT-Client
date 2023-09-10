@@ -144,7 +144,8 @@ const baseStyle = css`
     --color-point: #3362c5;
     --color-teamsun: #fff1f1;
     --color-teammoon: #fff8e7;
-    --color-toggle: #69b5f8;
+    --color-toggle: #3362c5;
+    --color-freeze: #69b5f8;
     --color-border: #dfdfdf;
     --color-team1: #ffd643;
     --color-team0: #ff6c6c;

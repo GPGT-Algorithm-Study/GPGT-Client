@@ -44,9 +44,9 @@ export const ProfileImage = styled(CommonProfileImage)`
 `;
 
 export const Content = styled.div`
-  margin-left: auto;
+  /* margin-left: auto;
   margin-right: auto;
-  max-width: var(--width-maxwidth);
+  max-width: var(--width-maxwidth); */
   height: 100vh;
   overflow: scroll;
   & section {
