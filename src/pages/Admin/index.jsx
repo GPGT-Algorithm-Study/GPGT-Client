@@ -5,6 +5,7 @@ import { UtilWrapper, Util, UtilIcon } from 'pages/Main/style';
 import { useDispatch } from 'react-redux';
 import { getYesterdayUnsolvedUsers } from 'api/statistics';
 import useFetch from 'hooks/useFetch';
+import YesterdayUnsolved from './YesterdayUnsolved';
 
 /**
  * 오늘 날짜에서 i번째 이전 날짜를 반환한다.
@@ -53,13 +54,7 @@ function Admin() {
           </Util>
         ))}
       </UtilWrapper>
-      <div align="left">
-        --- 어제 안 푼 사람들 ---
-        {yesterdayUnsolvedUsers &&
-          yesterdayUnsolvedUsers.map((user) => {
-            return <div>{user.id}</div>;
-          })}
-      </div>
+      <YesterdayUnsolved></YesterdayUnsolved>
     </Layout>
   );
 }

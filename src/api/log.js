@@ -41,3 +41,13 @@ export function postUserWarning(params) {
     `${PREFIX_URL}/warning/user/save?bojHandle=${params.bojHandle}&changedValue=${params.changedValue}&description=${params.description}`,
   );
 }
+
+/**
+ * bojHandle에 해당하는 사용자에게 포인트를 부여/차감한다
+ * @param params { bojHandle, changedValue, description }
+ */
+export function postUserPoint(params) {
+  return axios.post(
+    `${PREFIX_URL}/point/user/save?bojHandle=${params.bojHandle}&changedValue=${params.changedValue}&description=${params.description}`,
+  );
+}
