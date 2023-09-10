@@ -14,6 +14,8 @@ import {
   IconWrapper,
   UserInfoWrapper,
   CardWrapper,
+  VerticalUserListWrapper,
+  UserItem,
 } from './style';
 
 function WarningManage() {
@@ -22,16 +24,16 @@ function WarningManage() {
   return (
     <div>
       <Title>경고 부여/차감</Title>
-      <div align="left">
-        {users &&
-          users.map((user) => {
-            return (
-              <div>
-                {user.notionId} : 경고={user.warning}
-              </div>
-            );
-          })}
-      </div>
+      <VerticalUserListWrapper>
+        {users.map((user) => (
+          <UserItem key={user.notionId}>
+            <input type="checkbox"></input>
+            {user.notionId} {user.emoji} : 경고 {user.warning}회. 포인트{' '}
+            {user.point}.{' '}
+            {user.isYesterdaySolved ? '어제 안 풀었음' : '어제 풀었음'}
+          </UserItem>
+        ))}
+      </VerticalUserListWrapper>
     </div>
   );
 }

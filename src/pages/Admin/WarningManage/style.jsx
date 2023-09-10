@@ -34,7 +34,7 @@ export const Title = styled.div`
   justify-content: space-between;
   align-items: center;
   font-weight: bold;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   & div {
     display: flex;
     align-items: center;
@@ -99,4 +99,17 @@ export const UserInfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+`;
+
+export const VerticalUserListWrapper = styled.div`
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+export const UserItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 2px;
 `;
