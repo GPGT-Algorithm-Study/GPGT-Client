@@ -24,9 +24,38 @@ import {
 function WarningManage() {
   const [users] = useFetch(getAllUsers, []);
   const [sortedUsers, setSortedUsers] = useState([]);
+  const [isPlusMode, setIsPlusMode] = useState(true);
   return (
     <div>
-      <Title>경고 부여/차감</Title>
+      <Title>
+        경고 {isPlusMode ? '부여' : '차감'}
+        <fieldset>
+          <legend>
+            <label>
+              <input
+                type="radio"
+                placeholder="부여"
+                onChange={() => {
+                  setIsPlusMode(true);
+                }}
+                checked={isPlusMode}
+              ></input>
+              부여
+            </label>
+            <label>
+              <input
+                type="radio"
+                placeholder="차감"
+                onChange={() => {
+                  setIsPlusMode(false);
+                }}
+                checked={!isPlusMode}
+              ></input>
+              차감
+            </label>
+          </legend>
+        </fieldset>
+      </Title>
       <VerticalUserListWrapper>
         {users.map((user) => (
           <UserItem key={user.notionId}>
@@ -41,10 +70,17 @@ function WarningManage() {
         <form>
           <input
             type="text"
-            placeholder="경고 부여 사유 입력..."
+            placeholder={
+              isPlusMode ? '경고 부여 사유 입력...' : '경고 차감 사유 입력...'
+            }
             style={{ width: '100%', height: '30px', marginBottom: '10px' }}
           ></input>
-          <Button type="submit">경고 부여</Button>
+          <Button
+            type="submit"
+            style={{ backgroundColor: isPlusMode ? 'crimson' : 'royalblue' }}
+          >
+            {isPlusMode ? '경고 부여' : '경고 차감'}
+          </Button>
         </form>
       </div>
     </div>
