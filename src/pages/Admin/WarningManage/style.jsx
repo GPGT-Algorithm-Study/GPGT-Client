@@ -126,29 +126,3 @@ export const Button = styled(CommonButton)`
   font-size: 1px;
   font-weight: hard;
 `;
-
-export const FormWrapper = styled.div`
-  align: center;
-`;
-
-export const SwitchWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  color: var(--color-textgrey);
-  font-size: 0.8rem;
-  font-weight: bold;
-  & div {
-    margin-right: 5px;
-  }
-  .switch {
-    margin-right: 20px;
-  }
-  @media all and (max-width: ${MAX_WIDTH}) {
-    margin-top: 15px;
-    align-self: start;
-  }
-`;
-
-export const Slider = styled(RcSlider)`
-  margin-top: 15px;
-`;

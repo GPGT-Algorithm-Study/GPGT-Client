@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FormWrapper, Title, UserItem, VerticalUserListWrapper } from './style';
 import useFetch from 'hooks/useFetch';
 import { getAllUsers } from 'api/user';
+import { Button } from './style';
 
 function PointManage() {
   const [isPlusMode, setIsPlusMode] = useState(true);
@@ -40,10 +41,30 @@ function PointManage() {
       <VerticalUserListWrapper>
         {users.map((user) => (
           <UserItem id={user.notionId}>
-            {user.emoji} {user.notionId}
+            <input type="number" style={{ width: '25px' }}></input>
+            {user.emoji} {user.notionId}. 보유중인 포인트:{user.point}
           </UserItem>
         ))}
       </VerticalUserListWrapper>
+      <div align="center">
+        <form>
+          <input
+            type="text"
+            placeholder={
+              isPlusMode
+                ? '포인트 부여 사유 입력...'
+                : '포인트 차감 사유 입력...'
+            }
+            style={{ width: '100%', height: '30px', marginBottom: '10px' }}
+          ></input>
+          <Button
+            type="submit"
+            style={{ backgroundColor: isPlusMode ? 'royalblue' : 'crimson' }}
+          >
+            {isPlusMode ? '포인트 부여' : '포인트 차감'}
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

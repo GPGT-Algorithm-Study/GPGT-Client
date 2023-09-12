@@ -3,6 +3,7 @@ import RcSlider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { CommonProfileImage } from 'style/commonStyle';
 import { CommonCard } from 'style/commonStyle';
+import { CommonButton } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   padding: 20px 20px 0 20px;
@@ -103,20 +104,30 @@ export const UserInfoWrapper = styled.div`
 
 export const VerticalUserListWrapper = styled.div`
   padding: 5px;
-  height: 30rem;
+  height: 25rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   overflow-y: auto;
+  margin-bottom: 30px;
 `;
 
 export const UserItem = styled.div`
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 2px;
 `;
 
 export const FormWrapper = styled.div`
   display: flex;
   align-items: flex-start;
+`;
+
+export const Button = styled(CommonButton)`
+  text-align: center;
+  height: 10px;
+  width: 50px;
+  color: white;
+  font-size: 1px;
+  font-weight: hard;
 `;
