@@ -15,16 +15,10 @@ import {
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
-import WarningManage from 'pages/Admin/WarningManage';
 import useFetch from 'hooks/useFetch';
 import { getUserInfo } from 'api/user';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setShowRecommendModal,
-  setShowStoreModal,
-  setShowWarningManageModal,
-  setShowPointManageModal,
-} from 'redux/modal';
+import { setShowRecommendModal, setShowStoreModal } from 'redux/modal';
 import { toast } from 'react-toastify';
 import { AiFillHome, AiFillSetting } from 'react-icons/ai';
 import { HiUsers } from 'react-icons/hi';
@@ -40,12 +34,9 @@ import { CommonFlexWrapper } from 'style/commonStyle';
 
 function Layout({ children }) {
   const dispatch = useDispatch();
-  const {
-    showStoreModal,
-    showRecommendModal,
-    showWarningManageModal,
-    showPointManageModal,
-  } = useSelector((state) => state.modal);
+  const { showStoreModal, showRecommendModal } = useSelector(
+    (state) => state.modal,
+  );
   const user = useSelector((state) => state.user);
   const currentTab = useLocation().pathname.slice(1).split('/')[0];
   const navigate = useNavigate();
@@ -117,8 +108,6 @@ function Layout({ children }) {
   const onCloseModal = useCallback(() => {
     dispatch(setShowStoreModal(false));
     dispatch(setShowRecommendModal(false));
-    dispatch(setShowWarningManageModal(false));
-    dispatch(setShowPointManageModal(false));
   }, []);
 
   const onClickUserProfile = useCallback(() => {
@@ -239,12 +228,6 @@ function Layout({ children }) {
       </Modal>
       <Modal show={showStoreModal} onCloseModal={onCloseModal}>
         <Store />
-      </Modal>
-      <Modal show={showWarningManageModal} onCloseModal={onCloseModal}>
-        <WarningManage />
-      </Modal>
-      <Modal show={showPointManageModal} onCloseModal={onCloseModal}>
-        PointManageModal
       </Modal>
     </div>
   );
