@@ -3,6 +3,7 @@ import { getAllUsers } from 'api/user';
 import useFetch from 'hooks/useFetch';
 import { useState } from 'react';
 import { isEmpty } from 'lodash';
+import Switch from 'react-switch';
 import {
   Title,
   Card,
@@ -16,6 +17,8 @@ import {
   CardWrapper,
   VerticalUserListWrapper,
   UserItem,
+  Button,
+  SwitchWrapper,
 } from './style';
 
 function WarningManage() {
@@ -34,6 +37,16 @@ function WarningManage() {
           </UserItem>
         ))}
       </VerticalUserListWrapper>
+      <div align="center">
+        <form>
+          <input
+            type="text"
+            placeholder="경고 부여 사유 입력..."
+            style={{ width: '100%', height: '30px', marginBottom: '10px' }}
+          ></input>
+          <Button type="submit">경고 부여</Button>
+        </form>
+      </div>
     </div>
   );
 }

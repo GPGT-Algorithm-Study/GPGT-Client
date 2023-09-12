@@ -6,6 +6,7 @@ import useFetch from 'hooks/useFetch';
 import YesterdayUnsolved from './YesterdayUnsolved';
 import UserManageList from './UserManageList';
 import WarningManage from './WarningManage';
+import PointManage from './PointManage';
 import Modal from 'layouts/Modal';
 
 function Admin() {
@@ -51,7 +52,7 @@ function Admin() {
         <WarningManage />
       </Modal>
       <Modal show={showPointManageModal} onCloseModal={onCloseModal}>
-        PointManageModal
+        <PointManage />
       </Modal>
     </div>
   );

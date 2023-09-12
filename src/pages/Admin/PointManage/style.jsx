@@ -3,7 +3,6 @@ import RcSlider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { CommonProfileImage } from 'style/commonStyle';
 import { CommonCard } from 'style/commonStyle';
-import { CommonButton } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   padding: 20px 20px 0 20px;
@@ -104,52 +103,20 @@ export const UserInfoWrapper = styled.div`
 
 export const VerticalUserListWrapper = styled.div`
   padding: 5px;
-  height: 25rem;
+  height: 30rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   overflow-y: auto;
-  margin-bottom: 30px;
 `;
 
 export const UserItem = styled.div`
   display: flex;
   align-items: center;
-  padding: 2px;
-`;
-
-export const Button = styled(CommonButton)`
-  text-align: center;
-  height: 10px;
-  width: 40px;
-  background-color: ${(props) => (props.isAdd ? 'green' : 'crimson')};
-  color: white;
-  font-size: 1px;
-  font-weight: hard;
+  padding: 10px;
 `;
 
 export const FormWrapper = styled.div`
-  align: center;
-`;
-
-export const SwitchWrapper = styled.div`
   display: flex;
-  align-items: center;
-  color: var(--color-textgrey);
-  font-size: 0.8rem;
-  font-weight: bold;
-  & div {
-    margin-right: 5px;
-  }
-  .switch {
-    margin-right: 20px;
-  }
-  @media all and (max-width: ${MAX_WIDTH}) {
-    margin-top: 15px;
-    align-self: start;
-  }
-`;
-
-export const Slider = styled(RcSlider)`
-  margin-top: 15px;
+  align-items: flex-start;
 `;
