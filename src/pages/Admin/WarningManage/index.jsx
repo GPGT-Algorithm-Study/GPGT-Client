@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getAllUsers } from 'api/user';
 import useFetch from 'hooks/useFetch';
 import { useState } from 'react';
@@ -25,6 +25,37 @@ function WarningManage() {
   const [users] = useFetch(getAllUsers, []);
   const [sortedUsers, setSortedUsers] = useState([]);
   const [isPlusMode, setIsPlusMode] = useState(true);
+  const [reason, setReason] = useState('');
+  const [selectedUsers, setSelectedUsers] = useState(users);
+  const onSelect = (e) => {
+    const { name, value, checked } = e.target;
+    if (!checked) {
+      setSelectedUsers(selectedUsers.filter((user) => user.notionId !== value));
+    } else {
+      const newUser = { [name]: value };
+      setSelectedUsers(selectedUsers.concat(newUser));
+    }
+  };
+  const onChange = (e) => {
+    setReason(e.target.value);
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const selectedUserNotionId = selectedUsers
+      .map((user) => `${user.notionId}`)
+      .join(', ');
+
+    confirm(
+      selectedUserNotionId +
+        '에게 경고 부여\n' +
+        '사유 : ' +
+        reason +
+        '\n위와 같이 경고를 ' +
+        (isPlusMode ? '부여' : '차감') +
+        ' 하시겠습니까?',
+    );
+    setReason('');
+  };
   return (
     <div>
       <Title>
@@ -59,7 +90,12 @@ function WarningManage() {
       <VerticalUserListWrapper>
         {users.map((user) => (
           <UserItem key={user.notionId}>
-            <input type="checkbox"></input>
+            <input
+              type="checkbox"
+              name="notionId"
+              value={user.notionId}
+              onChange={onSelect}
+            ></input>
             {user.notionId} {user.emoji} : 경고 {user.warning}회. 포인트{' '}
             {user.point}.{' '}
             {user.isYesterdaySolved ? '어제 안 풀었음' : '어제 풀었음'}
@@ -67,20 +103,26 @@ function WarningManage() {
         ))}
       </VerticalUserListWrapper>
       <div align="center">
-        <form>
+        <form onSubmit={onSubmit}>
           <input
             type="text"
             placeholder={
               isPlusMode ? '경고 부여 사유 입력...' : '경고 차감 사유 입력...'
             }
+            name="reason"
+            value={reason}
+            onChange={onChange}
             style={{ width: '100%', height: '30px', marginBottom: '10px' }}
           ></input>
-          <Button
+          <button
             type="submit"
-            style={{ backgroundColor: isPlusMode ? 'crimson' : 'royalblue' }}
+            style={{
+              color: 'white',
+              backgroundColor: isPlusMode ? 'crimson' : 'royalblue',
+            }}
           >
             {isPlusMode ? '경고 부여' : '경고 차감'}
-          </Button>
+          </button>
         </form>
       </div>
     </div>

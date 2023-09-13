@@ -1,6 +1,6 @@
 import React from 'react';
 import { CommonProfileImage } from 'style/commonStyle';
-import { Title, Content, UserWrapper, User, ScrollButton } from './style';
+import { Title, Content, UserWrapper, User, ScrollButton, Card } from './style';
 import useFetch from 'hooks/useFetch';
 import useScroll from 'hooks/useScroll';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
@@ -64,7 +64,7 @@ function YesterdayUnsolved() {
     handleNextButtonClick,
   ] = useScroll();
   return (
-    <div>
+    <Card>
       <Title>어제 안 푼 사람들</Title>
       <Content>
         <UserWrapper ref={horizontalScrollRef}>
@@ -114,7 +114,7 @@ function YesterdayUnsolved() {
           )}
         </ScrollButton>
       </Content>
-    </div>
+    </Card>
   );
 }
 

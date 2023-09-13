@@ -82,3 +82,10 @@ export const UserItem = styled.div`
   align-items: center;
   padding: 20px;
 `;
+
+export const UserAddWrapper = styled.div`
+  display: flex;
+  align: center;
+  align-items: center;
+  padding: 20px;
+`;

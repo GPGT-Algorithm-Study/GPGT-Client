@@ -10,6 +10,8 @@ import {
   ButtonWrapper,
   Button,
   UserItem,
+  Card,
+  UserAddWrapper,
 } from './style';
 import { toast } from 'react-toastify';
 
@@ -95,7 +97,7 @@ function UserManageList() {
     alert('삭제되었습니다...');
   };
   return (
-    <div>
+    <Card>
       <Title>유저 목록 관리</Title>
       <VerticalUserListWrapper>
         {users.map((user) => (
@@ -107,53 +109,54 @@ function UserManageList() {
           </UserItem>
         ))}
       </VerticalUserListWrapper>
-      <Button isAdd onClick={onClickUserAdd}>
-        {isAddingUser ? '취소' : '유저 추가'}
-      </Button>
-      {isAddingUser && (
-        <form onSubmit={onSubmit}>
-          <input
-            type="text"
-            name="bojHandle"
-            placeholder="BOJ Handle"
-            value={newUserData.bojHandle}
-            onChange={onChange}
-          />
-          <input
-            type="text"
-            name="notionId"
-            placeholder="Notion ID"
-            value={newUserData.notionId}
-            onChange={onChange}
-          />
-          <input
-            type="number"
-            name="isManager"
-            placeholder="관리자?"
-            value={newUserData.isManager}
-            onChange={onChange}
-          />
-          <input
-            type="text"
-            name="emoji"
-            placeholder="Emoji"
-            value={newUserData.emoji}
-            onChange={onChange}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={newUserData.password}
-            onChange={onChange}
-          />
-          <button type="submit" disabled={!isFormValid()}>
-            추가
-          </button>
-        </form>
-      )}
-      <br />
-    </div>
+      <UserAddWrapper>
+        <Button isAdd onClick={onClickUserAdd}>
+          {isAddingUser ? '취소' : '유저 추가'}
+        </Button>
+        {isAddingUser && (
+          <form onSubmit={onSubmit}>
+            <input
+              type="text"
+              name="bojHandle"
+              placeholder="BOJ Handle"
+              value={newUserData.bojHandle}
+              onChange={onChange}
+            />
+            <input
+              type="text"
+              name="notionId"
+              placeholder="Notion ID"
+              value={newUserData.notionId}
+              onChange={onChange}
+            />
+            <input
+              type="number"
+              name="isManager"
+              placeholder="관리자?"
+              value={newUserData.isManager}
+              onChange={onChange}
+            />
+            <input
+              type="text"
+              name="emoji"
+              placeholder="Emoji"
+              value={newUserData.emoji}
+              onChange={onChange}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={newUserData.password}
+              onChange={onChange}
+            />
+            <button type="submit" disabled={!isFormValid()}>
+              추가
+            </button>
+          </form>
+        )}
+      </UserAddWrapper>
+    </Card>
   );
 }
 

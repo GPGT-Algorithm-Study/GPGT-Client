@@ -8,6 +8,7 @@ import UserManageList from './UserManageList';
 import WarningManage from './WarningManage';
 import PointManage from './PointManage';
 import Modal from 'layouts/Modal';
+import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
 
 function Admin() {
   const [showWarningManageModal, setShowWarningManageModal] = useState(false);
@@ -38,6 +39,9 @@ function Admin() {
 
   return (
     <div>
+      <CommonFlexWrapper>
+        <CommonTitle>관리자 페이지</CommonTitle>
+      </CommonFlexWrapper>
       <UtilWrapper>
         {utils.map((util) => (
           <Util key={util.id} onClick={util.clickListener}>
