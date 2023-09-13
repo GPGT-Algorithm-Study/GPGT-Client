@@ -50,7 +50,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            sudo docker rm -f $(docker ps -qa)
+            sudo docker rm -f $(sudo docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/randps-front
             sudo docker-compose up -d
             sudo docker image prune -f
