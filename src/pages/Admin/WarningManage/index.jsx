@@ -20,13 +20,16 @@ import {
   Button,
   SwitchWrapper,
 } from './style';
+import { postUserWarning } from 'api/log';
+import user from 'redux/user';
+import { toast } from 'react-toastify';
 
 function WarningManage() {
-  const [users] = useFetch(getAllUsers, []);
-  const [sortedUsers, setSortedUsers] = useState([]);
+  const [users, fetchUsers] = useFetch(getAllUsers, []);
   const [isPlusMode, setIsPlusMode] = useState(true);
   const [reason, setReason] = useState('');
   const [selectedUsers, setSelectedUsers] = useState(users);
+
   const onSelect = (e) => {
     const { name, value, checked } = e.target;
     if (!checked) {
@@ -37,24 +40,65 @@ function WarningManage() {
     }
   };
   const onChange = (e) => {
-    setReason(e.target.value);
+    setReason(e.target.value); //사유 입력
   };
   const onSubmit = (e) => {
     e.preventDefault();
     const selectedUserNotionId = selectedUsers
       .map((user) => `${user.notionId}`)
-      .join(', ');
+      .join(', '); //선택된 유저들의 notion아이디를 문자열화
 
-    confirm(
+    const isWarningCountInvalid = { flag: false };
+    selectedUsers.map((user) => {
+      //경고 수가 0~4 범위를 넘지 않는지 확인
+      const selected = users.find((u) => u.notionId === user.notionId); //선택된 유저의 정보를 찾고,
+      if (
+        (isPlusMode && selected.warning >= 4) ||
+        (!isPlusMode && selected.warning <= 0)
+      )
+        //4에서 더하려고 하는지, or 0에서 빼려고 하는지 확인
+        isWarningCountInvalid.flag = true;
+    });
+    if (isWarningCountInvalid.flag) {
+      alert('경고는 0 미만 또는 4 초과일 수 없습니다.');
+      return;
+    }
+
+    const isAgree = confirm(
       selectedUserNotionId +
-        '에게 경고 부여\n' +
+        '에게 경고 ' +
+        (isPlusMode ? '부여\n' : '차감\n') +
         '사유 : ' +
         reason +
         '\n위와 같이 경고를 ' +
         (isPlusMode ? '부여' : '차감') +
         ' 하시겠습니까?',
     );
+    if (!isAgree) return;
+
+    selectedUsers.map((user) => {
+      const selected = users.find((u) => u.notionId === user.notionId);
+      const value = {
+        bojHandle: selected.bojHandle,
+        changedValue: isPlusMode ? 1 : -1,
+        description: reason,
+      };
+      postUserWarning(value)
+        .then((res) => {
+          if (res.data.code !== 200)
+            //에러처리
+            console.log(res);
+          return;
+        })
+        .catch((e) => {
+          const { data } = e.response;
+          if (data && (data.code == 400 || data.code == 404))
+            toast.error(data.message);
+        });
+    });
+    alert(`경고가 ${isPlusMode ? '부여' : '차감'}되었습니다..`);
     setReason('');
+    fetchUsers();
   };
   return (
     <div>

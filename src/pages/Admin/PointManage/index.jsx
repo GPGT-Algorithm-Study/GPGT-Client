@@ -40,7 +40,7 @@ function PointManage() {
       </Title>
       <VerticalUserListWrapper>
         {users.map((user) => (
-          <UserItem id={user.notionId}>
+          <UserItem key={user.notionId}>
             <input type="number" style={{ width: '25px' }}></input>
             {user.emoji} {user.notionId}. 보유중인 포인트:{user.point}
           </UserItem>
