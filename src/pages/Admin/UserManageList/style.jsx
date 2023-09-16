@@ -43,7 +43,7 @@ export const User = styled.div`
 `;
 
 export const Title = styled.div`
-  position: sticky;
+  position: relative;
   top: 0;
   left: 0;
   font-weight: bold;
@@ -69,7 +69,7 @@ export const ScrollButton = styled.button`
 export const Button = styled(CommonButton)`
   text-align: center;
   height: 10px;
-  width: 40px;
+  width: 60px;
   background-color: ${(props) => (props.isAdd ? 'green' : 'crimson')};
   color: white;
   font-size: 1px;
@@ -79,13 +79,6 @@ export const Button = styled(CommonButton)`
 
 export const UserItem = styled.div`
   display: flex;
-  align-items: center;
-  padding: 20px;
-`;
-
-export const UserAddWrapper = styled.div`
-  display: flex;
-  align: center;
   align-items: center;
   padding: 20px;
 `;

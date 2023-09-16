@@ -14,68 +14,12 @@ import {
   UserAddWrapper,
 } from './style';
 import { toast } from 'react-toastify';
+import UserAddInput from './UserAddInput';
+import Modal from 'layouts/Modal';
 
 function UserManageList() {
-  const [users] = useFetch(getAllUsers, []);
-  const [isAddingUser, setIsAddingUser] = useState(false);
-  const onClickUserAdd = () => {
-    setIsAddingUser(!isAddingUser);
-  };
-  const [newUserData, setNewUserData] = useState({
-    bojHandle: '',
-    notionId: '',
-    isManager: 0,
-    emoji: '',
-    password: '',
-  });
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setNewUserData((prevUserData) => ({
-      ...prevUserData,
-      [e.target.name]: e.target.value,
-    }));
-  };
-  const isFormValid = () => {
-    return (
-      newUserData.bojHandle !== '' &&
-      newUserData.notionId !== '' &&
-      newUserData.emoji !== '' &&
-      newUserData.password !== ''
-    );
-  };
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const isAgree = confirm(
-      '추가하려는 유저의 정보:\nbojHandle: ' +
-        newUserData.bojHandle +
-        '\nnotionId: ' +
-        newUserData.notionId +
-        '\nisManager: ' +
-        newUserData.isManager +
-        '\nemoji: ' +
-        newUserData.emoji +
-        '\npasword: ****\n 맞습니까?',
-    );
-    if (!isAgree) return;
-    postNewUser(newUserData)
-      .then((res) => {
-        if (res.data.code != 200)
-          //에러 처리
-          console.log(res);
-        return;
-      })
-      .catch((e) => {
-        const { data } = e.response;
-        if (data && data.code == 400) toast.error(data.message);
-      });
-    setNewUserData({
-      bojHandle: '',
-      notionId: '',
-      isManager: 0,
-      emoji: '',
-      password: '',
-    });
-  };
+  const [users, reFetch] = useFetch(getAllUsers, []);
+  const [showUserAddModal, setShowUserAddModal] = useState(false);
   const onClickUserDelete = (user) => {
     const isAgree = confirm(
       '<' +
@@ -95,6 +39,7 @@ function UserManageList() {
         if (data && data.code == 400) toast.error(data.message);
       });
     alert('삭제되었습니다...');
+    reFetch();
   };
   return (
     <Card>
@@ -109,53 +54,24 @@ function UserManageList() {
           </UserItem>
         ))}
       </VerticalUserListWrapper>
-      <UserAddWrapper>
-        <Button isAdd onClick={onClickUserAdd}>
-          {isAddingUser ? '취소' : '유저 추가'}
-        </Button>
-        {isAddingUser && (
-          <form onSubmit={onSubmit}>
-            <input
-              type="text"
-              name="bojHandle"
-              placeholder="BOJ Handle"
-              value={newUserData.bojHandle}
-              onChange={onChange}
-            />
-            <input
-              type="text"
-              name="notionId"
-              placeholder="Notion ID"
-              value={newUserData.notionId}
-              onChange={onChange}
-            />
-            <input
-              type="number"
-              name="isManager"
-              placeholder="관리자?"
-              value={newUserData.isManager}
-              onChange={onChange}
-            />
-            <input
-              type="text"
-              name="emoji"
-              placeholder="Emoji"
-              value={newUserData.emoji}
-              onChange={onChange}
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={newUserData.password}
-              onChange={onChange}
-            />
-            <button type="submit" disabled={!isFormValid()}>
-              추가
-            </button>
-          </form>
-        )}
-      </UserAddWrapper>
+      <Button
+        isAdd
+        onClick={() => {
+          setShowUserAddModal(true);
+        }}
+        style={{ marginLeft: '100px' }}
+      >
+        신규 유저 등록
+      </Button>
+      <Modal
+        show={showUserAddModal}
+        onCloseModal={() => {
+          setShowUserAddModal(false);
+          reFetch();
+        }}
+      >
+        <UserAddInput />
+      </Modal>
     </Card>
   );
 }
