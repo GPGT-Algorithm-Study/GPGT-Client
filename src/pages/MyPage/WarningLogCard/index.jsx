@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {
   Card,
   Title,
@@ -80,7 +80,7 @@ function WarningLogCard({ userInfo, isUser }) {
         {warningLogs.map((log, i) => (
           <Log state={log.state} key={i}>
             <TextWrapper>
-              <Date>{moment(log.createdDate).format('M월 D일')}</Date>
+              <Date>{dayjs(log.createdDate).format('M월 D일')}</Date>
               <LogMsg>{log.description}</LogMsg>
             </TextWrapper>
             <Value plus={log.changedValue >= 0}>
