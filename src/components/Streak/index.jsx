@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ScrollButton, StreakWrapper } from './style';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import StreakIcon from './StreakIcon';
 import StreakTooltip from './StreakTooltip';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
@@ -41,8 +41,8 @@ function Streak({ randomStreak, maxStreak, line, width, height }) {
     // 스트릭 정보에는 날짜, x,y좌표, 그 날짜에 해결했는지 여부가 포함된다.
     setStreakList(
       [...Array(maxStreak)].map((_, i) => {
-        const streakDate = moment(getPreviousDate(maxStreak - i - 1));
-        const formatDate = moment(streakDate).format('YYYY-MM-DD');
+        const streakDate = dayjs(getPreviousDate(maxStreak - i - 1));
+        const formatDate = dayjs(streakDate).format('YYYY-MM-DD');
         const solved =
           streakInfo.hasOwnProperty(formatDate) &&
           streakInfo[formatDate].grassInfo;

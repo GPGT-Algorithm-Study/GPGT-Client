@@ -13,6 +13,7 @@ import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
 function Admin() {
   const [showWarningManageModal, setShowWarningManageModal] = useState(false);
   const [showPointManageModal, setShowPointManageModal] = useState(false);
+
   const utils = [
     {
       id: 1,
