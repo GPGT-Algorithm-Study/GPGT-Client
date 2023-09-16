@@ -72,7 +72,7 @@ function Main() {
       <ContentTitle>공지 사항</ContentTitle>
       <NoticeCard>
         <MessageContent>
-          📣 레이아웃을 변경하여 패치하였습니다. (2023-09-06)
+          📣 정식 배포를 완료하였습니다! (2023-09-17)
         </MessageContent>
       </NoticeCard>
     </div>
