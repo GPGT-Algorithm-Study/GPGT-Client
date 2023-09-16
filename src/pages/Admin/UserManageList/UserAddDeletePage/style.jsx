@@ -17,12 +17,11 @@ export const UserWrapper = styled.div`
 `;
 
 export const Content = styled.div`
-  position: relative;
-  display: flex;
+  display: relative;
+  padding: 20px;
 `;
 
 export const VerticalUserListWrapper = styled.div`
-  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -51,21 +50,6 @@ export const Title = styled.div`
   padding-left: 25px;
 `;
 
-export const ScrollButton = styled.button`
-  border: none;
-  position: absolute;
-  background: transparent;
-  text-align: center;
-  cursor: pointer;
-  z-index: 999;
-  right: ${(props) => (props.type == 'next' ? '0' : '')};
-  left: ${(props) => (props.type == 'prev' ? '0' : '')};
-  height: 80px;
-  & div {
-    color: #b6b6b6;
-  }
-`;
-
 export const Button = styled(CommonButton)`
   text-align: center;
   height: 10px;
@@ -75,45 +59,15 @@ export const Button = styled(CommonButton)`
   font-size: 1px;
   font-weight: hard;
   margin-right: 20px;
+  ${(props) => {
+    if (props.isAdd) {
+      return 'margin-top: 20px; margin-left: 30px;';
+    }
+  }}
 `;
 
 export const UserItem = styled.div`
   display: flex;
   align-items: center;
-  padding: 20px;
-`;
-
-export const TabWrapper = styled.span`
-  display: relative;
-  text-align: center;
-  padding-left: 30px;
-  padding-right: 30px;
-  border-width: 2px;
-  border-style: outset;
-`;
-
-export const ModeButton = styled.button`
-  cursor: pointer;
-  margin-left: 3px;
-  border: none;
-  padding: 7px 13px 7px 13px;
-  background-color: white;
-  border-radius: 5px;
-  color: var(--color-textgrey);
-  ${(props) => {
-    if (props.selected) {
-      return 'background-color: var(--color-background); font-weight: bold; color: black;';
-    }
-  }}
-`;
-
-export const ButtonWrapper = styled.div`
-  display: flex;
-  margin-right: 20px;
-`;
-
-export const TitleWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
+  padding: 10px;
 `;

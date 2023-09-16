@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { FormWrapper, Title, UserItem, VerticalUserListWrapper } from './style';
+import {
+  Content,
+  FormWrapper,
+  Title,
+  UserItem,
+  VerticalUserListWrapper,
+} from './style';
 import useFetch from 'hooks/useFetch';
 import { getAllUsers } from 'api/user';
 import { Button } from './style';
@@ -72,7 +78,7 @@ function PointManage() {
     }
   };
   return (
-    <div>
+    <Content>
       <Title>포인트 조정</Title>
       <VerticalUserListWrapper>
         {users.map((user) => (
@@ -82,7 +88,8 @@ function PointManage() {
               onChange={(e) => onPointChange(e, user.notionId, user.bojHandle)}
               style={{ width: '40px' }}
             ></input>
-            {user.emoji} {user.notionId}. 보유중인 포인트:{user.point}
+            {user.emoji} {user.notionId}. 경고:{user.warning}회. 보유중인
+            포인트:{user.point}
           </UserItem>
         ))}
       </VerticalUserListWrapper>
@@ -102,7 +109,7 @@ function PointManage() {
           </Button>
         </form>
       </div>
-    </div>
+    </Content>
   );
 }
 

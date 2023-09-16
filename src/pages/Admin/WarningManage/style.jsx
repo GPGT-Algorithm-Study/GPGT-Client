@@ -104,18 +104,16 @@ export const UserInfoWrapper = styled.div`
 
 export const VerticalUserListWrapper = styled.div`
   padding: 5px;
-  height: 25rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  overflow-y: auto;
   margin-bottom: 30px;
 `;
 
 export const UserItem = styled.div`
   display: flex;
   align-items: center;
-  padding: 2px;
+  padding: 10px;
 `;
 
 export const Button = styled(CommonButton)`
@@ -125,4 +123,17 @@ export const Button = styled(CommonButton)`
   color: white;
   font-size: 1px;
   font-weight: hard;
+`;
+
+export const Content = styled.div`
+  display: relative;
+  padding: 20px;
+`;
+
+export const FlexWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
 `;

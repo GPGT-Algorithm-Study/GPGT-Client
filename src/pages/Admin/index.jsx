@@ -42,22 +42,23 @@ function Admin() {
       <CommonFlexWrapper>
         <CommonTitle>관리자 페이지</CommonTitle>
       </CommonFlexWrapper>
-      <UtilWrapper>
+      <br></br>
+      {/* <UtilWrapper>
         {utils.map((util) => (
           <Util key={util.id} onClick={util.clickListener}>
             <UtilIcon url={util.iconUrl}></UtilIcon>
             <div>{util.name}</div>
           </Util>
         ))}
-      </UtilWrapper>
+      </UtilWrapper> */}
       <YesterdayUnsolved />
       <UserManageList />
-      <Modal show={showWarningManageModal} onCloseModal={onCloseModal}>
+      {/* <Modal show={showWarningManageModal} onCloseModal={onCloseModal}>
         <WarningManage />
       </Modal>
       <Modal show={showPointManageModal} onCloseModal={onCloseModal}>
         <PointManage />
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

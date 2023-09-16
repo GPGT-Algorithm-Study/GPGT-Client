@@ -19,6 +19,8 @@ import {
   UserItem,
   Button,
   SwitchWrapper,
+  FlexWrapper,
+  Content,
 } from './style';
 import { postUserWarning } from 'api/log';
 import user from 'redux/user';
@@ -44,6 +46,10 @@ function WarningManage() {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    if (selectedUsers.length === 0) {
+      alert('선택된 유저가 없습니다!');
+      return;
+    }
     const selectedUserNotionId = selectedUsers
       .map((user) => `${user.notionId}`)
       .join(', '); //선택된 유저들의 notion아이디를 문자열화
@@ -102,7 +108,7 @@ function WarningManage() {
     fetchUsers();
   };
   return (
-    <div>
+    <Content>
       <Title>
         경고 {isPlusMode ? '부여' : '차감'}
         <fieldset>
@@ -135,15 +141,16 @@ function WarningManage() {
       <VerticalUserListWrapper>
         {users.map((user) => (
           <UserItem key={user.notionId}>
-            <input
-              type="checkbox"
-              name="notionId"
-              value={user.notionId}
-              onChange={onSelect}
-            ></input>
-            {user.notionId} {user.emoji} : 경고 {user.warning}회. 포인트{' '}
-            {user.point}.{' '}
-            {user.isYesterdaySolved ? '어제 안 풀었음' : '어제 풀었음'}
+            <label>
+              <input
+                type="checkbox"
+                name="notionId"
+                value={user.notionId}
+                onChange={onSelect}
+              />
+              {user.notionId} {user.emoji} : 경고 {user.warning}회. 포인트{' '}
+              {user.point}.{' '}
+            </label>
           </UserItem>
         ))}
       </VerticalUserListWrapper>
@@ -159,18 +166,18 @@ function WarningManage() {
             onChange={onChange}
             style={{ width: '100%', height: '30px', marginBottom: '10px' }}
           ></input>
-          <button
-            type="submit"
+          <Button
+            onClick={onSubmit}
             style={{
               color: 'white',
               backgroundColor: isPlusMode ? 'crimson' : 'royalblue',
             }}
           >
             {isPlusMode ? '경고 부여' : '경고 차감'}
-          </button>
+          </Button>
         </form>
       </div>
-    </div>
+    </Content>
   );
 }
 

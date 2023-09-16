@@ -1,77 +1,45 @@
 import React from 'react';
-import { delUser, getAllUsers, postNewUser } from 'api/user';
-import useFetch from 'hooks/useFetch';
+import { Title, ButtonWrapper, Card, ModeButton, TitleWrapper } from './style';
+import UserAddDeletePage from './UserAddDeletePage';
 import { useState } from 'react';
-import {
-  Title,
-  Content,
-  UserWrapper,
-  VerticalUserListWrapper,
-  ButtonWrapper,
-  Button,
-  UserItem,
-  Card,
-  UserAddWrapper,
-} from './style';
-import { toast } from 'react-toastify';
-import UserAddInput from './UserAddInput';
-import Modal from 'layouts/Modal';
+import WarningManage from '../WarningManage';
+import PointManage from '../PointManage';
+
+function CurrentPage({ mode }) {
+  console.log(mode);
+  if (mode === 1) return <UserAddDeletePage></UserAddDeletePage>;
+  if (mode === 2) return <WarningManage />;
+  if (mode === 3) return <PointManage />;
+  else return <div>??</div>;
+}
 
 function UserManageList() {
-  const [users, reFetch] = useFetch(getAllUsers, []);
-  const [showUserAddModal, setShowUserAddModal] = useState(false);
-  const onClickUserDelete = (user) => {
-    const isAgree = confirm(
-      '<' +
-        user.notionId +
-        '> 유저를 정말정말정말정말정말진짜로!!!!!\n삭제하시겠습니까?????????',
-    );
-    if (!isAgree) return;
-    delUser(user)
-      .then((res) => {
-        if (res.data.code !== 200)
-          //에러 처리
-          console.log(res);
-        return;
-      })
-      .catch((e) => {
-        const { data } = e.response;
-        if (data && data.code == 400) toast.error(data.message);
-      });
-    alert('삭제되었습니다...');
-    reFetch();
-  };
+  const modeList = [
+    { key: 1, name: '삭제/추가' },
+    { key: 2, name: '경고' },
+    { key: 3, name: '포인트' },
+  ];
+  const [mode, setMode] = useState(modeList[0].key);
+
   return (
     <Card>
-      <Title>유저 목록 관리</Title>
-      <VerticalUserListWrapper>
-        {users.map((user) => (
-          <UserItem key={user.notionId}>
-            <Button onClick={() => onClickUserDelete(user)}>유저 삭제</Button>
-            {user.notionId} {user.emoji} : 경고 {user.warning}회. 포인트{' '}
-            {user.point}.{' '}
-            {user.isYesterdaySolved ? '어제 안 풀었음' : '어제 풀었음'}
-          </UserItem>
-        ))}
-      </VerticalUserListWrapper>
-      <Button
-        isAdd
-        onClick={() => {
-          setShowUserAddModal(true);
-        }}
-        style={{ marginLeft: '100px' }}
-      >
-        신규 유저 등록
-      </Button>
-      <Modal
-        show={showUserAddModal}
-        onCloseModal={() => {
-          setShowUserAddModal(false);
-          reFetch();
-        }}
-      >
-        <UserAddInput />
-      </Modal>
+      <TitleWrapper>
+        <Title>유저 관리</Title>
+        <ButtonWrapper>
+          {modeList.map((m) => (
+            <ModeButton
+              key={m.key}
+              onClick={() => {
+                setMode(m.key);
+              }}
+              selected={m.key === mode}
+            >
+              {m.name}
+            </ModeButton>
+          ))}
+        </ButtonWrapper>
+      </TitleWrapper>
+      <CurrentPage mode={mode} />
     </Card>
   );
 }
