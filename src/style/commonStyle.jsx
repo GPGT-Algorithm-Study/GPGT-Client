@@ -38,3 +38,15 @@ export const CommonFlexWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
+
+export const CommonButton = styled.div`
+  border-radius: 50px;
+  padding: 10px 20px 10px 20px;
+  border: none;
+  background-color: ${(props) =>
+    props.primary ? 'var(--color-primary)' : 'var(--color-background)'};
+  color: ${(props) => (props.primary ? 'white' : 'black')};
+  font-weight: ${(props) => (props.primary ? '' : 'bold')};
+  cursor: pointer;
+  font-size: 0.8rem;
+`;

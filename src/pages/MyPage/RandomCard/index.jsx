@@ -172,7 +172,7 @@ function RandomCard({ userInfo, isUser }) {
               uncheckedIcon={false}
               width={40}
               height={20}
-              onColor="#69b5f8"
+              onColor="#3362c5"
               offColor="#d2d2d2"
               disabled={!isEdit}
             />

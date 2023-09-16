@@ -140,11 +140,13 @@ const baseStyle = css`
     --color-error: #f24343;
     --color-unchecked: rgb(220, 220, 220);
     --color-tag: rgb(228, 228, 230);
+    --color-bordergrey: rgb(201, 201, 201);
     --color-checked: #81cc67;
     --color-point: #3362c5;
     --color-teamsun: #fff1f1;
     --color-teammoon: #fff8e7;
-    --color-toggle: #69b5f8;
+    --color-toggle: #3362c5;
+    --color-freeze: #69b5f8;
     --color-border: #dfdfdf;
     --color-team1: #ffd643;
     --color-team0: #ff6c6c;
@@ -157,6 +159,7 @@ const baseStyle = css`
     background-color: rgb(245, 245, 247);
     height: 100%;
     overflow: hidden;
+    line-height: 1.2;
   }
 
   textarea,
@@ -171,6 +174,10 @@ const baseStyle = css`
   .Toastify__toast {
     font-size: 14px;
     line-height: 1.2;
+  }
+  // 마크다운 스타일
+  .anchor {
+    display: none !important;
   }
 `;
 

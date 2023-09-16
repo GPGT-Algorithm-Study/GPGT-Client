@@ -15,17 +15,24 @@ import {
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
+import WarningManage from 'pages/Admin/WarningManage';
 import useFetch from 'hooks/useFetch';
 import { getUserInfo } from 'api/user';
 import { useDispatch, useSelector } from 'react-redux';
-import { setShowRecommendModal, setShowStoreModal } from 'redux/modal';
+import {
+  setShowRecommendModal,
+  setShowStoreModal,
+  setShowWarningManageModal,
+  setShowPointManageModal,
+} from 'redux/modal';
 import { toast } from 'react-toastify';
 import { AiFillHome, AiFillSetting } from 'react-icons/ai';
 import { HiUsers } from 'react-icons/hi';
 import { BsBarChartFill } from 'react-icons/bs';
 import { FiLogOut } from 'react-icons/fi';
-import { BiSolidBuilding } from 'react-icons/bi';
+import { LuSwords } from 'react-icons/lu';
 import { RxHamburgerMenu } from 'react-icons/rx';
+import { FaClipboardList } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { userLogout } from 'api/user';
 import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
@@ -33,11 +40,14 @@ import { CommonFlexWrapper } from 'style/commonStyle';
 
 function Layout({ children }) {
   const dispatch = useDispatch();
-  const { showStoreModal, showRecommendModal } = useSelector(
-    (state) => state.modal,
-  );
+  const {
+    showStoreModal,
+    showRecommendModal,
+    showWarningManageModal,
+    showPointManageModal,
+  } = useSelector((state) => state.modal);
   const user = useSelector((state) => state.user);
-  const currentTab = useLocation().pathname.slice(1);
+  const currentTab = useLocation().pathname.slice(1).split('/')[0];
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const { isAdmin } = useSelector((state) => state.user);
@@ -49,7 +59,7 @@ function Layout({ children }) {
     teams: {
       id: 2,
       name: '팀',
-      icon: <BiSolidBuilding />,
+      icon: <LuSwords />,
       route: '/teams',
     },
     statistics: {
@@ -58,6 +68,12 @@ function Layout({ children }) {
       icon: <BsBarChartFill />,
       route: '/statistics',
     },
+    // board: {
+    //   id: 4,
+    //   name: '게시판',
+    //   icon: <FaClipboardList />,
+    //   route: '/board',
+    // },
   });
 
   useEffect(() => {
@@ -66,7 +82,7 @@ function Layout({ children }) {
       setTabs((prev) => ({
         ...prev,
         admin: {
-          id: 4,
+          id: 5,
           name: '관리자',
           icon: <AiFillSetting />,
           route: '/admin',
@@ -101,6 +117,8 @@ function Layout({ children }) {
   const onCloseModal = useCallback(() => {
     dispatch(setShowStoreModal(false));
     dispatch(setShowRecommendModal(false));
+    dispatch(setShowWarningManageModal(false));
+    dispatch(setShowPointManageModal(false));
   }, []);
 
   const onClickUserProfile = useCallback(() => {
@@ -221,6 +239,12 @@ function Layout({ children }) {
       </Modal>
       <Modal show={showStoreModal} onCloseModal={onCloseModal}>
         <Store />
+      </Modal>
+      <Modal show={showWarningManageModal} onCloseModal={onCloseModal}>
+        <WarningManage />
+      </Modal>
+      <Modal show={showPointManageModal} onCloseModal={onCloseModal}>
+        PointManageModal
       </Modal>
     </div>
   );

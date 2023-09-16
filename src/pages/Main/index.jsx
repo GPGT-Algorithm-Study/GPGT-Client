@@ -1,6 +1,5 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
-import Layout from 'layouts/Layout';
 import {
   BannerCard,
   MessageContent,
@@ -12,7 +11,7 @@ import {
   UtilIcon,
   BannerInfo,
 } from './style';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import useFetch from 'hooks/useFetch';
 import { getLastComment } from 'api/item';
 import { useDispatch } from 'react-redux';
@@ -46,38 +45,36 @@ function Main() {
 
   return (
     <div>
-      <Layout>
-        <BannerCard>
-          <BannerInfo>
-            <b>좋은사람 좋은시간</b>
-            <br />
-            알고리즘 스터디입니다.
-          </BannerInfo>
-          {!isEmpty(message.notionId) && (
-            <div>
-              <MessageContent>"{message.message}"</MessageContent>
-              <Writer>
-                {message.notionId} {message.emoji},{' '}
-                {moment(message.writtenDate).format('YYYY-MM-DD')}
-              </Writer>
-            </div>
-          )}
-        </BannerCard>
-        <UtilWrapper>
-          {utils.map((util) => (
-            <Util key={util.id} onClick={util.clickListener}>
-              <UtilIcon url={util.iconUrl}></UtilIcon>
-              <div> {util.name} </div>
-            </Util>
-          ))}
-        </UtilWrapper>
-        <ContentTitle>공지 사항</ContentTitle>
-        <NoticeCard>
-          <MessageContent>
-            📣 레이아웃을 변경하여 패치하였습니다. (2023-09-06)
-          </MessageContent>
-        </NoticeCard>
-      </Layout>
+      <BannerCard>
+        <BannerInfo>
+          <b>좋은사람 좋은시간</b>
+          <br />
+          알고리즘 스터디입니다.
+        </BannerInfo>
+        {!isEmpty(message.notionId) && (
+          <div>
+            <MessageContent>"{message.message}"</MessageContent>
+            <Writer>
+              {message.notionId} {message.emoji},{' '}
+              {dayjs(message.writtenDate).format('YYYY-MM-DD')}
+            </Writer>
+          </div>
+        )}
+      </BannerCard>
+      <UtilWrapper>
+        {utils.map((util) => (
+          <Util key={util.id} onClick={util.clickListener}>
+            <UtilIcon url={util.iconUrl}></UtilIcon>
+            <div> {util.name} </div>
+          </Util>
+        ))}
+      </UtilWrapper>
+      <ContentTitle>공지 사항</ContentTitle>
+      <NoticeCard>
+        <MessageContent>
+          📣 레이아웃을 변경하여 패치하였습니다. (2023-09-06)
+        </MessageContent>
+      </NoticeCard>
     </div>
   );
 }

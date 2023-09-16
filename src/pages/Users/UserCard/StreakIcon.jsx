@@ -13,7 +13,7 @@ const StreakIcon = forwardRef(
         fill={
           streak.solved
             ? streak.isFreeze
-              ? 'var(--color-toggle)'
+              ? 'var(--color-freeze)'
               : 'var(--color-checked)'
             : 'var(--color-unchecked)'
         }
