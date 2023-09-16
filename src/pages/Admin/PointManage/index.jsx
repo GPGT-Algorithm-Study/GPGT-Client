@@ -55,6 +55,7 @@ function PointManage() {
     setSelectedUsers([]);
     setPointManageReason('');
     reFetch();
+    window.location.reload();
   };
   const onPointChange = (e, userNotionId, bojHandle) => {
     const { value } = e.target;

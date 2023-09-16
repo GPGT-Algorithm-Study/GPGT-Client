@@ -23,7 +23,6 @@ import {
   Content,
 } from './style';
 import { postUserWarning } from 'api/log';
-import user from 'redux/user';
 import { toast } from 'react-toastify';
 
 function WarningManage() {
@@ -105,7 +104,8 @@ function WarningManage() {
     alert(`경고가 ${isPlusMode ? '부여' : '차감'}되었습니다..`);
     setReason('');
     setSelectedUsers([]);
-    fetchUsers();
+
+    window.location.reload();
   };
   return (
     <Content>
