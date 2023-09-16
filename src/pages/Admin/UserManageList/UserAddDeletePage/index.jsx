@@ -8,6 +8,7 @@ import {
   VerticalUserListWrapper,
   Button,
   UserItem,
+  Title,
 } from './style';
 import { toast } from 'react-toastify';
 import UserAddInput from '../UserAddInput';
@@ -39,6 +40,7 @@ function UserAddDeletePage() {
   };
   return (
     <Content>
+      <Title>기존 유저 삭제 / 신규 유저 등록</Title>
       <VerticalUserListWrapper>
         {users.map((user) => (
           <UserItem key={user.notionId}>

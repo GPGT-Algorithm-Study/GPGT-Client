@@ -7,7 +7,7 @@ import PointManage from '../PointManage';
 
 function CurrentPage({ mode }) {
   console.log(mode);
-  if (mode === 1) return <UserAddDeletePage></UserAddDeletePage>;
+  if (mode === 1) return <UserAddDeletePage />;
   if (mode === 2) return <WarningManage />;
   if (mode === 3) return <PointManage />;
   else return <div>??</div>;

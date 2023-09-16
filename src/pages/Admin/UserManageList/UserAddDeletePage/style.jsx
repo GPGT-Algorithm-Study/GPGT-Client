@@ -42,12 +42,25 @@ export const User = styled.div`
 `;
 
 export const Title = styled.div`
-  position: relative;
-  top: 0;
-  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-weight: bold;
-  margin-bottom: 25px;
-  padding-left: 25px;
+  margin-bottom: 10px;
+  & div {
+    display: flex;
+    align-items: center;
+    text-align: start;
+    & span {
+      margin-right: 8px;
+      color: var(--color-textgrey);
+      font-size: 0.9rem;
+    }
+  }
+  @media all and (max-width: ${MAX_WIDTH}) {
+    flex-direction: column;
+    align-items: start;
+  }
 `;
 
 export const Button = styled(CommonButton)`
