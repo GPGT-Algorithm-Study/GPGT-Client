@@ -16,11 +16,9 @@ import { CommonTierImg } from 'style/commonStyle';
  */
 function ProblemCard({ user }) {
   // 유저의 오늘 푼 문제들
-  // const [problems] = useFetch(getUserTodaySolvedProblems, [], {
-  //   bojHandle: user.bojHandle,
-  // });
-
-  const problems = [{ problemId: 0, title: '아레나 문제', tier: 0 }];
+  const [problems] = useFetch(getUserTodaySolvedProblems, [], {
+    bojHandle: user.bojHandle,
+  });
 
   return (
     <>
