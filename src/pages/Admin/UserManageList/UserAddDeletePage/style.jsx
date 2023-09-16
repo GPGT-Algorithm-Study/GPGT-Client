@@ -16,6 +16,8 @@ export const UserWrapper = styled.div`
   }
 `;
 
+const MAX_WIDTH = '610px';
+
 export const Content = styled.div`
   display: relative;
   padding: 20px;
