@@ -39,7 +39,7 @@ export const CommonFlexWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const CommonButton = styled.div`
+export const CommonButton = styled.button`
   border-radius: 50px;
   padding: 10px 20px 10px 20px;
   border: none;
