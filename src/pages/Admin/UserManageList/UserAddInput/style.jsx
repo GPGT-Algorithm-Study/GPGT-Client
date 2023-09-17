@@ -33,8 +33,6 @@ export const Title = styled.div`
 
 export const Button = styled(CommonButton)`
   text-align: center;
-  height: 10px;
-  width: 40px;
   background-color: green;
   color: white;
   font-size: 1px;

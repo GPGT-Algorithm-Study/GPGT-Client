@@ -19,7 +19,7 @@ function PointManage() {
     setPointManageReason(e.target.value);
   };
   const onClickSubmit = (e) => {
-    e.preventDfault();
+    e.preventDefault();
     const selectedInfo = { string: '' };
     selectedUsers.map((selectedUser) => {
       if (selectedUser.changeValue === '0') return;
