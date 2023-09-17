@@ -66,15 +66,6 @@ export const ScrollButton = styled.button`
   }
 `;
 
-export const Button = styled(CommonButton)`
-  text-align: center;
-  background-color: ${(props) => (props.isAdd ? 'green' : 'crimson')};
-  color: white;
-  font-size: 1px;
-  font-weight: hard;
-  margin-right: 20px;
-`;
-
 export const UserItem = styled.div`
   display: flex;
   align-items: center;
