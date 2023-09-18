@@ -13,7 +13,7 @@ import { postUserWarning } from 'api/log';
 import { toast } from 'react-toastify';
 
 function WarningManage() {
-  const [users, fetchUsers] = useFetch(getAllUsers, []);
+  const [users, reFetch] = useFetch(getAllUsers, []);
   const [isPlusMode, setIsPlusMode] = useState(true);
   const [reason, setReason] = useState('');
   const [selectedUsers, setSelectedUsers] = useState(users);
@@ -88,11 +88,15 @@ function WarningManage() {
             toast.error(data.message);
         });
     });
+    users.forEach((user) => {
+      const input = document.getElementById(`warningInput-${user.notionId}`);
+      if (input) input.checked = false;
+    });
+
     alert(`경고가 ${isPlusMode ? '부여' : '차감'}되었습니다..`);
     setReason('');
     setSelectedUsers([]);
-
-    window.location.reload();
+    reFetch();
   };
   return (
     <Content>
@@ -130,6 +134,7 @@ function WarningManage() {
           <UserItem key={user.notionId}>
             <label>
               <input
+                id={`warningInput-${user.notionId}`}
                 type="checkbox"
                 name="notionId"
                 value={user.notionId}

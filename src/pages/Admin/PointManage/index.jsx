@@ -53,10 +53,18 @@ function PointManage() {
           if (data && data.code == 400) toast.error(data.message);
         });
     });
+    users.forEach((user) => {
+      const input = document.getElementById(`pointInput-${user.notionId}`);
+      if (input) {
+        input.value = '';
+      }
+    });
+    const input = document.getElementById(`reasonInput`);
+    if (input) input.value = '';
     setSelectedUsers([]);
     setPointManageReason('');
     reFetch();
-    window.location.reload();
+    //location.reload();
   };
   const onPointChange = (e, userNotionId, bojHandle) => {
     const { value } = e.target;
@@ -86,6 +94,7 @@ function PointManage() {
         {users.map((user) => (
           <UserItem key={user.notionId}>
             <input
+              id={`pointInput-${user.notionId}`}
               type="number"
               onChange={(e) => onPointChange(e, user.notionId, user.bojHandle)}
               style={{ width: '40px' }}
@@ -98,6 +107,7 @@ function PointManage() {
       <div align="center">
         <form>
           <input
+            id="reasonInput"
             type="text"
             placeholder="포인트 조정 사유 입력.."
             onChange={onReasonChange}
