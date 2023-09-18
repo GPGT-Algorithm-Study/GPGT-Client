@@ -43,7 +43,7 @@ export const User = styled.div`
 `;
 
 export const Title = styled.div`
-  position: sticky;
+  position: relative;
   top: 0;
   left: 0;
   font-weight: bold;
@@ -69,7 +69,7 @@ export const ScrollButton = styled.button`
 export const Button = styled(CommonButton)`
   text-align: center;
   height: 10px;
-  width: 40px;
+  width: 60px;
   background-color: ${(props) => (props.isAdd ? 'green' : 'crimson')};
   color: white;
   font-size: 1px;
@@ -81,4 +81,39 @@ export const UserItem = styled.div`
   display: flex;
   align-items: center;
   padding: 20px;
+`;
+
+export const TabWrapper = styled.span`
+  display: relative;
+  text-align: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-width: 2px;
+  border-style: outset;
+`;
+
+export const ModeButton = styled.button`
+  cursor: pointer;
+  margin-left: 3px;
+  border: none;
+  padding: 7px 13px 7px 13px;
+  background-color: white;
+  border-radius: 5px;
+  color: var(--color-textgrey);
+  ${(props) => {
+    if (props.selected) {
+      return 'background-color: var(--color-background); font-weight: bold; color: black;';
+    }
+  }}
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  margin-right: 20px;
+`;
+
+export const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
 `;

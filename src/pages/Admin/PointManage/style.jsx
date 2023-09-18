@@ -116,10 +116,15 @@ export const UserItem = styled.div`
   padding: 10px;
 `;
 
+export const FormWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+`;
+
 export const Button = styled(CommonButton)`
   text-align: center;
   height: 10px;
-  width: 40px;
+  width: 50px;
   color: white;
   font-size: 1px;
   font-weight: hard;
@@ -128,12 +133,4 @@ export const Button = styled(CommonButton)`
 export const Content = styled.div`
   display: relative;
   padding: 20px;
-`;
-
-export const FlexWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  flex-wrap: wrap;
-  padding-bottom: 10px;
 `;
