@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { postNewUser } from 'api/user';
 
 function UserAddInput() {
+  const [isChecked, setIsChecked] = useState(false);
   const [newUserData, setNewUserData] = useState({
     bojHandle: '',
     notionId: '',
@@ -19,6 +20,7 @@ function UserAddInput() {
   });
   const onInfoChange = (e) => {
     const { name, value } = e.target;
+
     setNewUserData((prevUserData) => ({
       ...prevUserData,
       [e.target.name]: e.target.value,
@@ -37,13 +39,15 @@ function UserAddInput() {
       alert('입력되지 않은 정보가 있습니다.');
       return;
     }
+    if (isChecked) newUserData.isManager = 1;
+    else newUserData.isManager = 0;
     const isAgree = confirm(
       '추가하려는 유저의 정보:\nbojHandle: ' +
         newUserData.bojHandle +
         '\nnotionId: ' +
         newUserData.notionId +
-        '\nisManager: ' +
-        newUserData.isManager +
+        '\n관리자: ' +
+        (newUserData.isManager === 1 ? 'O' : 'X') +
         '\nemoji: ' +
         newUserData.emoji +
         '\npasword: ****\n 맞습니까?',
@@ -94,16 +98,6 @@ function UserAddInput() {
         </InputWrapper>
         <InputWrapper>
           <input
-            type="number"
-            name="isManager"
-            placeholder="관리자?"
-            value={newUserData.isManager}
-            onChange={onInfoChange}
-          />
-          관리자 여부 (관리자인 경우 1, 아닌 경우 0)
-        </InputWrapper>
-        <InputWrapper>
-          <input
             type="text"
             name="emoji"
             placeholder="Emoji"
@@ -121,6 +115,21 @@ function UserAddInput() {
             onChange={onInfoChange}
           />
           초기 비밀번호
+        </InputWrapper>
+        <InputWrapper>
+          <label>
+            <input
+              type="checkbox"
+              name="isManager"
+              placeholder="관리자?"
+              value={newUserData.isManager}
+              onChange={(e) => {
+                if (e.target.checked) setIsChecked(true);
+                else setIsChecked(false);
+              }}
+            />
+            관리자인 경우 체크
+          </label>
         </InputWrapper>
         <Button onClick={onInfoSubmit}>등록</Button>
       </FormWrapper>
