@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {
   Card,
   Title,
@@ -79,7 +79,7 @@ function PointLogCard({ userInfo, isUser }) {
         {pointLogs.map((log, i) => (
           <Log state={log.state} key={i}>
             <TextWrapper>
-              <Date>{moment(log.createdDate).format('M월 D일')}</Date>
+              <Date>{dayjs(log.createdDate).format('M월 D일')}</Date>
               <LogMsg>{log.description}</LogMsg>
             </TextWrapper>
             <Point plus={log.changedValue >= 0}>

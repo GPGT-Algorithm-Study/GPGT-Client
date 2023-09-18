@@ -11,7 +11,7 @@ import {
   UtilIcon,
   BannerInfo,
 } from './style';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import useFetch from 'hooks/useFetch';
 import { getLastComment } from 'api/item';
 import { useDispatch } from 'react-redux';
@@ -56,7 +56,7 @@ function Main() {
             <MessageContent>"{message.message}"</MessageContent>
             <Writer>
               {message.notionId} {message.emoji},{' '}
-              {moment(message.writtenDate).format('YYYY-MM-DD')}
+              {dayjs(message.writtenDate).format('YYYY-MM-DD')}
             </Writer>
           </div>
         )}
