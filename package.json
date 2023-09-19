@@ -2,7 +2,7 @@
   "name": "algorithm-study-page",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://172.18.96.1:8080",
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@emotion/react": "^11.11.1",
