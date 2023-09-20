@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { CommonProfileImage } from 'style/commonStyle';
 import { Title, Content, UserWrapper, User, ScrollButton, Card } from './style';
 import useFetch from 'hooks/useFetch';
@@ -17,6 +17,12 @@ function YesterdayUnsolved() {
     horizontalScrollRef,
     handleNextButtonClick,
   ] = useScroll();
+  const onClickProfileImg = useCallback((e, bojHandle) => {
+    e.preventDefault();
+    const url = `https://solved.ac/profile/${bojHandle}`;
+    window.open(url, '_blank');
+  }, []);
+
   return (
     <Card>
       <Title>어제 안 푼 사람들</Title>
@@ -27,17 +33,16 @@ function YesterdayUnsolved() {
               <div>
                 {user.notionId} {user.emoji}
               </div>
-              <Link to={`/my-page/${user.bojHandle}`}>
-                <CommonProfileImage
-                  width="50"
-                  height="50"
-                  src={
-                    user.profileImg != 'null'
-                      ? user.profileImg
-                      : 'https://static.solved.ac/misc/360x360/default_profile.png'
-                  }
-                ></CommonProfileImage>
-              </Link>
+              <CommonProfileImage
+                width="50"
+                height="50"
+                src={
+                  user.profileImg != 'null'
+                    ? user.profileImg
+                    : 'https://static.solved.ac/misc/360x360/default_profile.png'
+                }
+                onClick={(e) => onClickProfileImg(e, user.bojHandle)}
+              ></CommonProfileImage>
             </User>
           ))}
         </UserWrapper>
