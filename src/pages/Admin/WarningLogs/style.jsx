@@ -53,9 +53,13 @@ export const Log = styled.div`
 
 export const TextWrapper = styled.div`
   display: flex;
+  //flex-direction: column;
 `;
 
 export const LogMsg = styled.div`
+  flex-grow: 1;
+  text-overflow: ellipsis;
+  table-layout: fixed;
   margin-right: 20px;
   @media all and (max-width: 600px) {
     display: none;
@@ -63,12 +67,16 @@ export const LogMsg = styled.div`
 `;
 
 export const Date = styled.div`
-  width: 80px;
+  width: 150px;
   color: var(--color-textgrey);
 `;
 export const Name = styled.div`
-  width: 150px;
+  width: 130px;
   font-weight: bold;
+`;
+export const Id = styled.div`
+  width: 30px;
+  color: crimson;
 `;
 
 export const Button = styled.button`

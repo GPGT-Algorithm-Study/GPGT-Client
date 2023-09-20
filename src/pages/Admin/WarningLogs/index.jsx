@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Card,
   Date,
+  Id,
   Log,
   LogMsg,
   LogWrapper,
@@ -43,6 +44,13 @@ function WarningLogs() {
           </legend>
         </fieldset>
       </Title>
+
+      <TextWrapper>
+        <div style={{ width: '30px' }}>ID</div>
+        <div style={{ width: '150px' }}>날짜</div>
+        <div style={{ width: '130px' }}>노션 아이디</div>
+        <div>사유</div>
+      </TextWrapper>
       <LogWrapper>
         {allWarningLog.map((log, index) => {
           const thisUser = users.find((u) => u.bojHandle === log.bojHandle);
@@ -50,10 +58,12 @@ function WarningLogs() {
           return (
             <Log state={log.state} key={index}>
               <TextWrapper>
-                <Date>{dayjs(log.createdDate).format('M월 D일')}</Date>
+                <Id>{log.id}</Id>
+                <Date>{dayjs(log.createdDate).format('M월 D일 HH:MM:ss')}</Date>
+
                 <Name>{thisUser?.notionId}</Name>
-                <LogMsg>{log.description}</LogMsg>
               </TextWrapper>
+              <LogMsg>{log.description}</LogMsg>
               <Value plus={log.changedValue >= 0}>
                 {log.changedValue >= 0 ? '+' : '-'}
                 {Math.abs(log.changedValue)}
