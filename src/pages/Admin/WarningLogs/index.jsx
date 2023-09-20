@@ -51,7 +51,7 @@ function WarningLogs() {
             <Log state={log.state} key={index}>
               <TextWrapper>
                 <Date>{dayjs(log.createdDate).format('M월 D일')}</Date>
-                <Name>{thisUser.notionId}</Name>
+                <Name>{thisUser?.notionId}</Name>
                 <LogMsg>{log.description}</LogMsg>
               </TextWrapper>
               <Value plus={log.changedValue >= 0}>
