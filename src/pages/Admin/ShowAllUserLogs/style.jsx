@@ -10,36 +10,55 @@ export const Title = styled.div`
   margin-bottom: 30px;
 `;
 
+export const ButtonWrapper = styled.div`
+  display: flex;
+  margin-right: 20px;
+`;
+
+export const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+`;
+
+export const ModeButton = styled.button`
+  cursor: pointer;
+  margin-left: 3px;
+  border: none;
+  padding: 7px 13px 7px 13px;
+  background-color: white;
+  border-radius: 5px;
+  color: var(--color-textgrey);
+  ${(props) => {
+    if (props.selected) {
+      return 'background-color: var(--color-background); font-weight: bold; color: black;';
+    }
+  }}
+`;
+
 export const Value = styled.div`
   width: 80px;
   font-weight: bold;
+
   color: ${(props) =>
-    props.plus ? 'var(--color-error)' : 'var(--color-textgrey)'};
+    props.plus
+      ? props.mode === 1
+        ? 'var(--color-error)'
+        : 'var(--color-point)'
+      : 'var(--color-textgrey)'};
   text-align: right;
   & p {
     display: inline;
     margin-left: 7px;
   }
 `;
-
-export const TotalWarning = styled.div`
-  display: flex;
-  align-items: center;
-  width: 80px;
-  font-weight: bold;
-  font-size: 1.2rem;
-  & p {
-    display: inline;
-    color: var(--color-point);
-  }
-`;
-
 export const LogWrapper = styled.div`
   height: 500px;
   overflow-y: auto;
   margin-top: 25px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 25px;
 `;
 
 export const Log = styled.div`
@@ -53,9 +72,13 @@ export const Log = styled.div`
 
 export const TextWrapper = styled.div`
   display: flex;
+  //flex-direction: column;
 `;
 
 export const LogMsg = styled.div`
+  flex-grow: 1;
+  text-overflow: ellipsis;
+  table-layout: fixed;
   margin-right: 20px;
   @media all and (max-width: 600px) {
     display: none;
@@ -63,29 +86,25 @@ export const LogMsg = styled.div`
 `;
 
 export const Date = styled.div`
-  width: 80px;
+  width: 150px;
   color: var(--color-textgrey);
 `;
 export const Name = styled.div`
-  width: 150px;
+  width: 130px;
   font-weight: bold;
+`;
+export const Id = styled.div`
+  width: 50px;
+  color: ${(props) =>
+    props.mode === 1 ? 'var(--color-error)' : 'var(--color-point)'};
 `;
 
 export const Button = styled.button`
+  align-self: right;
   width: 80px;
-  padding: 12px 0 12px 0;
+  padding: 8px 0 8px 0;
   border-radius: 7px;
-  background-color: var(--color-background);
+  background-color: lightgray;
   border: none;
   cursor: pointer;
-  align-self: center;
-  margin: 15px 0 15px 0;
-`;
-
-export const Warning = styled.div`
-  background-color: var(--color-error);
-  width: 10px;
-  height: 10px;
-  border-radius: 50px;
-  margin-right: 10px;
 `;

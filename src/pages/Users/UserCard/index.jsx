@@ -20,6 +20,7 @@ import {
   Point,
   FlexWrapper,
   TierWrapper,
+  CenterConatiner,
 } from './style';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { CommonTierImg } from 'style/commonStyle';
@@ -83,12 +84,14 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
         {/* 가운데 경고, 티어, 스트릭, 푼 문제 수 정보 */}
         <SolvedInfo>
           <FlexWrapper>
-            <WarningWrapper>
-              {[...Array(3)].map((_, i) => (
-                <Warning key={i} warning={i + 1 <= user.warning} />
-              ))}
-            </WarningWrapper>
-            {user.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
+            <CenterConatiner>
+              <WarningWrapper>
+                {[...Array(3)].map((_, i) => (
+                  <Warning key={i} warning={i + 1 <= user.warning} />
+                ))}
+              </WarningWrapper>
+              {user.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
+            </CenterConatiner>
             <TierWrapper>
               <CommonTierImg
                 src={`https://static.solved.ac/tier_small/${user.tier}.svg`}

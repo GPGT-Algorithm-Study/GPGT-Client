@@ -188,3 +188,9 @@ export const FlexWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
+
+export const CenterConatiner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

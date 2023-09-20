@@ -20,6 +20,7 @@ export const UserWrapper = styled.div`
 export const Content = styled.div`
   position: relative;
   display: flex;
+  margin-top: 25px;
 `;
 
 export const User = styled.div`
@@ -37,11 +38,10 @@ export const User = styled.div`
 `;
 
 export const Title = styled.div`
-  position: sticky;
-  top: 0;
+  position: absolute;
+  top: 20px;
   left: 0;
   font-weight: bold;
-  margin-bottom: 25px;
   padding-left: 25px;
 `;
 

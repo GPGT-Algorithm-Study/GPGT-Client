@@ -1,25 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { getAllUsers } from 'api/user';
 import useFetch from 'hooks/useFetch';
 import { useState } from 'react';
-import { isEmpty } from 'lodash';
-import Switch from 'react-switch';
 import {
   Title,
-  Card,
-  ProfileImage,
-  ProfileWrapper,
-  Warning,
-  WarningMsg,
-  WarningWrapper,
-  IconWrapper,
-  UserInfoWrapper,
-  CardWrapper,
   VerticalUserListWrapper,
   UserItem,
   Button,
-  SwitchWrapper,
-  FlexWrapper,
   Content,
 } from './style';
 import { postUserWarning } from 'api/log';

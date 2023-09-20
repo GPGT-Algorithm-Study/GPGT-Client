@@ -123,8 +123,6 @@ export const FormWrapper = styled.div`
 
 export const Button = styled(CommonButton)`
   text-align: center;
-  height: 10px;
-  width: 50px;
   color: white;
   font-size: 1px;
   font-weight: hard;

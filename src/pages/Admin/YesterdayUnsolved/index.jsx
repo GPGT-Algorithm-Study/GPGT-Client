@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { CommonProfileImage } from 'style/commonStyle';
 import { Title, Content, UserWrapper, User, ScrollButton, Card } from './style';
 import useFetch from 'hooks/useFetch';
 import useScroll from 'hooks/useScroll';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import { getYesterdayUnsolvedUsers } from 'api/statistics';
+import { Link } from 'react-router-dom';
 
 function YesterdayUnsolved() {
   const [users] = useFetch(getYesterdayUnsolvedUsers, []);
@@ -16,6 +17,12 @@ function YesterdayUnsolved() {
     horizontalScrollRef,
     handleNextButtonClick,
   ] = useScroll();
+  const onClickProfileImg = useCallback((e, bojHandle) => {
+    e.preventDefault();
+    const url = `https://solved.ac/profile/${bojHandle}`;
+    window.open(url, '_blank');
+  }, []);
+
   return (
     <Card>
       <Title>어제 안 푼 사람들</Title>
@@ -34,6 +41,7 @@ function YesterdayUnsolved() {
                     ? user.profileImg
                     : 'https://static.solved.ac/misc/360x360/default_profile.png'
                 }
+                onClick={(e) => onClickProfileImg(e, user.bojHandle)}
               ></CommonProfileImage>
             </User>
           ))}
