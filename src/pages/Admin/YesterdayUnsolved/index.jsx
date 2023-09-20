@@ -5,6 +5,7 @@ import useFetch from 'hooks/useFetch';
 import useScroll from 'hooks/useScroll';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import { getYesterdayUnsolvedUsers } from 'api/statistics';
+import { Link } from 'react-router-dom';
 
 function YesterdayUnsolved() {
   const [users] = useFetch(getYesterdayUnsolvedUsers, []);
@@ -26,15 +27,17 @@ function YesterdayUnsolved() {
               <div>
                 {user.notionId} {user.emoji}
               </div>
-              <CommonProfileImage
-                width="50"
-                height="50"
-                src={
-                  user.profileImg != 'null'
-                    ? user.profileImg
-                    : 'https://static.solved.ac/misc/360x360/default_profile.png'
-                }
-              ></CommonProfileImage>
+              <Link to={`/my-page/${user.bojHandle}`}>
+                <CommonProfileImage
+                  width="50"
+                  height="50"
+                  src={
+                    user.profileImg != 'null'
+                      ? user.profileImg
+                      : 'https://static.solved.ac/misc/360x360/default_profile.png'
+                  }
+                ></CommonProfileImage>
+              </Link>
             </User>
           ))}
         </UserWrapper>
