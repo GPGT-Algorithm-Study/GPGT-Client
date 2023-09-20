@@ -110,7 +110,7 @@ export const UtilWrapper = styled.div`
 
 export const Util = styled.div`
   display: flex;
-  margin-right: 15px;
+  margin-right: 20px;
   flex-direction: column;
   align-items: center;
   cursor: pointer;

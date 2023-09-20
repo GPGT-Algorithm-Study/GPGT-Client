@@ -7,6 +7,7 @@ import Switch from 'react-switch';
 import {
   Card,
   CardContent,
+  TitleWrapper,
   Title,
   ProblemTitle,
   ProblemWrapper,
@@ -15,7 +16,10 @@ import {
   NoRandomProblem,
   TagSwitchWrapper,
 } from './style';
+import { BiRefresh } from 'react-icons/bi';
 import { CommonTierImg } from 'style/commonStyle';
+import Modal from 'layouts/Modal';
+import RefreshModalContent from './RefreshModalContent';
 
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트
@@ -23,6 +27,7 @@ import { CommonTierImg } from 'style/commonStyle';
 function RandomProblemCard({ user }) {
   const [showTags, setShowTags] = useState(false);
   const [problem, setProblem] = useState({});
+  const [showRefreshModal, setShowRefreshModal] = useState(false);
 
   // 유저의 랜덤 문제
   const [randomProblem] = useFetch(
@@ -57,6 +62,14 @@ function RandomProblemCard({ user }) {
     setShowTags((prev) => !prev);
   }, []);
 
+  /**
+   * 새로 고침 버튼 클릭 핸들러
+   */
+  const onClickRefreshButton = useCallback((e) => {
+    e.preventDefault();
+    setShowRefreshModal(true);
+  }, []);
+
   return (
     <Card>
       {problem.problemId == 0 && (
@@ -74,11 +87,12 @@ function RandomProblemCard({ user }) {
         rel="noopener noreferrer"
       >
         <CardContent isBlur={problem.problemId == 0}>
-          <Title>
-            <div>
+          <TitleWrapper>
+            <Title>
               오늘의 랜덤 문제
               <p> +{problem.point} P</p>
-            </div>
+              <BiRefresh size="21" onClick={onClickRefreshButton} />
+            </Title>
             <TagSwitchWrapper>
               <span>Tags</span>
               <Switch
@@ -93,7 +107,7 @@ function RandomProblemCard({ user }) {
                 disabled={problem.problemId == 0}
               />
             </TagSwitchWrapper>
-          </Title>
+          </TitleWrapper>
           <ProblemTitle>
             {problem.level && (
               <CommonTierImg
@@ -116,6 +130,18 @@ function RandomProblemCard({ user }) {
           </ProblemWrapper>
         </CardContent>
       </a>
+      <Modal
+        show={showRefreshModal}
+        onCloseModal={() => {
+          setShowRefreshModal(false);
+        }}
+      >
+        <RefreshModalContent
+          onCloseModal={() => {
+            setShowRefreshModal(false);
+          }}
+        />
+      </Modal>
     </Card>
   );
 }

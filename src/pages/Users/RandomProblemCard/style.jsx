@@ -1,6 +1,12 @@
 import styled from '@emotion/styled';
 import { CommonCard } from 'style/commonStyle';
 
+export const Title = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+
 export const Card = styled(CommonCard)`
   flex: 0 0 auto;
   padding: 20px 20px 20px 20px;
@@ -27,7 +33,7 @@ export const NoRandomProblem = styled.div`
   }
 `;
 
-export const Title = styled.div`
+export const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   font-weight: bold;

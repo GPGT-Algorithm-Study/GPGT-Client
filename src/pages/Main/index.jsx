@@ -40,6 +40,14 @@ function Main() {
         dispatch(setShowStoreModal(true));
       },
     },
+    {
+      id: 3,
+      name: '노션 페이지',
+      iconUrl: `${process.env.PUBLIC_URL}/notion_icon.svg`,
+      clickListener: () => {
+        window.open('https://www.notion.so/9add51f476244ba180872f35d7a8ce81');
+      },
+    },
   ];
   const [message] = useFetch(getLastComment, '');
 
