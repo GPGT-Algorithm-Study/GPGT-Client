@@ -42,6 +42,7 @@ function YesterdayUnsolved() {
                     : 'https://static.solved.ac/misc/360x360/default_profile.png'
                 }
                 onClick={(e) => onClickProfileImg(e, user.bojHandle)}
+                style={{ cursor: 'pointer' }}
               ></CommonProfileImage>
             </User>
           ))}
