@@ -91,7 +91,7 @@ function RandomProblemCard({ user }) {
             <Title>
               오늘의 랜덤 문제
               <p> +{problem.point} P</p>
-              <BiRefresh size="21" onClick={onClickRefreshButton} />
+              {/* <BiRefresh size="21" onClick={onClickRefreshButton} /> */}
             </Title>
             <TagSwitchWrapper>
               <span>Tags</span>
