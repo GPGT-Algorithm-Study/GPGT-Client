@@ -7,6 +7,8 @@ export const Card = styled(CommonCard)`
 `;
 
 export const UserWrapper = styled.div`
+  margin-left: 10px;
+  margin-right: 10px;
   display: flex;
   overflow-x: auto;
   -ms-overflow-style: none;

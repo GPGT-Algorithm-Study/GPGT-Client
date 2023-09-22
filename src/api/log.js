@@ -33,6 +33,14 @@ export function getAllWarningLog() {
 }
 
 /**
+ *
+ * 전체 사용자 포인트 로그를 조회
+ */
+export function getAllPointLog() {
+  return axios.get(`${PREFIX_URL}/point/all`);
+}
+
+/**
  * bojHandle에 해당하는 사용자에게 경고를 부여/차감한다
  * @param params { bojHandle, changedValue, description }
  */
