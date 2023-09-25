@@ -9,9 +9,6 @@ export const CategoryWrapper = styled.span`
 
 export const FormItem = styled.div`
   font-weight: bold;
-  .item {
-    margin-top: 10px;
-  }
   & input {
     width: 100%;
     border: 1px solid var(--color-unchecked);
@@ -52,4 +49,8 @@ export const Button = styled(CommonButton)`
     props.primary ? 'var(--color-primary)' : 'var(--color-tag)'};
   font-size: 1rem;
   font-weight: normal;
+`;
+
+export const Container = styled.div`
+  overflow: scroll;
 `;

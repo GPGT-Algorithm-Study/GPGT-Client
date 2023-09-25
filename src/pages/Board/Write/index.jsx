@@ -6,6 +6,7 @@ import {
   CategoryWrapper,
   Category,
   FormItem,
+  Container,
 } from './style';
 import { CommonTitle } from 'style/commonStyle';
 import { useNavigate } from 'react-router-dom';
@@ -82,18 +83,20 @@ function Write({ post }) {
   }, [uuidList, title, content, selectedCategory]);
 
   return (
-    <div>
+    <Container>
       <CommonTitle>글 쓰기</CommonTitle>
       <Form>
         <FormItem>
-          제목
-          <div className="item">
-            <input value={title} onChange={onChangeTitle}></input>
+          <div>
+            <input
+              value={title}
+              onChange={onChangeTitle}
+              placeholder="제목"
+            ></input>
           </div>
         </FormItem>
         <FormItem>
-          카테고리
-          <CategoryWrapper className="item">
+          <CategoryWrapper>
             {categories.map((category) => (
               <Category
                 key={category.key}
@@ -108,8 +111,7 @@ function Write({ post }) {
           </CategoryWrapper>
         </FormItem>
         <FormItem>
-          내용
-          <div className="item">
+          <div>
             <FileDrop
               onDragOver={(e) => {
                 setBoardColor(true);
@@ -147,7 +149,7 @@ function Write({ post }) {
               }}
             >
               <MDEditor
-                height={350}
+                height={600}
                 value={content}
                 onChange={setContent}
                 style={{
@@ -166,7 +168,7 @@ function Write({ post }) {
           <Button onClick={onClose}>취소</Button>
         </ButtonWrapper>
       </Form>
-    </div>
+    </Container>
   );
 }
 
