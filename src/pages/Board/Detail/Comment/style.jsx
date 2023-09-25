@@ -11,7 +11,7 @@ export const InputForm = styled.form`
   width: 100%;
   & input {
     border: none;
-    background-color: var(--color-unchecked);
+    background-color: var(--color-input);
     border-radius: 7px;
     height: 40px;
     margin-bottom: 10px;

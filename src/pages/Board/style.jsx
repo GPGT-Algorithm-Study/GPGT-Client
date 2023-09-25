@@ -3,7 +3,7 @@ import { CommonCard } from 'style/commonStyle';
 
 export const CategoryWrapper = styled.div`
   display: flex;
-  gap: 15px;
+  gap: 10px;
   flex-wrap: wrap;
 `;
 
@@ -14,7 +14,8 @@ export const Category = styled.div`
   color: ${(props) => (props.selected ? 'white' : '')};
   font-weight: ${(props) => (props.selected ? 'bold' : '')};
   cursor: pointer;
-  padding: 13px 25px 13px 25px;
+  padding: 9px 20px;
+  font-size: 0.9rem;
 `;
 
 export const Post = styled(CommonCard)`
@@ -141,8 +142,8 @@ export const WriteButton = styled.div`
   border-radius: 50px;
   cursor: pointer;
   position: fixed;
-  bottom: 25px;
-  right: 25px;
+  bottom: 45px;
+  right: 45px;
   background-color: var(--color-primary);
   color: white;
   display: flex;
@@ -154,7 +155,7 @@ export const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding-right: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 15px;
 `;
@@ -168,4 +169,8 @@ export const Writer = styled.div`
 
 export const PostInfo = styled.td`
   color: var(--color-textgrey);
+`;
+
+export const Container = styled.div`
+  margin-bottom: 80px;
 `;

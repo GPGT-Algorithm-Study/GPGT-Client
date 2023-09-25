@@ -30,8 +30,10 @@ export const Button = styled.div`
   cursor: pointer;
 `;
 export const Content = styled.div`
-  margin: 15px 0 50px 0;
-  padding-bottom: 50px;
+  margin: 0 0 50px 0;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: white;
   /* border-bottom: 1px solid var(--color-bordergrey); */
 `;
 
@@ -41,10 +43,11 @@ export const CommentWrapper = styled.div`
 `;
 
 export const Container = styled.div`
-  padding: 0 25px;
+  /* padding: 0 25px; */
 `;
 
 export const BackButton = styled(IoArrowBackSharp)`
   color: var(--color-textgrey);
   margin-bottom: 20px;
+  cursor: pointer;
 `;

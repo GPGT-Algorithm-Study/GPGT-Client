@@ -18,6 +18,7 @@ import { isEmpty } from 'lodash';
 import axios from 'axios';
 import { boardType } from 'utils/board';
 import { createPost } from 'api/board';
+import { BackButton } from '../Detail/style';
 
 /**
  * 게시판 글 작성 컴포넌트
@@ -84,6 +85,7 @@ function Write({ post }) {
 
   return (
     <Container>
+      <BackButton onClick={onClose} size="24" />
       <CommonTitle>글 쓰기</CommonTitle>
       <Form>
         <FormItem>
@@ -162,10 +164,9 @@ function Write({ post }) {
           </div>
         </FormItem>
         <ButtonWrapper>
-          <Button primary onClick={writePost}>
+          <Button primary onClick={writePost} width="100px">
             작성
           </Button>
-          <Button onClick={onClose}>취소</Button>
         </ButtonWrapper>
       </Form>
     </Container>

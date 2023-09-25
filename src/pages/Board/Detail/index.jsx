@@ -9,8 +9,8 @@ import {
   WriteInfo,
   Content,
   CommentWrapper,
-  Container,
   BackButton,
+  Container,
 } from './style';
 import { CommonProfileImage } from 'style/commonStyle';
 import Comment from './Comment';
@@ -65,7 +65,9 @@ function Detail() {
               {post.bojHandle} {post.emoji}
             </div>
           </Writer>
-          <CreateDate>{dayjs(post.date).format('YYYY년 M월 DD일')}</CreateDate>
+          <CreateDate>
+            {dayjs(post.createDate).format('YYYY년 M월 DD일 hh:mm')}
+          </CreateDate>
         </WriteInfo>
         <WriteInfo>
           {user.bojHandle == post.bojHandle && (

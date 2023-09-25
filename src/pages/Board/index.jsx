@@ -10,6 +10,7 @@ import {
   PageWrapper,
   SearchForm,
   PostInfo,
+  Container,
   WriteButton,
 } from './style';
 import { useNavigate } from 'react-router-dom';
@@ -70,7 +71,7 @@ function Board() {
   }, []);
 
   return (
-    <>
+    <Container>
       <HeaderWrapper>
         <CategoryWrapper>
           {categories.map((category) => (
@@ -144,7 +145,7 @@ function Board() {
       >
         <BsFillPencilFill />
       </WriteButton>
-    </>
+    </Container>
   );
 }
 

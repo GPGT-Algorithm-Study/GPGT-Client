@@ -138,6 +138,7 @@ const baseStyle = css`
     --color-textgrey: rgb(112, 112, 112);
     --color-textlight: rgb(150, 150, 150);
     --color-error: #f24343;
+    --color-input: rgb(230, 230, 230);
     --color-unchecked: rgb(220, 220, 220);
     --color-tag: rgb(228, 228, 230);
     --color-bordergrey: rgb(201, 201, 201);
