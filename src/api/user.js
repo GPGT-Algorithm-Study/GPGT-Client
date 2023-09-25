@@ -112,3 +112,13 @@ export function postNewUser(params) {
 export function delUser(params) {
   return axios.delete(`${PREFIX_URL}/del?bojHandle=${params.bojHandle}`);
 }
+
+/**
+ * 특정 유저의 랜덤 문제 다시 뽑기를 구매한다.
+ * params: bojHandle
+ */
+export function rerollRandomProblem(params) {
+  return axios.post(
+    `${PREFIX_URL}/streak/reroll?bojHandle=${params.bojHandle}`,
+  );
+}

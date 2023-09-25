@@ -22,6 +22,6 @@ export const ButtonWrapper = styled.div`
   margin-top: 20px;
   display: flex;
   justify-content: center;
-  gap: 5px;
+  gap: 10px;
   width: 100%;
 `;

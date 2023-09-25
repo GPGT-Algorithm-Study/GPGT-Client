@@ -26,7 +26,7 @@ const useFetch = (axiosRequest, initialValue, initialParams) => {
         toast.error(res.data.message);
       });
 
-  return [data, fetchData, setParams];
+  return [data, fetchData, setParams, setData];
 };
 
 export default useFetch;
