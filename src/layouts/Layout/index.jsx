@@ -11,6 +11,7 @@ import {
   FoldMyInfo,
   MobileMenuWrapper,
   MobileMenuIcon,
+  EventHeader,
 } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
@@ -37,6 +38,9 @@ import { useLocation } from 'react-router-dom';
 import { userLogout } from 'api/user';
 import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
 import { CommonFlexWrapper } from 'style/commonStyle';
+import { getValidPointEvents } from 'api/event';
+import { isEmpty } from 'lodash';
+import dayjs from 'dayjs';
 
 function Layout({ children }) {
   const dispatch = useDispatch();
@@ -51,6 +55,7 @@ function Layout({ children }) {
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const { isAdmin } = useSelector((state) => state.user);
+  const [pointEvent] = useFetch(getValidPointEvents);
 
   // 좌측 탭 목록
   const [tabs, setTabs] = useState({
@@ -178,19 +183,30 @@ function Layout({ children }) {
             </FlexWrapper>
           </div>
         </CommonFlexWrapper>
-        <RightWrapper>
-          <div
-            className="clickable"
-            onClick={() => {
-              dispatch(setShowRecommendModal(true));
-            }}
-          >
-            문제추천
-          </div>
-          <div className="clickable" onClick={onClickStore}>
-            상점
-          </div>
-        </RightWrapper>
+        <>
+          <RightWrapper>
+            <div
+              className="clickable"
+              onClick={() => {
+                dispatch(setShowRecommendModal(true));
+              }}
+            >
+              문제추천
+            </div>
+            <div className="clickable" onClick={onClickStore}>
+              상점
+            </div>
+          </RightWrapper>
+          {pointEvent && !isEmpty(pointEvent) && (
+            <EventHeader>
+              <div>
+                [{pointEvent[0].eventName}] {pointEvent[0].description} 이벤트가
+                진행중입니다. ({dayjs(pointEvent[0].startTime).format('M/D')} ~{' '}
+                {dayjs(pointEvent[0].endTime).format('M/D')})
+              </div>
+            </EventHeader>
+          )}
+        </>
       </FlexWrapper>
 
       {showMobileMenu && (

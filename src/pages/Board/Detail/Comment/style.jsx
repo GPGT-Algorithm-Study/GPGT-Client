@@ -42,6 +42,7 @@ export const CommentList = styled.div`
 export const WriteInfo = styled.div`
   display: flex;
   column-gap: 7px;
+  row-gap: 3px;
   align-items: center;
   margin-bottom: 10px;
   justify-content: space-between;
