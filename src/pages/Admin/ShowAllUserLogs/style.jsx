@@ -100,7 +100,6 @@ export const Id = styled.div`
 `;
 
 export const Button = styled.button`
-  align-self: right;
   width: 80px;
   padding: 8px 0 8px 0;
   border-radius: 7px;
