@@ -68,12 +68,12 @@ function Layout({ children }) {
       icon: <BsBarChartFill />,
       route: '/statistics',
     },
-    // board: {
-    //   id: 4,
-    //   name: '게시판',
-    //   icon: <FaClipboardList />,
-    //   route: '/board',
-    // },
+    board: {
+      id: 4,
+      name: '게시판',
+      icon: <FaClipboardList />,
+      route: '/board',
+    },
   });
 
   useEffect(() => {

@@ -14,15 +14,18 @@ import MDEditor from '@uiw/react-md-editor';
 import { FileDrop } from 'react-file-drop';
 import { toast } from 'react-toastify';
 import { isEmpty } from 'lodash';
+import axios from 'axios';
+import { boardType } from 'utils/board';
+import { createPost } from 'api/board';
 
 /**
  * 게시판 글 작성 컴포넌트
  */
 function Write({ post }) {
-  const categories = ['자유게시판', '문제풀이'];
+  const categories = [boardType.FREE, boardType.PS, boardType.QUES];
   const user = useSelector((state) => state.user);
   if (user.isAdmin) {
-    categories.push('공지사항');
+    categories.push(boardType.NOTICE);
   }
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [title, setTitle] = useState('');
@@ -40,6 +43,44 @@ function Write({ post }) {
     setContent('');
   }, []);
 
+  // 업로드할 이미지의 uuid 리스트 (공백 없이 , 로 구분)
+  const [uuidList, setUuidList] = useState('');
+  // 유효성 검사
+  const validate = useCallback(() => {
+    if (isEmpty(title.trim())) {
+      toast.error('제목을 입력해주세요');
+      return false;
+    }
+    if (isEmpty(content.trim())) {
+      toast.error('내용을 입력해주세요');
+      return false;
+    }
+    setContent(content.trim());
+    setTitle(title.trim());
+    return true;
+  }, [title, content]);
+  // 게시글 업로드
+  const writePost = useCallback(() => {
+    if (!validate()) {
+      return;
+    }
+    const post = {
+      type: selectedCategory.key,
+      bojHandle: user.bojHandle,
+      title,
+      content,
+      imageUUIDs: uuidList,
+    };
+    createPost(post)
+      .then((res) => {
+        toast.success('글을 작성하였습니다.');
+        navigate(`/board/${res.data.id}`);
+      })
+      .catch((e) => {
+        toast.error('글을 작성하는데 실패하였습니다.');
+      });
+  }, [uuidList, title, content, selectedCategory]);
+
   return (
     <div>
       <CommonTitle>글 쓰기</CommonTitle>
@@ -55,13 +96,13 @@ function Write({ post }) {
           <CategoryWrapper className="item">
             {categories.map((category) => (
               <Category
-                key={category}
-                selected={selectedCategory == category}
+                key={category.key}
+                selected={selectedCategory.key == category.key}
                 onClick={() => {
                   setSelectedCategory(category);
                 }}
               >
-                {category}
+                {category.label}
               </Category>
             ))}
           </CategoryWrapper>
@@ -87,19 +128,18 @@ function Write({ post }) {
                   files[0].type == 'image/jpeg' ||
                   files[0].type == 'image/jpg'
                 ) {
-                  //   axios
-                  //     .post('api url을 입력하세요.', formdata, headers)
-                  //     .then(function (res) {
-                  //       const imageName = res.data;
-                  //       const newValue =
-                  //         value +
-                  //         '\n\n ![' +
-                  //         files[0].name +
-                  //         '](https://image.fleaman.shop/' +
-                  //         imageName +
-                  //         ')';
-                  //       setValue(newValue);
-                  //     });
+                  axios
+                    .post('/api/v1/image/s3/upload', formdata, headers)
+                    .then(function (res) {
+                      const imageName = res.data.url;
+                      const newContent = `${content}\n\n![${files[0].name}](${imageName})`;
+                      setContent(newContent);
+                      const uuid = imageName.split('/').slice(-1)[0];
+                      setUuidList((prev) => {
+                        if (isEmpty(prev)) return uuid;
+                        return `${prev},${uuid}`;
+                      });
+                    });
                 } else {
                   toast.error('png, jpg, jpeg 파일이 아닙니다.');
                 }
@@ -114,12 +154,15 @@ function Write({ post }) {
                   backgroundColor: boardColor ? '#d6e3ef' : null,
                   fontWeight: 'normal',
                 }}
+                data-color-mode="light"
               />
             </FileDrop>
           </div>
         </FormItem>
         <ButtonWrapper>
-          <Button primary>작성</Button>
+          <Button primary onClick={writePost}>
+            작성
+          </Button>
           <Button onClick={onClose}>취소</Button>
         </ButtonWrapper>
       </Form>

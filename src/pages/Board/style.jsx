@@ -4,7 +4,6 @@ import { CommonCard } from 'style/commonStyle';
 export const CategoryWrapper = styled.div`
   display: flex;
   gap: 15px;
-  margin-bottom: 30px;
   flex-wrap: wrap;
 `;
 
@@ -72,22 +71,22 @@ export const Table = styled.table`
     cursor: none;
   }
   /* 테이블 비율 */
-  & th:nth-child(1),
-  & td:nth-child(1) {
-    width: 70%;
+  & th:nth-of-type(1),
+  & td:nth-of-type(1) {
+    width: 60%;
     @media all and (max-width: 544px) {
-      width: 50%;
+      width: 40%;
     }
   }
-  & th:nth-child(2),
-  & td:nth-child(2) {
+  & th:nth-of-type(2),
+  & td:nth-of-type(2) {
     width: 15%;
     @media all and (max-width: 544px) {
       width: 20%;
     }
   }
-  & th:nth-child(3),
-  & td:nth-child(3) {
+  & th:nth-of-type(3),
+  & td:nth-of-type(3) {
     width: 15%;
     @media all and (max-width: 544px) {
       width: 30%;
@@ -155,6 +154,9 @@ export const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding-right: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
 `;
 
 export const Writer = styled.div`

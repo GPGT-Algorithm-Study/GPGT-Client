@@ -1,112 +1,69 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { CommonTitle, CommonProfileImage } from 'style/commonStyle';
+import { CommonTitle } from 'style/commonStyle';
 import {
   HeaderWrapper,
   Category,
   CategoryWrapper,
   Table,
-  PostInfo,
   BoardTitleWrapper,
   BoardHeader,
   PageWrapper,
   SearchForm,
+  PostInfo,
   WriteButton,
 } from './style';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { isEmpty } from 'lodash';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineSearch } from 'react-icons/ai';
 import Pagination from 'components/Pagination';
+import { boardType } from 'utils/board';
+import useFetch from 'hooks/useFetch';
+import { getPostsByType } from 'api/board';
 
 /**
  * 게시판 탭 내용 컴포넌트
  */
 function Board() {
   const SIZE = 10;
-  const categories = ['자유게시판', '문제풀이', '공지사항', '내가 쓴 글'];
+  const categories = [
+    boardType.FREE,
+    boardType.PS,
+    boardType.QUES,
+    boardType.NOTICE,
+  ];
   const [curCategory, setCurCategory] = useState(categories[0]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
+  const [postList, setPostList] = useState([]);
+  const [params, setParams] = useState({
+    page: page - 1,
+    size: SIZE,
+    type: curCategory.key,
+  });
 
-  // 임시데이터
-  const [postList] = useState([
-    {
-      id: '1',
-      title: '다익스트라 알고리즘',
-      writer: 'klloo',
-      emoji: '🏖️',
-      date: new Date(),
-    },
-    {
-      id: '2',
-      title: '컨벡스헐',
-      writer: 'klloo',
-      emoji: '🏖️',
-      date: new Date(),
-    },
-    {
-      id: '3',
-      title: '아니 제목 글자 제한을 둬야할 것 같기도 하고',
-      writer: 'klloo',
-      emoji: '🏖️',
-      date: new Date(),
-    },
-    {
-      id: '4',
-      title: '다익스트라 알고리즘',
-      writer: 'klloo',
-      emoji: '🏖️',
-      date: new Date(),
-    },
-    {
-      id: '5',
-      title: '다익스트라 알고리즘',
-      writer: 'klloo',
-      emoji: '🏖️',
-      date: new Date(),
-    },
-    {
-      id: '6',
-      title: '다익스트라 알고리즘',
-      writer: 'klloo',
-      emoji: '🏖️',
-      date: new Date(),
-    },
-    {
-      id: '7',
-      title: '다익스트라 알고리즘',
-      writer: 'klloo',
-      emoji: '🏖️',
-      date: new Date(),
-    },
-    {
-      id: '8',
-      title: '다익스트라 알고리즘',
-      writer: 'klloo',
-      emoji: '🏖️',
-      date: new Date(),
-    },
-    {
-      id: '9',
-      title: '다익스트라 알고리즘',
-      writer: 'klloo',
-      emoji: '🏖️',
-      date: new Date(),
-    },
-    {
-      id: '10',
-      title: '다익스트라 알고리즘',
-      writer: 'klloo',
-      emoji: '🏖️',
-      date: new Date(),
-    },
-  ]);
-  // 임시
+  const [postsInfo, , setPostParams] = useFetch(getPostsByType, [], params);
+
+  // 페이징 및 현재 카테고리 바뀌면 다시 로드
   useEffect(() => {
-    setTotal(35);
-  }, []);
+    setParams({
+      page: page - 1,
+      size: SIZE,
+      type: curCategory.key,
+    });
+  }, [page, curCategory]);
+  useEffect(() => {
+    setPostParams(params);
+  }, [params]);
+
+  useEffect(() => {
+    if (isEmpty(postsInfo)) return;
+    setPostList(postsInfo.content);
+    setTotal(postsInfo.totalElements);
+  }, [postsInfo]);
 
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
@@ -118,20 +75,21 @@ function Board() {
         <CategoryWrapper>
           {categories.map((category) => (
             <Category
-              key={category}
-              selected={curCategory == category}
+              key={category.key}
+              selected={curCategory.key == category.key}
               onClick={() => {
                 setCurCategory(category);
               }}
             >
-              {category}
+              {category.label}
             </Category>
           ))}
         </CategoryWrapper>
+        <Category>내가 쓴 글</Category>
       </HeaderWrapper>
       <BoardHeader>
         <BoardTitleWrapper>
-          <CommonTitle>{curCategory}</CommonTitle>
+          <CommonTitle>{curCategory.label}</CommonTitle>
           <p>{total} 개의 게시글</p>
         </BoardTitleWrapper>
         <SearchForm>
@@ -161,21 +119,23 @@ function Board() {
                 navigate(`/board/${post.id}`);
               }}
             >
-              <td>{post.title} (2)</td>
-              <PostInfo>{post.writer}</PostInfo>
+              <td>{post.title}</td>
+              <PostInfo>{post.bojHandle}</PostInfo>
               <PostInfo>{dayjs(post.date).format('YYYY-MM-DD')}</PostInfo>
             </tr>
           ))}
         </tbody>
       </Table>
-      <PageWrapper>
-        <Pagination
-          totalPage={Math.ceil(total / SIZE)}
-          limit={5}
-          page={page}
-          setPage={setPage}
-        />
-      </PageWrapper>
+      {Math.ceil(total / SIZE) > 1 && (
+        <PageWrapper>
+          <Pagination
+            totalPage={Math.ceil(total / SIZE)}
+            limit={5}
+            page={page}
+            setPage={setPage}
+          />
+        </PageWrapper>
+      )}
       <WriteButton
         primary
         onClick={() => {

@@ -48,11 +48,11 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/statistics" element={<Statistics />} />
-            {/* <Route path="/board">
+            <Route path="/board">
               <Route index element={<Board />} />
               <Route path="write" element={<Write />} />
               <Route path=":id" element={<Detail />} />
-            </Route> */}
+            </Route>
           </Route>
 
           {/* 관리자만 접속 가능한 페이지 정의 */}

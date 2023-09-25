@@ -25,7 +25,7 @@ export function getPostsByType(params) {
  * post: type, bojHandle, title, content, imageUUIDs(공백없이 ,로 분리)
  */
 export function createPost(post) {
-  return axios.post(`${PREFIX_URL}/pusblish`, post);
+  return axios.post(`${PREFIX_URL}/publish`, post);
 }
 
 /**

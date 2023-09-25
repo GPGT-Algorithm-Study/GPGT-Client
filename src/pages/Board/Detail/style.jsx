@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { IoArrowBackSharp } from 'react-icons/io5';
 
 export const Title = styled.div`
   font-size: 1.5rem;
@@ -37,4 +38,13 @@ export const Content = styled.div`
 export const CommentWrapper = styled.div`
   margin: 0 0 70px 0;
   padding: 0 10px 0 10px;
+`;
+
+export const Container = styled.div`
+  padding: 0 25px;
+`;
+
+export const BackButton = styled(IoArrowBackSharp)`
+  color: var(--color-textgrey);
+  margin-bottom: 20px;
 `;
