@@ -65,6 +65,7 @@ export const Writer = styled.div`
 export const NoticeCard = styled(CommonCard)`
   padding: 12px;
   margin: 0 20px 50px 20px;
+  cursor: pointer;
   /* color: white;
   background-color: var(--color-primary); */
 `;
