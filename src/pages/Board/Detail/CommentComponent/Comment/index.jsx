@@ -19,6 +19,7 @@ import { isEmpty } from 'lodash';
 import { CommonProfileImage } from 'style/commonStyle';
 import { Link } from 'react-router-dom';
 import regexifyString from 'regexify-string';
+import MentionInput from 'components/MentionInput';
 
 /**
  * 댓글 한개 컴포넌트
@@ -98,9 +99,11 @@ function Comment({ comment, fetchComment, reply = false }) {
   const CommentContent = (
     <div>
       {editMode ? (
-        <form onSubmit={onClickUpdateComment}>
-          <Input value={editContent} onChange={onChangeEditContent} />
-        </form>
+        <MentionInput
+          onSubmitComment={onClickUpdateComment}
+          onChangeComment={onChangeEditContent}
+          commentContent={editContent}
+        />
       ) : (
         <div>{result}</div>
       )}
