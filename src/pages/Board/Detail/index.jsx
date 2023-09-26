@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import {
   Title,
@@ -22,6 +22,10 @@ import { deletePost, getPost } from 'api/board';
 import { toast } from 'react-toastify';
 import Write from '../Write';
 import { writeType } from 'utils/board';
+import { CommonProfileImage } from 'style/commonStyle';
+import BoardProblemCard from '../BoardProblemCard';
+import { getProblemInfo } from 'api/problem';
+import { isEmpty } from 'lodash';
 
 /**
  * 게시판 글 상세 컴포넌트
@@ -34,6 +38,34 @@ function Detail() {
   });
   const navigate = useNavigate();
   const [writeMode, setWriteMode] = useState(false);
+  const [problemInfo, setProblemInfo] = useState(false);
+  const [hasProblem, setHasProblem] = useState(false);
+
+  // 게시글에 문제 정보 있으면 가져오기
+  useEffect(() => {
+    if (post.problemId) {
+      getProblemInfo({ problemId: post.problemId.toString() })
+        .then((res) => {
+          if (res.status == 200) {
+            if (res.data) {
+              const { data } = res;
+              setProblemInfo(data);
+            }
+          } else {
+            toast.error('존재하지 않는 문제 입니다.');
+            setProblemInfo({});
+          }
+        })
+        .catch((e) => {
+          toast.error('존재하지 않는 문제 입니다.');
+          setProblemInfo({});
+        });
+    }
+  }, [post]);
+
+  useEffect(() => {
+    setHasProblem(!isEmpty(problemInfo));
+  }, [problemInfo]);
 
   // 글 삭제
   const onClickDeletePost = useCallback(() => {
@@ -72,8 +104,9 @@ function Detail() {
       <Toolbar>
         <WriteInfo>
           <Writer>
+            <CommonProfileImage width={20} height={20} src={post.profileImg} />
             <div>
-              {post.bojHandle} {post.emoji}
+              {post.notionId} {post.emoji}
             </div>
           </Writer>
           <CreateDate>
@@ -95,6 +128,7 @@ function Detail() {
           )}
         </WriteInfo>
       </Toolbar>
+      {hasProblem && <BoardProblemCard problem={problemInfo} />}
       <Content data-color-mode="light">
         <MDEditor.Markdown
           style={{

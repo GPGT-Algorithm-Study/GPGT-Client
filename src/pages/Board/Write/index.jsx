@@ -19,6 +19,8 @@ import axios from 'axios';
 import { boardType, writeType } from 'utils/board';
 import { createPost, updatePost } from 'api/board';
 import { BackButton } from '../Detail/style';
+import { getProblemInfo } from 'api/problem';
+import BoardProblemCard from '../BoardProblemCard';
 
 /**
  * 게시판 글 작성 컴포넌트
@@ -32,11 +34,31 @@ function Write({ mode, type, closeWriteMode, post }) {
   const [selectedCategory, setSelectedCategory] = useState(type);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [problemId, setProblemId] = useState('');
   const [boardColor, setBoardColor] = useState(false);
+  const [problemInfo, setProblemInfo] = useState({});
+  const [hasProblemType, setHasProblemType] = useState(false);
+  const [hasProblemInfo, setHasProblemInfo] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setHasProblemInfo(!isEmpty(problemInfo));
+  }, [problemInfo]);
+
+  // 문제 풀이, 질문 게시판에만 문제 번호 필요
+  useEffect(() => {
+    setHasProblemType(
+      selectedCategory === boardType.PS.key ||
+        selectedCategory === boardType.QUES.key,
+    );
+  }, [selectedCategory]);
 
   const onChangeTitle = useCallback((e) => {
     setTitle(e.target.value);
+  }, []);
+
+  const onChangeProblemId = useCallback((e) => {
+    setProblemId(e.target.value);
   }, []);
 
   const onClose = useCallback(() => {
@@ -45,10 +67,15 @@ function Write({ mode, type, closeWriteMode, post }) {
     setContent('');
   }, []);
 
+  // 편집일 경우 기존 정보 불러오기
   useEffect(() => {
     if (!isEmpty(post) && mode === writeType.EDIT) {
       setTitle(post.title);
       setContent(post.content);
+      if (post.problemId) {
+        setProblemId(post.problemId);
+        onClickProblemButton(post.problemId);
+      }
     }
   }, [mode, post]);
 
@@ -77,6 +104,9 @@ function Write({ mode, type, closeWriteMode, post }) {
       content,
       imageUUIDs: uuidList,
     };
+    if (hasProblemType && hasProblemInfo) {
+      newPost.problemId = problemId;
+    }
     createPost(newPost)
       .then((res) => {
         toast.success('글을 작성하였습니다.');
@@ -85,8 +115,17 @@ function Write({ mode, type, closeWriteMode, post }) {
       .catch((e) => {
         toast.error('글을 작성하는데 실패하였습니다.');
       });
-  }, [uuidList, title, content, selectedCategory]);
+  }, [
+    uuidList,
+    title,
+    content,
+    selectedCategory,
+    problemId,
+    hasProblemType,
+    hasProblemInfo,
+  ]);
 
+  // 컨텐츠에서 이미지 uuid만 파싱
   const getImageUuids = useCallback((markdownContent) => {
     const regex = /!\[\]\((.*?)\)/g;
     const uuids = [];
@@ -108,16 +147,27 @@ function Write({ mode, type, closeWriteMode, post }) {
       content,
       imageUUIDs: getImageUuids(content),
     };
+    if (hasProblemType && hasProblemInfo) {
+      newPost.problemId = problemId;
+    }
     updatePost(newPost)
-      .then((res) => {
+      .then(() => {
         toast.success('글을 수정하였습니다.');
         closeWriteMode();
       })
       .catch((e) => {
         toast.error('글을 수정하는데 실패하였습니다.');
       });
-  }, [uuidList, title, content, selectedCategory]);
+  }, [
+    title,
+    content,
+    selectedCategory,
+    problemId,
+    hasProblemType,
+    hasProblemInfo,
+  ]);
 
+  // 작성 버튼 클릭. 유효성 검사 후 작성이면 작성 수정이면 수정 함수 호출
   const onClickWriteButton = useCallback(() => {
     if (!validate()) {
       return;
@@ -128,7 +178,35 @@ function Write({ mode, type, closeWriteMode, post }) {
     }
     editPost();
     return;
-  }, [uuidList, title, content, selectedCategory]);
+  }, [
+    uuidList,
+    title,
+    content,
+    selectedCategory,
+    problemId,
+    hasProblemType,
+    hasProblemInfo,
+  ]);
+
+  // 문제 입력 버튼 클릭 핸들러
+  const onClickProblemButton = useCallback((id) => {
+    getProblemInfo({ problemId: id.toString() })
+      .then((res) => {
+        if (res.status == 200) {
+          if (res.data) {
+            const { data } = res;
+            setProblemInfo(data);
+          }
+        } else {
+          toast.error('존재하지 않는 문제 입니다.');
+          setProblemInfo({});
+        }
+      })
+      .catch((e) => {
+        toast.error('존재하지 않는 문제 입니다.');
+        setProblemInfo({});
+      });
+  }, []);
 
   return (
     <Container>
@@ -161,6 +239,29 @@ function Write({ mode, type, closeWriteMode, post }) {
             ))}
           </CategoryWrapper>
         </FormItem>
+        {/* 문제 번호 입력 (질문게시판, 문제풀이 게시판일 경우에만 제공) */}
+        {hasProblemType && (
+          <>
+            <FormItem width="50%">
+              <div>
+                <input
+                  value={problemId}
+                  onChange={onChangeProblemId}
+                  placeholder="문제 번호를 입력해주세요"
+                  type="number"
+                />
+                <button
+                  onClick={() => {
+                    onClickProblemButton(problemId);
+                  }}
+                >
+                  입력
+                </button>
+              </div>
+            </FormItem>
+            {hasProblemInfo && <BoardProblemCard problem={problemInfo} />}
+          </>
+        )}
         <FormItem>
           <div>
             <FileDrop

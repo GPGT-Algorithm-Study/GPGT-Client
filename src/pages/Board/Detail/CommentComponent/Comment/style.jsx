@@ -12,9 +12,7 @@ export const WriteInfo = styled.div`
 
 export const Writer = styled.div`
   font-weight: bold;
-  font-size: 1.1rem;
   display: flex;
-  gap: 7px;
   align-items: center;
 `;
 
@@ -22,6 +20,7 @@ export const CreateDate = styled.div`
   font-size: 0.8rem;
   color: var(--color-textgrey);
   font-weight: normal;
+  margin-left: 7px;
 `;
 
 export const ReplyButton = styled.div`

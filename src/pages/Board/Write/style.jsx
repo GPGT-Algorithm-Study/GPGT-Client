@@ -10,11 +10,21 @@ export const CategoryWrapper = styled.span`
 export const FormItem = styled.div`
   font-weight: bold;
   & input {
-    width: 100%;
+    width: ${(props) => (props.width ? props.width : '100%')};
     border: 1px solid var(--color-unchecked);
     padding: 10px;
     box-sizing: border-box;
     border-radius: 7px;
+  }
+  & button {
+    height: 35px;
+    padding: 0 25px;
+    border: none;
+    background-color: var(--color-primary);
+    border-radius: 7px;
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
   }
 `;
 

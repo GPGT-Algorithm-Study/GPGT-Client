@@ -15,7 +15,22 @@ export const boardType = {
     label: '공지사항',
     key: 'notice',
   },
+  MY: {
+    label: '내가 쓴 글',
+    key: 'myboard',
+  },
 };
+
+export function getTypeLabel(type) {
+  let label = '';
+  Object.keys(boardType).forEach((key) => {
+    if (boardType[key].key === type) {
+      label = boardType[key].label;
+      return;
+    }
+  });
+  return label;
+}
 
 export const writeType = {
   WRITE: 1,

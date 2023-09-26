@@ -51,3 +51,24 @@ export function deletePost(params) {
 export function getPost(params) {
   return axios.get(`${PREFIX_URL}/detail?boardId=${params.boardId}`);
 }
+
+/**
+ * 사용자가 작성한 게시글 목록을 조회한다.
+ * params : page, size, bojHandle
+ */
+export function getPostsByUser(params) {
+  return axios.get(
+    `${PREFIX_URL}/all?page=${params.page}&size=${params.size}&bojHandle=${params.bojHandle}`,
+  );
+}
+
+/**
+ * 조건에 따라 게시글 정보를 조회한다.
+ * params : page, size, condition(bojHandle, type, query(검색 키워드))
+ */
+export function getPostsByCondition(params) {
+  return axios.get(
+    `${PREFIX_URL}/all?page=${params.page}&size=${params.size}`,
+    params.condition,
+  );
+}

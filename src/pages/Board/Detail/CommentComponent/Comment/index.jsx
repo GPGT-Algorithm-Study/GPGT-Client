@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import { BsArrowReturnRight } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
+import { CommonProfileImage } from 'style/commonStyle';
 
 /**
  * 댓글 한개 컴포넌트
@@ -92,11 +93,12 @@ function Comment({ comment, fetchComment, reply = false }) {
       <WriteInfo>
         <Writer>
           {reply && (
-            <BsArrowReturnRight style={{ color: 'var(--color-textgrey)' }} />
+            <BsArrowReturnRight
+              style={{ color: 'var(--color-textgrey)', marginRight: '5px' }}
+            />
           )}
-          <div>
-            {comment.bojHandle} {comment.emoji}
-          </div>
+          <CommonProfileImage width={20} height={20} src={comment.profileImg} />
+          <div>{comment.notionId}</div>
           <CreateDate key={comment.id}>
             {dayjs(comment.createdDate).format('YYYY.MM.DD HH:MM')}
           </CreateDate>
