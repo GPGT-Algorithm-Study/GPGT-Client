@@ -18,20 +18,6 @@ export const FlexWrapper = styled.div`
   }
 `;
 
-export const RightWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: center;
-  & div {
-    font-weight: bold;
-    margin: 3px 20px 3px 0px;
-  }
-  .clickable {
-    cursor: pointer;
-  }
-`;
-
 export const Header = styled.div`
   margin-left: auto;
   margin-right: auto;
@@ -47,6 +33,7 @@ export const Content = styled.div`
   /* margin-left: auto;
   margin-right: auto;
   max-width: var(--width-maxwidth); */
+  width: 100%;
   height: 100vh;
   overflow: scroll;
   & section {
@@ -84,7 +71,7 @@ export const Menu = styled.div`
   }
 `;
 
-export const FoldSide = styled.aside`
+export const SideMenu = styled.aside`
   height: 100vh;
   float: left;
   background-color: white;
@@ -94,7 +81,7 @@ export const FoldSide = styled.aside`
   }
 `;
 
-export const FoldMyInfo = styled.div`
+export const SideMyInfo = styled.div`
   display: flex;
   align-items: center;
   margin: 20px 0 30px 0;
@@ -123,6 +110,7 @@ export const MobileMenuWrapper = styled.div`
 `;
 
 export const EventHeader = styled.div`
+  margin-bottom: 10px;
   background: linear-gradient(
     90deg,
     rgba(68, 170, 252, 0.4) 0%,
@@ -210,4 +198,19 @@ export const EventHeader = styled.div`
       transform: translate(-100%);
     }
   }
+`;
+
+export const HeaderWrapper = styled.div`
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgb(245, 245, 247);
+  z-index: 999;
+`;
+
+export const Container = styled.div`
+  position: relative;
+  display: flex;
 `;

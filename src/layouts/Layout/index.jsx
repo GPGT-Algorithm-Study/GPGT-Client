@@ -2,21 +2,21 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FlexWrapper,
-  RightWrapper,
+  HeaderWrapper,
   ProfileImage,
   Content,
   Menu,
   MenuItem,
-  FoldSide,
-  FoldMyInfo,
+  SideMenu,
+  SideMyInfo,
   MobileMenuWrapper,
   MobileMenuIcon,
   EventHeader,
+  Container,
 } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
-import WarningManage from 'pages/Admin/WarningManage';
 import useFetch from 'hooks/useFetch';
 import { getUserInfo } from 'api/user';
 import { useDispatch, useSelector } from 'react-redux';
@@ -131,9 +131,10 @@ function Layout({ children }) {
   }, [user]);
 
   return (
-    <div>
-      <FoldSide>
-        <FoldMyInfo onClick={onClickUserProfile}>
+    <Container>
+      {/* 사이드 메뉴 */}
+      <SideMenu>
+        <SideMyInfo onClick={onClickUserProfile}>
           <ProfileImage
             width="40"
             height="40"
@@ -143,7 +144,7 @@ function Layout({ children }) {
                 : userInfo.profileImg
             }
           />
-        </FoldMyInfo>
+        </SideMyInfo>
         <Menu>
           <div>
             {Object.keys(tabs).map((key) => (
@@ -164,27 +165,24 @@ function Layout({ children }) {
             </div>
           </MenuItem>
         </Menu>
-      </FoldSide>
-      <FlexWrapper>
-        <CommonFlexWrapper>
-          <div>
-            <FlexWrapper>
-              <MobileMenuIcon>
-                <RxHamburgerMenu
-                  style={{ cursor: 'pointer', marginLeft: '10px' }}
-                  onClick={() => {
-                    setShowMobileMenu((prev) => !prev);
-                  }}
-                />
-              </MobileMenuIcon>
-              <Link to="/home">
-                <img src={process.env.PUBLIC_URL + '/header_logo.svg'} />
-              </Link>
-            </FlexWrapper>
-          </div>
-        </CommonFlexWrapper>
-        <>
-          <RightWrapper>
+      </SideMenu>
+      <Content>
+        {/* 헤더 */}
+        <HeaderWrapper>
+          <FlexWrapper>
+            <MobileMenuIcon>
+              <RxHamburgerMenu
+                style={{ cursor: 'pointer', marginLeft: '10px' }}
+                onClick={() => {
+                  setShowMobileMenu((prev) => !prev);
+                }}
+              />
+            </MobileMenuIcon>
+            <Link to="/home">
+              <img src={process.env.PUBLIC_URL + '/header_logo.svg'} />
+            </Link>
+          </FlexWrapper>
+          <FlexWrapper>
             <div
               className="clickable"
               onClick={() => {
@@ -196,58 +194,57 @@ function Layout({ children }) {
             <div className="clickable" onClick={onClickStore}>
               상점
             </div>
-          </RightWrapper>
-          {pointEvent && !isEmpty(pointEvent) && (
-            <EventHeader>
-              <div>
-                [{pointEvent[0].eventName}] {pointEvent[0].description} 이벤트가
-                진행중입니다. ({dayjs(pointEvent[0].startTime).format('M/D')} ~{' '}
-                {dayjs(pointEvent[0].endTime).format('M/D')})
-              </div>
-            </EventHeader>
-          )}
-        </>
-      </FlexWrapper>
-
-      {showMobileMenu && (
-        <MobileMenuWrapper>
-          <div>
-            <FoldMyInfo onClick={onClickUserProfile}>
-              <ProfileImage
-                width="45"
-                height="45"
-                src={
-                  userInfo.profileImg == 'null'
-                    ? 'https://static.solved.ac/misc/360x360/default_profile.png'
-                    : userInfo.profileImg
-                }
-              />
-              {userInfo.notionId} {userInfo.emoji}
-            </FoldMyInfo>
-            <Menu>
-              <div>
-                {Object.keys(tabs).map((key) => (
-                  <MenuItem
-                    className={currentTab === key ? 'selected' : ''}
-                    key={tabs[key].id}
-                    onClick={() => {
-                      navigate(tabs[key].route);
-                      setShowMobileMenu(false);
-                    }}
-                  >
-                    {tabs[key].icon}
-                    <div>{tabs[key].name}</div>
-                  </MenuItem>
-                ))}
-              </div>
-              <MenuItem onClick={onClickLogout}>
-                <FiLogOut /> <div>로그아웃</div>
-              </MenuItem>
-            </Menu>
-          </div>
-        </MobileMenuWrapper>
-      )}
-      <Content>
+          </FlexWrapper>
+        </HeaderWrapper>
+        {/* 이벤트 헤더 */}
+        {pointEvent && !isEmpty(pointEvent) && (
+          <EventHeader>
+            <div>
+              [{pointEvent[0].eventName}] {pointEvent[0].description} 이벤트가
+              진행중입니다. ({dayjs(pointEvent[0].startTime).format('M/D')} ~{' '}
+              {dayjs(pointEvent[0].endTime).format('M/D')})
+            </div>
+          </EventHeader>
+        )}
+        {/* 모바일 화면 메뉴 */}
+        {showMobileMenu && (
+          <MobileMenuWrapper>
+            <div>
+              <SideMyInfo onClick={onClickUserProfile}>
+                <ProfileImage
+                  width="45"
+                  height="45"
+                  src={
+                    userInfo.profileImg == 'null'
+                      ? 'https://static.solved.ac/misc/360x360/default_profile.png'
+                      : userInfo.profileImg
+                  }
+                />
+                {userInfo.notionId} {userInfo.emoji}
+              </SideMyInfo>
+              <Menu>
+                <div>
+                  {Object.keys(tabs).map((key) => (
+                    <MenuItem
+                      className={currentTab === key ? 'selected' : ''}
+                      key={tabs[key].id}
+                      onClick={() => {
+                        navigate(tabs[key].route);
+                        setShowMobileMenu(false);
+                      }}
+                    >
+                      {tabs[key].icon}
+                      <div>{tabs[key].name}</div>
+                    </MenuItem>
+                  ))}
+                </div>
+                <MenuItem onClick={onClickLogout}>
+                  <FiLogOut /> <div>로그아웃</div>
+                </MenuItem>
+              </Menu>
+            </div>
+          </MobileMenuWrapper>
+        )}
         <section>{children}</section>
       </Content>
       <Modal show={showRecommendModal} onCloseModal={onCloseModal}>
@@ -256,13 +253,7 @@ function Layout({ children }) {
       <Modal show={showStoreModal} onCloseModal={onCloseModal}>
         <Store />
       </Modal>
-      <Modal show={showWarningManageModal} onCloseModal={onCloseModal}>
-        <WarningManage />
-      </Modal>
-      <Modal show={showPointManageModal} onCloseModal={onCloseModal}>
-        PointManageModal
-      </Modal>
-    </div>
+    </Container>
   );
 }
 
