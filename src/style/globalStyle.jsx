@@ -134,10 +134,12 @@ const baseStyle = css`
 
   :root {
     --color-primary: #3362c5;
+    --color-mention: #d0e7f0;
     --color-background: rgb(240, 240, 240);
     --color-textgrey: rgb(112, 112, 112);
     --color-textlight: rgb(150, 150, 150);
     --color-error: #f24343;
+    --color-input: rgb(235, 235, 235);
     --color-unchecked: rgb(220, 220, 220);
     --color-tag: rgb(228, 228, 230);
     --color-bordergrey: rgb(201, 201, 201);

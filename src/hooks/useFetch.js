@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-const useFetch = (axiosRequest, initialValue, initialParams) => {
+const useFetch = (
+  axiosRequest, // axios 함수
+  initialValue, // 데이터 초기 값
+  initialParams, // 데이터 초기 파라미터
+  noDataHandler, // 받은 데이터가 없을 경우 핸들러
+) => {
   const [data, setData] = useState(initialValue);
   const [params, setParams] = useState(initialParams);
 
@@ -16,6 +21,8 @@ const useFetch = (axiosRequest, initialValue, initialParams) => {
           if (res.data) {
             const { data } = res;
             setData(data);
+          } else {
+            if (noDataHandler) noDataHandler();
           }
         } else {
           toast.error('데이터를 받아오지 못했습니다.');
@@ -27,6 +34,7 @@ const useFetch = (axiosRequest, initialValue, initialParams) => {
       });
 
   return [data, fetchData, setParams];
+  // [데이터, 데이터 다시 요청, 파라미터 변겅해서 데이터 다시 요청]
 };
 
 export default useFetch;

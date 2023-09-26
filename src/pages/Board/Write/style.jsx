@@ -1,5 +1,12 @@
 import styled from '@emotion/styled';
 import { CommonButton } from 'style/commonStyle';
+import { CommonTitle } from 'style/commonStyle';
+
+export const Title = styled(CommonTitle)`
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+`;
 
 export const CategoryWrapper = styled.span`
   display: flex;
@@ -9,15 +16,22 @@ export const CategoryWrapper = styled.span`
 
 export const FormItem = styled.div`
   font-weight: bold;
-  .item {
-    margin-top: 10px;
-  }
   & input {
-    width: 100%;
+    width: ${(props) => (props.width ? props.width : '100%')};
     border: 1px solid var(--color-unchecked);
     padding: 10px;
     box-sizing: border-box;
     border-radius: 7px;
+  }
+  & button {
+    height: 35px;
+    padding: 0 25px;
+    border: none;
+    background-color: var(--color-primary);
+    border-radius: 7px;
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
   }
 `;
 
@@ -36,7 +50,6 @@ export const Form = styled.div`
   display: flex;
   flex-direction: column;
   gap: 25px;
-  margin-top: 30px;
   padding: 0 5px 0 5px;
 `;
 
@@ -52,4 +65,9 @@ export const Button = styled(CommonButton)`
     props.primary ? 'var(--color-primary)' : 'var(--color-tag)'};
   font-size: 1rem;
   font-weight: normal;
+`;
+
+export const Container = styled.div`
+  overflow: scroll;
+  padding-bottom: 50px;
 `;

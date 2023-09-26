@@ -49,4 +49,5 @@ export const CommonButton = styled.button`
   font-weight: ${(props) => (props.primary ? '' : 'bold')};
   cursor: pointer;
   font-size: 0.8rem;
+  width: ${(props) => props.width && props.width};
 `;

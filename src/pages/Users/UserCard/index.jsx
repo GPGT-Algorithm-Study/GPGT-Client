@@ -77,7 +77,9 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
             </div>
           </ProfileWrapper>
           <IconWrapper>
-            <TeamIcon team={user.team} width={35} />
+            {(user.team == 1 || user.team == 0) && (
+              <TeamIcon team={user.team} width={35} />
+            )}
           </IconWrapper>
         </UserInfo>
 

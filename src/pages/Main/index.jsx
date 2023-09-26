@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import {
   BannerCard,
@@ -16,6 +16,9 @@ import useFetch from 'hooks/useFetch';
 import { getLastComment } from 'api/item';
 import { useDispatch } from 'react-redux';
 import { setShowRecommendModal, setShowStoreModal } from 'redux/modal';
+import { getPostsByType } from 'api/board';
+import { boardType } from 'utils/board';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * 메인 화면
@@ -50,6 +53,21 @@ function Main() {
     },
   ];
   const [message] = useFetch(getLastComment, '');
+  const [noticeBoard] = useFetch(getPostsByType, [], {
+    type: boardType.NOTICE.key,
+    size: 1,
+    page: 0,
+  });
+  const [notice, setNotice] = useState({});
+
+  useEffect(() => {
+    const { content, totalElements } = noticeBoard;
+    if (totalElements > 0) {
+      setNotice(content[0]);
+    }
+  }, [noticeBoard]);
+
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -77,12 +95,21 @@ function Main() {
           </Util>
         ))}
       </UtilWrapper>
-      <ContentTitle>공지 사항</ContentTitle>
-      <NoticeCard>
-        <MessageContent>
-          📣 정식 배포를 완료하였습니다! (2023-09-17)
-        </MessageContent>
-      </NoticeCard>
+      {!isEmpty(notice) && (
+        <>
+          <ContentTitle>공지 사항</ContentTitle>
+          <NoticeCard
+            onClick={() => {
+              navigate(`/board/${notice.id}`);
+            }}
+          >
+            <MessageContent>
+              📣 {notice.title} ({dayjs(notice.createTime).format('YYYY-MM-DD')}
+              )
+            </MessageContent>
+          </NoticeCard>
+        </>
+      )}
     </div>
   );
 }

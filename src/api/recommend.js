@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const PREFIX_URL = '/api/v1';
+const PREFIX_URL = '/api/v1/recommend';
 
 /**
  * 문제를 추천받는다.
@@ -12,6 +12,6 @@ const PREFIX_URL = '/api/v1';
  */
 export function getRecommend(userId, start, end, isKo) {
   return axios.get(
-    `${PREFIX_URL}/recommend?userId=${userId}&start=${start}&end=${end}&isKo=${isKo}`,
+    `${PREFIX_URL}?userId=${userId}&start=${start}&end=${end}&isKo=${isKo}`,
   );
 }
