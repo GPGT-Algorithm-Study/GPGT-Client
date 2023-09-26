@@ -122,3 +122,10 @@ export function rerollRandomProblem(params) {
     `${PREFIX_URL}/streak/reroll?bojHandle=${params.bojHandle}`,
   );
 }
+
+/**
+ * 특정 유저들의 notionId 목록을 조회한다.
+ */
+export function getAllUsersNotionIds() {
+  return axios.get(`${PREFIX_URL}/mention/list`);
+}

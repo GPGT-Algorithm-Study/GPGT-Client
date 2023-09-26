@@ -6,6 +6,8 @@ import {
   ReplyButton,
   CommentWrapper,
   ReplyList,
+  StyledMentionsInput,
+  MentionWrapper,
 } from './style';
 import useFetch from 'hooks/useFetch';
 import { createComment, getComment } from 'api/comment';
@@ -13,6 +15,8 @@ import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
 import Comment from './Comment';
+import { getAllUsersNotionIds } from 'api/user';
+import { Mention } from 'react-mentions';
 
 /**
  * 댓글 컴포넌트
@@ -24,6 +28,7 @@ function CommentComponent({ boardId }) {
   const [commentContent, setCommentContent] = useState(''); // 입력 중인 댓글 내용
   const [replyContentMap, setReplyContentMap] = useState({}); // 입력중인 답글 내용
   const [showReplyMap, setShowReplyMap] = useState({}); // 답글 보여주기 여부 값
+  const [mentionList] = useFetch(getAllUsersNotionIds); // 유저 노션 아이디 리스트
 
   const toggleShowReply = (key) => {
     setShowReplyMap((prev) => ({
@@ -123,16 +128,40 @@ function CommentComponent({ boardId }) {
     [replyContentMap],
   );
 
+  const renderUserSuggestion = useCallback(
+    (suggestion, search, highlightedDisplay, index, focus) => {
+      if (!mentionList) return null;
+      return (
+        <MentionWrapper focus={focus}>
+          <span>{highlightedDisplay}</span>
+        </MentionWrapper>
+      );
+    },
+    [mentionList],
+  );
+
   return (
     <div>
       {/* 댓글 정보, input 폼 */}
       <CommentInfo>{allCommentList.length} 개의 댓글</CommentInfo>
       <InputForm onSubmit={onSubmitComment}>
-        <input
+        <StyledMentionsInput
           placeholder="댓글 내용을 입력하세요"
           value={commentContent}
           onChange={onChangeComment}
-        />
+        >
+          <Mention
+            appendSpaceOnAdd
+            trigger="@"
+            data={
+              mentionList?.map((user) => ({
+                id: user.notionId,
+                display: user.notionId,
+              })) || []
+            }
+            renderSuggestion={renderUserSuggestion}
+          />
+        </StyledMentionsInput>
         <button>확인</button>
       </InputForm>
       {/* 댓글 목록 */}

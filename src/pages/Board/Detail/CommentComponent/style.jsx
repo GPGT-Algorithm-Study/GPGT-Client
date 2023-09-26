@@ -1,8 +1,39 @@
 import styled from '@emotion/styled';
 import { CommonCard } from 'style/commonStyle';
+import { MentionsInput } from 'react-mentions';
 
 export const CommentInfo = styled.div`
   font-weight: bold;
+`;
+
+export const StyledMentionsInput = styled(MentionsInput)`
+  padding: 10px 9px;
+  background-color: var(--color-input);
+  border-radius: 7px;
+  flex-grow: 1;
+  & strong {
+    background: var(--color-mention);
+  }
+
+  & textarea {
+    height: 44px;
+    padding: 9px 10px !important;
+    outline: none !important;
+    border-radius: 7px !important;
+    resize: none !important;
+    line-height: 22px;
+    border: none;
+  }
+
+  & ul {
+    border: 1px solid lightgray;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 9px 10px;
+    background: white;
+    border-radius: 4px;
+    width: 150px;
+  }
 `;
 
 export const InputForm = styled.form`
@@ -67,4 +98,12 @@ export const CommentWrapper = styled(CommonCard)`
   background-color: white;
   padding: 15px;
   box-sizing: border-box;
+`;
+
+export const MentionWrapper = styled.div`
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  ${(props) => props.focus && 'background-color:var(--color-background);'}
 `;

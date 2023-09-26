@@ -42,10 +42,14 @@ export const ReplyList = styled.div`
 
 export const CommentWrapper = styled.div`
   margin-bottom: 15px;
+  white-space: pre;
+  line-height: 1.5;
 `;
 
 export const ReplyWrapper = styled.div`
   margin-left: 20px;
+  white-space: pre;
+  line-height: 1.5;
 `;
 
 export const FlexWrapper = styled.div`
@@ -64,4 +68,12 @@ export const Input = styled.input`
   box-sizing: border-box;
   flex-grow: 1;
   width: 100%;
+`;
+
+export const MentionName = styled.span`
+  font-weight: bold;
+  background-color: var(--color-mention);
+  padding: 2px 5px;
+  border-radius: 7px;
+  font-size: 0.9rem;
 `;

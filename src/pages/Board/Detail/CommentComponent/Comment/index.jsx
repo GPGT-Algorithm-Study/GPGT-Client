@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import {
   WriteInfo,
   Writer,
@@ -8,6 +8,7 @@ import {
   ReplyWrapper,
   CommentWrapper,
   Input,
+  MentionName,
 } from './style';
 import { deleteComment, updateComment } from 'api/comment';
 import { toast } from 'react-toastify';
@@ -17,6 +18,7 @@ import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { CommonProfileImage } from 'style/commonStyle';
 import { Link } from 'react-router-dom';
+import regexifyString from 'regexify-string';
 
 /**
  * 댓글 한개 컴포넌트
@@ -76,6 +78,22 @@ function Comment({ comment, fetchComment, reply = false }) {
     [editMode, editContent],
   );
 
+  const result = useMemo(() => {
+    return regexifyString({
+      input: comment.content,
+      pattern: /@\[[^\]]+\]\([^)]+\)/g,
+      decorator(match, index) {
+        const arr = match.match(/@\[[^\]]+\]\([^)]+\)/);
+        if (arr) {
+          const regex = /@\[[^\]]+\]\(([^)]+)\)/g;
+          const match = regex.exec(arr[0]);
+          const name = match[1];
+          return <MentionName>@{name}</MentionName>;
+        }
+      },
+    });
+  }, [comment]);
+
   // 댓글 내용 컴포넌트
   const CommentContent = (
     <div>
@@ -84,7 +102,7 @@ function Comment({ comment, fetchComment, reply = false }) {
           <Input value={editContent} onChange={onChangeEditContent} />
         </form>
       ) : (
-        comment.content
+        <div>{result}</div>
       )}
     </div>
   );
