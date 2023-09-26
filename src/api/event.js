@@ -9,6 +9,14 @@ export function getValidPointEvents() {
   return axios.get(`${PREFIX_URL}/point/all/valid`);
 }
 
+/**
+ *
+ * 모든 이벤트 목록을 조회한다.
+ */
+export function getAllPointEvents() {
+  return axios.get(`${PREFIX_URL}/point/all`);
+}
+
 const PREFIX_URL_ADMIN = '/api/v1/admin';
 
 /**

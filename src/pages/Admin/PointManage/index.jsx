@@ -10,6 +10,7 @@ import useFetch from 'hooks/useFetch';
 import { getAllUsers } from 'api/user';
 import { Button } from './style';
 import { postUserPoint } from 'api/log';
+import { toast } from 'react-toastify';
 
 function PointManage() {
   const [users, reFetch] = useFetch(getAllUsers, []);
