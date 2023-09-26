@@ -153,16 +153,18 @@ function CommentComponent({ boardId }) {
             {/* 답글 목록 */}
             {showReplyMap[comment.id] && (
               <>
-                <ReplyList>
-                  {comment.replyList.map((reply) => (
-                    <Comment
-                      key={reply.id}
-                      comment={reply}
-                      fetchComment={fetchComment}
-                      reply
-                    />
-                  ))}
-                </ReplyList>
+                {!isEmpty(comment.replyList) && (
+                  <ReplyList>
+                    {comment.replyList.map((reply) => (
+                      <Comment
+                        key={reply.id}
+                        comment={reply}
+                        fetchComment={fetchComment}
+                        reply
+                      />
+                    ))}
+                  </ReplyList>
+                )}
                 <MentionInput
                   onChangeComment={(e) => {
                     onChangeReply(e, comment.id);
