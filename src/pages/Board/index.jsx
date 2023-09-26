@@ -44,10 +44,12 @@ function Board() {
   const navigate = useNavigate();
   const [postList, setPostList] = useState([]);
   const [params, setParams] = useState({
-    page: page - 1,
+    page: 0,
     size: SIZE,
     condition: {
       type: curCategory.key,
+      bojHandle: '',
+      query: '',
     },
   });
 
@@ -68,20 +70,37 @@ function Board() {
     setTitle(curCategory.label);
   }, [curCategory]);
 
-  // 페이징 및 현재 카테고리 바뀌면 다시 로드
-  useEffect(() => {
-    const newParams = {
-      page: page - 1,
-      size: SIZE,
-    };
-    // 마이페이지가 아니라면 조건에 타입(게시판) 추가
-    if (curCategory.key !== boardType.MY.key) {
-      newParams.condition = {
-        type: curCategory.key,
-      };
+  const changeParams = useCallback((bojHandle, type, query) => {
+    const newParams = { ...params };
+    if (bojHandle != params.condition.bojHandle) {
+      newParams.condition.bojHandle = bojHandle;
+      newParams.page = 0;
+    }
+    if (type != params.condition.type) {
+      newParams.condition.type = type;
+      newParams.page = 0;
+    }
+    if (query != params.condition.query) {
+      newParams.condition.query = query;
+      newParams.page = 0;
     }
     setParams(newParams);
-  }, [page, curCategory]);
+  }, []);
+
+  // 페이징 및 현재 카테고리 바뀌면 다시 로드
+  useEffect(() => {
+    // 마이페이지가 아니라면 다시로드
+    if (curCategory.key && curCategory.key !== boardType.MY.key) {
+      changeParams('', curCategory.key, '');
+    }
+  }, [curCategory]);
+
+  useEffect(() => {
+    setParams((prev) => ({
+      ...prev,
+      page: page - 1,
+    }));
+  }, [page]);
 
   useEffect(() => {
     setPostParams(params);
@@ -104,14 +123,7 @@ function Board() {
       e.preventDefault();
       setCurCategory({ label: '전체 검색 결과' });
       setShowTypeTitle(true);
-      setPage(1);
-      setParams({
-        page: 0,
-        size: SIZE,
-        condition: {
-          query: keyword,
-        },
-      });
+      changeParams('', '', keyword);
     },
     [keyword],
   );
@@ -120,14 +132,7 @@ function Board() {
   const onClickMyPosts = useCallback(() => {
     setCurCategory(boardType.MY);
     setShowTypeTitle(true);
-    setPage(1);
-    setParams({
-      page: 0,
-      size: SIZE,
-      condition: {
-        bojHandle: user.bojHandle,
-      },
-    });
+    changeParams(user.bojHandle, '', '');
   }, []);
 
   // 글 쓰기 버튼 누르면 글쓰기 컴포넌트 보여주기
@@ -152,7 +157,6 @@ function Board() {
               selected={curCategory.key == category.key}
               onClick={() => {
                 setShowTypeTitle(false);
-                setPage(1);
                 setCurCategory(category);
               }}
             >
@@ -219,7 +223,7 @@ function Board() {
             <Pagination
               totalPage={Math.ceil(total / SIZE)}
               limit={5}
-              page={page}
+              page={params.page + 1}
               setPage={setPage}
             />
           </PageWrapper>

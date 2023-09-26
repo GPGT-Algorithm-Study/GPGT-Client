@@ -219,7 +219,7 @@ export const Container = styled.div`
 `;
 
 export const CloseButton = styled.span`
-  position: absolute;
+  position: sticky;
   right: 10px;
   cursor: pointer;
 `;
