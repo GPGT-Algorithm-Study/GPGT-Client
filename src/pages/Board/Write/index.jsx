@@ -43,7 +43,7 @@ function Write({ mode, type, closeWriteMode, post }) {
 
   useEffect(() => {
     setHasProblemInfo(!isEmpty(problemInfo));
-    if (!isEmpty(problemInfo)) {
+    if (!isEmpty(problemInfo) && selectedCategory === boardType.PS.key) {
       setTitle(`${problemInfo.problemId}번 : ${problemInfo.titleKo}`);
     }
   }, [problemInfo]);
@@ -203,13 +203,17 @@ function Write({ mode, type, closeWriteMode, post }) {
         } else {
           toast.error('존재하지 않는 문제 입니다.');
           setProblemInfo({});
-          setTitle('');
+          if (selectedCategory === boardType.PS.key) {
+            setTitle('');
+          }
         }
       })
       .catch((e) => {
         toast.error('존재하지 않는 문제 입니다.');
         setProblemInfo({});
-        setTitle('');
+        if (selectedCategory === boardType.PS.key) {
+          setTitle('');
+        }
       });
   }, []);
 
