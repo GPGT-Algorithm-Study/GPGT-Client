@@ -198,11 +198,17 @@ function Layout({ children }) {
         </HeaderWrapper>
         {/* 이벤트 헤더 */}
         {pointEvent && !isEmpty(pointEvent) && (
-          <EventHeader>
+          <EventHeader length={pointEvent.length}>
             <div>
-              [{pointEvent[0].eventName}] {pointEvent[0].description} 이벤트가
-              진행중입니다. ({dayjs(pointEvent[0].startTime).format('M/D')} ~{' '}
-              {dayjs(pointEvent[0].endTime).format('M/D')})
+              {pointEvent.map((event) => (
+                <span>
+                  <b>
+                    [{event.eventName}] {event.description}
+                  </b>{' '}
+                  이벤트가 진행중입니다. ({dayjs(event.startTime).format('M/D')}{' '}
+                  ~ {dayjs(event.endTime).format('M/D')}) &nbsp; &nbsp; &nbsp;
+                </span>
+              ))}
             </div>
           </EventHeader>
         )}

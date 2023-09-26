@@ -128,29 +128,32 @@ export const EventHeader = styled.div`
   align-items: center;
   overflow: hidden;
   & div {
+    & b {
+      font-weight: bold;
+    }
     margin: 0;
     padding-left: 100%;
     display: inline-block;
     white-space: nowrap;
     -webkit-animation-name: marquee;
     -webkit-animation-timing-function: linear;
-    -webkit-animation-duration: 20s;
+    -webkit-animation-duration: ${(props) => 20 * (props.length * 0.9)}s;
     -webkit-animation-iteration-count: infinite;
     -moz-animation-name: marquee;
     -moz-animation-timing-function: linear;
-    -moz-animation-duration: 20s;
+    -moz-animation-duration: ${(props) => 20 * (props.length * 0.9)}s;
     -moz-animation-iteration-count: infinite;
     -ms-animation-name: marquee;
     -ms-animation-timing-function: linear;
-    -ms-animation-duration: 20s;
+    -ms-animation-duration: ${(props) => 20 * (props.length * 0.9)}s;
     -ms-animation-iteration-count: infinite;
     -o-animation-name: marquee;
     -o-animation-timing-function: linear;
-    -o-animation-duration: 20s;
+    -o-animation-duration: ${(props) => 20 * (props.length * 0.9)}s;
     -o-animation-iteration-count: infinite;
     animation-name: marquee;
     animation-timing-function: linear;
-    animation-duration: 20s;
+    animation-duration: ${(props) => 20 * (props.length * 0.9)}s;
     animation-iteration-count: infinite;
   }
   @-webkit-keyframes marquee {
