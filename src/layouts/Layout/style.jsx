@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { CommonProfileImage } from 'style/commonStyle';
 
-const MOBILE_WIDTH = '540px';
+const MOBILE_WIDTH = '790px';
 
 export const FlexWrapper = styled.div`
   display: flex;
@@ -21,7 +21,6 @@ export const FlexWrapper = styled.div`
 export const Header = styled.div`
   margin-left: auto;
   margin-right: auto;
-  padding: 20px 0 20px 0;
 `;
 
 export const ProfileImage = styled(CommonProfileImage)`
@@ -37,7 +36,7 @@ export const Content = styled.div`
   height: 100vh;
   overflow: scroll;
   & section {
-    padding: 0 10px 100px 10px;
+    padding: 20px 30px 100px 30px;
   }
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
@@ -45,6 +44,46 @@ export const Content = styled.div`
 `;
 
 export const MenuItem = styled.div`
+  font-weight: bold;
+  color: var(--color-textgrey);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: ${(props) => props.fontSize};
+  & div {
+    margin-left: 10px;
+  }
+`;
+
+export const Menu = styled.div`
+  display: flex;
+  z-index: 999;
+  gap: 30px;
+  justify-content: center;
+  .selected {
+    color: var(--color-primary);
+    border-radius: 50%;
+    font-weight: normal;
+  }
+`;
+
+export const MenuWrapper = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  transform: translate(-50%, 0);
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgb(245, 245, 247);
+  z-index: 999;
+  @media all and (max-width: ${MOBILE_WIDTH}) {
+    display: none;
+  }
+`;
+
+export const MobileMenuItem = styled.div`
   font-weight: bold;
   color: var(--color-textgrey);
   cursor: pointer;
@@ -57,7 +96,7 @@ export const MenuItem = styled.div`
   }
 `;
 
-export const Menu = styled.div`
+export const MobileMenu = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -208,7 +247,7 @@ export const HeaderWrapper = styled.div`
   top: 0;
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 0 20px;
   background-color: rgb(245, 245, 247);
   z-index: 999;
 `;

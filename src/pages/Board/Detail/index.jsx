@@ -11,6 +11,7 @@ import {
   CommentWrapper,
   BackButton,
   Container,
+  CreateModal,
 } from './style';
 import CommentComponent from './CommentComponent';
 import { Link, useParams } from 'react-router-dom';
@@ -96,53 +97,61 @@ function Detail() {
   }
 
   return (
-    <Container>
-      <Link to="/board">
-        <BackButton size="25" />
-      </Link>
-      <Title>{post.title}</Title>
-      <Toolbar>
-        <WriteInfo>
-          <Writer>
-            <CommonProfileImage width={20} height={20} src={post.profileImg} />
-            <div>
-              {post.notionId} {post.emoji}
-            </div>
-          </Writer>
-          <CreateDate>
-            {dayjs(post.createDate).format('YYYY년 M월 DD일 hh:mm')}
-          </CreateDate>
-        </WriteInfo>
-        <WriteInfo>
-          {user.bojHandle == post.bojHandle && (
-            <>
-              <Button
-                onClick={() => {
-                  setWriteMode(true);
-                }}
-              >
-                수정
-              </Button>
-              <Button onClick={onClickDeletePost}>삭제</Button>
-            </>
-          )}
-        </WriteInfo>
-      </Toolbar>
-      {hasProblem && <BoardProblemCard problem={problemInfo} />}
-      <Content data-color-mode="light">
-        <MDEditor.Markdown
-          style={{
-            padding: 10,
-            backgroundColor: 'transparent',
-          }}
-          source={post.content}
-          autoFocus={false}
-        />
-      </Content>
-      <CommentWrapper>
-        <CommentComponent boardId={id} />
-      </CommentWrapper>
-    </Container>
+    <div>
+      <div>
+        <Link to="/board">
+          <BackButton size="25" />
+        </Link>
+        <Title>{post.title}</Title>
+        <Toolbar>
+          <WriteInfo>
+            <Link to={`/my-page/${post.bojHandle}`}>
+              <Writer>
+                <CommonProfileImage
+                  width={20}
+                  height={20}
+                  src={post.profileImg}
+                />
+                <div>
+                  {post.notionId} {post.emoji}
+                </div>
+              </Writer>
+            </Link>
+            <CreateDate>
+              {dayjs(post.createDate).format('YYYY년 M월 DD일 hh:mm')}
+            </CreateDate>
+          </WriteInfo>
+          <WriteInfo>
+            {user.bojHandle == post.bojHandle && (
+              <>
+                <Button
+                  onClick={() => {
+                    setWriteMode(true);
+                  }}
+                >
+                  수정
+                </Button>
+                <Button onClick={onClickDeletePost}>삭제</Button>
+              </>
+            )}
+          </WriteInfo>
+        </Toolbar>
+        {hasProblem && <BoardProblemCard problem={problemInfo} />}
+        <Content data-color-mode="light">
+          <MDEditor.Markdown
+            style={{
+              padding: 10,
+              backgroundColor: 'transparent',
+            }}
+            source={post.content}
+            autoFocus={false}
+          />
+        </Content>
+        <CommentWrapper>
+          <CommentComponent boardId={id} />
+        </CommentWrapper>
+      </div>
+    </div>
   );
 }
 

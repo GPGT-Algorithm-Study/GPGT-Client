@@ -58,7 +58,7 @@ export function getPost(params) {
  */
 export function getPostsByUser(params) {
   return axios.get(
-    `${PREFIX_URL}/all?page=${params.page}&size=${params.size}&bojHandle=${params.bojHandle}`,
+    `${PREFIX_URL}/all/user?page=${params.page}&size=${params.size}&bojHandle=${params.bojHandle}`,
   );
 }
 

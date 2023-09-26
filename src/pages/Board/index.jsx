@@ -4,26 +4,25 @@ import {
   HeaderWrapper,
   Category,
   CategoryWrapper,
-  Table,
   BoardTitleWrapper,
   BoardHeader,
   PageWrapper,
   SearchForm,
-  PostInfo,
   Container,
   WriteButton,
+  Card,
 } from './style';
 import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineSearch } from 'react-icons/ai';
 import Pagination from 'components/Pagination';
-import { boardType, getTypeLabel, writeType } from 'utils/board';
+import { boardType, writeType } from 'utils/board';
 import useFetch from 'hooks/useFetch';
 import { getPostsByCondition } from 'api/board';
 import Write from './Write';
 import { useSelector } from 'react-redux';
+import BoardTable from 'components/BoardTable';
 
 /**
  * 게시판 탭 내용 컴포넌트
@@ -172,7 +171,7 @@ function Board() {
         </CategoryWrapper>
       </HeaderWrapper>
       {/* 게시글 테이블 */}
-      <div>
+      <Card>
         <BoardHeader>
           <BoardTitleWrapper>
             <CommonTitle>{title}</CommonTitle>
@@ -189,34 +188,8 @@ function Board() {
             />
           </SearchForm>
         </BoardHeader>
-        <Table>
-          <thead>
-            <tr>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>작성일</th>
-            </tr>
-          </thead>
-          <tbody>
-            {postList.map((post) => (
-              <tr
-                key={post.id}
-                onClick={() => {
-                  navigate(`/board/${post.id}`);
-                }}
-              >
-                <td>
-                  {showTypeTitle && <b>{`[${getTypeLabel(post.type)}] `}</b>}
-                  {post.title}
-                </td>
-                <PostInfo>
-                  {post.notionId} {post.emoji}
-                </PostInfo>
-                <PostInfo>{dayjs(post.date).format('YYYY-MM-DD')}</PostInfo>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        {/* 테이블 */}
+        <BoardTable postList={postList} showTypeTitle={showTypeTitle} />
         {/* 페이지네이션  */}
         {Math.ceil(total / SIZE) > 1 && (
           <PageWrapper>
@@ -228,7 +201,7 @@ function Board() {
             />
           </PageWrapper>
         )}
-      </div>
+      </Card>
       {/* 글쓰기 버튼 */}
       <WriteButton
         primary

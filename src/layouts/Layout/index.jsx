@@ -6,8 +6,10 @@ import {
   ProfileImage,
   Content,
   Menu,
+  MobileMenuItem,
+  MobileMenu,
   MenuItem,
-  SideMenu,
+  MenuWrapper,
   SideMyInfo,
   MobileMenuWrapper,
   MobileMenuIcon,
@@ -44,12 +46,9 @@ import dayjs from 'dayjs';
 
 function Layout({ children }) {
   const dispatch = useDispatch();
-  const {
-    showStoreModal,
-    showRecommendModal,
-    showWarningManageModal,
-    showPointManageModal,
-  } = useSelector((state) => state.modal);
+  const { showStoreModal, showRecommendModal } = useSelector(
+    (state) => state.modal,
+  );
   const user = useSelector((state) => state.user);
   const currentTab = useLocation().pathname.slice(1).split('/')[0];
   const navigate = useNavigate();
@@ -59,24 +58,29 @@ function Layout({ children }) {
 
   // 좌측 탭 목록
   const [tabs, setTabs] = useState({
-    home: { id: 0, name: '홈', icon: <AiFillHome />, route: '/home' },
-    users: { id: 1, name: '스터디원', icon: <HiUsers />, route: '/users' },
+    home: { id: 0, name: '홈', icon: <AiFillHome size="18" />, route: '/home' },
+    users: {
+      id: 1,
+      name: '스터디원',
+      icon: <HiUsers size="18" />,
+      route: '/users',
+    },
     teams: {
       id: 2,
       name: '팀',
-      icon: <LuSwords />,
+      icon: <LuSwords size="18" />,
       route: '/teams',
     },
     statistics: {
       id: 3,
       name: '통계',
-      icon: <BsBarChartFill />,
+      icon: <BsBarChartFill size="18" />,
       route: '/statistics',
     },
     board: {
       id: 4,
       name: '게시판',
-      icon: <FaClipboardList />,
+      icon: <FaClipboardList size="18" />,
       route: '/board',
     },
   });
@@ -89,7 +93,7 @@ function Layout({ children }) {
         admin: {
           id: 5,
           name: '관리자',
-          icon: <AiFillSetting />,
+          icon: <AiFillSetting size="18" />,
           route: '/admin',
         },
       }));
@@ -131,43 +135,10 @@ function Layout({ children }) {
   }, [user]);
 
   const [showEventHeader, setShowEventHeader] = useState(true);
+  const [hovering, setHovering] = useState(false);
 
   return (
     <Container>
-      {/* 사이드 메뉴 */}
-      <SideMenu>
-        <SideMyInfo onClick={onClickUserProfile}>
-          <ProfileImage
-            width="40"
-            height="40"
-            src={
-              userInfo.profileImg == 'null'
-                ? 'https://static.solved.ac/misc/360x360/default_profile.png'
-                : userInfo.profileImg
-            }
-          />
-        </SideMyInfo>
-        <Menu>
-          <div>
-            {Object.keys(tabs).map((key) => (
-              <MenuItem
-                className={currentTab === key ? 'selected' : ''}
-                key={tabs[key].id}
-                onClick={() => {
-                  navigate(tabs[key].route);
-                }}
-              >
-                <div>{tabs[key].icon}</div>
-              </MenuItem>
-            ))}
-          </div>
-          <MenuItem onClick={onClickLogout}>
-            <div>
-              <FiLogOut />
-            </div>
-          </MenuItem>
-        </Menu>
-      </SideMenu>
       <Content>
         {/* 헤더 */}
         <HeaderWrapper>
@@ -196,8 +167,34 @@ function Layout({ children }) {
             <div className="clickable" onClick={onClickStore}>
               상점
             </div>
+            <SideMyInfo onClick={onClickUserProfile}>
+              <ProfileImage
+                width="35"
+                height="35"
+                src={
+                  userInfo.profileImg == 'null'
+                    ? 'https://static.solved.ac/misc/360x360/default_profile.png'
+                    : userInfo.profileImg
+                }
+              />
+            </SideMyInfo>
           </FlexWrapper>
         </HeaderWrapper>
+        <MenuWrapper>
+          <Menu>
+            {Object.keys(tabs).map((key) => (
+              <MenuItem
+                className={currentTab === key ? 'selected' : ''}
+                key={tabs[key].id}
+                onClick={() => {
+                  navigate(tabs[key].route);
+                }}
+              >
+                <div>{tabs[key].icon}</div>
+              </MenuItem>
+            ))}
+          </Menu>
+        </MenuWrapper>
         {/* 이벤트 헤더 */}
         {showEventHeader && pointEvent && !isEmpty(pointEvent) && (
           <EventHeader length={pointEvent.length}>
@@ -237,10 +234,10 @@ function Layout({ children }) {
                 />
                 {userInfo.notionId} {userInfo.emoji}
               </SideMyInfo>
-              <Menu>
+              <MobileMenu>
                 <div>
                   {Object.keys(tabs).map((key) => (
-                    <MenuItem
+                    <MobileMenuItem
                       className={currentTab === key ? 'selected' : ''}
                       key={tabs[key].id}
                       onClick={() => {
@@ -250,13 +247,13 @@ function Layout({ children }) {
                     >
                       {tabs[key].icon}
                       <div>{tabs[key].name}</div>
-                    </MenuItem>
+                    </MobileMenuItem>
                   ))}
                 </div>
-                <MenuItem onClick={onClickLogout}>
+                <MobileMenuItem onClick={onClickLogout}>
                   <FiLogOut /> <div>로그아웃</div>
-                </MenuItem>
-              </Menu>
+                </MobileMenuItem>
+              </MobileMenu>
             </div>
           </MobileMenuWrapper>
         )}

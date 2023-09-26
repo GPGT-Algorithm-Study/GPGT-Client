@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { CommonCard } from 'style/commonStyle';
 
 export const CommentInfo = styled.div`
   font-weight: bold;
@@ -34,7 +35,7 @@ export const CommentList = styled.div`
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
   box-sizing: border-box;
 `;
 
@@ -61,8 +62,9 @@ export const FlexWrapper = styled.div`
   align-items: center;
 `;
 
-export const CommentWrapper = styled.div`
+export const CommentWrapper = styled(CommonCard)`
   border-radius: 7px;
   background-color: white;
-  padding: 10px;
+  padding: 15px;
+  box-sizing: border-box;
 `;

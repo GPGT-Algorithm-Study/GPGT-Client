@@ -18,91 +18,6 @@ export const Category = styled.div`
   font-size: 0.9rem;
 `;
 
-export const Post = styled(CommonCard)`
-  display: flex;
-  cursor: pointer;
-  justify-content: space-between;
-  padding: 20px 15px 20px 15px;
-  box-sizing: border-box;
-  transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
-  gap: 10px;
-  :hover {
-    transform: ${(props) =>
-      props.isInvite ? '' : 'scale3d(1.01, 1.01, 1.01)'};
-    box-shadow: ${(props) =>
-      props.isInvite ? '' : '2px 4px 16px rgba(0, 0, 0, 0.16);'};
-  }
-  width: 100%;
-  /* @media all and (min-width: 1024px) {
-    width: calc(25% - 10px);
-  }
-
-  @media all and (min-width: 761px) and (max-width: 1024px) {
-    width: calc(33% - 10px);
-  }
-
-  @media all and (min-width: 446px) and (max-width: 761px) {
-    width: calc(50% - 10px);
-  }
-
-  @media all and (max-width: 446px) {
-    width: calc(100%);
-  } */
-`;
-
-export const Table = styled.table`
-  border-collapse: collapse;
-  /* background-color: white; */
-  margin-top: 15px;
-  width: 100%;
-  font-size: 0.9rem;
-  /* 테이블 행 */
-  & td {
-    padding: 10px 15px 10px 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--color-bordergrey);
-    cursor: pointer;
-    & b {
-      font-weight: bold;
-    }
-  }
-  & th {
-    text-align: left;
-    padding: 15px;
-    border-top: 2px solid var(--color-bordergrey);
-    border-bottom: 1px solid var(--color-bordergrey);
-    font-weight: bold;
-    cursor: none;
-  }
-  /* 테이블 비율 */
-  & th:nth-of-type(1),
-  & td:nth-of-type(1) {
-    width: 60%;
-    @media all and (max-width: 544px) {
-      width: 40%;
-    }
-  }
-  & th:nth-of-type(2),
-  & td:nth-of-type(2) {
-    width: 15%;
-    @media all and (max-width: 544px) {
-      width: 20%;
-    }
-  }
-  & th:nth-of-type(3),
-  & td:nth-of-type(3) {
-    width: 15%;
-    @media all and (max-width: 544px) {
-      width: 30%;
-    }
-  }
-  & th,
-  & td {
-    border-left: none;
-    border-right: none;
-  }
-`;
-
 export const BoardTitleWrapper = styled.div`
   display: flex;
   gap: 13px;
@@ -170,10 +85,11 @@ export const Writer = styled.div`
   font-size: 1rem;
 `;
 
-export const PostInfo = styled.td`
-  color: var(--color-textgrey);
-`;
-
 export const Container = styled.div`
   padding-bottom: 5px;
+`;
+
+export const Card = styled(CommonCard)`
+  padding: 20px 20px 30px 20px;
+  margin-top: 10px;
 `;
