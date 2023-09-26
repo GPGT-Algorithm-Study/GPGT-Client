@@ -43,6 +43,9 @@ function Write({ mode, type, closeWriteMode, post }) {
 
   useEffect(() => {
     setHasProblemInfo(!isEmpty(problemInfo));
+    if (!isEmpty(problemInfo)) {
+      setTitle(`${problemInfo.problemId}번 : ${problemInfo.titleKo}`);
+    }
   }, [problemInfo]);
 
   // 문제 풀이, 질문 게시판에만 문제 번호 필요
@@ -200,11 +203,13 @@ function Write({ mode, type, closeWriteMode, post }) {
         } else {
           toast.error('존재하지 않는 문제 입니다.');
           setProblemInfo({});
+          setTitle('');
         }
       })
       .catch((e) => {
         toast.error('존재하지 않는 문제 입니다.');
         setProblemInfo({});
+        setTitle('');
       });
   }, []);
 
