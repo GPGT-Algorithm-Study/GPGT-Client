@@ -50,7 +50,6 @@ function App() {
             <Route path="/statistics" element={<Statistics />} />
             <Route path="/board">
               <Route index element={<Board />} />
-              <Route path="write" element={<Write />} />
               <Route path=":id" element={<Detail />} />
             </Route>
           </Route>

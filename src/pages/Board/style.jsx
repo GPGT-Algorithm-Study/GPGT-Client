@@ -172,5 +172,5 @@ export const PostInfo = styled.td`
 `;
 
 export const Container = styled.div`
-  padding-bottom: 80px;
+  padding-bottom: 5px;
 `;

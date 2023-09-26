@@ -16,20 +16,20 @@ import { FileDrop } from 'react-file-drop';
 import { toast } from 'react-toastify';
 import { isEmpty } from 'lodash';
 import axios from 'axios';
-import { boardType } from 'utils/board';
-import { createPost } from 'api/board';
+import { boardType, writeType } from 'utils/board';
+import { createPost, updatePost } from 'api/board';
 import { BackButton } from '../Detail/style';
 
 /**
  * 게시판 글 작성 컴포넌트
  */
-function Write({ post }) {
+function Write({ mode, type, closeWriteMode, post }) {
   const categories = [boardType.FREE, boardType.PS, boardType.QUES];
   const user = useSelector((state) => state.user);
   if (user.isAdmin) {
     categories.push(boardType.NOTICE);
   }
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [selectedCategory, setSelectedCategory] = useState(type);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [boardColor, setBoardColor] = useState(false);
@@ -40,10 +40,17 @@ function Write({ post }) {
   }, []);
 
   const onClose = useCallback(() => {
-    navigate('/board');
+    closeWriteMode();
     setTitle('');
     setContent('');
   }, []);
+
+  useEffect(() => {
+    if (!isEmpty(post) && mode === writeType.EDIT) {
+      setTitle(post.title);
+      setContent(post.content);
+    }
+  }, [mode, post]);
 
   // 업로드할 이미지의 uuid 리스트 (공백 없이 , 로 구분)
   const [uuidList, setUuidList] = useState('');
@@ -53,27 +60,24 @@ function Write({ post }) {
       toast.error('제목을 입력해주세요');
       return false;
     }
-    if (isEmpty(content.trim())) {
+    if (isEmpty(content)) {
       toast.error('내용을 입력해주세요');
       return false;
     }
-    setContent(content.trim());
-    setTitle(title.trim());
+    setitle(title.trim());
     return true;
   }, [title, content]);
+
   // 게시글 업로드
   const writePost = useCallback(() => {
-    if (!validate()) {
-      return;
-    }
-    const post = {
-      type: selectedCategory.key,
+    const newPost = {
+      type: selectedCategory,
       bojHandle: user.bojHandle,
       title,
       content,
       imageUUIDs: uuidList,
     };
-    createPost(post)
+    createPost(newPost)
       .then((res) => {
         toast.success('글을 작성하였습니다.');
         navigate(`/board/${res.data.id}`);
@@ -83,10 +87,55 @@ function Write({ post }) {
       });
   }, [uuidList, title, content, selectedCategory]);
 
+  const getImageUuids = useCallback((markdownContent) => {
+    const regex = /!\[\]\((.*?)\)/g;
+    const uuids = [];
+    let match;
+    while ((match = regex.exec(markdownContent)) !== null) {
+      const uuid = match[1].split('/').splice(-1)[0];
+      uuids.push(uuid);
+    }
+    return uuids.join(',');
+  }, []);
+
+  // 게시글 수정
+  const editPost = useCallback(() => {
+    const newPost = {
+      boardId: post.id,
+      type: selectedCategory,
+      bojHandle: user.bojHandle,
+      title,
+      content,
+      imageUUIDs: getImageUuids(content),
+    };
+    updatePost(newPost)
+      .then((res) => {
+        toast.success('글을 수정하였습니다.');
+        closeWriteMode();
+      })
+      .catch((e) => {
+        toast.error('글을 수정하는데 실패하였습니다.');
+      });
+  }, [uuidList, title, content, selectedCategory]);
+
+  const onClickWriteButton = useCallback(() => {
+    if (!validate()) {
+      return;
+    }
+    if (mode === writeType.WRITE) {
+      writePost();
+      return;
+    }
+    editPost();
+    return;
+  }, [uuidList, title, content, selectedCategory]);
+
   return (
     <Container>
       <BackButton onClick={onClose} size="24" />
-      <CommonTitle>글 쓰기</CommonTitle>
+      <CommonTitle>
+        {mode === writeType.WRITE ? '글 작성' : '글 수정'}
+      </CommonTitle>
       <Form>
         <FormItem>
           <div>
@@ -102,9 +151,9 @@ function Write({ post }) {
             {categories.map((category) => (
               <Category
                 key={category.key}
-                selected={selectedCategory.key == category.key}
+                selected={selectedCategory == category.key}
                 onClick={() => {
-                  setSelectedCategory(category);
+                  setSelectedCategory(category.key);
                 }}
               >
                 {category.label}
@@ -164,7 +213,7 @@ function Write({ post }) {
           </div>
         </FormItem>
         <ButtonWrapper>
-          <Button primary onClick={writePost} width="100px">
+          <Button primary onClick={onClickWriteButton} width="100px">
             작성
           </Button>
         </ButtonWrapper>

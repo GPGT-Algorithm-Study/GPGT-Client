@@ -16,3 +16,8 @@ export const boardType = {
     key: 'notice',
   },
 };
+
+export const writeType = {
+  WRITE: 1,
+  EDIT: 2,
+};

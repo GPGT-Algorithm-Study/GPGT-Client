@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import dayjs from 'dayjs';
 import {
   Title,
@@ -12,16 +12,16 @@ import {
   BackButton,
   Container,
 } from './style';
-import { CommonProfileImage } from 'style/commonStyle';
-import Comment from './Comment';
+import CommentComponent from './CommentComponent';
 import { Link, useParams } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useFetch from 'hooks/useFetch';
 import { deletePost, getPost } from 'api/board';
-import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
+import Write from '../Write';
+import { writeType } from 'utils/board';
 
 /**
  * 게시판 글 상세 컴포넌트
@@ -29,11 +29,13 @@ import { toast } from 'react-toastify';
 function Detail() {
   const user = useSelector((state) => state.user);
   const { id } = useParams();
-  const [post] = useFetch(getPost, {}, { boardId: id }, () => {
+  const [post, fetchPost] = useFetch(getPost, {}, { boardId: id }, () => {
     navigate('/board');
   });
   const navigate = useNavigate();
+  const [writeMode, setWriteMode] = useState(false);
 
+  // 글 삭제
   const onClickDeletePost = useCallback(() => {
     deletePost({ boardId: id })
       .then(() => {
@@ -45,6 +47,22 @@ function Detail() {
       });
   }, [id]);
 
+  const closeWriteMode = useCallback(() => {
+    fetchPost();
+    setWriteMode(false);
+  }, []);
+
+  if (writeMode) {
+    return (
+      <Write
+        mode={writeType.EDIT}
+        type={post.type}
+        closeWriteMode={closeWriteMode}
+        post={post}
+      />
+    );
+  }
+
   return (
     <Container>
       <Link to="/board">
@@ -54,13 +72,6 @@ function Detail() {
       <Toolbar>
         <WriteInfo>
           <Writer>
-            {/* <CommonProfileImage
-              width={20}
-              height={20}
-              src={
-                'https://static.solved.ac/uploads/profile/fin-picture-1665752455693.png'
-              }
-            /> */}
             <div>
               {post.bojHandle} {post.emoji}
             </div>
@@ -72,9 +83,13 @@ function Detail() {
         <WriteInfo>
           {user.bojHandle == post.bojHandle && (
             <>
-              <Link to="/board/write" post={post}>
-                <Button>수정</Button>
-              </Link>
+              <Button
+                onClick={() => {
+                  setWriteMode(true);
+                }}
+              >
+                수정
+              </Button>
               <Button onClick={onClickDeletePost}>삭제</Button>
             </>
           )}
@@ -91,7 +106,7 @@ function Detail() {
         />
       </Content>
       <CommentWrapper>
-        <Comment boardId={id} />
+        <CommentComponent boardId={id} />
       </CommentWrapper>
     </Container>
   );

@@ -19,9 +19,10 @@ import { isEmpty } from 'lodash';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineSearch } from 'react-icons/ai';
 import Pagination from 'components/Pagination';
-import { boardType } from 'utils/board';
+import { boardType, writeType } from 'utils/board';
 import useFetch from 'hooks/useFetch';
 import { getPostsByType } from 'api/board';
+import Write from './Write';
 
 /**
  * 게시판 탭 내용 컴포넌트
@@ -47,6 +48,11 @@ function Board() {
   });
 
   const [postsInfo, , setPostParams] = useFetch(getPostsByType, [], params);
+  const [writeMode, setWriteMode] = useState(false);
+
+  const closeWriteMode = useCallback(() => {
+    setWriteMode(false);
+  }, []);
 
   // 페이징 및 현재 카테고리 바뀌면 다시 로드
   useEffect(() => {
@@ -69,6 +75,16 @@ function Board() {
   const onChangeKeyword = useCallback((e) => {
     setKeyword(e.target.value);
   }, []);
+
+  if (writeMode) {
+    return (
+      <Write
+        mode={writeType.WRITE}
+        type={curCategory.key}
+        closeWriteMode={closeWriteMode}
+      />
+    );
+  }
 
   return (
     <Container>
@@ -142,7 +158,7 @@ function Board() {
       <WriteButton
         primary
         onClick={() => {
-          navigate('/board/write');
+          setWriteMode(true);
         }}
       >
         <BsFillPencilFill />

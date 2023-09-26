@@ -23,7 +23,7 @@ import { BsArrowReturnRight } from 'react-icons/bs';
 /**
  * 댓글 컴포넌트
  */
-function Comment({ boardId }) {
+function CommentComponent({ boardId }) {
   const user = useSelector((state) => state.user);
   const [allCommentList, fetchComment] = useFetch(getComment, [], { boardId });
   const [commentList, setCommentList] = useState([]);
@@ -244,4 +244,4 @@ function Comment({ boardId }) {
   );
 }
 
-export default Comment;
+export default CommentComponent;
