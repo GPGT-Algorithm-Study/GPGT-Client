@@ -97,7 +97,7 @@ function Detail() {
   }
 
   return (
-    <div>
+    <>
       <div>
         <Link to="/board">
           <BackButton size="25" />
@@ -118,7 +118,7 @@ function Detail() {
               </Writer>
             </Link>
             <CreateDate>
-              {dayjs(post.createDate).format('YYYY년 M월 DD일 hh:mm')}
+              {dayjs(post.createdDate).format('YYYY년 M월 DD일 hh:mm')}
             </CreateDate>
           </WriteInfo>
           <WriteInfo>
@@ -151,7 +151,7 @@ function Detail() {
           <CommentComponent boardId={id} />
         </CommentWrapper>
       </div>
-    </div>
+    </>
   );
 }
 
