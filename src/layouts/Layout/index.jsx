@@ -12,6 +12,7 @@ import {
   MobileMenuWrapper,
   MobileMenuIcon,
   EventHeader,
+  CloseButton,
   Container,
 } from './style';
 import Modal from 'layouts/Modal';
@@ -37,7 +38,6 @@ import { FaClipboardList } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { userLogout } from 'api/user';
 import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
-import { CommonFlexWrapper } from 'style/commonStyle';
 import { getValidPointEvents } from 'api/event';
 import { isEmpty } from 'lodash';
 import dayjs from 'dayjs';
@@ -130,6 +130,8 @@ function Layout({ children }) {
     window.location.href = `/my-page/${user.bojHandle}`;
   }, [user]);
 
+  const [showEventHeader, setShowEventHeader] = useState(true);
+
   return (
     <Container>
       {/* 사이드 메뉴 */}
@@ -197,11 +199,11 @@ function Layout({ children }) {
           </FlexWrapper>
         </HeaderWrapper>
         {/* 이벤트 헤더 */}
-        {pointEvent && !isEmpty(pointEvent) && (
+        {showEventHeader && pointEvent && !isEmpty(pointEvent) && (
           <EventHeader length={pointEvent.length}>
             <div>
               {pointEvent.map((event) => (
-                <span>
+                <span key={event.id}>
                   <b>
                     [{event.eventName}] {event.description}
                   </b>{' '}
@@ -210,6 +212,13 @@ function Layout({ children }) {
                 </span>
               ))}
             </div>
+            <CloseButton
+              onClick={() => {
+                setShowEventHeader(false);
+              }}
+            >
+              &times;
+            </CloseButton>
           </EventHeader>
         )}
         {/* 모바일 화면 메뉴 */}

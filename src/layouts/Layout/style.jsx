@@ -217,3 +217,9 @@ export const Container = styled.div`
   position: relative;
   display: flex;
 `;
+
+export const CloseButton = styled.span`
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+`;
