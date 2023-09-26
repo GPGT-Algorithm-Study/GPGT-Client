@@ -32,6 +32,17 @@ export function getTypeLabel(type) {
   return label;
 }
 
+export function getTypeByKey(type) {
+  let res = '';
+  Object.keys(boardType).forEach((key) => {
+    if (boardType[key].key === type) {
+      res = boardType[key];
+      return;
+    }
+  });
+  return res;
+}
+
 export const writeType = {
   WRITE: 1,
   EDIT: 2,

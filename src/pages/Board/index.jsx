@@ -17,7 +17,7 @@ import { isEmpty } from 'lodash';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineSearch } from 'react-icons/ai';
 import Pagination from 'components/Pagination';
-import { boardType, writeType } from 'utils/board';
+import { boardType, getTypeByKey, writeType } from 'utils/board';
 import useFetch from 'hooks/useFetch';
 import { getPostsByCondition } from 'api/board';
 import Write from './Write';
@@ -36,7 +36,7 @@ function Board() {
     boardType.NOTICE,
   ];
   const user = useSelector((state) => state.user);
-  const [curCategory, setCurCategory] = useState(categories[0]);
+  const [curCategory, setCurCategory] = useState({});
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState('');
@@ -52,6 +52,16 @@ function Board() {
     },
   });
 
+  useEffect(() => {
+    const key = window.localStorage.getItem('category');
+    if (key) {
+      const type = getTypeByKey(key);
+      setCurCategory(type);
+    } else {
+      setCurCategory(categories[0]);
+    }
+  }, []);
+
   const [postsInfo, , setPostParams] = useFetch(
     getPostsByCondition,
     [],
@@ -64,10 +74,6 @@ function Board() {
   const closeWriteMode = useCallback(() => {
     setWriteMode(false);
   }, []);
-
-  useEffect(() => {
-    setTitle(curCategory.label);
-  }, [curCategory]);
 
   const changeParams = useCallback((bojHandle, type, query) => {
     const newParams = { ...params };
@@ -88,10 +94,15 @@ function Board() {
 
   // 페이징 및 현재 카테고리 바뀌면 다시 로드
   useEffect(() => {
-    // 마이페이지가 아니라면 다시로드
+    setTitle(curCategory.label);
+    window.localStorage.setItem('category', curCategory.key);
     if (curCategory.key && curCategory.key !== boardType.MY.key) {
       changeParams('', curCategory.key, '');
     }
+    if (curCategory.key === boardType.MY.key) {
+      changeParams(user.bojHandle, '', '');
+    }
+    console.log(curCategory);
   }, [curCategory]);
 
   useEffect(() => {
@@ -131,7 +142,6 @@ function Board() {
   const onClickMyPosts = useCallback(() => {
     setCurCategory(boardType.MY);
     setShowTypeTitle(true);
-    changeParams(user.bojHandle, '', '');
   }, []);
 
   // 글 쓰기 버튼 누르면 글쓰기 컴포넌트 보여주기
