@@ -99,9 +99,12 @@ function Detail() {
   return (
     <>
       <div>
-        <Link to="/board">
-          <BackButton size="25" />
-        </Link>
+        <BackButton
+          size="25"
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
         <Title>{post.title}</Title>
         <Toolbar>
           <WriteInfo>
