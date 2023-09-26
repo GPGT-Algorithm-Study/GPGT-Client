@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import { IoArrowBackSharp } from 'react-icons/io5';
+import { CommonTitle } from 'style/commonStyle';
 
-export const Title = styled.div`
-  font-size: 1.5rem;
-  font-weight: bold;
-  padding: 0 10px 0 10px;
+export const Title = styled(CommonTitle)`
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 `;
 export const Toolbar = styled.div`
   margin-top: 20px;

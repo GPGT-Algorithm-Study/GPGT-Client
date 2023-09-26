@@ -34,33 +34,8 @@ export const CommentList = styled.div`
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 35px;
-  padding: 10px;
+  gap: 20px;
   box-sizing: border-box;
-`;
-
-export const WriteInfo = styled.div`
-  display: flex;
-  column-gap: 7px;
-  row-gap: 3px;
-  align-items: center;
-  margin-bottom: 10px;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`;
-
-export const Writer = styled.div`
-  font-weight: bold;
-  font-size: 1.1rem;
-  display: flex;
-  gap: 7px;
-  align-items: center;
-`;
-
-export const CreateDate = styled.div`
-  font-size: 0.8rem;
-  color: var(--color-textgrey);
-  font-weight: normal;
 `;
 
 export const ReplyButton = styled.div`
@@ -80,15 +55,14 @@ export const ReplyList = styled.div`
   box-sizing: border-box;
 `;
 
-export const CommentContent = styled.div`
-  margin-bottom: 15px;
-`;
-export const ReplyContent = styled.div`
-  margin-left: 20px;
-`;
-
 export const FlexWrapper = styled.div`
   display: flex;
   gap: 7px;
   align-items: center;
+`;
+
+export const CommentWrapper = styled.div`
+  border-radius: 7px;
+  background-color: white;
+  padding: 10px;
 `;

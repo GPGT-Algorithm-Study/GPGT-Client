@@ -4,6 +4,7 @@ import {
   InputForm,
   CommentList,
   ReplyButton,
+  CommentWrapper,
   ReplyList,
 } from './style';
 import useFetch from 'hooks/useFetch';
@@ -137,7 +138,7 @@ function CommentComponent({ boardId }) {
       {/* 댓글 목록 */}
       <CommentList>
         {commentList.map((comment) => (
-          <div key={comment.id}>
+          <CommentWrapper key={comment.id}>
             <Comment comment={comment} fetchComment={fetchComment} />
             <ReplyButton
               onClick={() => {
@@ -176,7 +177,7 @@ function CommentComponent({ boardId }) {
                 </InputForm>
               </>
             )}
-          </div>
+          </CommentWrapper>
         ))}
       </CommentList>
     </div>

@@ -7,8 +7,8 @@ import {
   Category,
   FormItem,
   Container,
+  Title,
 } from './style';
-import { CommonTitle } from 'style/commonStyle';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import MDEditor from '@uiw/react-md-editor';
@@ -210,10 +210,10 @@ function Write({ mode, type, closeWriteMode, post }) {
 
   return (
     <Container>
-      <BackButton onClick={onClose} size="24" />
-      <CommonTitle>
+      <Title>
+        <BackButton onClick={onClose} size="24" />
         {mode === writeType.WRITE ? '글 작성' : '글 수정'}
-      </CommonTitle>
+      </Title>
       <Form>
         <FormItem>
           <div>

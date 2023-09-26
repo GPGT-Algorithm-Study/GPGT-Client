@@ -1,5 +1,12 @@
 import styled from '@emotion/styled';
 import { CommonButton } from 'style/commonStyle';
+import { CommonTitle } from 'style/commonStyle';
+
+export const Title = styled(CommonTitle)`
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+`;
 
 export const CategoryWrapper = styled.span`
   display: flex;
@@ -43,7 +50,6 @@ export const Form = styled.div`
   display: flex;
   flex-direction: column;
   gap: 25px;
-  margin-top: 30px;
   padding: 0 5px 0 5px;
 `;
 
