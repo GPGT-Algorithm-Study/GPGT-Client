@@ -64,7 +64,7 @@ function Write({ mode, type, closeWriteMode, post }) {
       toast.error('내용을 입력해주세요');
       return false;
     }
-    setitle(title.trim());
+    setTitle(title.trim());
     return true;
   }, [title, content]);
 
