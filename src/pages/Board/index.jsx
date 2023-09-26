@@ -85,58 +85,60 @@ function Board() {
               {category.label}
             </Category>
           ))}
+          <Category>내가 쓴 글</Category>
         </CategoryWrapper>
-        <Category>내가 쓴 글</Category>
       </HeaderWrapper>
-      <BoardHeader>
-        <BoardTitleWrapper>
-          <CommonTitle>{curCategory.label}</CommonTitle>
-          <p>{total} 개의 게시글</p>
-        </BoardTitleWrapper>
-        <SearchForm>
-          <div>
-            <AiOutlineSearch />
-          </div>
-          <input
-            placeholder="검색어 입력"
-            value={keyword}
-            onChange={onChangeKeyword}
-          />
-        </SearchForm>
-      </BoardHeader>
-      <Table>
-        <thead>
-          <tr>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
-          </tr>
-        </thead>
-        <tbody>
-          {postList.map((post) => (
-            <tr
-              key={post.id}
-              onClick={() => {
-                navigate(`/board/${post.id}`);
-              }}
-            >
-              <td>{post.title}</td>
-              <PostInfo>{post.bojHandle}</PostInfo>
-              <PostInfo>{dayjs(post.date).format('YYYY-MM-DD')}</PostInfo>
+      <div>
+        <BoardHeader>
+          <BoardTitleWrapper>
+            <CommonTitle>{curCategory.label}</CommonTitle>
+            <p>{total} 개의 게시글</p>
+          </BoardTitleWrapper>
+          <SearchForm>
+            <div>
+              <AiOutlineSearch />
+            </div>
+            <input
+              placeholder="검색어 입력"
+              value={keyword}
+              onChange={onChangeKeyword}
+            />
+          </SearchForm>
+        </BoardHeader>
+        <Table>
+          <thead>
+            <tr>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-      {Math.ceil(total / SIZE) > 1 && (
-        <PageWrapper>
-          <Pagination
-            totalPage={Math.ceil(total / SIZE)}
-            limit={5}
-            page={page}
-            setPage={setPage}
-          />
-        </PageWrapper>
-      )}
+          </thead>
+          <tbody>
+            {postList.map((post) => (
+              <tr
+                key={post.id}
+                onClick={() => {
+                  navigate(`/board/${post.id}`);
+                }}
+              >
+                <td>{post.title}</td>
+                <PostInfo>{post.bojHandle}</PostInfo>
+                <PostInfo>{dayjs(post.date).format('YYYY-MM-DD')}</PostInfo>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        {Math.ceil(total / SIZE) > 1 && (
+          <PageWrapper>
+            <Pagination
+              totalPage={Math.ceil(total / SIZE)}
+              limit={5}
+              page={page}
+              setPage={setPage}
+            />
+          </PageWrapper>
+        )}
+      </div>
       <WriteButton
         primary
         onClick={() => {

@@ -33,8 +33,8 @@ const useFetch = (
         toast.error(res.data.message);
       });
 
-  return [data, fetchData, setParams, setData];
-  // [데이터, 데이터 다시 요청, 파라미터 변겅해서 데이터 다시 요청, 데이터 다시 설정]
+  return [data, fetchData, setParams];
+  // [데이터, 데이터 다시 요청, 파라미터 변겅해서 데이터 다시 요청]
 };
 
 export default useFetch;
