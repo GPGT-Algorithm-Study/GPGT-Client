@@ -3,33 +3,26 @@ import {
   CommentInfo,
   InputForm,
   CommentList,
-  WriteInfo,
-  Writer,
-  CreateDate,
   ReplyButton,
   ReplyList,
-  FlexWrapper,
-  ReplyContent,
-  CommentContent,
 } from './style';
 import useFetch from 'hooks/useFetch';
-import { createComment, deleteComment, getComment } from 'api/comment';
+import { createComment, getComment } from 'api/comment';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
-import dayjs from 'dayjs';
-import { BsArrowReturnRight } from 'react-icons/bs';
+import Comment from './Comment';
 
 /**
  * 댓글 컴포넌트
  */
 function CommentComponent({ boardId }) {
-  const user = useSelector((state) => state.user);
-  const [allCommentList, fetchComment] = useFetch(getComment, [], { boardId });
-  const [commentList, setCommentList] = useState([]);
-  const [commentContent, setCommentContent] = useState('');
-  const [replyContentMap, setReplyContentMap] = useState({});
-  const [showReplyMap, setShowReplyMap] = useState({});
+  const user = useSelector((state) => state.user); // 로그인한 사용자
+  const [allCommentList, fetchComment] = useFetch(getComment, [], { boardId }); // 모든 댓글 정보
+  const [commentList, setCommentList] = useState([]); // 구조화된 댓글 정보
+  const [commentContent, setCommentContent] = useState(''); // 입력 중인 댓글 내용
+  const [replyContentMap, setReplyContentMap] = useState({}); // 입력중인 답글 내용
+  const [showReplyMap, setShowReplyMap] = useState({}); // 답글 보여주기 여부 값
 
   const toggleShowReply = (key) => {
     setShowReplyMap((prev) => ({
@@ -72,6 +65,7 @@ function CommentComponent({ boardId }) {
     return comments;
   }, []);
 
+  // 모든 댓글 내용으로 댓글 구조화
   useEffect(() => {
     if (!isEmpty(allCommentList))
       setCommentList(getOrganizeComments(allCommentList));
@@ -128,20 +122,9 @@ function CommentComponent({ boardId }) {
     [replyContentMap],
   );
 
-  // 댓글 삭제
-  const onClickDeleteComment = useCallback((commentId) => {
-    deleteComment({ commentId })
-      .then(() => {
-        toast.success('댓글을 삭제하였습니다.');
-        fetchComment();
-      })
-      .catch((e) => {
-        toast.error('댓글을 삭제하지 못하였습니다.');
-      });
-  }, []);
-
   return (
     <div>
+      {/* 댓글 정보, input 폼 */}
       <CommentInfo>{allCommentList.length} 개의 댓글</CommentInfo>
       <InputForm onSubmit={onSubmitComment}>
         <input
@@ -151,32 +134,11 @@ function CommentComponent({ boardId }) {
         />
         <button>확인</button>
       </InputForm>
+      {/* 댓글 목록 */}
       <CommentList>
         {commentList.map((comment) => (
           <div key={comment.id}>
-            <WriteInfo>
-              <Writer>
-                <div>
-                  {comment.bojHandle} {comment.emoji}
-                </div>
-                <CreateDate key={comment.id}>
-                  {dayjs(comment.createdDate).format('YYYY.MM.DD HH:MM')}
-                </CreateDate>
-              </Writer>
-              {user.bojHandle === comment.bojHandle && (
-                <FlexWrapper>
-                  <ReplyButton>수정</ReplyButton>
-                  <ReplyButton
-                    onClick={() => {
-                      onClickDeleteComment(comment.id);
-                    }}
-                  >
-                    삭제
-                  </ReplyButton>
-                </FlexWrapper>
-              )}
-            </WriteInfo>
-            <CommentContent>{comment.content}</CommentContent>
+            <Comment comment={comment} fetchComment={fetchComment} />
             <ReplyButton
               onClick={() => {
                 toggleShowReply(comment.id);
@@ -185,40 +147,17 @@ function CommentComponent({ boardId }) {
               {showReplyMap[comment.id] ? '답글 접기' : '답글 보기'} (
               {comment.replyList.length})
             </ReplyButton>
+            {/* 답글 목록 */}
             {showReplyMap[comment.id] && (
               <>
                 <ReplyList>
                   {comment.replyList.map((reply) => (
-                    <div key={reply.id}>
-                      <WriteInfo>
-                        <Writer>
-                          <BsArrowReturnRight
-                            style={{ color: 'var(--color-textgrey)' }}
-                          />
-                          <div>
-                            {reply.bojHandle} {reply.emoji}
-                          </div>
-                          <CreateDate key={reply.id}>
-                            {dayjs(reply.createdDate).format(
-                              'YYYY.MM.DD HH:MM',
-                            )}
-                          </CreateDate>
-                        </Writer>
-                        {user.bojHandle === reply.bojHandle && (
-                          <FlexWrapper>
-                            <ReplyButton>수정</ReplyButton>
-                            <ReplyButton
-                              onClick={() => {
-                                onClickDeleteComment(reply.id);
-                              }}
-                            >
-                              삭제
-                            </ReplyButton>
-                          </FlexWrapper>
-                        )}
-                      </WriteInfo>
-                      <ReplyContent>{reply.content}</ReplyContent>
-                    </div>
+                    <Comment
+                      key={reply.id}
+                      comment={reply}
+                      fetchComment={fetchComment}
+                      reply
+                    />
                   ))}
                 </ReplyList>
                 <InputForm
