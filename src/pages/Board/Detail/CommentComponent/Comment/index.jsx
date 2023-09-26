@@ -89,7 +89,7 @@ function Comment({ comment, fetchComment, reply = false }) {
           const regex = /@\[[^\]]+\]\(([^)]+)\)/g;
           const match = regex.exec(arr[0]);
           const name = match[1];
-          return <MentionName>@{name}</MentionName>;
+          return <MentionName key={index}>@{name}</MentionName>;
         }
       },
     });

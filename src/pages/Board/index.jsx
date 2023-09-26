@@ -54,7 +54,7 @@ function Board() {
 
   useEffect(() => {
     const key = window.localStorage.getItem('category');
-    if (key) {
+    if (key !== 'undefined') {
       const type = getTypeByKey(key);
       setCurCategory(type);
     } else {
@@ -101,8 +101,8 @@ function Board() {
     }
     if (curCategory.key === boardType.MY.key) {
       changeParams(user.bojHandle, '', '');
+      setShowTypeTitle(true);
     }
-    console.log(curCategory);
   }, [curCategory]);
 
   useEffect(() => {
@@ -141,7 +141,6 @@ function Board() {
   // 내가 쓴 포스트 확인
   const onClickMyPosts = useCallback(() => {
     setCurCategory(boardType.MY);
-    setShowTypeTitle(true);
   }, []);
 
   // 글 쓰기 버튼 누르면 글쓰기 컴포넌트 보여주기
