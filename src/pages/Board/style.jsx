@@ -62,6 +62,9 @@ export const Table = styled.table`
     text-align: left;
     border-bottom: 1px solid var(--color-bordergrey);
     cursor: pointer;
+    & b {
+      font-weight: bold;
+    }
   }
   & th {
     text-align: left;

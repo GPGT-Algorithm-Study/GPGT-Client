@@ -21,7 +21,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import Pagination from 'components/Pagination';
 import { boardType, getTypeLabel, writeType } from 'utils/board';
 import useFetch from 'hooks/useFetch';
-import { getPostsByType } from 'api/board';
+import { getPostsByCondition } from 'api/board';
 import Write from './Write';
 import { useSelector } from 'react-redux';
 
@@ -46,10 +46,16 @@ function Board() {
   const [params, setParams] = useState({
     page: page - 1,
     size: SIZE,
-    type: curCategory.key,
+    condition: {
+      type: curCategory.key,
+    },
   });
 
-  const [postsInfo, , setPostParams] = useFetch(getPostsByType, [], params);
+  const [postsInfo, , setPostParams] = useFetch(
+    getPostsByCondition,
+    [],
+    params,
+  );
   const [writeMode, setWriteMode] = useState(false);
   const [title, setTitle] = useState(curCategory.label);
   const [showTypeTitle, setShowTypeTitle] = useState(false);
@@ -64,12 +70,19 @@ function Board() {
 
   // 페이징 및 현재 카테고리 바뀌면 다시 로드
   useEffect(() => {
-    setParams({
+    const newParams = {
       page: page - 1,
       size: SIZE,
-      type: curCategory.key,
-    });
+    };
+    // 마이페이지가 아니라면 조건에 타입(게시판) 추가
+    if (curCategory.key !== boardType.MY.key) {
+      newParams.condition = {
+        type: curCategory.key,
+      };
+    }
+    setParams(newParams);
   }, [page, curCategory]);
+
   useEffect(() => {
     setPostParams(params);
   }, [params]);
@@ -95,7 +108,9 @@ function Board() {
       setParams({
         page: 0,
         size: SIZE,
-        query: keyword,
+        condition: {
+          query: keyword,
+        },
       });
     },
     [keyword],
@@ -109,7 +124,9 @@ function Board() {
     setParams({
       page: 0,
       size: SIZE,
-      bojHandle: user.bojHandle,
+      condition: {
+        bojHandle: user.bojHandle,
+      },
     });
   }, []);
 
@@ -185,7 +202,7 @@ function Board() {
                 }}
               >
                 <td>
-                  {showTypeTitle && `[${getTypeLabel(post.type)}] `}
+                  {showTypeTitle && <b>{`[${getTypeLabel(post.type)}] `}</b>}
                   {post.title}
                 </td>
                 <PostInfo>

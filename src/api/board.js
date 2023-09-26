@@ -67,8 +67,8 @@ export function getPostsByUser(params) {
  * params : page, size, condition(bojHandle, type, query(검색 키워드))
  */
 export function getPostsByCondition(params) {
-  return axios.get(
-    `${PREFIX_URL}/all?page=${params.page}&size=${params.size}`,
+  return axios.post(
+    `${PREFIX_URL}/all/condition?page=${params.page}&size=${params.size}`,
     params.condition,
   );
 }
