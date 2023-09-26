@@ -3,7 +3,8 @@ import { MentionsInput } from 'react-mentions';
 
 export const StyledMentionsInput = styled(MentionsInput)`
   padding: 10px 9px;
-  background-color: var(--color-input);
+  background-color: white;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 7px;
   flex-grow: 1;
   & strong {

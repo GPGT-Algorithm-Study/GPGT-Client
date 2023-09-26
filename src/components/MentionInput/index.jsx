@@ -22,6 +22,19 @@ function MentionInput({ onSubmitComment, commentContent, onChangeComment }) {
     [mentionList],
   );
 
+  const onKeyDownComment = useCallback(
+    (e) => {
+      if (
+        e.key === 'Enter' &&
+        !e.shiftKey &&
+        e.nativeEvent.isComposing === false
+      ) {
+        onSubmitComment(e);
+      }
+    },
+    [onSubmitComment],
+  );
+
   return (
     <div>
       <InputForm onSubmit={onSubmitComment}>
@@ -29,6 +42,7 @@ function MentionInput({ onSubmitComment, commentContent, onChangeComment }) {
           placeholder="댓글 내용을 입력하세요"
           value={commentContent}
           onChange={onChangeComment}
+          onKeyDown={onKeyDownComment}
         >
           <Mention
             appendSpaceOnAdd
