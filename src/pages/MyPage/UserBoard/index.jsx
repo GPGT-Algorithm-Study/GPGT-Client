@@ -43,7 +43,7 @@ function UserBoard({ userInfo }) {
   return (
     <Card>
       <Title>
-        {userInfo.notionId} {userInfo.emoji} 작성 글
+        {userInfo.notionId} {userInfo.emoji} 작성 글 <span>{total} 개</span>
       </Title>
       {isEmpty(postList) ? (
         <NoPosts>아직 작성 글이 없습니다.</NoPosts>

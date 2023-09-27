@@ -31,7 +31,7 @@ function Write({ mode, type, closeWriteMode, post }) {
   if (user.isAdmin) {
     categories.push(boardType.NOTICE);
   }
-  const [selectedCategory, setSelectedCategory] = useState(type);
+  const [selectedCategory, setSelectedCategory] = useState(boardType.FREE.key);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [problemId, setProblemId] = useState('');
@@ -40,6 +40,12 @@ function Write({ mode, type, closeWriteMode, post }) {
   const [hasProblemType, setHasProblemType] = useState(false);
   const [hasProblemInfo, setHasProblemInfo] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (type === boardType.NOTICE.key && !user.isAdmin) return;
+    if (type === boardType.SEARCH.key || type === boardType.MY.key) return;
+    setSelectedCategory(type);
+  }, [type]);
 
   useEffect(() => {
     setHasProblemInfo(!isEmpty(problemInfo));

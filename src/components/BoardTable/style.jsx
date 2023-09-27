@@ -22,7 +22,6 @@ export const Table = styled.table`
     border-top: 2px solid var(--color-bordergrey);
     border-bottom: 1px solid var(--color-bordergrey);
     font-weight: bold;
-    cursor: none;
   }
   /* 테이블 비율 */
   & th:nth-of-type(1),

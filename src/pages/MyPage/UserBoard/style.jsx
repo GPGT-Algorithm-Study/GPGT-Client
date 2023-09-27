@@ -7,6 +7,9 @@ export const Card = styled(CommonCard)`
 
 export const Title = styled.div`
   font-weight: bold;
+  & span {
+    font-weight: normal;
+  }
 `;
 export const PageWrapper = styled.div`
   margin: 35px 0 30px 0;
