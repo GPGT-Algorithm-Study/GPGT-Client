@@ -29,14 +29,14 @@ export const ProfileImage = styled(CommonProfileImage)`
 `;
 
 export const Content = styled.div`
-  /* margin-left: auto;
-  margin-right: auto;
-  max-width: var(--width-maxwidth); */
   width: 100%;
   height: 100vh;
   overflow: scroll;
   & section {
     padding: 20px 30px 100px 30px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--width-maxwidth);
   }
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
