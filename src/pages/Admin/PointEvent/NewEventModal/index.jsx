@@ -1,6 +1,7 @@
 import { postPointEvent } from 'api/event';
 import React, { useState } from 'react';
 import { Button, FormWrapper, InputWrapper, TextWrapper, Title } from './style';
+import { toast } from 'react-toastify';
 
 function NewEventModal({ reFetchEvents }) {
   const [newEventInfo, setNewEventInfo] = useState({});
@@ -39,6 +40,7 @@ function NewEventModal({ reFetchEvents }) {
     postPointEvent(EventInfo)
       .then((res) => {
         if (res.code !== 200) console.log(res.data.message);
+        return;
       })
       .catch((e) => {
         const { data } = e.response;

@@ -109,6 +109,7 @@ function PointEvent() {
           show={showNewEventModal}
           onCloseModal={() => {
             setShowNewEventModal(false);
+            reFetchEvents();
           }}
         >
           <NewEventModal reFetchEvents={reFetchEvents} />
@@ -120,6 +121,7 @@ function PointEvent() {
           show={showDeleteEventModal}
           onCloseModal={() => {
             setShowDeleteEventModal(false);
+            reFetchEvents();
           }}
         >
           <DeleteEventModal reFetchEvents={reFetchEvents} />

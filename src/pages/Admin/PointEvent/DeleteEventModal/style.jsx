@@ -7,16 +7,18 @@ export const Title = styled.div`
 `;
 
 export const Button = styled.button`
-  width: 80px;
+  width: 50px;
   padding: 8px 0 8px 0;
   border-radius: 7px;
-  background-color: lightgray;
+  font-weight: bold;
+
   border: none;
   cursor: pointer;
 `;
 
 export const FormWrapper = styled.div`
-  display: relative;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const InputWrapper = styled.div`
@@ -24,7 +26,12 @@ export const InputWrapper = styled.div`
   padding: 5px;
 `;
 
+export const Text = styled.div`
+  display: inline-block;
+  margin-left: 10px;
+`;
+
 export const TextWrapper = styled.div`
   display: flex;
-  width: 150px;
+  align-items: flex-start;
 `;
