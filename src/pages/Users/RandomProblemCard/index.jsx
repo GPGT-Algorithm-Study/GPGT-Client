@@ -94,7 +94,8 @@ function RandomProblemCard({ user, changePoint }) {
               오늘의 랜덤 문제
               <p> +{problem.point} P</p>
               {loingUser.bojHandle === user.bojHandle &&
-                problem.problemId != 0 && (
+                problem.problemId != 0 &&
+                !problem.isTodayRandomSolved && (
                   <BiRefresh size="21" onClick={onClickRefreshButton} />
                 )}
             </Title>
