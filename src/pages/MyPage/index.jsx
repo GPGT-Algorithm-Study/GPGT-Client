@@ -10,6 +10,7 @@ import WarningLogCard from './WarningLogCard';
 import { getUserInfo } from 'api/user';
 import useFetch from 'hooks/useFetch';
 import { useParams } from 'react-router-dom';
+import UserBoard from './UserBoard';
 
 /**
  * 마이페이지 화면
@@ -44,6 +45,7 @@ function MyPage() {
         {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
         <PointLogCard userInfo={userInfo} isUser={isUser} />
         <WarningLogCard userInfo={userInfo} isUser={isUser} />
+        <UserBoard userInfo={userInfo} />
       </Content>
     </div>
   );

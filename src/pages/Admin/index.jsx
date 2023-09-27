@@ -10,6 +10,7 @@ import PointManage from './PointManage';
 import Modal from 'layouts/Modal';
 import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
 import ShowAllUserLogs from './ShowAllUserLogs';
+import PointEvent from './PointEvent';
 
 function Admin() {
   const [showWarningManageModal, setShowWarningManageModal] = useState(false);
@@ -54,6 +55,7 @@ function Admin() {
         ))}
       </UtilWrapper> */}
       <YesterdayUnsolved />
+      <PointEvent />
       <ShowAllUserLogs />
       <UserManageList />
       {/* <Modal show={showWarningManageModal} onCloseModal={onCloseModal}>

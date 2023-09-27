@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useFetch from 'hooks/useFetch';
 import { CardWrapper, UserInfoWrapper, UserProblemInfo } from './style';
 import { getAllUsers } from 'api/user';
@@ -16,7 +16,7 @@ import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
  */
 function Users() {
   // 모든 사용자 정보 조회
-  const [users] = useFetch(getAllUsers, []);
+  const [users, , , setUsers] = useFetch(getAllUsers, []);
   const [sortedUsers, setSortedUsers] = useState([]);
   // 하단 문제 정보 펼칠지 여부
   const [showProblemsId, setShowProblemsId] = useState({});
@@ -45,6 +45,16 @@ function Users() {
     setSortedUsers(tmpUsers);
   }, [users]);
 
+  // 포인트를 변경한다. (문제 새로고침 시 사용)
+  // 일단 화면단에서만 변경해줌 sortedUsers의 0번째 유저는 항상 로그인한 사용자
+  const changePoint = useCallback(
+    (point) => {
+      sortedUsers[0].point += point;
+      setSortedUsers([...sortedUsers]);
+    },
+    [sortedUsers],
+  );
+
   return (
     <div>
       <CommonFlexWrapper>
@@ -53,7 +63,7 @@ function Users() {
       </CommonFlexWrapper>
       <UserInfoWrapper>
         {sortedUsers &&
-          sortedUsers.map((user) => {
+          sortedUsers.map((user, i) => {
             if (!isEmpty(user)) {
               return (
                 <CardWrapper key={user.notionId}>
@@ -65,7 +75,10 @@ function Users() {
                     />
                     {showProblemsId[user.notionId] && (
                       <>
-                        <RandomProblemCard user={user} />
+                        <RandomProblemCard
+                          user={user}
+                          changePoint={changePoint}
+                        />
                         <ProblemCard user={user} />
                       </>
                     )}

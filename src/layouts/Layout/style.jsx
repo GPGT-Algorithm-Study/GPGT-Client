@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { CommonProfileImage } from 'style/commonStyle';
 
-const MOBILE_WIDTH = '540px';
+const MOBILE_WIDTH = '790px';
 
 export const FlexWrapper = styled.div`
   display: flex;
@@ -18,24 +18,9 @@ export const FlexWrapper = styled.div`
   }
 `;
 
-export const RightWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: center;
-  & div {
-    font-weight: bold;
-    margin: 3px 20px 3px 0px;
-  }
-  .clickable {
-    cursor: pointer;
-  }
-`;
-
 export const Header = styled.div`
   margin-left: auto;
   margin-right: auto;
-  padding: 20px 0 20px 0;
 `;
 
 export const ProfileImage = styled(CommonProfileImage)`
@@ -47,10 +32,11 @@ export const Content = styled.div`
   /* margin-left: auto;
   margin-right: auto;
   max-width: var(--width-maxwidth); */
+  width: 100%;
   height: 100vh;
   overflow: scroll;
   & section {
-    padding: 0 10px 100px 10px;
+    padding: 20px 30px 100px 30px;
   }
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
@@ -58,6 +44,46 @@ export const Content = styled.div`
 `;
 
 export const MenuItem = styled.div`
+  font-weight: bold;
+  color: var(--color-textgrey);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: ${(props) => props.fontSize};
+  & div {
+    margin-left: 10px;
+  }
+`;
+
+export const Menu = styled.div`
+  display: flex;
+  z-index: 999;
+  gap: 30px;
+  justify-content: center;
+  .selected {
+    color: var(--color-primary);
+    border-radius: 50%;
+    font-weight: normal;
+  }
+`;
+
+export const MenuWrapper = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  transform: translate(-50%, 0);
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgb(245, 245, 247);
+  z-index: 999;
+  @media all and (max-width: ${MOBILE_WIDTH}) {
+    display: none;
+  }
+`;
+
+export const MobileMenuItem = styled.div`
   font-weight: bold;
   color: var(--color-textgrey);
   cursor: pointer;
@@ -70,7 +96,7 @@ export const MenuItem = styled.div`
   }
 `;
 
-export const Menu = styled.div`
+export const MobileMenu = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -84,7 +110,7 @@ export const Menu = styled.div`
   }
 `;
 
-export const FoldSide = styled.aside`
+export const SideMenu = styled.aside`
   height: 100vh;
   float: left;
   background-color: white;
@@ -94,7 +120,7 @@ export const FoldSide = styled.aside`
   }
 `;
 
-export const FoldMyInfo = styled.div`
+export const SideMyInfo = styled.div`
   display: flex;
   align-items: center;
   margin: 20px 0 30px 0;
@@ -120,4 +146,119 @@ export const MobileMenuWrapper = styled.div`
   height: 100vh;
   padding: 0 30px 0 30px;
   box-sizing: border-box;
+`;
+
+export const EventHeader = styled.div`
+  margin-bottom: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(68, 170, 252, 0.4) 0%,
+    rgba(94, 252, 245, 0.7) 14%,
+    rgba(227, 252, 120, 0.7) 30%,
+    rgba(253, 193, 144, 0.7) 46%,
+    rgba(238, 180, 254, 0.7) 60%,
+    rgba(203, 243, 254, 0.7) 74%,
+    rgba(185, 255, 173, 0.7) 87%,
+    rgba(235, 249, 116, 0.7) 100%
+  );
+  width: 100%;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  & div {
+    & b {
+      font-weight: bold;
+    }
+    margin: 0;
+    padding-left: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    -webkit-animation-name: marquee;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-duration: ${(props) => 20 * (props.length * 0.9)}s;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-name: marquee;
+    -moz-animation-timing-function: linear;
+    -moz-animation-duration: ${(props) => 20 * (props.length * 0.9)}s;
+    -moz-animation-iteration-count: infinite;
+    -ms-animation-name: marquee;
+    -ms-animation-timing-function: linear;
+    -ms-animation-duration: ${(props) => 20 * (props.length * 0.9)}s;
+    -ms-animation-iteration-count: infinite;
+    -o-animation-name: marquee;
+    -o-animation-timing-function: linear;
+    -o-animation-duration: ${(props) => 20 * (props.length * 0.9)}s;
+    -o-animation-iteration-count: infinite;
+    animation-name: marquee;
+    animation-timing-function: linear;
+    animation-duration: ${(props) => 20 * (props.length * 0.9)}s;
+    animation-iteration-count: infinite;
+  }
+  @-webkit-keyframes marquee {
+    from {
+      -webkit-transform: translate(0%);
+    }
+    99%,
+    to {
+      -webkit-transform: translate(-100%);
+    }
+  }
+  @-moz-keyframes marquee {
+    from {
+      -moz-transform: translate(0%);
+    }
+    99%,
+    to {
+      -moz-transform: translate(-100%);
+    }
+  }
+  @-ms-keyframes marquee {
+    from {
+      -ms-transform: translate(0%);
+    }
+    99%,
+    to {
+      -ms-transform: translate(-100%);
+    }
+  }
+  @-o-keyframes marquee {
+    from {
+      -o-transform: translate(0%);
+    }
+    99%,
+    to {
+      -o-transform: translate(-100%);
+    }
+  }
+  @keyframes marquee {
+    from {
+      transform: translate(0%);
+    }
+    99%,
+    to {
+      transform: translate(-100%);
+    }
+  }
+`;
+
+export const HeaderWrapper = styled.div`
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  background-color: rgb(245, 245, 247);
+  z-index: 999;
+`;
+
+export const Container = styled.div`
+  position: relative;
+  display: flex;
+`;
+
+export const CloseButton = styled.span`
+  position: sticky;
+  right: 10px;
+  cursor: pointer;
 `;

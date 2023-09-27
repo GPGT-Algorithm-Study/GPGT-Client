@@ -12,30 +12,16 @@ import {
  */
 const Pagination = ({ totalPage, limit, page, setPage }) => {
   const [currentPageArray, setCurrentPageArray] = useState([]);
-  const [totalPageArray, setTotalPageArray] = useState([]);
-
-  const sliceArrayByLimit = useCallback((totalPage, limit) => {
-    const totalPageArray = Array(totalPage)
-      .fill()
-      .map((_, i) => i);
-    return Array(Math.ceil(totalPage / limit))
-      .fill()
-      .map(() => totalPageArray.splice(0, limit));
-  }, []);
 
   useEffect(() => {
-    if (page % limit === 1) {
-      setCurrentPageArray(totalPageArray[Math.floor(page / limit)]);
-    } else if (page % limit === 0) {
-      setCurrentPageArray(totalPageArray[Math.floor(page / limit) - 1]);
+    const start = Math.floor((page - 1) / limit) * limit + 1;
+    const end = Math.ceil(page / limit) * limit;
+    let pageCount = limit;
+    if (totalPage < end) {
+      pageCount = totalPage - start + 1;
     }
+    setCurrentPageArray(Array.from({ length: pageCount }, (_, i) => i + start));
   }, [page]);
-
-  useEffect(() => {
-    const slicedPageArray = sliceArrayByLimit(totalPage, limit);
-    setTotalPageArray(slicedPageArray);
-    setCurrentPageArray(slicedPageArray[0]);
-  }, [totalPage]);
 
   return (
     <PaginationWrapper>
@@ -47,12 +33,8 @@ const Pagination = ({ totalPage, limit, page, setPage }) => {
       />
       <ButtonWrapper>
         {currentPageArray?.map((i) => (
-          <PageButton
-            key={i + 1}
-            onClick={() => setPage(i + 1)}
-            selected={page === i + 1}
-          >
-            {i + 1}
+          <PageButton key={i} onClick={() => setPage(i)} selected={page === i}>
+            {i}
           </PageButton>
         ))}
       </ButtonWrapper>

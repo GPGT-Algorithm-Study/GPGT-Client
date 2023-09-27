@@ -20,17 +20,19 @@ import { BiRefresh } from 'react-icons/bi';
 import { CommonTierImg } from 'style/commonStyle';
 import Modal from 'layouts/Modal';
 import RefreshModalContent from './RefreshModalContent';
+import { useSelector } from 'react-redux';
 
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트
  */
-function RandomProblemCard({ user }) {
+function RandomProblemCard({ user, changePoint }) {
   const [showTags, setShowTags] = useState(false);
   const [problem, setProblem] = useState({});
   const [showRefreshModal, setShowRefreshModal] = useState(false);
+  const loingUser = useSelector((state) => state.user);
 
   // 유저의 랜덤 문제
-  const [randomProblem] = useFetch(
+  const [randomProblem, fetchProblem] = useFetch(
     getUserTodayRandomProblem,
     {},
     {
@@ -91,7 +93,10 @@ function RandomProblemCard({ user }) {
             <Title>
               오늘의 랜덤 문제
               <p> +{problem.point} P</p>
-              {/* <BiRefresh size="21" onClick={onClickRefreshButton} /> */}
+              {loingUser.bojHandle === user.bojHandle &&
+                problem.problemId != 0 && (
+                  <BiRefresh size="21" onClick={onClickRefreshButton} />
+                )}
             </Title>
             <TagSwitchWrapper>
               <span>Tags</span>
@@ -140,6 +145,8 @@ function RandomProblemCard({ user }) {
           onCloseModal={() => {
             setShowRefreshModal(false);
           }}
+          fetchProblem={fetchProblem}
+          changePoint={changePoint}
         />
       </Modal>
     </Card>

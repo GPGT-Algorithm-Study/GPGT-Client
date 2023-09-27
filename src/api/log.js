@@ -59,3 +59,19 @@ export function postUserPoint(params) {
     `${PREFIX_URL}/point/user/save?bojHandle=${params.bojHandle}&changedValue=${params.changedValue}&description=${params.description}`,
   );
 }
+
+/**
+ * id에 해당하는 포인트 로그를 롤백한다
+ * @param params { id }
+ */
+export function putPointLogRollback(params) {
+  return axios.put(`${PREFIX_URL}/point/rollback?logId=${params.id}`);
+}
+
+/**
+ * id에 해당하는 경고 로그를 롤백한다
+ * @param params { id }
+ */
+export function putWarningLogRollback(params) {
+  return axios.put(`${PREFIX_URL}/warning/rollback?logId=${params.id}`);
+}
