@@ -33,7 +33,7 @@ function BoardTable({ postList, showTypeTitle }) {
             <PostInfo>
               {post.notionId} {post.emoji}
             </PostInfo>
-            <PostInfo>{dayjs(post.date).format('YYYY-MM-DD')}</PostInfo>
+            <PostInfo>{dayjs(post.createdDate).format('YYYY-MM-DD')}</PostInfo>
           </tr>
         ))}
       </tbody>
