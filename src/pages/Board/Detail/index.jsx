@@ -10,8 +10,6 @@ import {
   Content,
   CommentWrapper,
   BackButton,
-  Container,
-  CreateModal,
 } from './style';
 import CommentComponent from './CommentComponent';
 import { Link, useParams } from 'react-router-dom';
