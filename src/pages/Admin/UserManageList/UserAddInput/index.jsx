@@ -8,6 +8,7 @@ import {
 } from './style';
 import { useState } from 'react';
 import { postNewUser } from 'api/user';
+import { toast } from 'react-toastify';
 
 function UserAddInput() {
   const [isChecked, setIsChecked] = useState(false);
