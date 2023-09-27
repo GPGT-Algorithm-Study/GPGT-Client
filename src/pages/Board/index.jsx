@@ -12,71 +12,51 @@ import {
   WriteButton,
   Card,
 } from './style';
-import { useNavigate } from 'react-router-dom';
-import { isEmpty } from 'lodash';
+import { isEmpty, cloneDeep } from 'lodash';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineSearch } from 'react-icons/ai';
 import Pagination from 'components/Pagination';
-import { boardType, getTypeByKey, writeType } from 'utils/board';
+import { boardType, writeType, SIZE, getTypeLabel } from 'utils/board';
 import useFetch from 'hooks/useFetch';
 import { getPostsByCondition } from 'api/board';
 import Write from './Write';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BoardTable from 'components/BoardTable';
+import { setBoardParam, setBoardTitle } from 'redux/boardParam';
 
 /**
  * 게시판 탭 내용 컴포넌트
  */
 function Board() {
-  const SIZE = 10;
   const categories = [
     boardType.FREE,
     boardType.PS,
     boardType.QUES,
     boardType.NOTICE,
+    boardType.MY,
   ];
   const user = useSelector((state) => state.user);
-  const [curCategory, setCurCategory] = useState({});
+  const { params, title } = useSelector((state) => state.boardParam);
+  const [curType, setCurType] = useState(params.condition.type);
   const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(params.page + 1);
   const [keyword, setKeyword] = useState('');
-  const navigate = useNavigate();
   const [postList, setPostList] = useState([]);
-  const [params, setParams] = useState({
-    page: 0,
-    size: SIZE,
-    condition: {
-      type: curCategory.key,
-      bojHandle: '',
-      query: '',
-    },
-  });
-
-  useEffect(() => {
-    const key = window.localStorage.getItem('category');
-    if (key !== 'undefined') {
-      const type = getTypeByKey(key);
-      setCurCategory(type);
-    } else {
-      setCurCategory(categories[0]);
-    }
-  }, []);
-
   const [postsInfo, , setPostParams] = useFetch(
     getPostsByCondition,
     [],
     params,
   );
   const [writeMode, setWriteMode] = useState(false);
-  const [title, setTitle] = useState(curCategory.label);
   const [showTypeTitle, setShowTypeTitle] = useState(false);
-
   const closeWriteMode = useCallback(() => {
     setWriteMode(false);
   }, []);
 
+  const dispatch = useDispatch();
+
   const changeParams = useCallback((bojHandle, type, query) => {
-    const newParams = { ...params };
+    const newParams = cloneDeep(params);
     if (bojHandle != params.condition.bojHandle) {
       newParams.condition.bojHandle = bojHandle;
       newParams.page = 0;
@@ -89,32 +69,33 @@ function Board() {
       newParams.condition.query = query;
       newParams.page = 0;
     }
-    setParams(newParams);
+    dispatch(setBoardParam(newParams));
+    setPostParams(newParams);
   }, []);
 
-  // 페이징 및 현재 카테고리 바뀌면 다시 로드
+  // 현재 타입 바뀌면 다시 로드
   useEffect(() => {
-    setTitle(curCategory.label);
-    window.localStorage.setItem('category', curCategory.key);
-    if (curCategory.key && curCategory.key !== boardType.MY.key) {
-      changeParams('', curCategory.key, '');
+    if (!curType) return;
+    dispatch(setBoardTitle(getTypeLabel(curType)));
+    if (curType === boardType.SEARCH.key) {
+      return;
     }
-    if (curCategory.key === boardType.MY.key) {
+    if (curType === boardType.MY.key) {
       changeParams(user.bojHandle, '', '');
       setShowTypeTitle(true);
+    } else {
+      changeParams('', curType, '');
+      setShowTypeTitle(false);
     }
-  }, [curCategory]);
+  }, [curType]);
 
+  // 페이지 바뀌면 다시 로드
   useEffect(() => {
-    setParams((prev) => ({
-      ...prev,
-      page: page - 1,
-    }));
+    const newParams = cloneDeep(params);
+    newParams.page = page - 1;
+    dispatch(setBoardParam(newParams));
+    setPostParams(newParams);
   }, [page]);
-
-  useEffect(() => {
-    setPostParams(params);
-  }, [params]);
 
   // 응답 받은 게시물 데이터 가공
   useEffect(() => {
@@ -131,24 +112,19 @@ function Board() {
   const onSubmitSearchKeyword = useCallback(
     (e) => {
       e.preventDefault();
-      setCurCategory({ label: '전체 검색 결과' });
-      setShowTypeTitle(true);
+      setCurType(boardType.SEARCH.key);
       changeParams('', '', keyword);
+      setShowTypeTitle(true);
     },
     [keyword],
   );
-
-  // 내가 쓴 포스트 확인
-  const onClickMyPosts = useCallback(() => {
-    setCurCategory(boardType.MY);
-  }, []);
 
   // 글 쓰기 버튼 누르면 글쓰기 컴포넌트 보여주기
   if (writeMode) {
     return (
       <Write
         mode={writeType.WRITE}
-        type={curCategory.key}
+        type={curType}
         closeWriteMode={closeWriteMode}
       />
     );
@@ -162,21 +138,14 @@ function Board() {
           {categories.map((category) => (
             <Category
               key={category.key}
-              selected={curCategory.key == category.key}
+              selected={curType == category.key}
               onClick={() => {
-                setShowTypeTitle(false);
-                setCurCategory(category);
+                setCurType(category.key);
               }}
             >
               {category.label}
             </Category>
           ))}
-          <Category
-            onClick={onClickMyPosts}
-            selected={curCategory.key == boardType.MY.key}
-          >
-            {boardType.MY.label}
-          </Category>
         </CategoryWrapper>
       </HeaderWrapper>
       {/* 게시글 테이블 */}

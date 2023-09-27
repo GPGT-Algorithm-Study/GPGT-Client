@@ -19,6 +19,10 @@ export const boardType = {
     label: '내가 쓴 글',
     key: 'myboard',
   },
+  SEARCH: {
+    label: '전체 검색 결과',
+    key: 'search',
+  },
 };
 
 export function getTypeLabel(type) {
@@ -32,18 +36,9 @@ export function getTypeLabel(type) {
   return label;
 }
 
-export function getTypeByKey(type) {
-  let res = '';
-  Object.keys(boardType).forEach((key) => {
-    if (boardType[key].key === type) {
-      res = boardType[key];
-      return;
-    }
-  });
-  return res;
-}
-
 export const writeType = {
   WRITE: 1,
   EDIT: 2,
 };
+
+export const SIZE = 10;
