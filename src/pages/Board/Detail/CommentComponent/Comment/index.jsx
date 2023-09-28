@@ -127,7 +127,7 @@ function Comment({ comment, fetchComment, reply = false }) {
             />
             <div>{comment.notionId}</div>
             <CreateDate key={comment.id}>
-              {dayjs(comment.createdDate).format('YYYY.MM.DD hh:mm')}
+              {dayjs(comment.createdDate).format('YYYY.MM.DD HH:mm')}
             </CreateDate>
           </Writer>
         </Link>

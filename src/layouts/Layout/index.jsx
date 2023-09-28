@@ -204,8 +204,10 @@ function Layout({ children }) {
                   <b>
                     [{event.eventName}] {event.description}
                   </b>{' '}
-                  이벤트가 진행중입니다. ({dayjs(event.startTime).format('M/D')}{' '}
-                  ~ {dayjs(event.endTime).format('M/D')}) &nbsp; &nbsp; &nbsp;
+                  이벤트가 진행중입니다. (
+                  {dayjs(event.startTime).format('M/D hh:mm')} ~{' '}
+                  {dayjs(event.endTime).format('M/D hh:mm')}) &nbsp; &nbsp;
+                  &nbsp;
                 </span>
               ))}
             </div>
