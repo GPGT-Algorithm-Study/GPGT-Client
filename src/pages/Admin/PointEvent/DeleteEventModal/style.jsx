@@ -27,8 +27,8 @@ export const InputWrapper = styled.div`
 `;
 
 export const Text = styled.div`
-  display: inline-block;
-  margin-left: 10px;
+  display: flex;
+  padding: 5px;
 `;
 
 export const TextWrapper = styled.div`
