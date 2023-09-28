@@ -6,7 +6,7 @@ export const StyledMentionsInput = styled(MentionsInput)`
   background-color: white;
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 7px;
-  flex-grow: 1;
+  width: 100%;
   & strong {
     background: var(--color-mention);
   }
@@ -37,17 +37,8 @@ export const InputForm = styled.form`
   margin-top: 15px;
   gap: 7px;
   width: 100%;
-  & input {
-    border: none;
-    background-color: var(--color-input);
-    border-radius: 7px;
-    height: 40px;
-    margin-bottom: 10px;
-    padding: 10px 0 10px 20px;
-    box-sizing: border-box;
-    flex-grow: 1;
-  }
   & button {
+    width: 100px;
     height: 40px;
     padding: 0 25px;
     border: none;

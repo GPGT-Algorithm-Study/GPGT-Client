@@ -3,6 +3,7 @@ import {
   Button,
   FormWrapper,
   InputWrapper,
+  TextWrapper,
   Title,
   UserAddWrapper,
 } from './style';
@@ -84,8 +85,9 @@ function UserAddInput() {
             placeholder="BOJ Handle"
             value={newUserData.bojHandle}
             onChange={onInfoChange}
+            style={{ border: '1px solid black' }}
           />
-          백준 핸들
+          <TextWrapper>백준 핸들</TextWrapper>
         </InputWrapper>
         <InputWrapper>
           <input
@@ -94,8 +96,9 @@ function UserAddInput() {
             placeholder="Notion ID"
             value={newUserData.notionId}
             onChange={onInfoChange}
+            style={{ border: '1px solid black' }}
           />
-          노션 Id
+          <TextWrapper>노션 Id</TextWrapper>
         </InputWrapper>
         <InputWrapper>
           <input
@@ -104,8 +107,9 @@ function UserAddInput() {
             placeholder="Emoji"
             value={newUserData.emoji}
             onChange={onInfoChange}
+            style={{ border: '1px solid black' }}
           />
-          이모지
+          <TextWrapper>이모지</TextWrapper>
         </InputWrapper>
         <InputWrapper>
           <input
@@ -114,8 +118,9 @@ function UserAddInput() {
             placeholder="Password"
             value={newUserData.password}
             onChange={onInfoChange}
+            style={{ border: '1px solid black' }}
           />
-          초기 비밀번호
+          <TextWrapper>초기 비밀번호</TextWrapper>
         </InputWrapper>
         <InputWrapper>
           <label>

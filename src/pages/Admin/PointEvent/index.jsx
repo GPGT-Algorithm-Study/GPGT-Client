@@ -79,27 +79,34 @@ function PointEvent() {
             marginLeft: '10px',
           }}
         >
-          이벤트 삭제
+          이벤트 편집
         </Button>
       </ButtonWrapper>
       <EventWrapper>
         <Event>
-          <Id>ID</Id>
-          <Name>이벤트 이름</Name>
-          <DateWrapper>시작 시간</DateWrapper>
-          <DateWrapper>종료 시간</DateWrapper>
+          <TextWrapper>
+            <Id>ID</Id>
+            <Name>이벤트 이름</Name>
+            <DateWrapper>시작 시간</DateWrapper>
+            <DateWrapper>종료 시간</DateWrapper>
+          </TextWrapper>
           <EventDescription>이벤트 설명</EventDescription>
+          <Value>%</Value>
         </Event>
         {events.map((event) => {
           return (
-            <Event key={event.id}>
-              <Id>{event.id}</Id>
-              <Name>{event.eventName}</Name>
-              <DateWrapper>{formatDateTime(event.startTime)}</DateWrapper>
-              <DateWrapper>{formatDateTime(event.endTime)}</DateWrapper>
-              <EventDescription>{event.description}</EventDescription>
-              <Value>x{event.percentage}</Value>
-            </Event>
+            <>
+              <Event key={event.id}>
+                <TextWrapper>
+                  <Id>{event.id}</Id>
+                  <Name>{event.eventName}</Name>
+                  <DateWrapper>{formatDateTime(event.startTime)}</DateWrapper>
+                  <DateWrapper>{formatDateTime(event.endTime)}</DateWrapper>
+                </TextWrapper>
+                <EventDescription>{event.description}</EventDescription>
+                <Value>x{event.percentage}</Value>
+              </Event>
+            </>
           );
         })}
       </EventWrapper>
@@ -124,7 +131,7 @@ function PointEvent() {
             reFetchEvents();
           }}
         >
-          <DeleteEventModal reFetchEvents={reFetchEvents} />
+          <DeleteEventModal events={events} reFetchEvents={reFetchEvents} />
         </Modal>
       </div>
     </Card>

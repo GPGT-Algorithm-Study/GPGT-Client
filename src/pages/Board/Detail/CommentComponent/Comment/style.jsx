@@ -42,13 +42,13 @@ export const ReplyList = styled.div`
 
 export const CommentWrapper = styled.div`
   margin-bottom: 15px;
-  white-space: pre;
+  white-space: pre-line;
   line-height: 1.5;
 `;
 
 export const ReplyWrapper = styled.div`
   margin-left: 20px;
-  white-space: pre;
+  white-space: pre-line;
   line-height: 1.5;
 `;
 

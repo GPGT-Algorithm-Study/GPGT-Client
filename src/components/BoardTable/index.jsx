@@ -28,12 +28,12 @@ function BoardTable({ postList, showTypeTitle }) {
           >
             <td>
               {showTypeTitle && <b>{`[${getTypeLabel(post.type)}] `}</b>}
-              {post.title}
+              {post.title} {post.commentCount > 0 && `(${post.commentCount})`}
             </td>
             <PostInfo>
               {post.notionId} {post.emoji}
             </PostInfo>
-            <PostInfo>{dayjs(post.date).format('YYYY-MM-DD')}</PostInfo>
+            <PostInfo>{dayjs(post.createdDate).format('YYYY-MM-DD')}</PostInfo>
           </tr>
         ))}
       </tbody>

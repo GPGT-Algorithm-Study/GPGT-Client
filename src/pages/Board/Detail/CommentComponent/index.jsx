@@ -1,13 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   CommentInfo,
-  InputForm,
   CommentList,
   ReplyButton,
   CommentWrapper,
   ReplyList,
-  StyledMentionsInput,
-  MentionWrapper,
 } from './style';
 import useFetch from 'hooks/useFetch';
 import { createComment, getComment } from 'api/comment';
@@ -15,8 +12,6 @@ import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
 import Comment from './Comment';
-import { getAllUsersNotionIds } from 'api/user';
-import { Mention, MentionsInput } from 'react-mentions';
 import MentionInput from 'components/MentionInput';
 
 /**
