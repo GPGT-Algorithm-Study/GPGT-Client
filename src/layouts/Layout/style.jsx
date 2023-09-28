@@ -33,7 +33,7 @@ export const Content = styled.div`
   height: 100vh;
   overflow: scroll;
   & section {
-    padding: 20px 30px 100px 30px;
+    padding: 20px 10px 100px 10px;
     margin-left: auto;
     margin-right: auto;
     max-width: var(--width-maxwidth);
