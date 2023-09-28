@@ -76,7 +76,7 @@ export const MenuWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px;
-  background-color: rgb(245, 245, 247);
+  background-color: transparent;
   z-index: 999;
   @media all and (max-width: ${MOBILE_WIDTH}) {
     display: none;
