@@ -46,7 +46,7 @@ export const Button = styled.button`
 `;
 
 export const FormWrapper = styled.div`
-  display: relative;
+  display: block;
 `;
 
 export const InputWrapper = styled.div`
@@ -56,5 +56,7 @@ export const InputWrapper = styled.div`
 
 export const TextWrapper = styled.div`
   display: flex;
-  width: 150px;
+  width: 130px;
+  margin-right: 10px;
+  background-color: transparent;
 `;
