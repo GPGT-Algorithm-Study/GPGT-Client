@@ -14,6 +14,21 @@ function NewEventModal({ reFetchEvents }) {
     }));
   };
   const onInfoSubmit = (e) => {
+    if (
+      !newEventInfo.eventName ||
+      newEventInfo.eventName === '' ||
+      !newEventInfo.description ||
+      newEventInfo.description === '' ||
+      !newEventInfo.startTime ||
+      newEventInfo.startTime === '' ||
+      !newEventInfo.endTime ||
+      newEventInfo.endTime === '' ||
+      !newEventInfo.percentage ||
+      newEventInfo.percentage === ''
+    ) {
+      toast.error('입력되지 않은 정보가 있습니다.');
+      return;
+    }
     const EventInfo = {
       eventName: newEventInfo.eventName,
       description: newEventInfo.description,
@@ -28,7 +43,11 @@ function NewEventModal({ reFetchEvents }) {
       return;
     }
 
-    if (isNaN(EventInfo.percentage) || EventInfo.percentage.charAt(0) === '.') {
+    if (
+      isNaN(EventInfo.percentage) ||
+      EventInfo.percentage.charAt(0) === '.' ||
+      EventInfo.percentage.charAt(EventInfo.percentage.length - 1) === '.'
+    ) {
       alert('포인트 추가율 퍼센트는 실수형태여야 합니다.');
       return;
     }
@@ -40,6 +59,7 @@ function NewEventModal({ reFetchEvents }) {
     postPointEvent(EventInfo)
       .then((res) => {
         if (res.code !== 200) console.log(res.data.message);
+        toast.success('이벤트를 새로 등록했습니다.');
         return;
       })
       .catch((e) => {
@@ -60,6 +80,7 @@ function NewEventModal({ reFetchEvents }) {
             name="eventName"
             value={newEventInfo.eventName || ''}
             onChange={onInfoChange}
+            style={{ border: '1px solid black' }}
           />
         </InputWrapper>
         <InputWrapper>
@@ -69,6 +90,7 @@ function NewEventModal({ reFetchEvents }) {
             name="description"
             value={newEventInfo.description || ''}
             onChange={onInfoChange}
+            style={{ border: '1px solid black' }}
           />
         </InputWrapper>
         <InputWrapper>
@@ -78,6 +100,7 @@ function NewEventModal({ reFetchEvents }) {
             name="startTime"
             value={newEventInfo.startTime || ''}
             onChange={onInfoChange}
+            style={{ border: '1px solid black' }}
           />
         </InputWrapper>
 
@@ -88,6 +111,7 @@ function NewEventModal({ reFetchEvents }) {
             name="endTime"
             value={newEventInfo.endTime || ''}
             onChange={onInfoChange}
+            style={{ border: '1px solid black' }}
           />
         </InputWrapper>
 
@@ -98,6 +122,7 @@ function NewEventModal({ reFetchEvents }) {
             name="percentage"
             value={newEventInfo.percentage || ''}
             onChange={onInfoChange}
+            style={{ border: '1px solid black' }}
           />
         </InputWrapper>
       </FormWrapper>

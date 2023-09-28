@@ -42,9 +42,15 @@ export const Button = styled(CommonButton)`
 
 export const FormWrapper = styled.div`
   display: relative;
+  padding: 10px;
 `;
 
 export const InputWrapper = styled.div`
   display: flex;
   padding: 5px;
+`;
+
+export const TextWrapper = styled.div`
+  display: flex;
+  margin-left: 10px;
 `;
