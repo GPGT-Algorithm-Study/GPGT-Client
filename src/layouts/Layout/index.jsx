@@ -135,7 +135,6 @@ function Layout({ children }) {
   }, [user]);
 
   const [showEventHeader, setShowEventHeader] = useState(true);
-  const [hovering, setHovering] = useState(false);
 
   return (
     <Container>
