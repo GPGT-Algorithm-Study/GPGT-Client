@@ -148,7 +148,8 @@ export const MobileMenuWrapper = styled.div`
   box-sizing: border-box;
   position: absolute;
   background-color: rgb(245, 245, 247);
-  top: 0;
+  z-index: 999;
+  top: 65px;
 `;
 
 export const EventHeader = styled.div`
