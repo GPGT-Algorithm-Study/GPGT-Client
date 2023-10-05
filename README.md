@@ -79,8 +79,8 @@
 마크다운 게시판 기능을 제공합니다. 문제풀이와 질문 게시판에서는 문제 번호를 입력하면 자동으로 해당 문제의 정보와 링크가 제공됩니다.
 
 <div>
-<img width="500" alt="스크린샷 2023-10-05 오후 3 17 20" src="https://github.com/klloo/react-randps-client/assets/53117014/b8eddd89-ea0e-409b-a6bf-2f868c64c76c">
-<img width="500" alt="스크린샷 2023-10-05 오전 12 44 02" src="https://github.com/klloo/react-randps-client/assets/53117014/dedde017-b5ff-48d9-8182-b9c90c31e5e5">  
+<img width="1440" alt="스크린샷 2023-10-05 오후 3 17 20" src="https://github.com/klloo/react-randps-client/assets/53117014/b8eddd89-ea0e-409b-a6bf-2f868c64c76c">
+<img width="1440" alt="스크린샷 2023-10-05 오전 12 44 02" src="https://github.com/klloo/react-randps-client/assets/53117014/dedde017-b5ff-48d9-8182-b9c90c31e5e5">  
 </div>
 
 <br/>
@@ -91,8 +91,8 @@
 아이템과 상점 기능을 제공합니다. 문제를 풀어 획득한 포인트로 상점에서 아이템을 구매하고 마이페이지에서 사용할 수 있습니다.
 
 <div>
-<img width="500" alt="스크린샷 2023-10-05 오후 3 17 20" src="https://github.com/klloo/react-randps-client/assets/53117014/1d25a91c-b472-4ee4-b802-da95cdab2f95">
-<img width="500" alt="스크린샷 2023-10-05 오전 12 44 02" src="https://github.com/klloo/react-randps-client/assets/53117014/43b64acd-6306-4d94-92da-f5f0f86a84b8">  
+<img width="1440" alt="스크린샷 2023-10-05 오후 3 17 20" src="https://github.com/klloo/react-randps-client/assets/53117014/1d25a91c-b472-4ee4-b802-da95cdab2f95">
+<img width="1440" alt="스크린샷 2023-10-05 오전 12 44 02" src="https://github.com/klloo/react-randps-client/assets/53117014/43b64acd-6306-4d94-92da-f5f0f86a84b8">  
 </div>
 
 <br/>
