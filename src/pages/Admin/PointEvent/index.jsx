@@ -95,8 +95,8 @@ function PointEvent() {
         </Event>
         {events.map((event) => {
           return (
-            <>
-              <Event key={event.id}>
+            <div key={event.id}>
+              <Event>
                 <TextWrapper>
                   <Id>{event.id}</Id>
                   <Name>{event.eventName}</Name>
@@ -106,7 +106,7 @@ function PointEvent() {
                 <EventDescription>{event.description}</EventDescription>
                 <Value>x{event.percentage}</Value>
               </Event>
-            </>
+            </div>
           );
         })}
       </EventWrapper>

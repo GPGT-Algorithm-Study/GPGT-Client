@@ -11,6 +11,7 @@ import Modal from 'layouts/Modal';
 import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
 import ShowAllUserLogs from './ShowAllUserLogs';
 import PointEvent from './PointEvent';
+import LastLogin from './LastLogin';
 
 function Admin() {
   const [showWarningManageModal, setShowWarningManageModal] = useState(false);
@@ -55,6 +56,7 @@ function Admin() {
         ))}
       </UtilWrapper> */}
       <YesterdayUnsolved />
+      <LastLogin />
       <PointEvent />
       <ShowAllUserLogs />
       <UserManageList />
