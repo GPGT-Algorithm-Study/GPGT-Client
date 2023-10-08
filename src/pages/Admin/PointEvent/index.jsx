@@ -51,7 +51,7 @@ function PointEvent() {
   const [events, reFetchEvents] = useFetch(getAllPointEvents, []);
 
   return (
-    <Card>
+    <Card eventCnt={events.length}>
       <TitleWrapper>
         <Title>포인트 이벤트</Title>
       </TitleWrapper>
