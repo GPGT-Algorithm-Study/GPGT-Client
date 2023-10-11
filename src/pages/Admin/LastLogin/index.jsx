@@ -17,8 +17,8 @@ import { format } from 'highcharts';
 import dayjs from 'dayjs';
 
 function LastLogin() {
-  //const [users, reFetch] = useFetch(getAllUserLastLogin, []);
-  const users = [
+  const [users, reFetch] = useFetch(getAllUserLastLogin, []);
+  /*const users = [
     {
       bojHandle: 'asdf016182',
       notionId: 'klloo',
@@ -216,7 +216,7 @@ function LastLogin() {
         'https://static.solved.ac/uploads/profile/emforhs0315-picture-1694405066664.png',
       lastLoginDate: '2023-10-08T20:18:53',
     },
-  ];
+  ];*/
 
   const [sortedUsers, setSortedusers] = useState(
     [...users].sort((a, b) => {
