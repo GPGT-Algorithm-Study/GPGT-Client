@@ -129,3 +129,10 @@ export function rerollRandomProblem(params) {
 export function getAllUsersNotionIds() {
   return axios.get(`${PREFIX_URL}/mention/list`);
 }
+
+/**
+ * 모든 유저들의 마지막 로그인 일시를 조회한다.
+ */
+export function getAllUserLastLogin() {
+  return axios.get(`${PREFIX_URL}/log/login`);
+}

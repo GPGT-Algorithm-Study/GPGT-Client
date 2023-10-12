@@ -42,8 +42,6 @@
 기본적으로 기존의 알고리즘 스터디를 효율적으로 관리하기 위해 사용자들이 오늘 어떤 문제를 풀었는지 확인할 수 있도록 합니다. 스터디 관리자는 이를 기반으로 경고를 관리하고 사용자를 추가 및 삭제할 수 있는 기능을 제공하고 있습니다.
 그리고 이에 더해 스터디원의 동기 부여를 위해 포인트 제도를 도입하고 몇 가지 추가 기능을 제공하고 있습니다.
 
-<br/>
-
 **1. 랜덤 문제 추천 및 스트릭**
 
 사용자가 마이페이지에서 랜덤 문제 난이도를 설정하면, 해당 난의도의 문제를 매일 하나씩 추천해줍니다. 그리고 이 문제를 풀면, 사용자 정보 하단에 있는 스트릭이 채워지게 됩니다.
@@ -79,8 +77,8 @@
 마크다운 게시판 기능을 제공합니다. 문제풀이와 질문 게시판에서는 문제 번호를 입력하면 자동으로 해당 문제의 정보와 링크가 제공됩니다.
 
 <div>
-<img width="500" alt="스크린샷 2023-10-05 오후 3 17 20" src="https://github.com/klloo/react-randps-client/assets/53117014/b8eddd89-ea0e-409b-a6bf-2f868c64c76c">
-<img width="500" alt="스크린샷 2023-10-05 오전 12 44 02" src="https://github.com/klloo/react-randps-client/assets/53117014/dedde017-b5ff-48d9-8182-b9c90c31e5e5">  
+<img width="1429" alt="스크린샷 2023-10-05 오후 3 17 20" src="https://github.com/klloo/react-randps-client/assets/53117014/d2edca4f-badf-44ac-8e8d-3d71f98686c9">
+<img width="1439" alt="스크린샷 2023-10-05 오전 12 44 02" src="https://github.com/klloo/react-randps-client/assets/53117014/c37efcfa-aebd-4131-b5e2-41873234dc87">
 </div>
 
 <br/>
@@ -91,8 +89,9 @@
 아이템과 상점 기능을 제공합니다. 문제를 풀어 획득한 포인트로 상점에서 아이템을 구매하고 마이페이지에서 사용할 수 있습니다.
 
 <div>
-<img width="500" alt="스크린샷 2023-10-05 오후 3 17 20" src="https://github.com/klloo/react-randps-client/assets/53117014/1d25a91c-b472-4ee4-b802-da95cdab2f95">
-<img width="500" alt="스크린샷 2023-10-05 오전 12 44 02" src="https://github.com/klloo/react-randps-client/assets/53117014/43b64acd-6306-4d94-92da-f5f0f86a84b8">  
+<img width="1440" alt="스크린샷 2023-10-05 오후 3 17 20" src="https://github.com/klloo/react-randps-client/assets/53117014/1d25a91c-b472-4ee4-b802-da95cdab2f95">
+ 
+![스크린샷 2023-10-05 오후 3 28 01](https://github.com/klloo/react-randps-client/assets/53117014/952f7875-11eb-4087-af57-4a9383fe5879)
 </div>
 
 <br/>
@@ -102,8 +101,9 @@
 
 **배포 환경**
 
-<img width="800" src="https://github.com/klloo/react-randps-client/assets/53117014/037be3d9-fd77-4054-b09b-bcc99903898b">
+![스크린샷 2023-10-05 오후 4 05 52](https://github.com/klloo/react-randps-client/assets/53117014/f20933c0-cea4-43d0-8307-d22f1e3d9ed7)
 
 **CI/CD Workflow**
 
-<img width="800" src="https://github.com/klloo/react-randps-client/assets/53117014/ec20d5ba-e4d3-49e5-8d50-d1716fa4dbae">
+![스크린샷 2023-10-05 오후 4 05 56](https://github.com/klloo/react-randps-client/assets/53117014/97b70409-b182-4cb2-92ca-fd7c3b30adef)
+
