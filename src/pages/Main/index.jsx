@@ -104,8 +104,8 @@ function Main() {
             }}
           >
             <MessageContent>
-              📣 {notice.title} ({dayjs(notice.createTime).format('YYYY-MM-DD')}
-              )
+              📣 {notice.title} (
+              {dayjs(notice.createdDate).format('YYYY-MM-DD')})
             </MessageContent>
           </NoticeCard>
         </>
