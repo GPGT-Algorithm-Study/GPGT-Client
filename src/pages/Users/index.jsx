@@ -30,18 +30,24 @@ function Users() {
   };
 
   useEffect(() => {
-    const tmpUsers = [...users].sort(
+    let tmpUsers = [...users].sort(
       (a, b) =>
         parseInt(b.todaySolvedProblemCount) -
         parseInt(a.todaySolvedProblemCount),
     );
-    // 배열 맨 앞에 로그인한 사용자가 오도록 수정
+    // 배열 맨 앞에 로그인한 사용자가 오고 block된 사용자는 맨뒤로 가도록 수정
     const loginUserIdx = tmpUsers.findIndex(
       (user) => user.bojHandle == loginUser.bojHandle,
     );
     const tmpLoginUser = { ...tmpUsers[loginUserIdx] };
     tmpUsers.splice(loginUserIdx, 1);
-    tmpUsers.unshift(tmpLoginUser);
+
+    const blockedUsers = tmpUsers.filter((user) => user.warning == 4);
+    const otherUsers = tmpUsers.filter((user) =>
+      blockedUsers.every((b) => b.bojHandle != user.bojHandle),
+    );
+
+    tmpUsers = [tmpLoginUser, ...otherUsers, ...blockedUsers];
     setSortedUsers(tmpUsers);
   }, [users]);
 
