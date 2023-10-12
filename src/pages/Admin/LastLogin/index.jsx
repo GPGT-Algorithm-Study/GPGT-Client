@@ -17,7 +17,7 @@ import { format } from 'highcharts';
 import dayjs from 'dayjs';
 
 function LastLogin() {
-  const [users, reFetch] = useFetch(getAllUserLastLogin, []);
+  const [users] = useFetch(getAllUserLastLogin, []);
   /*const users = [
     {
       bojHandle: 'asdf016182',
@@ -218,17 +218,15 @@ function LastLogin() {
     },
   ];*/
 
-  const [sortedUsers, setSortedusers] = useState(
-    [...users].sort((a, b) => {
-      const dateA = a.lastLoginDate
-        ? new Date(a.lastLoginDate)
-        : new Date('1999-01-01T00:00:00');
-      const dateB = b.lastLoginDate
-        ? new Date(b.lastLoginDate)
-        : new Date('1999-01-01T00:00:00');
-      return dateB - dateA;
-    }),
-  );
+  const sortedUsers = [...users].sort((a, b) => {
+    if (a.lastLoginDate === null || a.lastLoginDate === 'null')
+      a.lastLoginDate = '1999-01-01T00:00:00';
+    if (b.lastLoginDate === null || b.lastLoginDate === 'null')
+      b.lastLoginDate = '1999-01-01T00:00:00';
+    const dateA = new Date(a.lastLoginDate);
+    const dateB = new Date(b.lastLoginDate);
+    return dateB - dateA;
+  });
 
   const [
     leftArrowHovering,
@@ -265,7 +263,9 @@ function LastLogin() {
                 style={{ cursor: 'pointer' }}
               ></CommonProfileImage>
               <LastLoginDate>
-                {dayjs(user.lastLoginDate).format('YYYY/MM/DD\nHH:mm:ss')}
+                {user.lastLoginDate === '1999-01-01T00:00:00'
+                  ? '접속 기록 없음'
+                  : dayjs(user.lastLoginDate).format('YYYY/MM/DD\nHH:mm:ss')}
               </LastLoginDate>
             </User>
           ))}
@@ -287,7 +287,7 @@ function LastLogin() {
         <ScrollButton
           onClick={() => {
             handleNextButtonClick('next');
-            console.log(sortedUsers);
+            console.log(users);
           }}
           onMouseOver={() => setArrowHovering('next', true)}
           onMouseOut={() => setArrowHovering('next', false)}
