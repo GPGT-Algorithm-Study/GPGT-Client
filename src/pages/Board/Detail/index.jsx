@@ -119,7 +119,7 @@ function Detail() {
               </Writer>
             </Link>
             <CreateDate>
-              {dayjs(post.createdDate).format('YYYY년 M월 DD일 hh:mm')}
+              {dayjs(post.createdDate).format('YYYY년 M월 DD일 HH:mm')}
             </CreateDate>
           </WriteInfo>
           <WriteInfo>

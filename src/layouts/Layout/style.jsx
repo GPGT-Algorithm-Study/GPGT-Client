@@ -33,7 +33,7 @@ export const Content = styled.div`
   height: 100vh;
   overflow: scroll;
   & section {
-    padding: 20px 30px 100px 30px;
+    padding: 20px 10px 100px 10px;
     margin-left: auto;
     margin-right: auto;
     max-width: var(--width-maxwidth);
@@ -76,7 +76,7 @@ export const MenuWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px;
-  background-color: rgb(245, 245, 247);
+  background-color: transparent;
   z-index: 999;
   @media all and (max-width: ${MOBILE_WIDTH}) {
     display: none;
@@ -146,6 +146,10 @@ export const MobileMenuWrapper = styled.div`
   height: 100vh;
   padding: 0 30px 0 30px;
   box-sizing: border-box;
+  position: absolute;
+  background-color: rgb(245, 245, 247);
+  z-index: 999;
+  top: 65px;
 `;
 
 export const EventHeader = styled.div`

@@ -3,6 +3,8 @@ import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   padding: 20px;
+  height: ${(props) =>
+    props.eventCnt > 10 ? '800px' : `${160.4 + 63.4 * props.eventCnt + 25}px`};
 `;
 
 export const Title = styled.div`
@@ -72,8 +74,7 @@ export const Event = styled.div`
   justify-content: space-between;
   margin-bottom: 25px;
   width: 100%;
-  //text-decoration: ${(props) => (props.state ? '' : 'line-through')};
-  //text-decoration-color: var(--color-textgrey);
+  height: auto;
 `;
 
 export const EventDescription = styled.div`
