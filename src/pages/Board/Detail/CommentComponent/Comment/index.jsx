@@ -123,7 +123,11 @@ function Comment({ comment, fetchComment, reply = false }) {
             <CommonProfileImage
               width={20}
               height={20}
-              src={comment.profileImg}
+              src={
+                comment.profileImg != 'null'
+                  ? comment.profileImg
+                  : 'https://static.solved.ac/misc/360x360/default_profile.png'
+              }
             />
             <div>{comment.notionId}</div>
             <CreateDate key={comment.id}>
