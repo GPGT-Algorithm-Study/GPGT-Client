@@ -160,7 +160,8 @@ const baseStyle = css`
     font-family: 'KoPubWorldDotum';
     background-color: rgb(245, 245, 247);
     height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
+    overflow: auto;
     line-height: 1.2;
   }
 
