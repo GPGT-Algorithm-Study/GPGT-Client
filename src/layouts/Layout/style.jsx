@@ -30,8 +30,8 @@ export const ProfileImage = styled(CommonProfileImage)`
 
 export const Content = styled.div`
   width: 100%;
-  height: 100vh;
-  overflow: scroll;
+  /* height: 100vh; */
+  /* overflow: scroll; */
   & section {
     padding: 20px 10px 100px 10px;
     margin-left: auto;
