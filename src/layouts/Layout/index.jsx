@@ -136,6 +136,47 @@ function Layout({ children }) {
 
   const [showEventHeader, setShowEventHeader] = useState(true);
 
+  if (showMobileMenu) {
+    return (
+      <MobileMenuWrapper>
+        <div>
+          <SideMyInfo onClick={onClickUserProfile}>
+            <ProfileImage
+              width="45"
+              height="45"
+              src={
+                userInfo.profileImg == 'null'
+                  ? 'https://static.solved.ac/misc/360x360/default_profile.png'
+                  : userInfo.profileImg
+              }
+            />
+            {userInfo.notionId} {userInfo.emoji}
+          </SideMyInfo>
+          <MobileMenu>
+            <div>
+              {Object.keys(tabs).map((key) => (
+                <MobileMenuItem
+                  className={currentTab === key ? 'selected' : ''}
+                  key={tabs[key].id}
+                  onClick={() => {
+                    navigate(tabs[key].route);
+                    setShowMobileMenu(false);
+                  }}
+                >
+                  {tabs[key].icon}
+                  <div>{tabs[key].name}</div>
+                </MobileMenuItem>
+              ))}
+            </div>
+            <MobileMenuItem onClick={onClickLogout}>
+              <FiLogOut /> <div>로그아웃</div>
+            </MobileMenuItem>
+          </MobileMenu>
+        </div>
+      </MobileMenuWrapper>
+    );
+  }
+
   return (
     <Container>
       <Content>
@@ -218,45 +259,6 @@ function Layout({ children }) {
               &times;
             </CloseButton>
           </EventHeader>
-        )}
-        {/* 모바일 화면 메뉴 */}
-        {showMobileMenu && (
-          <MobileMenuWrapper>
-            <div>
-              <SideMyInfo onClick={onClickUserProfile}>
-                <ProfileImage
-                  width="45"
-                  height="45"
-                  src={
-                    userInfo.profileImg == 'null'
-                      ? 'https://static.solved.ac/misc/360x360/default_profile.png'
-                      : userInfo.profileImg
-                  }
-                />
-                {userInfo.notionId} {userInfo.emoji}
-              </SideMyInfo>
-              <MobileMenu>
-                <div>
-                  {Object.keys(tabs).map((key) => (
-                    <MobileMenuItem
-                      className={currentTab === key ? 'selected' : ''}
-                      key={tabs[key].id}
-                      onClick={() => {
-                        navigate(tabs[key].route);
-                        setShowMobileMenu(false);
-                      }}
-                    >
-                      {tabs[key].icon}
-                      <div>{tabs[key].name}</div>
-                    </MobileMenuItem>
-                  ))}
-                </div>
-                <MobileMenuItem onClick={onClickLogout}>
-                  <FiLogOut /> <div>로그아웃</div>
-                </MobileMenuItem>
-              </MobileMenu>
-            </div>
-          </MobileMenuWrapper>
         )}
         <section>{children}</section>
       </Content>
