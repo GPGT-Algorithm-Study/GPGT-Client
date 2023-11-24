@@ -30,8 +30,8 @@ export const ProfileImage = styled(CommonProfileImage)`
 
 export const Content = styled.div`
   width: 100%;
-  height: 100vh;
-  overflow: scroll;
+  /* height: 100vh; */
+  /* overflow: scroll; */
   & section {
     padding: 20px 10px 100px 10px;
     margin-left: auto;
@@ -77,7 +77,7 @@ export const MenuWrapper = styled.div`
   justify-content: center;
   padding: 20px;
   background-color: transparent;
-  z-index: 999;
+  z-index: 1001;
   @media all and (max-width: ${MOBILE_WIDTH}) {
     display: none;
   }
@@ -253,7 +253,7 @@ export const HeaderWrapper = styled.div`
   justify-content: space-between;
   padding: 0 20px;
   background-color: rgb(245, 245, 247);
-  z-index: 999;
+  z-index: 1001;
 `;
 
 export const Container = styled.div`
