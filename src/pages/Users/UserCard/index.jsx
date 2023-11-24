@@ -1,6 +1,4 @@
 import React, { useCallback } from 'react';
-import useFetch from 'hooks/useFetch';
-import { getUserRandomStreakGrass } from 'api/user';
 import { Link } from 'react-router-dom';
 import {
   Card,
@@ -27,6 +25,9 @@ import { CommonTierImg } from 'style/commonStyle';
 import SolvedIcon from 'components/SolvedIcon';
 import TeamIcon from 'components/TeamIcon';
 import Streak from 'components/Streak';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
+import { USER_PREFIX_URL } from 'utils/constants';
 
 /**
  * 사용자 정보 카드 컴포넌트
@@ -34,9 +35,10 @@ import Streak from 'components/Streak';
 function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
   const MAX_STREAK = 102;
   // 유저의 스트릭 잔디 정보
-  const [randomStreak] = useFetch(getUserRandomStreakGrass, [], {
-    bojHandle: user.bojHandle,
-  });
+  const { data: randomStreak } = useSWR(
+    `${USER_PREFIX_URL}/streak/grass?bojHandle=${user.bojHandle}`,
+    fetcher,
+  );
 
   const clickAcLogo = useCallback((e) => {
     e.preventDefault();
@@ -119,13 +121,15 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
         <div>
           Random Streak <span>{user.currentRandomStreak}</span> days
         </div>
-        <Streak
-          randomStreak={randomStreak}
-          maxStreak={MAX_STREAK}
-          line={3}
-          width={680}
-          height={65}
-        />
+        {randomStreak && (
+          <Streak
+            randomStreak={randomStreak}
+            maxStreak={MAX_STREAK}
+            line={3}
+            width={680}
+            height={65}
+          />
+        )}
         <MaxStreak>
           최장<span> {user.maxRandomStreak}</span>일
         </MaxStreak>

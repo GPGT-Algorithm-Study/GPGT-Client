@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { isEmpty } from 'lodash';
 import GlobalStyle from 'style/globalStyle';
 import Main from './pages/Main';
 import Login from 'pages/Login';
@@ -8,23 +7,17 @@ import { ToastContainer, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PrivateRoute from 'layouts/PrivateRoute';
-import { getRefreshTokenToCookie, onSilentRefresh } from 'utils/auth';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { onSilentRefresh } from 'utils/auth';
 import Admin from 'pages/Admin';
 import Users from 'pages/Users';
 import Teams from 'pages/Teams';
 import Statistics from 'pages/Statistics';
 import Board from 'pages/Board';
-import Write from 'pages/Board/Write';
 import Detail from 'pages/Board/Detail';
 
 function App() {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-
   useEffect(() => {
-    onSilentRefresh(dispatch);
+    onSilentRefresh();
     caches.keys().then((keyList) => {
       return Promise.all(
         keyList.map((key) => {
@@ -33,11 +26,6 @@ function App() {
       );
     });
   }, []);
-
-  const refreshToken = getRefreshTokenToCookie();
-  if (isEmpty(user.bojHandle) && !isEmpty(refreshToken)) {
-    return <></>;
-  }
 
   return (
     <div>

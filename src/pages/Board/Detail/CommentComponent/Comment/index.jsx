@@ -7,25 +7,35 @@ import {
   FlexWrapper,
   ReplyWrapper,
   CommentWrapper,
-  Input,
   MentionName,
 } from './style';
 import { deleteComment, updateComment } from 'api/comment';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import { BsArrowReturnRight } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { CommonProfileImage } from 'style/commonStyle';
 import { Link } from 'react-router-dom';
 import regexifyString from 'regexify-string';
 import MentionInput from 'components/MentionInput';
+import useSWR from 'swr';
+import { USER_PREFIX_URL, CMT_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 /**
  * 댓글 한개 컴포넌트
  */
-function Comment({ comment, fetchComment, reply = false }) {
-  const user = useSelector((state) => state.user); // 로그인한 사용자
+function Comment({ comment, reply = false }) {
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
+
+  const { mutate: mutateAllComment } = useSWR(
+    `${CMT_PREFIX_URL}/all?boardId=${comment.boardId}`,
+    fetcher,
+  );
+
   const [editMode, setEditMode] = useState(false);
   const [editContent, setEditContent] = useState('');
 
@@ -43,7 +53,7 @@ function Comment({ comment, fetchComment, reply = false }) {
     deleteComment({ commentId: comment.id })
       .then(() => {
         toast.success('댓글을 삭제하였습니다.');
-        fetchComment();
+        mutateAllComment();
       })
       .catch((e) => {
         toast.error('댓글을 삭제하지 못하였습니다.');
@@ -65,7 +75,7 @@ function Comment({ comment, fetchComment, reply = false }) {
         updateComment(newComment)
           .then(() => {
             toast.success('댓글을 수정하였습니다.');
-            fetchComment();
+            mutateAllComment();
             setEditMode(false);
           })
           .catch((e) => {
@@ -131,7 +141,7 @@ function Comment({ comment, fetchComment, reply = false }) {
             </CreateDate>
           </Writer>
         </Link>
-        {user.bojHandle === comment.bojHandle && (
+        {loginUser && loginUser.claim === comment.bojHandle && (
           <FlexWrapper>
             <ReplyButton onClick={onClickUpdateComment}>
               {editMode ? '완료' : '수정'}

@@ -12,17 +12,21 @@ import {
   WriteButton,
   Card,
 } from './style';
-import { isEmpty, cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineSearch } from 'react-icons/ai';
 import Pagination from 'components/Pagination';
-import { boardType, writeType, SIZE, getTypeLabel } from 'utils/board';
-import useFetch from 'hooks/useFetch';
-import { getPostsByCondition } from 'api/board';
+import { boardType, writeType, getTypeLabel } from 'utils/board';
 import Write from './Write';
-import { useDispatch, useSelector } from 'react-redux';
 import BoardTable from 'components/BoardTable';
-import { setBoardParam, setBoardTitle } from 'redux/boardParam';
+import useSWR from 'swr';
+import postFetcher from 'utils/postFetcher';
+import {
+  BOARD_PAGE_SIZE,
+  BRD_PREFIX_URL,
+  USER_PREFIX_URL,
+} from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 /**
  * 게시판 탭 내용 컴포넌트
@@ -35,17 +39,28 @@ function Board() {
     boardType.NOTICE,
     boardType.MY,
   ];
-  const user = useSelector((state) => state.user);
-  const { params, title } = useSelector((state) => state.boardParam);
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
+  const [params, setParams] = useState({
+    page: 0,
+    size: BOARD_PAGE_SIZE,
+    condition: {
+      type: boardType.FREE.key,
+      bojHandle: '',
+      query: '',
+    },
+  });
   const [curType, setCurType] = useState(params.condition.type);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(params.page + 1);
   const [keyword, setKeyword] = useState('');
   const [postList, setPostList] = useState([]);
-  const [postsInfo, , setPostParams] = useFetch(
-    getPostsByCondition,
-    [],
-    params,
+  const [title, setTitle] = useState(getTypeLabel(boardType.FREE.key));
+  const { data: postsInfo, mutate: mutatePosts } = useSWR(
+    `${BRD_PREFIX_URL}/all/condition?page=${params.page}&size=${params.size}`,
+    postFetcher(params.condition),
   );
   const [writeMode, setWriteMode] = useState(false);
   const [showTypeTitle, setShowTypeTitle] = useState(false);
@@ -53,7 +68,9 @@ function Board() {
     setWriteMode(false);
   }, []);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    mutatePosts();
+  }, [params]);
 
   const changeParams = useCallback((bojHandle, type, query) => {
     const newParams = cloneDeep(params);
@@ -69,19 +86,19 @@ function Board() {
       newParams.condition.query = query;
       newParams.page = 0;
     }
-    dispatch(setBoardParam(newParams));
-    setPostParams(newParams);
+    setParams(newParams);
   }, []);
 
   // 현재 타입 바뀌면 다시 로드
   useEffect(() => {
     if (!curType) return;
-    dispatch(setBoardTitle(getTypeLabel(curType)));
+    setTitle(getTypeLabel(curType));
     if (curType === boardType.SEARCH.key) {
       return;
     }
     if (curType === boardType.MY.key) {
-      changeParams(user.bojHandle, '', '');
+      if (!loginUser) return;
+      changeParams(loginUser.claim, '', '');
       setShowTypeTitle(true);
     } else {
       changeParams('', curType, '');
@@ -93,13 +110,12 @@ function Board() {
   useEffect(() => {
     const newParams = cloneDeep(params);
     newParams.page = page - 1;
-    dispatch(setBoardParam(newParams));
-    setPostParams(newParams);
+    setParams(newParams);
   }, [page]);
 
   // 응답 받은 게시물 데이터 가공
   useEffect(() => {
-    if (isEmpty(postsInfo)) return;
+    if (!postsInfo) return;
     setPostList(postsInfo.content);
     setTotal(postsInfo.totalElements);
   }, [postsInfo]);
@@ -169,10 +185,10 @@ function Board() {
         {/* 테이블 */}
         <BoardTable postList={postList} showTypeTitle={showTypeTitle} />
         {/* 페이지네이션  */}
-        {Math.ceil(total / SIZE) > 1 && (
+        {Math.ceil(total / BOARD_PAGE_SIZE) > 1 && (
           <PageWrapper>
             <Pagination
-              totalPage={Math.ceil(total / SIZE)}
+              totalPage={Math.ceil(total / BOARD_PAGE_SIZE)}
               limit={5}
               page={params.page + 1}
               setPage={setPage}

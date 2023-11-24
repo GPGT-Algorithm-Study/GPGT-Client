@@ -1,26 +1,31 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import useFetch from 'hooks/useFetch';
 import { CardWrapper, UserInfoWrapper, UserProblemInfo } from './style';
-import { getAllUsers } from 'api/user';
 import UserCard from './UserCard';
 import RandomProblemCard from './RandomProblemCard';
 import ProblemCard from './ProblemCard';
-import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
-import Layout from 'layouts/Layout';
 import LeftTime from 'components/LeftTime';
 import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
+import useSWR from 'swr';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 /**
  * 사용자 탭 내용 컴포넌트
  */
 function Users() {
   // 모든 사용자 정보 조회
-  const [users, , , setUsers] = useFetch(getAllUsers, []);
+  const { data: users, isLoading } = useSWR(
+    `${USER_PREFIX_URL}/info/all`,
+    fetcher,
+  );
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
   const [sortedUsers, setSortedUsers] = useState([]);
   // 하단 문제 정보 펼칠지 여부
   const [showProblemsId, setShowProblemsId] = useState({});
-  const loginUser = useSelector((state) => state.user);
 
   const toggleShowProblemsId = (key) => {
     setShowProblemsId((prev) => ({
@@ -29,15 +34,17 @@ function Users() {
     }));
   };
 
+  // user 정보 가공
   useEffect(() => {
-    const tmpUsers = [...users].sort(
+    if (!users || !loginUser) return;
+    let tmpUsers = [...users].sort(
       (a, b) =>
         parseInt(b.todaySolvedProblemCount) -
         parseInt(a.todaySolvedProblemCount),
     );
     // 배열 맨 앞에 로그인한 사용자가 오도록 수정
     const loginUserIdx = tmpUsers.findIndex(
-      (user) => user.bojHandle == loginUser.bojHandle,
+      (user) => user.bojHandle == loginUser.claim,
     );
     const tmpLoginUser = { ...tmpUsers[loginUserIdx] };
     tmpUsers.splice(loginUserIdx, 1);
@@ -54,6 +61,10 @@ function Users() {
     },
     [sortedUsers],
   );
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div>
