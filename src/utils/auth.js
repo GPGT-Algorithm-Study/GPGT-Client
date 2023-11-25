@@ -24,7 +24,7 @@ export function getHeaderRefreshTokenConfig() {
   };
 }
 
-export function onSilentRefresh() {
+export function onSilentRefresh(setToken) {
   const token = getRefreshTokenToCookie();
   if (isEmpty(token)) return null;
   const refreshConfig = {
@@ -41,6 +41,9 @@ export function onSilentRefresh() {
       if (isEmpty(accessToken)) {
         logoutProc();
         return;
+      }
+      if (setToken) {
+        setToken(accessToken);
       }
       axios.defaults.headers.common['Access_Token'] = accessToken;
       setTimeout(() => {
