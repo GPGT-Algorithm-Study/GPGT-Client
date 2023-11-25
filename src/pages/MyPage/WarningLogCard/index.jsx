@@ -55,9 +55,15 @@ function WarningLogCard({ totalWarning }) {
     setIsEndPage(isReachingEnd);
   }, [warningLogs, size]);
 
-  const onClickMoreButton = useCallback(() => {
-    setSize(size + 1);
-  }, [size]);
+  const handleScroll = useCallback(
+    (e) => {
+      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+      if (scrollTop + clientHeight >= scrollHeight - 50 && !isLoadingLog) {
+        setSize((prev) => prev + 1);
+      }
+    },
+    [isLoadingLog],
+  );
 
   if (!warningLogs) return null;
 
@@ -68,7 +74,7 @@ function WarningLogCard({ totalWarning }) {
         <Warning />
         {totalWarning}
       </TotalWarning>
-      <LogWrapper>
+      <LogWrapper onScroll={handleScroll}>
         {warningLogs.map((logs) =>
           logs.map((log) => (
             <Log state={log.state} key={log.id}>
@@ -84,11 +90,6 @@ function WarningLogCard({ totalWarning }) {
           )),
         )}
       </LogWrapper>
-      {!isEndPage && (
-        <Button onClick={onClickMoreButton} disabled={isLoadingLog}>
-          {isLoadingLog ? '로딩 중' : '더 보기'}
-        </Button>
-      )}
     </Card>
   );
 }

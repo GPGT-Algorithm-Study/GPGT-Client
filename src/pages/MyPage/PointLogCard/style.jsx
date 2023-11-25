@@ -36,6 +36,13 @@ export const LogWrapper = styled.div`
   margin-top: 25px;
   display: flex;
   flex-direction: column;
+  max-height: 430px;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 export const Log = styled.div`

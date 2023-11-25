@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import {
-  Content,
-  FormWrapper,
-  Title,
-  UserItem,
-  VerticalUserListWrapper,
-} from './style';
-import useFetch from 'hooks/useFetch';
-import { getAllUsers } from 'api/user';
+import { Content, Title, UserItem, VerticalUserListWrapper } from './style';
 import { Button } from './style';
 import { postUserPoint } from 'api/log';
 import { toast } from 'react-toastify';
+import useSWR from 'swr';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 function PointManage() {
-  const [users, reFetch] = useFetch(getAllUsers, []);
+  const { data: users, mutate: mutateUsers } = useSWR(
+    `${USER_PREFIX_URL}/info/all`,
+    fetcher,
+  );
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [pointManageReason, setPointManageReason] = useState('');
   const onReasonChange = (e) => {
@@ -64,8 +62,7 @@ function PointManage() {
     if (input) input.value = '';
     setSelectedUsers([]);
     setPointManageReason('');
-    reFetch();
-    //location.reload();
+    mutateUsers();
   };
   const onPointChange = (e, userNotionId, bojHandle) => {
     const { value } = e.target;

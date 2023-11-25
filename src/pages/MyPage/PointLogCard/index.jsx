@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import {
   Card,
@@ -53,9 +53,15 @@ function PointLogCard({ totalPoint }) {
     setIsEndPage(isReachingEnd);
   }, [pointLogs, size]);
 
-  const onClickMoreButton = useCallback(() => {
-    setSize(size + 1);
-  }, [size]);
+  const handleScroll = useCallback(
+    (e) => {
+      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+      if (scrollTop + clientHeight >= scrollHeight - 50 && !isLoadingLog) {
+        setSize((prev) => prev + 1);
+      }
+    },
+    [isLoadingLog],
+  );
 
   if (!pointLogs) return null;
 
@@ -65,7 +71,7 @@ function PointLogCard({ totalPoint }) {
       <TotalPoint>
         <p>P</p> {totalPoint}
       </TotalPoint>
-      <LogWrapper>
+      <LogWrapper onScroll={handleScroll}>
         {pointLogs.map((logs) =>
           logs.map((log) => (
             <Log state={log.state} key={log.id}>
@@ -82,11 +88,6 @@ function PointLogCard({ totalPoint }) {
           )),
         )}
       </LogWrapper>
-      {!isEndPage && (
-        <Button onClick={onClickMoreButton} disabled={isLoadingLog}>
-          {isLoadingLog ? '로딩 중' : '더 보기'}
-        </Button>
-      )}
     </Card>
   );
 }

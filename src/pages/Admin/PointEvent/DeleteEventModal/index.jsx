@@ -7,15 +7,12 @@ import {
   TextWrapper,
   Title,
 } from './style';
-import useFetch from 'hooks/useFetch';
-import {
-  deletePointEvent,
-  getAllPointEvents,
-  getValidPointEvents,
-  putPointEvent,
-} from 'api/event';
+import { deletePointEvent, putPointEvent } from 'api/event';
 import { toast } from 'react-toastify';
-import { isNaN, isNumber } from 'lodash';
+import { isNaN } from 'lodash';
+import useSWR from 'swr';
+import { EVT_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 function EventInfo({ eventInfo, setEventInfo, reFetchEvents }) {
   if (!eventInfo.eventName) return <div>해당 이벤트가 없습니다.</div>;
@@ -33,8 +30,6 @@ function EventInfo({ eventInfo, setEventInfo, reFetchEvents }) {
         eventInfo.percentage;
     }
     setIsModify(!isModify);
-    console.log(eventInfo);
-    console.log(currentEventInfo);
   };
 
   //------삭제 api 호출 함수 시작------/
@@ -66,8 +61,6 @@ function EventInfo({ eventInfo, setEventInfo, reFetchEvents }) {
       endTime: currentEventInfo.endTime,
       percentage: currentEventInfo.percentage.toString(),
     };
-    console.log(newEventInfo);
-    console.log(eventInfo);
     const startDate = new Date(newEventInfo.startTime);
     const endDate = new Date(newEventInfo.endTime);
     if (startDate >= endDate) {
@@ -216,12 +209,17 @@ function EventInfo({ eventInfo, setEventInfo, reFetchEvents }) {
   );
 }
 
-function DeleteEventModal({ events, reFetchEvents }) {
+function DeleteEventModal() {
+  const { data: events, mutate: mutateEvents } = useSWR(
+    `${EVT_PREFIX_URL}/point/all`,
+    fetcher,
+  );
   const [targetId, setTargetId] = useState('');
   const [showEventInfo, setShowEventInfo] = useState(false);
   const [eventInfo, setEventInfo] = useState({});
   useEffect(() => {
     let isValid = false;
+    if (!events) return;
     events.map((event) => {
       if (event.id === targetId) {
         setEventInfo(event);
@@ -269,7 +267,7 @@ function DeleteEventModal({ events, reFetchEvents }) {
         <EventInfo
           eventInfo={eventInfo}
           setEventInfo={setEventInfo}
-          reFetchEvents={reFetchEvents}
+          reFetchEvents={mutateEvents}
         />
       ) : (
         <></>
