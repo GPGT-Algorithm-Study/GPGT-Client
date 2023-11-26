@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import axios from 'axios';
 import App from './App';
-import store from './redux/store';
-import { Provider } from 'react-redux';
 import { logoutProc } from 'utils/auth';
 
 // axios설정
@@ -22,8 +20,4 @@ axios.interceptors.response.use(
 );
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-);
+root.render(<App />);

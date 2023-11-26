@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import {
   Card,
@@ -12,85 +12,82 @@ import {
   TotalPoint,
   Button,
 } from './style';
-import { isEmpty } from 'lodash';
-import useFetch from 'hooks/useFetch';
-import { getUserPointLog } from 'api/log';
-import { useSelector, useDispatch } from 'react-redux';
-import { setIsBuyItem } from 'redux/item';
+import { LOG_PREFIX_URL, POINT_PAGE_SIZE } from 'utils/constants';
+import useSWRInfinite from 'swr/infinite';
+import fetcher from 'utils/fetcher';
+import { useParams } from 'react-router-dom';
 
 /**
  * 마이페이지 포인트 현황 카드
  */
-function PointLogCard({ userInfo, isUser }) {
-  const SIZE = 10;
-  const [page, setPage] = useState(0);
-  const [pointLogs, setPointLogs] = useState([]);
+function PointLogCard({ totalPoint }) {
   const [isEndPage, setIsEndPage] = useState(false);
-  const [pointLogsPaging, , setParams] = useFetch(getUserPointLog, [], {
-    bojHandle: userInfo.bojHandle,
-    page,
-    size: SIZE,
-  });
-  const { isBuyItem } = useSelector((state) => state.item);
-  const dispatch = useDispatch();
+  const [isLoadingLog, setIsLoadingLog] = useState(false);
+  const { bojHandle } = useParams();
 
+  const getKey = useCallback(
+    (page, previousPageData) => {
+      if (previousPageData && !previousPageData.length) return null; // 끝에 도달
+      return `${LOG_PREFIX_URL}/point/user/page?bojHandle=${bojHandle}&page=${page}&size=${POINT_PAGE_SIZE}`; // SWR 키
+    },
+    [bojHandle],
+  );
+
+  const {
+    data: pointLogs,
+    size,
+    setSize,
+    isLoading,
+  } = useSWRInfinite(getKey, fetcher);
+
+  // 페이지 끝인지, 로딩 중인지 판별하는 변수 설정
   useEffect(() => {
-    if (!isBuyItem || !isUser) return;
-    reload();
-    dispatch(setIsBuyItem(false));
-  }, [isBuyItem]);
+    if (!pointLogs) return;
+    const isLoadingMore =
+      isLoading ||
+      (size > 0 && pointLogs && typeof pointLogs[size - 1] === 'undefined');
+    const isReachingEnd =
+      pointLogs?.[0]?.length === 0 ||
+      (pointLogs && pointLogs[pointLogs.length - 1]?.length < POINT_PAGE_SIZE);
+    setIsLoadingLog(isLoadingMore);
+    setIsEndPage(isReachingEnd);
+  }, [pointLogs, size]);
 
-  const reload = useCallback(() => {
-    setPage(0);
-    setPointLogs([]);
-    setIsEndPage(false);
-    setParams({
-      bojHandle: userInfo.bojHandle,
-      page: 0,
-      size: SIZE,
-    });
-  }, []);
+  const handleScroll = useCallback(
+    (e) => {
+      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+      if (scrollTop + clientHeight >= scrollHeight - 10 && !isLoadingLog) {
+        setSize((prev) => prev + 1);
+      }
+    },
+    [isLoadingLog],
+  );
 
-  useEffect(() => {
-    if (isEmpty(pointLogsPaging)) {
-      setIsEndPage(true);
-      return;
-    }
-    setIsEndPage(pointLogsPaging.length < SIZE);
-    setPointLogs((prev) => [...prev, ...pointLogsPaging]);
-    setPage((prev) => prev + 1);
-  }, [pointLogsPaging]);
-
-  const onClickMoreButton = useCallback(() => {
-    setParams({
-      bojHandle: userInfo.bojHandle,
-      page,
-      size: SIZE,
-    });
-  }, [userInfo, page, SIZE]);
+  if (!pointLogs) return null;
 
   return (
     <Card>
       <Title>포인트 현황</Title>
       <TotalPoint>
-        <p>P</p> {userInfo.point}
+        <p>P</p> {totalPoint}
       </TotalPoint>
-      <LogWrapper>
-        {pointLogs.map((log, i) => (
-          <Log state={log.state} key={i}>
-            <TextWrapper>
-              <Date>{dayjs(log.createdDate).format('M월 D일')}</Date>
-              <LogMsg>{log.description}</LogMsg>
-            </TextWrapper>
-            <Point plus={log.changedValue >= 0}>
-              {log.changedValue >= 0 ? '+ ' : '- '}
-              {Math.abs(log.changedValue)}
-              <p>P</p>
-            </Point>
-          </Log>
-        ))}
+      <LogWrapper onScroll={handleScroll}>
+        {pointLogs.map((logs) =>
+          logs.map((log) => (
+            <Log state={log.state} key={log.id}>
+              <TextWrapper>
+                <Date>{dayjs(log.createdDate).format('M월 D일')}</Date>
+                <LogMsg>{log.description}</LogMsg>
+              </TextWrapper>
+              <Point plus={log.changedValue >= 0}>
+                {log.changedValue >= 0 ? '+ ' : '- '}
+                {Math.abs(log.changedValue)}
+                <p>P</p>
+              </Point>
+            </Log>
+          )),
+        )}
       </LogWrapper>
-      {!isEndPage && <Button onClick={onClickMoreButton}>더 보기</Button>}
     </Card>
   );
 }

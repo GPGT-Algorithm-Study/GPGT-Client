@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import useFetch from 'hooks/useFetch';
 import { isEmpty } from 'lodash';
-import { Card, ModeButton, ButtonWrapper, Title, TitleWrapper } from './style';
+import { Card, Title, TitleWrapper } from './style';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import accessibility from 'highcharts/modules/accessibility';
-import { getAllUsers } from 'api/user';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
+import { USER_PREFIX_URL } from 'utils/constants';
 
 accessibility(Highcharts);
 
@@ -13,7 +14,7 @@ accessibility(Highcharts);
  * 사용자별 경고 현황 그래프
  */
 function WarningGraph() {
-  const [userData] = useFetch(getAllUsers, {});
+  const { data: userData } = useSWR(`${USER_PREFIX_URL}/info/all`, fetcher);
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState({});
 

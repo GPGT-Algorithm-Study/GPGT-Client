@@ -6,24 +6,32 @@ import {
   CommentWrapper,
   ReplyList,
 } from './style';
-import useFetch from 'hooks/useFetch';
-import { createComment, getComment } from 'api/comment';
-import { useSelector } from 'react-redux';
+import { createComment } from 'api/comment';
 import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
 import Comment from './Comment';
 import MentionInput from 'components/MentionInput';
+import useSWR from 'swr';
+import { CMT_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 /**
  * 댓글 컴포넌트
  */
 function CommentComponent({ boardId }) {
-  const user = useSelector((state) => state.user); // 로그인한 사용자
-  const [allCommentList, fetchComment] = useFetch(getComment, [], { boardId }); // 모든 댓글 정보
   const [commentList, setCommentList] = useState([]); // 구조화된 댓글 정보
   const [commentContent, setCommentContent] = useState(''); // 입력 중인 댓글 내용
   const [replyContentMap, setReplyContentMap] = useState({}); // 입력중인 답글 내용
   const [showReplyMap, setShowReplyMap] = useState({}); // 답글 보여주기 여부 값
+
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
+  const { data: allCommentList, mutate } = useSWR(
+    `${CMT_PREFIX_URL}/all?boardId=${boardId}`,
+    fetcher,
+  );
 
   const toggleShowReply = (key) => {
     setShowReplyMap((prev) => ({
@@ -76,18 +84,19 @@ function CommentComponent({ boardId }) {
   const onSubmitComment = useCallback(
     (e) => {
       e.preventDefault();
+      if (!loginUser) return;
       if (isEmpty(commentContent.trim())) {
         toast.error('댓글 내용을 입력해주세요.');
         return;
       }
       const commentInfo = {
         boardId,
-        bojHandle: user.bojHandle,
+        bojHandle: loginUser.claim,
         content: commentContent.trim(),
       };
       createComment(commentInfo)
         .then(() => {
-          fetchComment();
+          mutate();
           setCommentContent('');
         })
         .catch((e) => {
@@ -101,19 +110,20 @@ function CommentComponent({ boardId }) {
   const onSubmitReply = useCallback(
     (e, parentCommentId) => {
       e.preventDefault();
+      if (!loginUser) return;
       if (isEmpty(replyContentMap[parentCommentId].trim())) {
         toast.error('댓글 내용을 입력해주세요.');
         return;
       }
       const commentInfo = {
         boardId,
-        bojHandle: user.bojHandle,
+        bojHandle: loginUser.claim,
         content: replyContentMap[parentCommentId].trim(),
         parentCommentId: parentCommentId,
       };
       createComment(commentInfo)
         .then(() => {
-          fetchComment();
+          mutate();
           setReplyContentMap({ ...replyContentMap, [parentCommentId]: '' });
         })
         .catch((e) => {
@@ -122,6 +132,8 @@ function CommentComponent({ boardId }) {
     },
     [replyContentMap],
   );
+
+  if (!allCommentList) return null;
 
   return (
     <div>
@@ -136,7 +148,7 @@ function CommentComponent({ boardId }) {
       <CommentList>
         {commentList.map((comment) => (
           <CommentWrapper key={comment.id}>
-            <Comment comment={comment} fetchComment={fetchComment} />
+            <Comment comment={comment} />
             <ReplyButton
               onClick={() => {
                 toggleShowReply(comment.id);
@@ -151,12 +163,7 @@ function CommentComponent({ boardId }) {
                 {!isEmpty(comment.replyList) && (
                   <ReplyList>
                     {comment.replyList.map((reply) => (
-                      <Comment
-                        key={reply.id}
-                        comment={reply}
-                        fetchComment={fetchComment}
-                        reply
-                      />
+                      <Comment key={reply.id} comment={reply} reply />
                     ))}
                   </ReplyList>
                 )}

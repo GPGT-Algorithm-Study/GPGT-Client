@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  ProblemTitle,
-  ProblemWrapper,
-  LanguageTag,
-  Tag,
-  TagWrapper,
-} from './style';
+import { Card, ProblemTitle, ProblemWrapper, Tag, TagWrapper } from './style';
 import { CommonTierImg } from 'style/commonStyle';
 
 /**

@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import useFetch from 'hooks/useFetch';
 import TeamCard from './TeamCard';
 import ScoreCard from './ScoreCard';
 import { TeamWrapper, CardWrapper } from './style';
-import { getAllTeams } from 'api/team';
 import LeftTime from 'components/LeftTime';
 import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
+import useSWR from 'swr';
+import { PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 /**
  * 팀 탭 내용 컴포넌트
  */
 function Teams() {
-  const [teamInfo] = useFetch(getAllTeams, {});
+  const { data: teamInfo } = useSWR(`${PREFIX_URL}/stat/team/all`, fetcher);
   const [teams, setTeams] = useState([]);
 
   // 랭킹에 따라 팀 정렬
   useEffect(() => {
+    if (!teamInfo) return;
     setTeams(teamInfo?.teams?.sort((a, b) => a.rank - b.rank));
   }, [teamInfo]);
+
+  if (!teamInfo) return null;
 
   return (
     <div>

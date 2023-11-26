@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  FormWrapper,
-  InputWrapper,
-  TextWrapper,
-  Title,
-  UserAddWrapper,
-} from './style';
+import { Button, FormWrapper, InputWrapper, TextWrapper, Title } from './style';
 import { useState } from 'react';
 import { postNewUser } from 'api/user';
 import { toast } from 'react-toastify';
@@ -21,8 +14,6 @@ function UserAddInput() {
     password: '',
   });
   const onInfoChange = (e) => {
-    const { name, value } = e.target;
-
     setNewUserData((prevUserData) => ({
       ...prevUserData,
       [e.target.name]: e.target.value,

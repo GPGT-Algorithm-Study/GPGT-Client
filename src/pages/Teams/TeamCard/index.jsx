@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  FlexWrapper,
-  ColumnWrapper,
-  ImageWrapper,
-  ContributorWrapper,
-  IconWrapper,
-} from './style';
-import { CommonProfileImage } from 'style/commonStyle';
+import { Card, FlexWrapper, ColumnWrapper, IconWrapper } from './style';
 import TeamIcon from 'components/TeamIcon';
 
 /**

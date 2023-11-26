@@ -12,25 +12,22 @@ import {
 import { CommonTierImg } from 'style/commonStyle';
 import { WarningMsg, ProfileImage } from 'pages/Users/UserCard/style';
 import { userLogout } from 'api/user';
-import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
-import { useDispatch } from 'react-redux';
+import { getHeaderRefreshTokenConfig, logoutProc } from 'utils/auth';
 import PasswordChangeModal from './PasswordChangeModal';
 
 /**
  * 마이페이지 내 정보 카드
  */
 function MyInfoCard({ userInfo, isUser }) {
-  const dispatch = useDispatch();
-
   const [showPwChangeModal, setShowPwChangeModal] = useState(false);
 
   const onClickLogout = useCallback(() => {
     const params = { bojHandle: userInfo.bojHandle };
-    const config = getHeaderRefreshTokenConfing();
+    const config = getHeaderRefreshTokenConfig();
     userLogout(params, config)
-      .then((response) => {
+      .then(() => {
         // 로그아웃 처리
-        logoutProc(dispatch);
+        logoutProc();
       })
       .catch((e) => {
         throw new Error(e);

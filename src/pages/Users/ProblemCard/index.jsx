@@ -1,6 +1,4 @@
 import React from 'react';
-import useFetch from 'hooks/useFetch';
-import { getUserTodaySolvedProblems } from 'api/user';
 import {
   Card,
   ProblemTitle,
@@ -10,15 +8,21 @@ import {
   TagWrapper,
 } from './style';
 import { CommonTierImg } from 'style/commonStyle';
+import { USER_PREFIX_URL } from 'utils/constants';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
 
 /**
  * 사용자가 해결한 문제 카드 컴포넌트
  */
 function ProblemCard({ user }) {
   // 유저의 오늘 푼 문제들
-  const [problems] = useFetch(getUserTodaySolvedProblems, [], {
-    bojHandle: user.bojHandle,
-  });
+  const { data: problems } = useSWR(
+    `${USER_PREFIX_URL}/info/today-solved?bojHandle=${user.bojHandle}`,
+    fetcher,
+  );
+
+  if (!problems) return null;
 
   return (
     <>

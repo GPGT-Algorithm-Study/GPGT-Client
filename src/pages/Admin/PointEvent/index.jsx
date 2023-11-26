@@ -7,9 +7,7 @@ import {
   Event,
   EventDescription,
   EventWrapper,
-  FormWrapper,
   Id,
-  InputWrapper,
   Name,
   TextWrapper,
   Title,
@@ -17,11 +15,11 @@ import {
   Value,
 } from './style';
 import Modal from 'layouts/Modal';
-import { getAllPointEvents, postPointEvent } from 'api/event';
-import { toast } from 'react-toastify';
-import useFetch from 'hooks/useFetch';
 import NewEventModal from './NewEventModal';
 import DeleteEventModal from './DeleteEventModal';
+import fetcher from 'utils/fetcher';
+import { EVT_PREFIX_URL } from 'utils/constants';
+import useSWR from 'swr';
 
 function formatDateTime(dateTimeString) {
   const date = new Date(dateTimeString);
@@ -48,7 +46,12 @@ function PointEvent() {
   const onClickDeleteEventButton = () => {
     setShowDeleteEventModal(true);
   };
-  const [events, reFetchEvents] = useFetch(getAllPointEvents, []);
+  const { data: events, mutate: mutateEvents } = useSWR(
+    `${EVT_PREFIX_URL}/point/all`,
+    fetcher,
+  );
+
+  if (!events) return null;
 
   return (
     <Card eventCnt={events.length}>
@@ -116,10 +119,10 @@ function PointEvent() {
           show={showNewEventModal}
           onCloseModal={() => {
             setShowNewEventModal(false);
-            reFetchEvents();
+            mutateEvents();
           }}
         >
-          <NewEventModal reFetchEvents={reFetchEvents} />
+          <NewEventModal />
         </Modal>
       </div>
       <div>
@@ -128,10 +131,10 @@ function PointEvent() {
           show={showDeleteEventModal}
           onCloseModal={() => {
             setShowDeleteEventModal(false);
-            reFetchEvents();
+            mutateEvents();
           }}
         >
-          <DeleteEventModal events={events} reFetchEvents={reFetchEvents} />
+          <DeleteEventModal />
         </Modal>
       </div>
     </Card>

@@ -2,9 +2,16 @@ import { postPointEvent } from 'api/event';
 import React, { useState } from 'react';
 import { Button, FormWrapper, InputWrapper, TextWrapper, Title } from './style';
 import { toast } from 'react-toastify';
+import useSWR from 'swr';
+import { EVT_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
-function NewEventModal({ reFetchEvents }) {
+function NewEventModal() {
   const [newEventInfo, setNewEventInfo] = useState({});
+  const { mutate: mutateEvents } = useSWR(
+    `${EVT_PREFIX_URL}/point/all`,
+    fetcher,
+  );
   const onInfoChange = (e) => {
     const { name, value } = e.target;
 
@@ -54,7 +61,6 @@ function NewEventModal({ reFetchEvents }) {
     const isAgree = confirm(
       `신규 이벤트 등록 : \n이벤트 이름 : ${EventInfo.eventName}\n이벤트 설명 : ${EventInfo.description}\n이벤트 시작 시간 : ${EventInfo.startTime}\n이벤트 종료 시간 : ${EventInfo.endTime}\n포인트 추가율 : ${EventInfo.percentage}\n 위와 같이 신규 이벤트를 등록할까요?`,
     );
-    console.log(EventInfo);
     if (!isAgree) return;
     postPointEvent(EventInfo)
       .then((res) => {
@@ -67,7 +73,7 @@ function NewEventModal({ reFetchEvents }) {
         if (data && data.code === 400) toast.error(data.message);
       });
     setNewEventInfo({});
-    reFetchEvents();
+    mutateEvents();
   };
   return (
     <div>

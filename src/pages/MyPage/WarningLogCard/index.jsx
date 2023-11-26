@@ -13,84 +13,83 @@ import {
   Button,
   Warning,
 } from './style';
-import { isEmpty } from 'lodash';
-import useFetch from 'hooks/useFetch';
-import { getUserWarningLog } from 'api/log';
-import { useSelector, useDispatch } from 'react-redux';
-import { setIsUseItem } from 'redux/item';
+import { LOG_PREFIX_URL, WARNING_PAEG_SIZE } from 'utils/constants';
+import useSWRInfinite from 'swr/infinite';
+import fetcher from 'utils/fetcher';
+import { useParams } from 'react-router-dom';
 
 /**
  * 마이페이지 경고 현황 카드
  */
-function WarningLogCard({ userInfo, isUser }) {
-  const SIZE = 10;
-  const [page, setPage] = useState(0);
-  const [warningLogs, setWarningLogs] = useState([]);
+function WarningLogCard({ totalWarning }) {
   const [isEndPage, setIsEndPage] = useState(false);
-  const [wraningLogsPaging, , setParams] = useFetch(getUserWarningLog, [], {
-    bojHandle: userInfo.bojHandle,
-    page,
-    size: SIZE,
-  });
-  const { isUseItem } = useSelector((state) => state.item);
-  const dispatch = useDispatch();
+  const [isLoadingLog, setIsLoadingLog] = useState(false);
+  const { bojHandle } = useParams();
 
+  const getKey = useCallback(
+    (page, previousPageData) => {
+      if (previousPageData && !previousPageData.length) return null; // 끝에 도달
+      return `${LOG_PREFIX_URL}/warning/user/page?bojHandle=${bojHandle}&page=${page}&size=${WARNING_PAEG_SIZE}`; // SWR 키
+    },
+    [bojHandle],
+  );
+
+  const {
+    data: warningLogs,
+    size,
+    setSize,
+    isLoading,
+  } = useSWRInfinite(getKey, fetcher);
+
+  // 페이지 끝인지, 로딩 중인지 판별하는 변수 설정
   useEffect(() => {
-    if (!isUseItem || !isUser) return;
-    reload();
-    dispatch(setIsUseItem(false));
-  }, [isUseItem]);
+    if (!warningLogs) return;
+    const isLoadingMore =
+      isLoading ||
+      (size > 0 && warningLogs && typeof warningLogs[size - 1] === 'undefined');
+    const isReachingEnd =
+      warningLogs?.[0]?.length === 0 ||
+      (warningLogs &&
+        warningLogs[warningLogs.length - 1]?.length < WARNING_PAEG_SIZE);
+    setIsLoadingLog(isLoadingMore);
+    setIsEndPage(isReachingEnd);
+  }, [warningLogs, size]);
 
-  const reload = useCallback(() => {
-    setPage(0);
-    setWarningLogs([]);
-    setIsEndPage(false);
-    setParams({
-      bojHandle: userInfo.bojHandle,
-      page: 0,
-      size: SIZE,
-    });
-  }, []);
+  const handleScroll = useCallback(
+    (e) => {
+      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+      if (scrollTop + clientHeight >= scrollHeight - 10 && !isLoadingLog) {
+        setSize((prev) => prev + 1);
+      }
+    },
+    [isLoadingLog],
+  );
 
-  useEffect(() => {
-    if (isEmpty(wraningLogsPaging)) {
-      setIsEndPage(true);
-      return;
-    }
-    setWarningLogs((prev) => [...prev, ...wraningLogsPaging]);
-    setPage((prev) => prev + 1);
-  }, [wraningLogsPaging]);
-
-  const onClickMoreButton = useCallback(() => {
-    setParams({
-      bojHandle: userInfo.bojHandle,
-      page,
-      size: SIZE,
-    });
-  }, [userInfo, page, SIZE]);
+  if (!warningLogs) return null;
 
   return (
     <Card>
       <Title>경고 현황</Title>
       <TotalWarning>
         <Warning />
-        {userInfo.warning}
+        {totalWarning}
       </TotalWarning>
-      <LogWrapper>
-        {warningLogs.map((log, i) => (
-          <Log state={log.state} key={i}>
-            <TextWrapper>
-              <Date>{dayjs(log.createdDate).format('M월 D일')}</Date>
-              <LogMsg>{log.description}</LogMsg>
-            </TextWrapper>
-            <Value plus={log.changedValue >= 0}>
-              {log.changedValue >= 0 ? '+ ' : '- '}
-              {Math.abs(log.changedValue)}
-            </Value>
-          </Log>
-        ))}
+      <LogWrapper onScroll={handleScroll}>
+        {warningLogs.map((logs) =>
+          logs.map((log) => (
+            <Log state={log.state} key={log.id}>
+              <TextWrapper>
+                <Date>{dayjs(log.createdDate).format('M월 D일')}</Date>
+                <LogMsg>{log.description}</LogMsg>
+              </TextWrapper>
+              <Value plus={log.changedValue >= 0}>
+                {log.changedValue >= 0 ? '+ ' : '- '}
+                {Math.abs(log.changedValue)}
+              </Value>
+            </Log>
+          )),
+        )}
       </LogWrapper>
-      {!isEndPage && <Button onClick={onClickMoreButton}>더 보기</Button>}
     </Card>
   );
 }

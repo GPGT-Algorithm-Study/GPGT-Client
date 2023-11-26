@@ -1,14 +1,16 @@
 import React, { useCallback } from 'react';
 import { CommonProfileImage } from 'style/commonStyle';
 import { Title, Content, UserWrapper, User, ScrollButton, Card } from './style';
-import useFetch from 'hooks/useFetch';
 import useScroll from 'hooks/useScroll';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
-import { getYesterdayUnsolvedUsers } from 'api/statistics';
-import { Link } from 'react-router-dom';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
 
 function YesterdayUnsolved() {
-  const [users] = useFetch(getYesterdayUnsolvedUsers, []);
+  const { data: users } = useSWR(
+    `/api/v1/stat/user/yesterday-unsolved-users`,
+    fetcher,
+  );
 
   const [
     leftArrowHovering,
@@ -22,6 +24,8 @@ function YesterdayUnsolved() {
     const url = `https://solved.ac/profile/${bojHandle}`;
     window.open(url, '_blank');
   }, []);
+
+  if (!users) return null;
 
   return (
     <Card>
