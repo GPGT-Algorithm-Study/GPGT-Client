@@ -58,7 +58,7 @@ function WarningLogCard({ totalWarning }) {
   const handleScroll = useCallback(
     (e) => {
       const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-      if (scrollTop + clientHeight >= scrollHeight - 50 && !isLoadingLog) {
+      if (scrollTop + clientHeight >= scrollHeight - 10 && !isLoadingLog) {
         setSize((prev) => prev + 1);
       }
     },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import {
   Button,
@@ -16,17 +16,18 @@ import {
   TitleWrapper,
   Value,
 } from './style';
-import { getAllUsers } from 'api/user';
-import {
-  getAllPointLog,
-  getAllWarningLog,
-  putPointLogRollback,
-  putWarningLogRollback,
-} from 'api/log';
-import useFetch from 'hooks/useFetch';
+import { putPointLogRollback, putWarningLogRollback } from 'api/log';
 import dayjs from 'dayjs';
-import { data } from 'browserslist';
 import { toast } from 'react-toastify';
+import fetcher from 'utils/fetcher';
+import {
+  LOG_PREFIX_URL,
+  ADMIN_POINT_PAGE_SIZE,
+  USER_PREFIX_URL,
+  ADMIN_WARNING_PAEG_SIZE,
+} from 'utils/constants';
+import useSWR from 'swr';
+import useSWRInfinite from 'swr/infinite';
 
 function CurrentPage({
   mode,
@@ -36,6 +37,8 @@ function CurrentPage({
   isRollback,
   setSelectedIds,
   selectedIds,
+  onScroll,
+  scrollPosition,
 }) {
   const onSelect = (e) => {
     const { name, value, checked } = e.target;
@@ -46,10 +49,19 @@ function CurrentPage({
       setSelectedIds(selectedIds.concat(newUser));
     }
   };
+
+  const scrollRef = useRef();
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollPosition;
+    }
+  }, [scrollPosition]);
+
   return (
-    <LogWrapper>
+    <LogWrapper onScroll={onScroll} ref={scrollRef}>
       {curLogList.map((log, index) => {
-        const thisUser = users.find((u) => u.bojHandle === log.bojHandle);
+        const thisUser =
+          users && users.find((u) => u.bojHandle === log.bojHandle);
         if (isOnly === true && log.changedValue >= 0) return;
         return (
           <Log state={log.state} key={index}>
@@ -87,17 +99,72 @@ function CurrentPage({
 }
 
 function ShowAllUserLogs() {
-  const [users, reFetchUsers] = useFetch(getAllUsers, []);
-  const [allPointLog, reFetchPointLog] = useFetch(getAllPointLog, []);
-  allPointLog.sort((a, b) => {
-    if (a.id < b.id) return 1;
-    else return -1;
-  });
-  const [allWarningLog, reFetchWarningLog] = useFetch(getAllWarningLog, []);
-  allWarningLog.sort((a, b) => {
-    if (a.id < b.id) return 1;
-    else return -1;
-  });
+  const { data: users, mutate: mutateUsers } = useSWR(
+    `${USER_PREFIX_URL}/info/all`,
+    fetcher,
+  );
+
+  // 포인트
+  const [isPointEnd, setIsPointEnd] = useState(false);
+  const getPointKey = useCallback(
+    (page) => {
+      if (isPointEnd) return null;
+      return `${LOG_PREFIX_URL}/point/all/page?page=${page}&size=${ADMIN_POINT_PAGE_SIZE}`; // SWR 키
+    },
+    [isPointEnd],
+  );
+
+  const {
+    data: pointLogs,
+    size: pointSize,
+    setSize: setPointSize,
+    isLoading: isLoadingPointLog,
+  } = useSWRInfinite(getPointKey, fetcher);
+
+  const [allPointLog, setAllPointLog] = useState([]);
+
+  useEffect(() => {
+    if (!pointLogs) return;
+    const flatLogs = pointLogs.reduce((acc, cur) => {
+      return acc.concat(cur.content);
+    }, []);
+    setIsPointEnd(
+      pointLogs[pointSize - 1] && pointLogs[pointSize - 1].content.length === 0,
+    );
+    setAllPointLog(flatLogs);
+  }, [pointLogs]);
+
+  // 경고
+  const [isWarningEnd, setIsWarningEnd] = useState(false);
+  const getWarningKey = useCallback(
+    (page) => {
+      if (isWarningEnd) return null;
+      return `${LOG_PREFIX_URL}/warning/all/page?page=${page}&size=${ADMIN_WARNING_PAEG_SIZE}`; // SWR 키
+    },
+    [isWarningEnd],
+  );
+
+  const {
+    data: warningLogs,
+    size: warningSize,
+    setSize: setWarningSize,
+    isLoading: isLoadingWarningLog,
+  } = useSWRInfinite(getWarningKey, fetcher);
+
+  const [allWarningLog, setAllWarningLog] = useState([]);
+
+  useEffect(() => {
+    if (!warningLogs) return;
+    const flatLogs = warningLogs.reduce((acc, cur) => {
+      return acc.concat(cur.content);
+    }, []);
+    setIsWarningEnd(
+      warningLogs[warningSize - 1] &&
+        warningLogs[warningSize - 1].content.length === 0,
+    );
+    setAllWarningLog(flatLogs);
+  }, [warningLogs]);
+
   const modeList = [
     { key: 1, name: '경고' },
     { key: 2, name: '포인트' },
@@ -140,7 +207,11 @@ function ShowAllUserLogs() {
             if (res.data.code !== 200)
               //error handle
               console.log(res);
-            return;
+            else {
+              setSelectedIds([]);
+              mutateUsers();
+              reFetchWarningLog();
+            }
           })
           .catch((e) => {
             const { data } = e.response;
@@ -154,7 +225,11 @@ function ShowAllUserLogs() {
             if (res.data.code !== 200)
               //error handle
               console.log(res);
-            return;
+            else {
+              setSelectedIds([]);
+              mutateUsers();
+              setPointSize(1);
+            }
           })
           .catch((e) => {
             const { data } = e.response;
@@ -163,11 +238,42 @@ function ShowAllUserLogs() {
       });
     }
     setIsRollback(false);
-    setSelectedIds([]);
-    reFetchUsers();
-    reFetchPointLog();
-    reFetchWarningLog();
   };
+
+  // ShowAllUserLogs 컴포넌트 내에 상태 추가
+  const [scrollPosition, setScrollPosition] = useState(0);
+  // 스크롤 이벤트
+  const handleScrollPoint = useCallback(
+    (e) => {
+      const isLoadingMore =
+        isLoadingPointLog ||
+        (pointSize > 0 &&
+          pointLogs &&
+          typeof pointLogs[pointSize - 1] === 'undefined');
+      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+      if (scrollTop + clientHeight >= scrollHeight - 10 && !isLoadingMore) {
+        setPointSize((prev) => prev + 1);
+      }
+      setScrollPosition(scrollTop);
+    },
+    [isLoadingPointLog],
+  );
+
+  const handleScrollWarning = useCallback(
+    (e) => {
+      const isLoadingMore =
+        isLoadingWarningLog ||
+        (warningSize > 0 &&
+          warningLogs &&
+          typeof warningLogs[warningSize - 1] === 'undefined');
+      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+      if (scrollTop + clientHeight >= scrollHeight - 10 && !isLoadingMore) {
+        setWarningSize((prev) => prev + 1);
+      }
+      setScrollPosition(scrollTop);
+    },
+    [isLoadingWarningLog],
+  );
 
   return (
     <Card>
@@ -179,6 +285,7 @@ function ShowAllUserLogs() {
               key={m.key}
               onClick={() => {
                 setMode(m.key);
+                setScrollPosition(0);
                 setIsOnly(false);
                 const checkbox = document.getElementById('isOnlyCheckbox');
                 checkbox.checked = false;
@@ -235,7 +342,9 @@ function ShowAllUserLogs() {
           <div style={{ width: '130px' }}>노션 아이디</div>
           <div>사유</div>
         </TextWrapper>
+
         <CurrentPage
+          onScroll={mode === 1 ? handleScrollWarning : handleScrollPoint}
           key={mode === 1 ? allWarningLog : allPointLog}
           mode={mode}
           curLogList={mode === 1 ? allWarningLog : allPointLog}
@@ -244,6 +353,7 @@ function ShowAllUserLogs() {
           isRollback={isRollback}
           setSelectedIds={setSelectedIds}
           selectedIds={selectedIds}
+          scrollPosition={scrollPosition} // 스크롤 위치 전달
         />
       </div>
     </Card>

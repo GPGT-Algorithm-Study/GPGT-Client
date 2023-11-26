@@ -1,5 +1,3 @@
-import { getAllUserLastLogin } from 'api/user';
-import useFetch from 'hooks/useFetch';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Card,

@@ -23,7 +23,7 @@ export default function PrivateRoute({
     // 관리자 인증이 반드시 필요한 페이지
     if (adminAuthentication) {
       // 인증을 안했을 경우 로그인 페이지로, 했을 경우 해당 페이지로
-      if (!isLogin) return <Navigate to="/login" />;
+      if (!isLogin || !loginUser) return <Navigate to="/login" />;
       // 관리자가 아닐 경우 메인 페이지로, 했을 경우 해당 페이지로
       return !loginUser.manager ? (
         <Navigate to="/home" />
