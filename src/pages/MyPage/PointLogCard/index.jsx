@@ -16,6 +16,7 @@ import { LOG_PREFIX_URL, POINT_PAGE_SIZE } from 'utils/constants';
 import useSWRInfinite from 'swr/infinite';
 import fetcher from 'utils/fetcher';
 import { useParams } from 'react-router-dom';
+import useIntersect from 'hooks/useIntersect';
 
 /**
  * 마이페이지 포인트 현황 카드
@@ -38,7 +39,7 @@ function PointLogCard({ totalPoint }) {
     size,
     setSize,
     isLoading,
-  } = useSWRInfinite(getKey, fetcher);
+  } = useSWRInfinite(getKey, fetcher, { revalidateFirstPage: false });
 
   // 페이지 끝인지, 로딩 중인지 판별하는 변수 설정
   useEffect(() => {
@@ -53,15 +54,12 @@ function PointLogCard({ totalPoint }) {
     setIsEndPage(isReachingEnd);
   }, [pointLogs, size]);
 
-  const handleScroll = useCallback(
-    (e) => {
-      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-      if (scrollTop + clientHeight >= scrollHeight - 10 && !isLoadingLog) {
-        setSize((prev) => prev + 1);
-      }
-    },
-    [isLoadingLog],
-  );
+  const changePage = () => {
+    if (!isLoadingLog && !isEndPage) {
+      setSize((prev) => prev + 1);
+    }
+  };
+  const bottomRef = useIntersect(changePage);
 
   if (!pointLogs) return null;
 
@@ -71,22 +69,21 @@ function PointLogCard({ totalPoint }) {
       <TotalPoint>
         <p>P</p> {totalPoint}
       </TotalPoint>
-      <LogWrapper onScroll={handleScroll}>
-        {pointLogs.map((logs) =>
-          logs.map((log) => (
-            <Log state={log.state} key={log.id}>
-              <TextWrapper>
-                <Date>{dayjs(log.createdDate).format('M월 D일')}</Date>
-                <LogMsg>{log.description}</LogMsg>
-              </TextWrapper>
-              <Point plus={log.changedValue >= 0}>
-                {log.changedValue >= 0 ? '+ ' : '- '}
-                {Math.abs(log.changedValue)}
-                <p>P</p>
-              </Point>
-            </Log>
-          )),
-        )}
+      <LogWrapper>
+        {pointLogs.flat().map((log) => (
+          <Log state={log.state} key={log.id}>
+            <TextWrapper>
+              <Date>{dayjs(log.createdDate).format('M월 D일')}</Date>
+              <LogMsg>{log.description}</LogMsg>
+            </TextWrapper>
+            <Point plus={log.changedValue >= 0}>
+              {log.changedValue >= 0 ? '+ ' : '- '}
+              {Math.abs(log.changedValue)}
+              <p>P</p>
+            </Point>
+          </Log>
+        ))}
+        <Log ref={bottomRef} />
       </LogWrapper>
     </Card>
   );

@@ -37,8 +37,8 @@ function CurrentPage({
   isRollback,
   setSelectedIds,
   selectedIds,
-  onScroll,
   scrollPosition,
+  onScroll,
 }) {
   const onSelect = (e) => {
     const { name, value, checked } = e.target;
@@ -58,7 +58,7 @@ function CurrentPage({
   }, [scrollPosition]);
 
   return (
-    <LogWrapper onScroll={onScroll} ref={scrollRef}>
+    <LogWrapper ref={scrollRef} onScroll={onScroll}>
       {curLogList.map((log, index) => {
         const thisUser =
           users && users.find((u) => u.bojHandle === log.bojHandle);
@@ -119,7 +119,7 @@ function ShowAllUserLogs() {
     size: pointSize,
     setSize: setPointSize,
     isLoading: isLoadingPointLog,
-  } = useSWRInfinite(getPointKey, fetcher);
+  } = useSWRInfinite(getPointKey, fetcher, { revalidateFirstPage: false });
 
   const [allPointLog, setAllPointLog] = useState([]);
 
@@ -149,7 +149,7 @@ function ShowAllUserLogs() {
     size: warningSize,
     setSize: setWarningSize,
     isLoading: isLoadingWarningLog,
-  } = useSWRInfinite(getWarningKey, fetcher);
+  } = useSWRInfinite(getWarningKey, fetcher, { revalidateFirstPage: false });
 
   const [allWarningLog, setAllWarningLog] = useState([]);
 
@@ -240,40 +240,14 @@ function ShowAllUserLogs() {
     setIsRollback(false);
   };
 
-  // ShowAllUserLogs 컴포넌트 내에 상태 추가
-  const [scrollPosition, setScrollPosition] = useState(0);
-  // 스크롤 이벤트
-  const handleScrollPoint = useCallback(
-    (e) => {
-      const isLoadingMore =
-        isLoadingPointLog ||
-        (pointSize > 0 &&
-          pointLogs &&
-          typeof pointLogs[pointSize - 1] === 'undefined');
-      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-      if (scrollTop + clientHeight >= scrollHeight - 10 && !isLoadingMore) {
-        setPointSize((prev) => prev + 1);
-      }
+  // 스크롤 위치 저장
+  const [scrollPosition, setScrollPosition] = useState(0); // 스크롤 이벤트
+  const onScroll = useCallback((e) => {
+    const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
+    if (scrollTop + clientHeight >= scrollHeight - 10) {
       setScrollPosition(scrollTop);
-    },
-    [isLoadingPointLog],
-  );
-
-  const handleScrollWarning = useCallback(
-    (e) => {
-      const isLoadingMore =
-        isLoadingWarningLog ||
-        (warningSize > 0 &&
-          warningLogs &&
-          typeof warningLogs[warningSize - 1] === 'undefined');
-      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-      if (scrollTop + clientHeight >= scrollHeight - 10 && !isLoadingMore) {
-        setWarningSize((prev) => prev + 1);
-      }
-      setScrollPosition(scrollTop);
-    },
-    [isLoadingWarningLog],
-  );
+    }
+  }, []);
 
   return (
     <Card>
@@ -344,7 +318,6 @@ function ShowAllUserLogs() {
         </TextWrapper>
 
         <CurrentPage
-          onScroll={mode === 1 ? handleScrollWarning : handleScrollPoint}
           key={mode === 1 ? allWarningLog : allPointLog}
           mode={mode}
           curLogList={mode === 1 ? allWarningLog : allPointLog}
@@ -353,8 +326,20 @@ function ShowAllUserLogs() {
           isRollback={isRollback}
           setSelectedIds={setSelectedIds}
           selectedIds={selectedIds}
-          scrollPosition={scrollPosition} // 스크롤 위치 전달
+          scrollPosition={scrollPosition}
+          onScroll={onScroll}
         />
+        <Button
+          onClick={() => {
+            if (mode === 1) {
+              setWarningSize((prev) => prev + 1);
+            } else {
+              setPointSize((prev) => prev + 1);
+            }
+          }}
+        >
+          더 보기
+        </Button>
       </div>
     </Card>
   );
