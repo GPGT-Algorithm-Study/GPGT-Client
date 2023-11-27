@@ -24,10 +24,6 @@ jobs:
   
   docker-build-push:
     runs-on: ubuntu-latest
-    
-    strategy: 
-      matrix: 
-        node-version: [20.5.x] 
         
     steps:
       - name: web docker build and push
@@ -38,10 +34,6 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    
-    strategy: 
-      matrix: 
-        node-version: [20.5.x] 
         
     steps:
       - name: Get Github Actions IP
