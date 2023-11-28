@@ -1,7 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { isEmpty } from 'lodash';
-import useFetch from 'hooks/useFetch';
-import { getUserTodayRandomProblem } from 'api/user';
 import SolvedIcon from 'components/SolvedIcon';
 import Switch from 'react-switch';
 import {
@@ -20,7 +18,9 @@ import { BiRefresh } from 'react-icons/bi';
 import { CommonTierImg } from 'style/commonStyle';
 import Modal from 'layouts/Modal';
 import RefreshModalContent from './RefreshModalContent';
-import { useSelector } from 'react-redux';
+import useSWR from 'swr';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트
@@ -29,20 +29,20 @@ function RandomProblemCard({ user, changePoint }) {
   const [showTags, setShowTags] = useState(false);
   const [problem, setProblem] = useState({});
   const [showRefreshModal, setShowRefreshModal] = useState(false);
-  const loingUser = useSelector((state) => state.user);
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
 
   // 유저의 랜덤 문제
-  const [randomProblem, fetchProblem] = useFetch(
-    getUserTodayRandomProblem,
-    {},
-    {
-      bojHandle: user.bojHandle,
-    },
+  const { data: randomProblem } = useSWR(
+    `${USER_PREFIX_URL}/streak/streak?bojHandle=${user.bojHandle}`,
+    fetcher,
   );
 
   // 랜덤 문제 데이터 가공
   useEffect(() => {
-    if (isEmpty(randomProblem)) return;
+    if (!randomProblem && isEmpty(randomProblem)) return;
     let { todayRandomProblem } = randomProblem;
     todayRandomProblem.isTodayRandomSolved = randomProblem.isTodayRandomSolved;
     if (todayRandomProblem.problemId == 0) {
@@ -72,6 +72,8 @@ function RandomProblemCard({ user, changePoint }) {
     setShowRefreshModal(true);
   }, []);
 
+  if (!randomProblem || !loginUser) return null;
+
   return (
     <Card>
       {problem.problemId == 0 && (
@@ -93,7 +95,7 @@ function RandomProblemCard({ user, changePoint }) {
             <Title>
               오늘의 랜덤 문제
               <p> +{problem.point} P</p>
-              {loingUser.bojHandle === user.bojHandle &&
+              {loginUser.claim === user.bojHandle &&
                 problem.problemId != 0 &&
                 !problem.isTodayRandomSolved && (
                   <BiRefresh size="21" onClick={onClickRefreshButton} />
@@ -146,7 +148,6 @@ function RandomProblemCard({ user, changePoint }) {
           onCloseModal={() => {
             setShowRefreshModal(false);
           }}
-          fetchProblem={fetchProblem}
           changePoint={changePoint}
         />
       </Modal>

@@ -15,9 +15,7 @@ import CommentComponent from './CommentComponent';
 import { Link, useParams } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import useFetch from 'hooks/useFetch';
-import { deletePost, getPost } from 'api/board';
+import { deletePost } from 'api/board';
 import { toast } from 'react-toastify';
 import Write from '../Write';
 import { writeType } from 'utils/board';
@@ -25,16 +23,23 @@ import { CommonProfileImage } from 'style/commonStyle';
 import BoardProblemCard from '../BoardProblemCard';
 import { getProblemInfo } from 'api/problem';
 import { isEmpty } from 'lodash';
+import useSWR from 'swr';
+import { BRD_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 /**
  * 게시판 글 상세 컴포넌트
  */
 function Detail() {
-  const user = useSelector((state) => state.user);
   const { id } = useParams();
-  const [post, fetchPost] = useFetch(getPost, {}, { boardId: id }, () => {
-    navigate('/board');
-  });
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
+  const { data: post, mutate: mutatePost } = useSWR(
+    `${BRD_PREFIX_URL}/detail?boardId=${id}`,
+    fetcher,
+  );
   const navigate = useNavigate();
   const [writeMode, setWriteMode] = useState(false);
   const [problemInfo, setProblemInfo] = useState(false);
@@ -42,6 +47,11 @@ function Detail() {
 
   // 게시글에 문제 정보 있으면 가져오기
   useEffect(() => {
+    if (!post) return;
+    if (isEmpty(post)) {
+      navigate('/board');
+      return;
+    }
     if (post.problemId) {
       getProblemInfo({ problemId: post.problemId.toString() })
         .then((res) => {
@@ -79,9 +89,11 @@ function Detail() {
   }, [id]);
 
   const closeWriteMode = useCallback(() => {
-    fetchPost();
+    mutatePost();
     setWriteMode(false);
   }, []);
+
+  if (!post) return null;
 
   if (writeMode) {
     return (
@@ -123,7 +135,7 @@ function Detail() {
             </CreateDate>
           </WriteInfo>
           <WriteInfo>
-            {user.bojHandle == post.bojHandle && (
+            {loginUser && loginUser.claim == post.bojHandle && (
               <>
                 <Button
                   onClick={() => {

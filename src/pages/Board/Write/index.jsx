@@ -10,7 +10,6 @@ import {
   Title,
 } from './style';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import MDEditor from '@uiw/react-md-editor';
 import { FileDrop } from 'react-file-drop';
 import { toast } from 'react-toastify';
@@ -21,16 +20,19 @@ import { createPost, updatePost } from 'api/board';
 import { BackButton } from '../Detail/style';
 import { getProblemInfo } from 'api/problem';
 import BoardProblemCard from '../BoardProblemCard';
+import useSWR from 'swr';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 /**
  * 게시판 글 작성 컴포넌트
  */
 function Write({ mode, type, closeWriteMode, post }) {
-  const categories = [boardType.FREE, boardType.PS, boardType.QUES];
-  const user = useSelector((state) => state.user);
-  if (user.isAdmin) {
-    categories.push(boardType.NOTICE);
-  }
+  const [categories, setCategories] = useState([
+    boardType.FREE,
+    boardType.PS,
+    boardType.QUES,
+  ]);
   const [selectedCategory, setSelectedCategory] = useState(boardType.FREE.key);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -41,9 +43,25 @@ function Write({ mode, type, closeWriteMode, post }) {
   const [hasProblemInfo, setHasProblemInfo] = useState(false);
   const navigate = useNavigate();
 
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
+
   useEffect(() => {
-    if (type === boardType.NOTICE.key && !user.isAdmin) return;
-    if (type === boardType.SEARCH.key || type === boardType.MY.key) return;
+    if (!loginUser) return;
+    if (loginUser.manager) {
+      setCategories((prev) => [...prev, boardType.NOTICE]);
+    }
+  }, [loginUser]);
+
+  useEffect(() => {
+    if (type === boardType.NOTICE.key && !loginUser.manager) {
+      return;
+    }
+    if (type === boardType.SEARCH.key || type === boardType.MY.key) {
+      return;
+    }
     setSelectedCategory(type);
   }, [type]);
 

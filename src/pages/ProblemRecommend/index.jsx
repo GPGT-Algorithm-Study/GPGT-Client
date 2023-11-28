@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { getRecommend } from 'api/recommend';
-import { useSelector } from 'react-redux';
 import ProblemResult from './ProblemResult';
 import { numToTierStr } from 'utils/tier';
 import Switch from 'react-switch';
@@ -18,13 +17,19 @@ import {
   SettingWrapper,
 } from './style';
 import { CommonTierImg, CommonButton } from 'style/commonStyle';
+import useSWR from 'swr';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 /**
  * 문제 추천 화면
  */
 function ProblemRecommend() {
-  const user = useSelector((state) => state.user);
-  const [bojId, setBojId] = useState(user.bojHandle);
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
+  const [bojId, setBojId] = useState('');
   const [startTier, setStartTier] = useState(0);
   const [endTier, setEndTier] = useState(4);
   const [problem, setProblem] = useState({});
@@ -35,6 +40,11 @@ function ProblemRecommend() {
   const [loadFlag, setLoadFlag] = useState(true);
   const [isKo, setIsKo] = useState(true);
   const [problemIdx, setProblemIdx] = useState(0);
+
+  useEffect(() => {
+    if (!loginUser) return;
+    setBojId(loginUser.claim);
+  }, [loginUser]);
 
   useEffect(() => {
     // 슬라이더에 마커 설정 (5 단위, 티어 색상이 변경될 때 마다 티어 이미지 삽입)

@@ -53,7 +53,7 @@ export const Value = styled.div`
   }
 `;
 export const LogWrapper = styled.div`
-  height: 500px;
+  height: 440px;
   overflow-y: auto;
   margin-top: 25px;
   display: flex;

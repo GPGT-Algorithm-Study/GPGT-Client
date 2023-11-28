@@ -1,6 +1,4 @@
 import React from 'react';
-import { getAllUsers } from 'api/user';
-import useFetch from 'hooks/useFetch';
 import { useState } from 'react';
 import {
   Title,
@@ -11,12 +9,18 @@ import {
 } from './style';
 import { postUserWarning } from 'api/log';
 import { toast } from 'react-toastify';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
+import { USER_PREFIX_URL } from 'utils/constants';
 
 function WarningManage() {
-  const [users, reFetch] = useFetch(getAllUsers, []);
+  const { data: users, mutate: mutateUsers } = useSWR(
+    `${USER_PREFIX_URL}/info/all`,
+    fetcher,
+  );
   const [isPlusMode, setIsPlusMode] = useState(true);
   const [reason, setReason] = useState('');
-  const [selectedUsers, setSelectedUsers] = useState(users);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const onSelect = (e) => {
     const { name, value, checked } = e.target;
@@ -39,7 +43,6 @@ function WarningManage() {
     const selectedUserNotionId = selectedUsers
       .map((user) => `${user.notionId}`)
       .join(', '); //선택된 유저들의 notion아이디를 문자열화
-
     const isWarningCountInvalid = { flag: false };
     selectedUsers.map((user) => {
       //경고 수가 0~4 범위를 넘지 않는지 확인
@@ -96,8 +99,11 @@ function WarningManage() {
     alert(`경고가 ${isPlusMode ? '부여' : '차감'}되었습니다..`);
     setReason('');
     setSelectedUsers([]);
-    reFetch();
+    mutateUsers();
   };
+
+  if (!users) return null;
+
   return (
     <Content>
       <Title>

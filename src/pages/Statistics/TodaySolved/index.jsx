@@ -1,13 +1,18 @@
-import useFetch from 'hooks/useFetch';
 import React from 'react';
 import { Card, Content, Title, User, ScrollButton, UserWrapper } from './style';
 import SolvedIcon from 'components/SolvedIcon';
 import useScroll from 'hooks/useScroll';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
-import { getUserTodaySolved } from 'api/statistics';
+import useSWR from 'swr';
+import { STAT_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 function TodaySolved() {
-  const [users] = useFetch(getUserTodaySolved, []);
+  const { data: users } = useSWR(
+    `${STAT_PREFIX_URL}/graph/is-today-solved`,
+    fetcher,
+  );
+
   const [
     leftArrowHovering,
     rightArrowHovering,
@@ -15,6 +20,10 @@ function TodaySolved() {
     horizontalScrollRef,
     handleNextButtonClick,
   ] = useScroll();
+
+  if (!users) {
+    return null;
+  }
 
   return (
     <Card>

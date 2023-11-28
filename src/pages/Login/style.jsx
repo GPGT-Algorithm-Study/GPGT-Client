@@ -25,8 +25,10 @@ export const LoginWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   border-radius: 7px;
-  margin: auto;
-  margin-top: 150px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: white;
   width: 450px;
   height: 420px;

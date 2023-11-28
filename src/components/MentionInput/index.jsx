@@ -1,14 +1,18 @@
 import React, { useCallback } from 'react';
 import { InputForm, StyledMentionsInput, MentionWrapper } from './style';
-import useFetch from 'hooks/useFetch';
-import { getAllUsersNotionIds } from 'api/user';
 import { Mention } from 'react-mentions';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
+import { USER_PREFIX_URL } from 'utils/constants';
 
 /**
  * 멘션 가능한 인풋 컴포넌트
  */
 function MentionInput({ onSubmitComment, commentContent, onChangeComment }) {
-  const [mentionList] = useFetch(getAllUsersNotionIds); // 유저 노션 아이디 리스트
+  const { data: mentionList } = useSWR(
+    `${USER_PREFIX_URL}/mention/list`,
+    fetcher,
+  );
 
   const renderUserSuggestion = useCallback(
     (suggestion, search, highlightedDisplay, index, focus) => {

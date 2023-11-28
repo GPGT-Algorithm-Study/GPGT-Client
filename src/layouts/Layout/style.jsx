@@ -69,7 +69,7 @@ export const Menu = styled.div`
 `;
 
 export const MenuWrapper = styled.div`
-  position: fixed;
+  position: sticky;
   left: 50%;
   top: 5px;
   transform: translate(-50%, 0);
