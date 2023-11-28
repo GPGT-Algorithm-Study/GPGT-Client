@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { theme } from 'highcharts';
 import { CommonCard } from 'style/commonStyle';
 
 export const CategoryWrapper = styled.div`
@@ -37,9 +38,9 @@ export const BoardHeader = styled.div`
 `;
 
 export const PageWrapper = styled.div`
-  margin: 35px 0 30px 0;
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 `;
 
 export const SearchForm = styled.form`
@@ -92,4 +93,8 @@ export const Container = styled.div`
 export const Card = styled(CommonCard)`
   padding: 20px 20px 30px 20px;
   margin-top: 10px;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;

@@ -166,24 +166,26 @@ function Board() {
       </HeaderWrapper>
       {/* 게시글 테이블 */}
       <Card>
-        <BoardHeader>
-          <BoardTitleWrapper>
-            <CommonTitle>{title}</CommonTitle>
-            <p>{total} 개의 게시글</p>
-          </BoardTitleWrapper>
-          <SearchForm onSubmit={onSubmitSearchKeyword}>
-            <div>
-              <AiOutlineSearch />
-            </div>
-            <input
-              placeholder="검색어 입력"
-              value={keyword}
-              onChange={onChangeKeyword}
-            />
-          </SearchForm>
-        </BoardHeader>
-        {/* 테이블 */}
-        <BoardTable postList={postList} showTypeTitle={showTypeTitle} />
+        <div>
+          <BoardHeader>
+            <BoardTitleWrapper>
+              <CommonTitle>{title}</CommonTitle>
+              <p>{total} 개의 게시글</p>
+            </BoardTitleWrapper>
+            <SearchForm onSubmit={onSubmitSearchKeyword}>
+              <div>
+                <AiOutlineSearch />
+              </div>
+              <input
+                placeholder="검색어 입력"
+                value={keyword}
+                onChange={onChangeKeyword}
+              />
+            </SearchForm>
+          </BoardHeader>
+          {/* 테이블 */}
+          <BoardTable postList={postList} showTypeTitle={showTypeTitle} />
+        </div>
         {/* 페이지네이션  */}
         {Math.ceil(total / BOARD_PAGE_SIZE) > 1 && (
           <PageWrapper>
