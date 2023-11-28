@@ -16,6 +16,7 @@ import {
   EventHeader,
   CloseButton,
   Container,
+  MobileHamburgerMenu,
 } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
@@ -30,12 +31,13 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { FaClipboardList } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { userLogout } from 'api/user';
-import { getHeaderRefreshTokenConfig, logoutProc } from 'utils/auth';
+import { logoutProc } from 'utils/auth';
 import { isEmpty } from 'lodash';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import { EVT_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
+import { IoArrowBackOutline } from 'react-icons/io5';
 
 function Layout({ children }) {
   const [showStoreModal, setShowStoreModal] = useState(false);
@@ -102,8 +104,7 @@ function Layout({ children }) {
   const onClickLogout = useCallback(() => {
     if (!loginUser) return;
     const params = { bojHandle: loginUser.claim };
-    const config = getHeaderRefreshTokenConfig();
-    userLogout(params, config)
+    userLogout(params)
       .then(() => {
         // 로그아웃 처리
         logoutProc();
@@ -133,6 +134,7 @@ function Layout({ children }) {
   }, []);
 
   const onClickUserProfile = useCallback(() => {
+    setShowMobileMenu(false);
     navigate(`/my-page/${loginUser.claim}`);
   }, [loginUser]);
 
@@ -140,44 +142,55 @@ function Layout({ children }) {
 
   if (showMobileMenu) {
     return (
-      <MobileMenuWrapper>
-        <div>
-          {userInfo && (
-            <SideMyInfo onClick={onClickUserProfile}>
-              <ProfileImage
-                width="45"
-                height="45"
-                src={
-                  userInfo.profileImg == 'null'
-                    ? 'https://static.solved.ac/misc/360x360/default_profile.png'
-                    : userInfo.profileImg
-                }
-              />
-              {userInfo.notionId} {userInfo.emoji}
-            </SideMyInfo>
-          )}
-          <MobileMenu>
-            <div>
-              {Object.keys(tabs).map((key) => (
-                <MobileMenuItem
-                  className={currentTab === key ? 'selected' : ''}
-                  key={tabs[key].id}
-                  onClick={() => {
-                    navigate(tabs[key].route);
-                    setShowMobileMenu(false);
-                  }}
-                >
-                  {tabs[key].icon}
-                  <div>{tabs[key].name}</div>
-                </MobileMenuItem>
-              ))}
-            </div>
-            <MobileMenuItem onClick={onClickLogout}>
-              <FiLogOut /> <div>로그아웃</div>
-            </MobileMenuItem>
-          </MobileMenu>
-        </div>
-      </MobileMenuWrapper>
+      <>
+        <MobileHamburgerMenu>
+          <IoArrowBackOutline
+            style={{ cursor: 'pointer', marginLeft: '10px' }}
+            onClick={() => {
+              setShowMobileMenu((prev) => !prev);
+            }}
+            size="21"
+          />
+        </MobileHamburgerMenu>
+        <MobileMenuWrapper>
+          <div>
+            {userInfo && (
+              <SideMyInfo onClick={onClickUserProfile}>
+                <ProfileImage
+                  width="45"
+                  height="45"
+                  src={
+                    userInfo.profileImg == 'null'
+                      ? 'https://static.solved.ac/misc/360x360/default_profile.png'
+                      : userInfo.profileImg
+                  }
+                />
+                {userInfo.notionId} {userInfo.emoji}
+              </SideMyInfo>
+            )}
+            <MobileMenu>
+              <div>
+                {Object.keys(tabs).map((key) => (
+                  <MobileMenuItem
+                    className={currentTab === key ? 'selected' : ''}
+                    key={tabs[key].id}
+                    onClick={() => {
+                      navigate(tabs[key].route);
+                      setShowMobileMenu(false);
+                    }}
+                  >
+                    {tabs[key].icon}
+                    <div>{tabs[key].name}</div>
+                  </MobileMenuItem>
+                ))}
+              </div>
+              <MobileMenuItem onClick={onClickLogout}>
+                <FiLogOut /> <div>로그아웃</div>
+              </MobileMenuItem>
+            </MobileMenu>
+          </div>
+        </MobileMenuWrapper>
+      </>
     );
   }
 
