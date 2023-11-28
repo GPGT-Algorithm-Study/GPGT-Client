@@ -20,12 +20,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with: 
-          node-version: ${{ matrix.node-version }} 
-  
-  docker-build-push:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
+          node-version: ${{ matrix.node-version }}
       - name: web docker build and push
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
@@ -33,7 +28,7 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/randps-front
 
   deploy:
-    needs: [build, docker-build-push]
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Get Github Actions IP
