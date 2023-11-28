@@ -56,9 +56,7 @@ function Main() {
   ];
   const { data: message } = useSWR(`api/v2/boolshit/last`, fetcher);
   const { data: noticeBoard } = useSWR(
-    `${BRD_PREFIX_URL}/all/type?type=${
-      boardType.NOTICE.key
-    }&page=${0}&size=${1}`,
+    `${BRD_PREFIX_URL}/all/type?type=${boardType.NOTICE.key}&page=0&size=1`,
     fetcher,
   );
   const [notice, setNotice] = useState({});
