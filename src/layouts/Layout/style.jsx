@@ -266,3 +266,7 @@ export const CloseButton = styled.span`
   right: 10px;
   cursor: pointer;
 `;
+
+export const MobileHamburgerMenu = styled.div`
+  margin: 20px 0 0 10px;
+`;
