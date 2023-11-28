@@ -115,11 +115,13 @@ export const Util = styled.div`
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  font-size: 14px;
+  color: #3b3b3b;
 `;
 
 export const UtilIcon = styled.div`
-  width: 90px;
-  height: 90px;
+  width: 75px;
+  height: 75px;
   flex-shrink: 0;
   border-radius: 10px;
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
@@ -129,6 +131,10 @@ export const UtilIcon = styled.div`
   background-repeat: no-repeat;
   background-size: 50px 50px;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #424242;
 `;
 
 export const BannerInfo = styled.div`

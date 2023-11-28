@@ -20,6 +20,11 @@ import Store from 'pages/Store';
 import fetcher from 'utils/fetcher';
 import useSWR from 'swr';
 import { BRD_PREFIX_URL } from 'utils/constants';
+import {
+  PiShoppingBagOpenLight,
+  PiChatCenteredDotsLight,
+  PiNotionLogoFill,
+} from 'react-icons/pi';
 
 /**
  * 메인 화면
@@ -32,7 +37,7 @@ function Main() {
     {
       id: 1,
       name: '문제 추천',
-      iconUrl: `${process.env.PUBLIC_URL}/recommend_icon.svg`,
+      icon: <PiChatCenteredDotsLight size="38" />,
       clickListener: () => {
         setShowRecommendModal(true);
       },
@@ -40,7 +45,7 @@ function Main() {
     {
       id: 2,
       name: '상점',
-      iconUrl: `${process.env.PUBLIC_URL}/store_icon.svg`,
+      icon: <PiShoppingBagOpenLight size="38" />,
       clickListener: () => {
         setShowStoreModal(true);
       },
@@ -48,7 +53,7 @@ function Main() {
     {
       id: 3,
       name: '노션 페이지',
-      iconUrl: `${process.env.PUBLIC_URL}/notion_icon.svg`,
+      icon: <PiNotionLogoFill size="30" />,
       clickListener: () => {
         window.open('https://www.notion.so/9add51f476244ba180872f35d7a8ce81');
       },
@@ -97,7 +102,7 @@ function Main() {
       <UtilWrapper>
         {utils.map((util) => (
           <Util key={util.id} onClick={util.clickListener}>
-            <UtilIcon url={util.iconUrl}></UtilIcon>
+            <UtilIcon>{util.icon}</UtilIcon>
             <div> {util.name} </div>
           </Util>
         ))}
