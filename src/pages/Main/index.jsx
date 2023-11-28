@@ -20,9 +20,11 @@ import Store from 'pages/Store';
 import fetcher from 'utils/fetcher';
 import useSWR from 'swr';
 import { BRD_PREFIX_URL } from 'utils/constants';
-import { LuShoppingBag } from 'react-icons/lu';
-import { HiOutlineChatBubbleLeftEllipsis } from 'react-icons/hi2';
-import { SiNotion } from 'react-icons/si';
+import {
+  PiShoppingBagOpenLight,
+  PiChatCenteredDotsLight,
+  PiNotionLogoFill,
+} from 'react-icons/pi';
 
 /**
  * 메인 화면
@@ -35,7 +37,7 @@ function Main() {
     {
       id: 1,
       name: '문제 추천',
-      icon: <HiOutlineChatBubbleLeftEllipsis size="40" />,
+      icon: <PiChatCenteredDotsLight size="38" />,
       clickListener: () => {
         setShowRecommendModal(true);
       },
@@ -43,7 +45,7 @@ function Main() {
     {
       id: 2,
       name: '상점',
-      icon: <LuShoppingBag size="38" />,
+      icon: <PiShoppingBagOpenLight size="38" />,
       clickListener: () => {
         setShowStoreModal(true);
       },
@@ -51,7 +53,7 @@ function Main() {
     {
       id: 3,
       name: '노션 페이지',
-      icon: <SiNotion size="35" />,
+      icon: <PiNotionLogoFill size="30" />,
       clickListener: () => {
         window.open('https://www.notion.so/9add51f476244ba180872f35d7a8ce81');
       },
