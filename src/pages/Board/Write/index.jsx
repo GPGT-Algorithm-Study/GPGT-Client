@@ -126,7 +126,7 @@ function Write({ mode, type, closeWriteMode, post }) {
   const writePost = useCallback(() => {
     const newPost = {
       type: selectedCategory,
-      bojHandle: user.bojHandle,
+      bojHandle: loginUser.claim,
       title,
       content,
       imageUUIDs: uuidList,
@@ -169,7 +169,7 @@ function Write({ mode, type, closeWriteMode, post }) {
     const newPost = {
       boardId: post.id,
       type: selectedCategory,
-      bojHandle: user.bojHandle,
+      bojHandle: loginUser.claim,
       title,
       content,
       imageUUIDs: getImageUuids(content),
