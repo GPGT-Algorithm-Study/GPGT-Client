@@ -14,6 +14,10 @@ import Teams from 'pages/Teams';
 import Statistics from 'pages/Statistics';
 import Board from 'pages/Board';
 import Detail from 'pages/Board/Detail';
+import Roadmap from 'pages/Roadmap';
+import Ranking from 'pages/Ranking';
+import CreateRoadmapProblem from 'pages/Roadmap/CreateRoadmapProblem';
+import RoadmapDetail from 'pages/Roadmap/RoadmapDetail';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -50,6 +54,12 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/statistics" element={<Statistics />} />
+            <Route path="/ranking" element={<Ranking />} />
+            <Route path="/roadmap">
+              <Route index element={<Roadmap />} />
+              <Route path="problem" element={<CreateRoadmapProblem />} />
+              <Route path=":id" element={<RoadmapDetail />} />
+            </Route>
             <Route path="/board">
               <Route index element={<Board />} />
               <Route path=":id" element={<Detail />} />
