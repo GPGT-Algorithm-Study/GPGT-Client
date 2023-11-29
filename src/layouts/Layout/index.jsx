@@ -105,7 +105,7 @@ function Layout({ children }) {
       setTabs((prev) => ({
         ...prev,
         admin: {
-          id: 5,
+          id: 7,
           name: '관리자',
           icon: <AiFillSetting size="18" />,
           route: '/admin',
