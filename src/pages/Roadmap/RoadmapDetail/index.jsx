@@ -73,7 +73,7 @@ function RoadmapDetail() {
   useEffect(() => {
     if (!progressInfo) return;
     const idx = progressInfo.findIndex(
-      (item) => item.roadmapId === roadmapInfo.id,
+      (item) => item.roadmapId === roadmapInfo?.id,
     );
     if (idx == -1) return;
     setPercentage(progressInfo[idx].progress);
@@ -93,7 +93,13 @@ function RoadmapDetail() {
         <div>
           <CommonTitle>{roadmapInfo.name}</CommonTitle>
         </div>
-        <button>로드맵 수정</button>
+        <button
+          onClick={() => {
+            navigate(`/roadmap/problem/${id}`);
+          }}
+        >
+          로드맵 수정
+        </button>
       </TitleDiv>
       <ProgressBarWrapper>
         {percentage !== 0 && <ProgressBar percentage={percentage} />}

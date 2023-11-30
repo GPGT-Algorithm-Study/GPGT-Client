@@ -20,14 +20,14 @@ export const Card = styled(CommonCard)`
   @media all and (max-width: 420px) {
     width: calc(100%);
   }
-  display: flex;
   padding: 20px 27px;
   gap: 10px;
   box-sizing: border-box;
-  flex-direction: column;
-  justify-content: space-between;
   min-height: 160px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const ProblemIdDiv = styled.div`

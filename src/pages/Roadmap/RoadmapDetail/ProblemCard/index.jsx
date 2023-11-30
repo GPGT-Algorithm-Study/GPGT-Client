@@ -13,7 +13,14 @@ function ProbelmCard({ problemInfo }) {
   );
 
   return (
-    <Card>
+    <Card
+      onClick={() => {
+        window.open(
+          `https://www.acmicpc.net/problem/${problem.problemId}`,
+          '_blank',
+        );
+      }}
+    >
       {problem && (
         <>
           <div>

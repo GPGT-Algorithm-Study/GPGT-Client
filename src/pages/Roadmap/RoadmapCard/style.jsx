@@ -39,6 +39,7 @@ export const TitleDiv = styled.div`
 export const TagWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin-top: 10px;
   > div {
     border-radius: 50px;
     font-weight: normal;

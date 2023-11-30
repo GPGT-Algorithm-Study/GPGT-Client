@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TitleDiv, Container, ContentDiv } from './style';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import { ROADMAP_PREFIX_URL } from 'utils/constants';
 import RoadmapCard from './RoadmapCard';
+import CreateRoadmapPopup from './CreateRoadmapPopup';
 
 /**
  * 로드맵 페이지
@@ -14,6 +15,8 @@ function Roadmap() {
     fetcher,
   );
 
+  const [showCreatePopup, setShowCreatePopup] = useState(false);
+
   return (
     <Container>
       <TitleDiv>
@@ -22,7 +25,13 @@ function Roadmap() {
           <br />
           주차 별로 문제를 추천해 드릴게요
         </div>
-        <button>로드맵 만들기</button>
+        <button
+          onClick={() => {
+            setShowCreatePopup(true);
+          }}
+        >
+          로드맵 만들기
+        </button>
       </TitleDiv>
       {roadmapList && (
         <ContentDiv>
@@ -31,6 +40,12 @@ function Roadmap() {
           ))}
         </ContentDiv>
       )}
+      <CreateRoadmapPopup
+        show={showCreatePopup}
+        onClose={() => {
+          setShowCreatePopup(false);
+        }}
+      />
     </Container>
   );
 }

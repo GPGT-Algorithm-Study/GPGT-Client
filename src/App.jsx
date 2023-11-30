@@ -57,7 +57,7 @@ function App() {
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/roadmap">
               <Route index element={<Roadmap />} />
-              <Route path="problem" element={<CreateRoadmapProblem />} />
+              <Route path="problem/:id" element={<CreateRoadmapProblem />} />
               <Route path=":id" element={<RoadmapDetail />} />
             </Route>
             <Route path="/board">
