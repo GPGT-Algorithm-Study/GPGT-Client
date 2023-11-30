@@ -25,6 +25,7 @@ export const Content = styled.div`
     cursor: pointer;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
     justify-content: space-between;
   }

@@ -5,11 +5,12 @@ export const ProgressBarDiv = styled.div`
   box-sizing: border-box;
   display: flex;
   gap: 8px;
-  & div {
+  > div {
     font-size: 0.9rem;
     font-weight: 500;
-    text-align: center;
+    text-align: start;
     color: var(--color-primary);
+    width: 70px;
   }
   input[type='range'] {
     -webkit-appearance: none;
