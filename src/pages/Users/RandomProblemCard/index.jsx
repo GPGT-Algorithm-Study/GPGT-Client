@@ -76,68 +76,85 @@ function RandomProblemCard({ user, changePoint }) {
 
   return (
     <Card>
-      {problem.problemId == 0 && (
-        <NoRandomProblem>
-          <div>랜덤 문제 범위가 설정되지 않았습니다.</div>
-        </NoRandomProblem>
-      )}
-      <a
-        href={
-          problem.problemId != 0
-            ? `https://www.acmicpc.net/problem/${problem.problemId}`
-            : ''
-        }
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <CardContent isBlur={problem.problemId == 0}>
-          <TitleWrapper>
-            <Title>
-              오늘의 랜덤 문제
-              <p> +{problem.point} P</p>
-              {loginUser.claim === user.bojHandle &&
-                problem.problemId != 0 &&
-                !problem.isTodayRandomSolved && (
-                  <BiRefresh size="21" onClick={onClickRefreshButton} />
-                )}
-            </Title>
-            <TagSwitchWrapper>
-              <span>Tags</span>
-              <Switch
-                onChange={onClickTagButton}
-                checked={showTags}
-                checkedIcon={false}
-                uncheckedIcon={false}
-                width={40}
-                height={20}
-                onColor="#3362c5"
-                offColor="#d2d2d2"
-                disabled={problem.problemId == 0}
-              />
-            </TagSwitchWrapper>
-          </TitleWrapper>
-          <ProblemTitle>
-            {problem.level && (
-              <CommonTierImg
-                src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
-                width="20"
-                height="20"
-              />
-            )}
-            <p>
+      {problem.problemId == 0 ? (
+        <div>
+          <NoRandomProblem>
+            <div>랜덤 문제 범위가 설정되지 않았습니다.</div>
+          </NoRandomProblem>
+          <CardContent isBlur>
+            <TitleWrapper>
+              <Title>
+                오늘의 랜덤 문제
+                <p> +{problem.point} P</p>
+              </Title>
+            </TitleWrapper>
+            <ProblemTitle>
               {problem.problemId}번 : {problem.titleKo}
-            </p>
-          </ProblemTitle>
-          <ProblemWrapper>
-            <TagWrapper>
-              {problem.tags &&
-                showTags &&
-                problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
-            </TagWrapper>
-            <SolvedIcon solved={problem.isTodayRandomSolved} />
-          </ProblemWrapper>
-        </CardContent>
-      </a>
+            </ProblemTitle>
+            <ProblemWrapper>
+              <SolvedIcon solved={problem.isTodayRandomSolved} />
+            </ProblemWrapper>
+          </CardContent>
+        </div>
+      ) : (
+        <a
+          href={
+            problem.problemId != 0
+              ? `https://www.acmicpc.net/problem/${problem.problemId}`
+              : ''
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <CardContent>
+            <TitleWrapper>
+              <Title>
+                오늘의 랜덤 문제
+                <p> +{problem.point} P</p>
+                {loginUser.claim === user.bojHandle &&
+                  problem.problemId != 0 &&
+                  !problem.isTodayRandomSolved && (
+                    <BiRefresh size="21" onClick={onClickRefreshButton} />
+                  )}
+              </Title>
+              <TagSwitchWrapper>
+                <span>Tags</span>
+                <Switch
+                  onChange={onClickTagButton}
+                  checked={showTags}
+                  checkedIcon={false}
+                  uncheckedIcon={false}
+                  width={40}
+                  height={20}
+                  onColor="#3362c5"
+                  offColor="#d2d2d2"
+                  disabled={problem.problemId == 0}
+                />
+              </TagSwitchWrapper>
+            </TitleWrapper>
+            <ProblemTitle>
+              {problem.level && (
+                <CommonTierImg
+                  src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
+                  width="20"
+                  height="20"
+                />
+              )}
+              <p>
+                {problem.problemId}번 : {problem.titleKo}
+              </p>
+            </ProblemTitle>
+            <ProblemWrapper>
+              <TagWrapper>
+                {problem.tags &&
+                  showTags &&
+                  problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
+              </TagWrapper>
+              <SolvedIcon solved={problem.isTodayRandomSolved} />
+            </ProblemWrapper>
+          </CardContent>
+        </a>
+      )}
       <Modal
         show={showRefreshModal}
         onCloseModal={() => {
