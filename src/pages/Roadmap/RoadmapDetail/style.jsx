@@ -1,16 +1,11 @@
 import styled from '@emotion/styled';
 import { IoArrowBackSharp } from 'react-icons/io5';
 
-export const TitleDiv = styled.div`
+export const TopWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  > div {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-  }
   > button {
     flex-shrink: 0;
     padding: 11px 20px;
@@ -76,4 +71,21 @@ export const ProblemList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+`;
+
+export const TitleDiv = styled.div`
+  display: inline-flex;
+  gap: 18px;
+  align-items: center;
+  cursor: pointer;
+  > div {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    > div {
+      color: #5d5d5d;
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
 `;

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { ROADMAP_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import {
+  TopWrapper,
   TitleDiv,
   BackButton,
   Container,
@@ -17,6 +18,9 @@ import { CommonTitle } from 'style/commonStyle';
 import ProgressBar from 'components/ProgressBar';
 import { isEmpty } from 'lodash';
 import ProblemCard from './ProblemCard';
+import { deleteRoadmap } from 'api/roadmap';
+import { toast } from 'react-toastify';
+import CreateRoadmapPopup from '../CreateRoadmapPopup';
 
 /**
  * 로드맵 상세 페이지
@@ -28,6 +32,11 @@ function RoadmapDetail() {
 
   const { data: roadmapInfo } = useSWR(
     `${ROADMAP_PREFIX_URL}/search/?roadmapId=${id}`,
+    fetcher,
+  );
+
+  const { mutate: mutateRoadmapList } = useSWR(
+    `${ROADMAP_PREFIX_URL}/search/all`,
     fetcher,
   );
 
@@ -79,6 +88,26 @@ function RoadmapDetail() {
     setPercentage(progressInfo[idx].progress);
   }, [progressInfo]);
 
+  // 수정 삭제 버튼 보이기 여부
+  const [hovering, setHovering] = useState(false);
+  // 로드맵 삭제
+  const deleteRoadmapProc = useCallback(() => {
+    const isAgree = confirm('로드맵을 삭제하시겠습니까?');
+    if (!isAgree) return;
+    deleteRoadmap(id)
+      .then(() => {
+        toast.success('로드맵이 삭제되었습니다.');
+        mutateRoadmapList();
+        navigate('/roadmap');
+      })
+      .catch((e) => {
+        conosle.error(e);
+      });
+  }, []);
+
+  // 로드맵 수정
+  const [showUpdatePopup, setShowUpdatePopup] = useState(false);
+
   if (!roadmapInfo) return null;
 
   return (
@@ -89,10 +118,25 @@ function RoadmapDetail() {
           navigate(-1);
         }}
       />
-      <TitleDiv>
-        <div>
+      <TopWrapper>
+        <TitleDiv
+          onMouseOver={() => setHovering(true)}
+          onMouseOut={() => setHovering(false)}
+        >
           <CommonTitle>{roadmapInfo.name}</CommonTitle>
-        </div>
+          {hovering && (
+            <div>
+              <div
+                onClick={() => {
+                  setShowUpdatePopup(true);
+                }}
+              >
+                수정
+              </div>
+              <div onClick={deleteRoadmapProc}>삭제</div>
+            </div>
+          )}
+        </TitleDiv>
         <button
           onClick={() => {
             navigate(`/roadmap/problem/${id}`);
@@ -100,7 +144,7 @@ function RoadmapDetail() {
         >
           로드맵 수정
         </button>
-      </TitleDiv>
+      </TopWrapper>
       <ProgressBarWrapper>
         {percentage !== 0 && <ProgressBar percentage={percentage} />}
       </ProgressBarWrapper>
@@ -129,6 +173,13 @@ function RoadmapDetail() {
           </ProblemList>
         )}
       </ContentDiv>
+      <CreateRoadmapPopup
+        show={showUpdatePopup}
+        onClose={() => {
+          setShowUpdatePopup(false);
+        }}
+        roadmapInfo={roadmapInfo}
+      />
     </Container>
   );
 }
