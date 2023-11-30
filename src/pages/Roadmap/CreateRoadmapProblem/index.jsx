@@ -98,9 +98,7 @@ function CreateRoadmapProblem() {
       if (problemInfo[problemIdx].problemList.length == 1) {
         for (let i = problemIdx + 1; i < problemInfo.length; i++) {
           if (problemInfo[i].problemList.length > 0) {
-            toast.error(
-              '빈 주차는 존재할 수 없습니다. 이후 주차의 문제 먼저 삭제해주세요.',
-            );
+            toast.error('중간에 빈 주차는 존재할 수 없습니다.');
             return;
           }
         }
