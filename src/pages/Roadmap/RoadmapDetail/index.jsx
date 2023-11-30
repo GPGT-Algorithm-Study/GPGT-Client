@@ -142,7 +142,7 @@ function RoadmapDetail() {
             navigate(`/roadmap/problem/${id}`);
           }}
         >
-          로드맵 수정
+          로드맵 편집
         </button>
       </TopWrapper>
       <ProgressBarWrapper>

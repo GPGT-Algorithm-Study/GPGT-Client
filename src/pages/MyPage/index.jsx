@@ -11,6 +11,7 @@ import UserBoard from './UserBoard';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import useSWR from 'swr';
+import RoadmapCard from './RoadmapCard';
 
 /**
  * 마이페이지 화면
@@ -48,6 +49,7 @@ function MyPage() {
         {!isBlocked && <RandomCard />}
         <PointLogCard totalPoint={userInfo.point} />
         <WarningLogCard totalWarning={userInfo.warning} />
+        <RoadmapCard />
         <UserBoard />
       </Content>
     </div>
