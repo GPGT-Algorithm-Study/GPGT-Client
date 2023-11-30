@@ -28,6 +28,13 @@ export const RankInfo = styled.div`
 
 export const RankNumber = styled.div`
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   margin-right: 15px;
+`;
+
+export const TopThreeWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
 `;

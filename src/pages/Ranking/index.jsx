@@ -5,9 +5,10 @@ import {
   CommonProfileImage,
   CommonTitle,
 } from 'style/commonStyle';
-import { Card, RankInfo, RankNumber } from './style';
+import { Card, RankInfo, RankNumber, TopThreeWrapper } from './style';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
+import TopThreeCard from './TopThreeCard';
 
 function Ranking() {
   const { data: rankingList } = useSWR(
@@ -22,28 +23,35 @@ function Ranking() {
         <LeftTime />
       </CommonFlexWrapper>
       {rankingList && (
-        <Card>
-          {rankingList.slice(3).map((user, i) => (
-            <RankInfo>
-              <div>
-                <RankNumber>{i + 3}</RankNumber>
-                <CommonProfileImage
-                  width={40}
-                  height={40}
-                  src={
-                    user.profileImg != 'null'
-                      ? user.profileImg
-                      : 'https://static.solved.ac/misc/360x360/default_profile.png'
-                  }
-                />
+        <>
+          <TopThreeWrapper>
+            {rankingList.slice(0, 3).map((user, i) => (
+              <TopThreeCard user={user} rank={i + 1} />
+            ))}
+          </TopThreeWrapper>
+          <Card>
+            {rankingList.slice(3).map((user, i) => (
+              <RankInfo>
                 <div>
-                  {user.notionId}&nbsp;{user.emoji}
+                  <RankNumber>{i + 3}</RankNumber>
+                  <CommonProfileImage
+                    width={40}
+                    height={40}
+                    src={
+                      user.profileImg != 'null'
+                        ? user.profileImg
+                        : 'https://static.solved.ac/misc/360x360/default_profile.png'
+                    }
+                  />
+                  <div>
+                    {user.notionId}&nbsp;{user.emoji}
+                  </div>
                 </div>
-              </div>
-              <span>{user.totalSolved}문제 해결</span>
-            </RankInfo>
-          ))}
-        </Card>
+                <span>{user.totalSolved}문제 해결</span>
+              </RankInfo>
+            ))}
+          </Card>
+        </>
       )}
     </div>
   );
