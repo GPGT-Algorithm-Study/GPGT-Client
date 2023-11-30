@@ -40,7 +40,7 @@ function RefreshModalContent({ onCloseModal, changePoint }) {
   return (
     <Container>
       <div>
-        <b>COST </b>
+        <b>{COST}</b>
         <span>P</span> 를 사용하여 오늘의 랜덤 문제를 다시 추천 받을 수
         있습니다. <br />
         진행하시겠습니까?
