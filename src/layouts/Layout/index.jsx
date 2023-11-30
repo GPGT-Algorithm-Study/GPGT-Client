@@ -78,17 +78,17 @@ function Layout({ children }) {
       icon: <BsBarChartFill size="18" />,
       route: '/statistics',
     },
-    roadmap: {
-      id: 4,
-      name: '로드맵',
-      icon: <FaMap size="18" />,
-      route: '/roadmap',
-    },
     ranking: {
-      id: 5,
+      id: 4,
       name: '랭킹',
       icon: <FaMedal size="18" />,
       route: 'ranking',
+    },
+    roadmap: {
+      id: 5,
+      name: '로드맵',
+      icon: <FaMap size="18" />,
+      route: '/roadmap',
     },
     board: {
       id: 6,
