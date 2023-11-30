@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
-  @media all and (max-width: 1440px) and (min-width: 784px) {
+  @media all and (min-width: 784px) {
     width: calc(33% - 10px);
   }
   @media all and (max-width: 784px) {
