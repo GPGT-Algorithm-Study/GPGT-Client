@@ -33,8 +33,10 @@ function CreateRoadmapPopup({ show, onClose, roadmapInfo }) {
     setEditMode(isEdit);
     if (isEdit) {
       setName(roadmapInfo.name);
+    } else {
+      setName('');
     }
-  }, [editMode]);
+  }, [roadmapInfo, show]);
 
   const addRoadmap = useCallback(async () => {
     try {
@@ -61,7 +63,12 @@ function CreateRoadmapPopup({ show, onClose, roadmapInfo }) {
   }, [name]);
 
   return (
-    <Modal show={show} onCloseModal={onClose}>
+    <Modal
+      show={show}
+      onCloseModal={() => {
+        onClose();
+      }}
+    >
       <Title>
         <h2>로드맵 {editMode ? '수정' : '생성'}</h2>
       </Title>
