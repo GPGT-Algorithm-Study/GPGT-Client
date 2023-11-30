@@ -5,7 +5,7 @@ import { PRB_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import { CommonTierImg } from 'style/commonStyle';
 
-function ProbelmCard({ problemInfo, deleteProblem }) {
+function ProbelmCard({ problemInfo, deleteProblem, order }) {
   const { data: problem } = useSWR(
     `${PRB_PREFIX_URL}/find?problemId=${problemInfo.problemId}`,
     fetcher,
@@ -16,7 +16,7 @@ function ProbelmCard({ problemInfo, deleteProblem }) {
       {problem && (
         <Container>
           <ProblemDiv>
-            <span>{problemInfo.index}</span>
+            <span>{order}</span>
             <CommonTierImg
               src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
               width="20"

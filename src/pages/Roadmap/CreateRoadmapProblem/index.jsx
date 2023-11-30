@@ -14,9 +14,10 @@ import {
 import { CommonTitle } from 'style/commonStyle';
 import { toast } from 'react-toastify';
 import ProblemCard from './ProblemCard';
-import { isEmpty } from 'lodash';
+import { isEmpty, cloneDeep } from 'lodash';
 import { getProblemInfo } from 'api/problem';
 import { createRoadmapProblem, deleteRoadmapProblem } from 'api/roadmap';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 /**
  * 로드맵 문제 편집 페이지
@@ -93,10 +94,10 @@ function CreateRoadmapProblem() {
 
   // 문제 삭제
   const deleteProblem = useCallback(
-    async (week, id) => {
-      if (problemInfo[week - 1].problemList.length == 1) {
-        for (let w = week; w < problemInfo.length; w++) {
-          if (problemInfo[w].problemList.length > 0) {
+    async (problemIdx, id) => {
+      if (problemInfo[problemIdx].problemList.length == 1) {
+        for (let i = problemIdx + 1; i < problemInfo.length; i++) {
+          if (problemInfo[i].problemList.length > 0) {
             toast.error(
               '빈 주차는 존재할 수 없습니다. 이후 주차의 문제 먼저 삭제해주세요.',
             );
@@ -115,6 +116,19 @@ function CreateRoadmapProblem() {
     [problemInfo],
   );
 
+  // 드래그 앤 드롭으로 순서 변경 TODO: api 연동 필요
+  const onDragEnd = ({ source, destination }, idx) => {
+    if (!destination) return;
+    const newProblemList = [...problemInfo[idx].problemList];
+    // 기존 아이템을 새로운 위치에 삽입
+    const [targetItem] = newProblemList.splice(source.index, 1);
+    newProblemList.splice(destination.index, 0, targetItem);
+    setProblemInfo((prev) => {
+      const newProblemInfo = cloneDeep(prev);
+      newProblemInfo[idx].problemList = [...newProblemList];
+      return newProblemInfo;
+    });
+  };
   if (!roadmapInfo) return null;
 
   return (
@@ -127,7 +141,7 @@ function CreateRoadmapProblem() {
       />
       <CommonTitle>[{roadmapInfo.name}] 문제 설정</CommonTitle>
       <ContentDiv>
-        {problemInfo.map((week) => (
+        {problemInfo.map((week, problemIdx) => (
           <WeekInfo key={week.week}>
             <label>{week.week}주차</label>
             <ProblemList>
@@ -147,15 +161,45 @@ function CreateRoadmapProblem() {
                 />
                 <button>추가</button>
               </form>
-              {week.problemList.map((problem) => (
-                <ProblemCard
-                  key={problem.id}
-                  problemInfo={problem}
-                  deleteProblem={() => {
-                    deleteProblem(week.week, problem.id);
-                  }}
-                />
-              ))}
+              <DragDropContext
+                onDragEnd={(params) => {
+                  onDragEnd(params, problemIdx);
+                }}
+              >
+                <Droppable droppableId="droppable">
+                  {(provided) => (
+                    <ProblemList
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {week.problemList.map((problem, i) => (
+                        <Draggable
+                          key={problem.id}
+                          draggableId={problem.id.toString()}
+                          index={i}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <ProblemCard
+                                order={i + 1}
+                                problemInfo={problem}
+                                deleteProblem={() => {
+                                  deleteProblem(problemIdx, problem.id);
+                                }}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </ProblemList>
+                  )}
+                </Droppable>
+              </DragDropContext>
             </ProblemList>
           </WeekInfo>
         ))}
