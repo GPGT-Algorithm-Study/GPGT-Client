@@ -3,6 +3,7 @@ import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   padding: 20px;
+  overflow: auto;
 `;
 
 export const ProfileWrapper = styled.div`
@@ -65,4 +66,27 @@ export const Button = styled.div`
   background-color: var(--color-background);
   padding: 7px 12px 7px 12px;
   border-radius: 50px;
+`;
+
+export const UpdateButton = styled.div`
+  align-self: flex-end;
+  color: var(--color-textgrey);
+  background-color: var(--color-background);
+  padding: 9px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-top: -30px;
+  .loading {
+    animation: rotate_image 1.5s linear infinite;
+    transform-origin: 50% 50%;
+    @keyframes rotate_image {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
 `;
