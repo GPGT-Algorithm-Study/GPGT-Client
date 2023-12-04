@@ -11,6 +11,7 @@ import UserBoard from './UserBoard';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import useSWR from 'swr';
+import RandomProblemCard from 'pages/Users/RandomProblemCard';
 
 /**
  * 마이페이지 화면
@@ -22,7 +23,7 @@ function MyPage() {
     fetcher,
   );
   const [isUser, setIsUser] = useState(false);
-  const { data: userInfo } = useSWR(
+  const { data: userInfo, mutate: mutateUserInfo } = useSWR(
     `${USER_PREFIX_URL}/info?bojHandle=${bojHandle}`,
     fetcher,
   );
@@ -44,8 +45,9 @@ function MyPage() {
     <div>
       <Content>
         <MyInfoCard userInfo={userInfo} isUser={isUser} />
-        {!isBlocked && <MyItemCard />}
+        <RandomProblemCard user={userInfo} changePoint={mutateUserInfo} />
         {!isBlocked && <RandomCard />}
+        {!isBlocked && <MyItemCard />}
         <PointLogCard totalPoint={userInfo.point} />
         <WarningLogCard totalWarning={userInfo.warning} />
         <UserBoard />

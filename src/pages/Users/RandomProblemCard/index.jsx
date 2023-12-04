@@ -25,7 +25,7 @@ import fetcher from 'utils/fetcher';
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트
  */
-function RandomProblemCard({ user, changePoint }) {
+function RandomProblemCard({ user, changePoint, background }) {
   const [showTags, setShowTags] = useState(false);
   const [problem, setProblem] = useState({});
   const [showRefreshModal, setShowRefreshModal] = useState(false);
@@ -75,7 +75,7 @@ function RandomProblemCard({ user, changePoint }) {
   if (!randomProblem || !loginUser) return null;
 
   return (
-    <Card>
+    <Card background={background}>
       {problem.problemId == 0 ? (
         <div>
           <NoRandomProblem>
