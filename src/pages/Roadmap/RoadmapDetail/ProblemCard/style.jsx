@@ -37,10 +37,28 @@ export const ProblemIdDiv = styled.div`
   color: #676767;
   font-size: 15px;
   font-weight: 600;
+  width: 100%;
 `;
 
 export const ProblemTitle = styled.div`
   font-size: 18px;
   font-weight: 700;
   margin-top: 15px;
+`;
+
+export const SolvedIconWrapper = styled.div`
+  flex-grow: 1;
+  text-align: end;
+`;
+
+export const ProblemWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+export const BottomWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
 `;

@@ -127,6 +127,7 @@ function CreateRoadmapProblem() {
       return newProblemInfo;
     });
   };
+
   if (!roadmapInfo) return null;
 
   return (

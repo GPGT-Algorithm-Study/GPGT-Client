@@ -1,14 +1,27 @@
 import React from 'react';
-import { Card, ProblemIdDiv, ProblemTitle } from './style';
+import {
+  Card,
+  ProblemIdDiv,
+  ProblemTitle,
+  SolvedIconWrapper,
+  BottomWrapper,
+} from './style';
 import useSWR from 'swr';
-import { PRB_PREFIX_URL } from 'utils/constants';
+import { PRB_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import { TagWrapper } from '../../RoadmapCard/style';
 import { CommonTierImg } from 'style/commonStyle';
+import SolvedIcon from 'components/SolvedIcon';
 
 function ProbelmCard({ problemInfo }) {
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
   const { data: problem } = useSWR(
-    `${PRB_PREFIX_URL}/find?problemId=${problemInfo.problemId}`,
+    loginUser
+      ? `${PRB_PREFIX_URL}/user/find?bojHandle=${loginUser.claim}&problemId=${problemInfo.problemId}`
+      : null,
     fetcher,
   );
 
@@ -30,15 +43,19 @@ function ProbelmCard({ problemInfo }) {
                 width="20"
                 height="20"
               />
-              {problem.problemId}번
             </ProblemIdDiv>
             <ProblemTitle>{problem.titleKo}</ProblemTitle>
           </div>
-          <TagWrapper>
-            {problem.tags.map((tag, i) => (
-              <div key={i}>#{tag} </div>
-            ))}
-          </TagWrapper>
+          <BottomWrapper>
+            <TagWrapper>
+              {problem.tags.map((tag, i) => (
+                <div key={i}>#{tag} </div>
+              ))}
+            </TagWrapper>
+            <SolvedIconWrapper>
+              <SolvedIcon solved={problem.isSolved} />
+            </SolvedIconWrapper>
+          </BottomWrapper>
         </>
       )}
     </Card>
