@@ -152,9 +152,9 @@ function MyInfoCard({ userInfo, isUser }) {
         {randomStreak && (
           <Streak
             randomStreak={randomStreak}
-            maxStreak={366}
+            maxStreak={365}
             line={5}
-            width={1440}
+            width={1470}
             height={110}
           />
         )}
