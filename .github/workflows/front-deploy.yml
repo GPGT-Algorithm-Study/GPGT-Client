@@ -20,13 +20,17 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with: 
-          node-version: ${{ matrix.node-version }} 
+          node-version: ${{ matrix.node-version }}
       - name: web docker build and push
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/randps-front .
+          docker build --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/randps-front -f ./Dockerfile .
           docker push ${{ secrets.DOCKER_USERNAME }}/randps-front
-          
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Get Github Actions IP
         id: ip
         uses: haythem/public-ip@v1.2

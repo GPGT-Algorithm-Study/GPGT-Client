@@ -28,7 +28,7 @@ import { BsBarChartFill } from 'react-icons/bs';
 import { FiLogOut } from 'react-icons/fi';
 import { LuSwords } from 'react-icons/lu';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { FaClipboardList } from 'react-icons/fa';
+import { FaClipboardList, FaMap } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { userLogout } from 'api/user';
 import { logoutProc } from 'utils/auth';
@@ -38,6 +38,7 @@ import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import { EVT_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 import { IoArrowBackOutline } from 'react-icons/io5';
+import { FaMedal } from 'react-icons/fa6';
 
 function Layout({ children }) {
   const [showStoreModal, setShowStoreModal] = useState(false);
@@ -77,8 +78,20 @@ function Layout({ children }) {
       icon: <BsBarChartFill size="18" />,
       route: '/statistics',
     },
-    board: {
+    ranking: {
       id: 4,
+      name: '랭킹',
+      icon: <FaMedal size="18" />,
+      route: 'ranking',
+    },
+    roadmap: {
+      id: 5,
+      name: '로드맵',
+      icon: <FaMap size="18" />,
+      route: '/roadmap',
+    },
+    board: {
+      id: 6,
       name: '게시판',
       icon: <FaClipboardList size="18" />,
       route: '/board',
@@ -92,7 +105,7 @@ function Layout({ children }) {
       setTabs((prev) => ({
         ...prev,
         admin: {
-          id: 5,
+          id: 7,
           name: '관리자',
           icon: <AiFillSetting size="18" />,
           route: '/admin',

@@ -13,3 +13,4 @@ export const ITEM_PREFIX_URL = '/api/v1/item';
 export const EVT_PREFIX_URL = '/api/v1/event';
 export const CMT_PREFIX_URL = '/api/v1/comment';
 export const BRD_PREFIX_URL = '/api/v1/board';
+export const ROADMAP_PREFIX_URL = '/api/v1/roadmap';

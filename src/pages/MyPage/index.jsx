@@ -11,6 +11,7 @@ import UserBoard from './UserBoard';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import useSWR from 'swr';
+import RoadmapCard from './RoadmapCard';
 import RandomProblemCard from 'pages/Users/RandomProblemCard';
 
 /**
@@ -50,6 +51,7 @@ function MyPage() {
         {!isBlocked && <MyItemCard />}
         <PointLogCard totalPoint={userInfo.point} />
         <WarningLogCard totalWarning={userInfo.warning} />
+        <RoadmapCard />
         <UserBoard />
       </Content>
     </div>

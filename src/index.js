@@ -5,7 +5,7 @@ import App from './App';
 import { logoutProc } from 'utils/auth';
 
 // axios설정
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 axios.interceptors.response.use(
   (response) => {
     return response;
