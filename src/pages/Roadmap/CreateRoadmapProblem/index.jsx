@@ -160,6 +160,34 @@ function CreateRoadmapProblem() {
                 />
                 <button>추가</button>
               </form>
+              {week.problemList.map((problem, i) => (
+                <ProblemCard
+                  key={i}
+                  order={i + 1}
+                  problemInfo={problem}
+                  deleteProblem={() => {
+                    deleteProblem(problemIdx, problem.id);
+                  }}
+                />
+              ))}
+            </ProblemList>
+            {/* <ProblemList>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const index = week.problemList.length + 1;
+                  addProblem(week.week, index);
+                }}
+              >
+                <input
+                  placeholder="문제 번호를 입력해주세요."
+                  value={inputProblemId.week}
+                  onChange={(e) => {
+                    onChangeProblemId(e, week.week);
+                  }}
+                />
+                <button>추가</button>
+              </form>
               <DragDropContext
                 onDragEnd={(params) => {
                   onDragEnd(params, problemIdx);
@@ -199,7 +227,7 @@ function CreateRoadmapProblem() {
                   )}
                 </Droppable>
               </DragDropContext>
-            </ProblemList>
+            </ProblemList> */}
           </WeekInfo>
         ))}
       </ContentDiv>
