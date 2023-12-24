@@ -33,7 +33,7 @@ function Ranking() {
             {rankingList.slice(3).map((user, i) => (
               <RankInfo>
                 <div>
-                  <RankNumber>{i + 3}</RankNumber>
+                  <RankNumber>{i + 4}</RankNumber>
                   <CommonProfileImage
                     width={40}
                     height={40}
