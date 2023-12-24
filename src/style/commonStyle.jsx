@@ -31,7 +31,7 @@ export const CommonTierImg = styled.img`
 export const CommonTitle = styled.div`
   font-weight: bold;
   font-size: 21px;
-  margin: 0 0 5px 6px;
+  margin: 0 0 0 6px;
 `;
 
 export const CommonFlexWrapper = styled.div`
