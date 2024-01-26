@@ -1,5 +1,4 @@
-# 알고리즘 스터디 GPGT 내부 사이트 [Randps](https://randps.kr) <img src="https://github.com/klloo/react-randps-client/assets/53117014/7f72440b-af19-4d8a-a92c-35b836e2cd55">
-
+# 알고리즘 스터디 GPGT 내부 사이트 [Randps](https://randps.kr)
 **백준 온라인 저지와 solved.ac를 활용한 알고리즘 스터디의 운영 효율성 증대를 위해 제작한 웹서비스 클라이언트**
 
 ### 사용 기술
