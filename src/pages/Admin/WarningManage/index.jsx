@@ -6,6 +6,8 @@ import {
   UserItem,
   Button,
   Content,
+  ReasonInputWrapper,
+  ReasonSelectWrapper,
 } from './style';
 import { postUserWarning } from 'api/log';
 import { toast } from 'react-toastify';
@@ -154,7 +156,31 @@ function WarningManage() {
       </VerticalUserListWrapper>
       <div align="center">
         <form onSubmit={onSubmit}>
-          <input
+          <ReasonSelectWrapper
+            value="select"
+            onChange={(e) => {
+              setReason(e.target.value);
+            }}
+          >
+            <option value="select" disabled hidden>
+              사유 선택..
+            </option>
+            {isPlusMode === true && (
+              <>
+                <option value="주 노션 5일 미만 작성">
+                  • 주 노션 5일 미만 작성
+                </option>
+                <option value="스트릭 break">• 스트릭 break</option>
+              </>
+            )}
+            {isPlusMode === false && (
+              <>
+                <option value="스트릭 프리즈 사용">• 스트릭 프리즈 사용</option>
+              </>
+            )}
+            <option value="">• 직접 입력하기</option>
+          </ReasonSelectWrapper>
+          <ReasonInputWrapper
             type="text"
             placeholder={
               isPlusMode ? '경고 부여 사유 입력...' : '경고 차감 사유 입력...'
@@ -162,8 +188,8 @@ function WarningManage() {
             name="reason"
             value={reason}
             onChange={onChange}
-            style={{ width: '100%', height: '30px', marginBottom: '10px' }}
-          ></input>
+          />
+
           <Button
             onClick={onSubmit}
             style={{
