@@ -1,8 +1,7 @@
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import { isEmpty } from 'lodash';
-import { refreshToken, parseBoj } from 'api/user';
-import { logout, setUser } from 'redux/user';
+import { refreshToken } from 'api/user';
 
 const JWT_EXPIRY_TIME = 60 * 1000; // 만료 시간: 1분
 const cookies = new Cookies();
@@ -15,7 +14,7 @@ export function getRefreshTokenToCookie() {
   return cookies.get('refresh_token');
 }
 
-export function getHeaderRefreshTokenConfing() {
+export function getHeaderRefreshTokenConfig() {
   const token = getRefreshTokenToCookie();
   if (isEmpty(token)) return null;
   return {
@@ -25,19 +24,7 @@ export function getHeaderRefreshTokenConfing() {
   };
 }
 
-export function getUserBojHandle(dispatch) {
-  const refreshConfig = getHeaderRefreshTokenConfing();
-  parseBoj(refreshConfig)
-    .then((response) => {
-      const { claim, manager } = response.data;
-      dispatch(setUser({ bojHandle: claim, isAdmin: manager }));
-    })
-    .catch((e) => {
-      logoutProc(dispatch);
-    });
-}
-
-export function onSilentRefresh(dispatch) {
+export function onSilentRefresh(setToken) {
   const token = getRefreshTokenToCookie();
   if (isEmpty(token)) return null;
   const refreshConfig = {
@@ -52,30 +39,29 @@ export function onSilentRefresh(dispatch) {
       const { accessToken } = data;
       // 재발급 실패 시 로그아웃 처리
       if (isEmpty(accessToken)) {
-        logoutProc(dispatch);
+        logoutProc();
         return;
       }
+      if (setToken) {
+        setToken(accessToken);
+      }
       axios.defaults.headers.common['Access_Token'] = accessToken;
-      // 재발급 성공 시 refresh_token으로 사용자 정보를 다시 가져온다.
-      getUserBojHandle(dispatch);
       setTimeout(() => {
-        onSilentRefresh(dispatch);
+        onSilentRefresh();
       }, JWT_EXPIRY_TIME - 3000);
     })
     .catch((e) => {
-      logoutProc(dispatch);
+      logoutProc();
     });
 }
 
 /**
  * 로그아웃 한다.
  * 1. 쿠키에 설정된 리프레시 토큰 삭제
- * 2. redux에 저장된 사용자 정보 삭제
- * 3. axios 헤더에 설정해둔 access 토큰 삭제
+ * 2. axios 헤더에 설정해둔 access 토큰 삭제
  */
-export function logoutProc(dispatch) {
+export function logoutProc() {
   cookies.remove('refresh_token');
-  if (dispatch) dispatch(logout());
-  axios.defaults.headers.common['Access_Token'] = '.';
+  axios.defaults.headers.common['Access_Token'] = '';
   window.location.href = '/login';
 }

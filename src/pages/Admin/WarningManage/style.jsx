@@ -119,7 +119,6 @@ export const UserItem = styled.div`
 export const Button = styled(CommonButton)`
   text-align: center;
   color: white;
-  font-size: 1px;
   font-weight: hard;
 `;
 

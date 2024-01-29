@@ -8,34 +8,71 @@ import {
   ButtonWrapper,
   UserInfo,
   Button,
+  UpdateButton,
 } from './style';
 import { CommonTierImg } from 'style/commonStyle';
-import { WarningMsg, ProfileImage } from 'pages/Users/UserCard/style';
+import {
+  WarningMsg,
+  ProfileImage,
+  RandomStreakInfo,
+  MaxStreak,
+} from 'pages/Users/UserCard/style';
 import { userLogout } from 'api/user';
-import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
-import { useDispatch } from 'react-redux';
+import { getHeaderRefreshTokenConfig, logoutProc } from 'utils/auth';
 import PasswordChangeModal from './PasswordChangeModal';
+import { HiOutlineRefresh } from 'react-icons/hi';
+import { scrapUserInfo } from 'api/scraping';
+import { toast } from 'react-toastify';
+import useSWR from 'swr';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
+import Streak from 'components/Streak';
+import { Tooltip } from 'react-tooltip';
 
 /**
  * 마이페이지 내 정보 카드
  */
 function MyInfoCard({ userInfo, isUser }) {
-  const dispatch = useDispatch();
+  // 유저의 스트릭 잔디 정보
+  const { data: randomStreak } = useSWR(
+    `${USER_PREFIX_URL}/streak/grass?bojHandle=${userInfo.bojHandle}`,
+    fetcher,
+  );
 
   const [showPwChangeModal, setShowPwChangeModal] = useState(false);
 
   const onClickLogout = useCallback(() => {
     const params = { bojHandle: userInfo.bojHandle };
-    const config = getHeaderRefreshTokenConfing();
+    const config = getHeaderRefreshTokenConfig();
     userLogout(params, config)
-      .then((response) => {
+      .then(() => {
         // 로그아웃 처리
-        logoutProc(dispatch);
+        logoutProc();
       })
       .catch((e) => {
         throw new Error(e);
       });
-  }, []);
+  }, [userInfo]);
+
+  const [refreshing, setRefreshing] = useState(false);
+  const refreshUserInfo = useCallback(() => {
+    if (refreshing) return;
+    setRefreshing(true);
+    scrapUserInfo(userInfo.bojHandle)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success('사용자 정보가 업데이트 되었습니다.');
+        }
+      })
+      .catch((e) => {
+        if (e.response.status === 425) {
+          toast.error(e.response.data.message);
+        }
+      })
+      .finally(() => {
+        setRefreshing(false);
+      });
+  }, [userInfo]);
 
   return (
     <Card>
@@ -86,6 +123,45 @@ function MyInfoCard({ userInfo, isUser }) {
           />
         </UserInfo>
       </ProfileWrapper>
+      {isUser && (
+        <>
+          <UpdateButton
+            onClick={refreshUserInfo}
+            data-tooltip-id="info-tooltip"
+          >
+            <HiOutlineRefresh
+              size="21"
+              className={refreshing ? 'loading' : ''}
+            />
+          </UpdateButton>
+          <Tooltip
+            id="info-tooltip"
+            place="top"
+            content={
+              <div style={{ lineHeight: '1.5' }}>
+                20분에 한 번만 업데이트 할 수 있습니다.
+              </div>
+            }
+          />
+        </>
+      )}
+      <RandomStreakInfo>
+        <div>
+          Random Streak <span>{userInfo.currentRandomStreak}</span> days
+        </div>
+        {randomStreak && (
+          <Streak
+            randomStreak={randomStreak}
+            maxStreak={365}
+            line={5}
+            width={1470}
+            height={110}
+          />
+        )}
+        <MaxStreak>
+          최장<span> {userInfo.maxRandomStreak}</span>일
+        </MaxStreak>
+      </RandomStreakInfo>
       <PasswordChangeModal
         showModal={showPwChangeModal}
         closeModal={() => {

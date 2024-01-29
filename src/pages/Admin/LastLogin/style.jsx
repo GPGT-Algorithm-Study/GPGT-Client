@@ -62,5 +62,7 @@ export const ScrollButton = styled.button`
 `;
 
 export const LastLoginDate = styled.div`
-  font-size: 1px;
+  font-size: 12px;
+  white-space: pre-line;
+  text-align: center;
 `;

@@ -6,7 +6,7 @@ export const CardWrapper = styled.div`
   flex-direction: column;
   padding-bottom: 20px;
   @media all and (min-width: 1440px) {
-    width: calc(25% - 1px);
+    width: calc(33% - 1px);
   }
 
   @media all and (min-width: 1180px) and (max-width: 1440px) {

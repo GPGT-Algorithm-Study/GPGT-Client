@@ -16,33 +16,45 @@ import {
   InputWrapper,
 } from './style';
 import { isEmpty } from 'lodash';
-import useFetch from 'hooks/useFetch';
-import { getUserItems, useItem } from 'api/item';
+import { useItem } from 'api/item';
 import ItemIcon from 'components/ItemIcon';
 import { toast } from 'react-toastify';
 import Modal from 'layouts/Modal';
-import { useSelector, useDispatch } from 'react-redux';
-import { setIsBuyItem, setIsUseItem } from 'redux/item';
+import { useParams } from 'react-router-dom';
+import fetcher from 'utils/fetcher';
+import useSWR from 'swr';
+import { ITEM_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 
 /**
  * 마이페이지 보유 아이템 카드
  */
-function MyItemCard({ userInfo, fetchUserInfo, isUser }) {
-  const [items, fetchItems] = useFetch(getUserItems, [], {
-    bojHandle: userInfo.bojHandle,
-  });
+function MyItemCard() {
+  // 사용자 정보
+  const { bojHandle } = useParams();
+  const { data: userInfo, mutate: mutateUserInfo } = useSWR(
+    `${USER_PREFIX_URL}/info?bojHandle=${bojHandle}`,
+    fetcher,
+  );
+  // 로그인한 사용자 여부
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
+  const [isUser, setIsUser] = useState(false);
+  useEffect(() => {
+    if (!loginUser) return;
+    setIsUser(loginUser.claim === bojHandle);
+  }, [loginUser]);
+
+  const { data: items, mutate: mutateUserItem } = useSWR(
+    `${ITEM_PREFIX_URL}/user?bojHandle=${bojHandle}`,
+    fetcher,
+  );
+
   const [showMyComment, setShowMyComment] = useState(false);
   const [comment, setComment] = useState('');
   const [commentError, setCommentError] = useState(false);
   const [commentErrorMsg, setCommentErrorMsg] = useState('');
-  const { isBuyItem } = useSelector((state) => state.item);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!isBuyItem || !isUser) return;
-    fetchItems();
-    dispatch(setIsBuyItem(false));
-  }, [isBuyItem]);
 
   const onCloseModal = useCallback(() => {
     setShowMyComment(false);
@@ -82,9 +94,8 @@ function MyItemCard({ userInfo, fetchUserInfo, isUser }) {
         const { data } = res;
         if (data.code == 200) {
           toast.success('아이템을 사용했습니다.');
-          fetchUserInfo();
-          fetchItems();
-          dispatch(setIsUseItem(true));
+          mutateUserInfo();
+          mutateUserItem();
         } else {
           toast.error('아이템 사용에 실패했습니다.');
         }
@@ -106,6 +117,8 @@ function MyItemCard({ userInfo, fetchUserInfo, isUser }) {
     }
     useItemProc(params);
   }, []);
+
+  if (!items) return null;
 
   return (
     <Card>

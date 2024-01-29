@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { isEmpty } from 'lodash';
+import React, { useEffect, useState } from 'react';
 import GlobalStyle from 'style/globalStyle';
 import Main from './pages/Main';
 import Login from 'pages/Login';
@@ -9,22 +8,21 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PrivateRoute from 'layouts/PrivateRoute';
 import { getRefreshTokenToCookie, onSilentRefresh } from 'utils/auth';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import Admin from 'pages/Admin';
 import Users from 'pages/Users';
 import Teams from 'pages/Teams';
 import Statistics from 'pages/Statistics';
 import Board from 'pages/Board';
-import Write from 'pages/Board/Write';
 import Detail from 'pages/Board/Detail';
+import Roadmap from 'pages/Roadmap';
+import Ranking from 'pages/Ranking';
+import CreateRoadmapProblem from 'pages/Roadmap/CreateRoadmapProblem';
+import RoadmapDetail from 'pages/Roadmap/RoadmapDetail';
 
 function App() {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-
+  const [token, setToken] = useState(null);
   useEffect(() => {
-    onSilentRefresh(dispatch);
+    onSilentRefresh(setToken);
     caches.keys().then((keyList) => {
       return Promise.all(
         keyList.map((key) => {
@@ -35,7 +33,8 @@ function App() {
   }, []);
 
   const refreshToken = getRefreshTokenToCookie();
-  if (isEmpty(user.bojHandle) && !isEmpty(refreshToken)) {
+
+  if (!token && refreshToken) {
     return <></>;
   }
 
@@ -55,6 +54,12 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/statistics" element={<Statistics />} />
+            <Route path="/ranking" element={<Ranking />} />
+            <Route path="/roadmap">
+              <Route index element={<Roadmap />} />
+              <Route path="problem/:id" element={<CreateRoadmapProblem />} />
+              <Route path=":id" element={<RoadmapDetail />} />
+            </Route>
             <Route path="/board">
               <Route index element={<Board />} />
               <Route path=":id" element={<Detail />} />

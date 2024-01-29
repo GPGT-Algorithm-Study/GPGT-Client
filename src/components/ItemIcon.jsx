@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   AiOutlineWarning,
-  AiTwotoneSound,
+  AiFillSound,
   AiOutlineFileText,
 } from 'react-icons/ai';
 import { BsSnow } from 'react-icons/bs';
@@ -17,7 +17,7 @@ function ItemIcon({ itemId, size, color }) {
     return <BsSnow size={size} color={color} />;
   }
   if (itemId == 4) {
-    return <AiTwotoneSound size={size} color={color} />;
+    return <AiFillSound size={size} color={color} />;
   }
   return <div />;
 }

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import useFetch from 'hooks/useFetch';
 import { isEmpty } from 'lodash';
-import { getUserSolvedStat } from 'api/statistics';
 import { Card, ModeButton, ButtonWrapper, Title, TitleWrapper } from './style';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import accessibility from 'highcharts/modules/accessibility';
+import useSWR from 'swr';
+import { STAT_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 accessibility(Highcharts);
 
@@ -18,7 +19,7 @@ function SolvedGraph() {
     { key: 'weekly', name: '주간' },
     { key: 'total', name: '전체' },
   ];
-  const [statData] = useFetch(getUserSolvedStat, {});
+  const { data: statData } = useSWR(`${STAT_PREFIX_URL}/graph/solved`, fetcher);
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState({});
   const [mode, setMode] = useState(modeList[0].key);

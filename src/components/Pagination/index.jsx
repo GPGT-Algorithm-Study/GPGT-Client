@@ -21,7 +21,7 @@ const Pagination = ({ totalPage, limit, page, setPage }) => {
       pageCount = totalPage - start + 1;
     }
     setCurrentPageArray(Array.from({ length: pageCount }, (_, i) => i + start));
-  }, [page]);
+  }, [page, totalPage]);
 
   return (
     <PaginationWrapper>

@@ -12,26 +12,46 @@ import {
 } from './style';
 import Slider from 'rc-slider';
 import { CommonTierImg } from 'style/commonStyle';
-import useFetch from 'hooks/useFetch';
-import { getUserTodayRandomProblem, putUserRandomLevel } from 'api/user';
+import { putUserRandomLevel } from 'api/user';
 import { numToTierStr, tierStrToNum } from 'utils/tier';
 import Switch from 'react-switch';
 import { toast } from 'react-toastify';
+import useSWR from 'swr';
+import { useParams } from 'react-router-dom';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
 
 /**
  * 마이페이지 랜덤 문제 난이도 설정 카드
  */
-function RandomCard({ userInfo, isUser }) {
+function RandomCard() {
   const [startTier, setStartTier] = useState(0);
   const [endTier, setEndTier] = useState(0);
   const [hasLevel, setHasLevel] = useState(false);
   const [tierMarks, setTierMarks] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [isKo, setIsKo] = useState(true);
-  const [randomStreak, fetchRandomStreak] = useFetch(
-    getUserTodayRandomProblem,
-    {},
-    { bojHandle: userInfo.bojHandle },
+
+  // 사용자 정보
+  const { bojHandle } = useParams();
+  const { data: userInfo } = useSWR(
+    `${USER_PREFIX_URL}/info?bojHandle=${bojHandle}`,
+    fetcher,
+  );
+  // 로그인한 사용자 여부
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
+  const [isUser, setIsUser] = useState(false);
+  useEffect(() => {
+    if (!loginUser) return;
+    setIsUser(loginUser.claim === bojHandle);
+  }, [loginUser]);
+
+  const { data: randomStreak, mutate: mutateRandomStreak } = useSWR(
+    `${USER_PREFIX_URL}/streak/streak?bojHandle=${bojHandle}`,
+    fetcher,
   );
 
   useEffect(() => {
@@ -97,7 +117,7 @@ function RandomCard({ userInfo, isUser }) {
             // 에러 처리
             return;
           }
-          fetchRandomStreak();
+          mutateRandomStreak();
           setIsEdit((prev) => !prev);
         })
         .catch((e) => {

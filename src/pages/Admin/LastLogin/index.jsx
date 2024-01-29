@@ -1,6 +1,4 @@
-import { getAllUserLastLogin } from 'api/user';
-import useFetch from 'hooks/useFetch';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Card,
   Content,
@@ -15,9 +13,12 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { CommonProfileImage } from 'style/commonStyle';
 import { format } from 'highcharts';
 import dayjs from 'dayjs';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
+import { USER_PREFIX_URL } from 'utils/constants';
 
 function LastLogin() {
-  const [users] = useFetch(getAllUserLastLogin, []);
+  const { data: users } = useSWR(`${USER_PREFIX_URL}/log/login`, fetcher);
   /*const users = [
     {
       bojHandle: 'asdf016182',
@@ -217,16 +218,22 @@ function LastLogin() {
       lastLoginDate: '2023-10-08T20:18:53',
     },
   ];*/
+  const [sortedUsers, setSortedUsers] = useState([]);
 
-  const sortedUsers = [...users].sort((a, b) => {
-    if (a.lastLoginDate === null || a.lastLoginDate === 'null')
-      a.lastLoginDate = '1999-01-01T00:00:00';
-    if (b.lastLoginDate === null || b.lastLoginDate === 'null')
-      b.lastLoginDate = '1999-01-01T00:00:00';
-    const dateA = new Date(a.lastLoginDate);
-    const dateB = new Date(b.lastLoginDate);
-    return dateB - dateA;
-  });
+  useEffect(() => {
+    if (!users) return;
+    setSortedUsers(
+      [...users].sort((a, b) => {
+        if (a.lastLoginDate === null || a.lastLoginDate === 'null')
+          a.lastLoginDate = '1999-01-01T00:00:00';
+        if (b.lastLoginDate === null || b.lastLoginDate === 'null')
+          b.lastLoginDate = '1999-01-01T00:00:00';
+        const dateA = new Date(a.lastLoginDate);
+        const dateB = new Date(b.lastLoginDate);
+        return dateB - dateA;
+      }),
+    );
+  }, [users]);
 
   const [
     leftArrowHovering,
@@ -240,6 +247,8 @@ function LastLogin() {
     const url = `https://solved.ac/profile/${bojHandle}`;
     window.open(url, '_blank');
   }, []);
+
+  if (!users) return null;
 
   return (
     <Card>
@@ -287,7 +296,6 @@ function LastLogin() {
         <ScrollButton
           onClick={() => {
             handleNextButtonClick('next');
-            console.log(users);
           }}
           onMouseOver={() => setArrowHovering('next', true)}
           onMouseOut={() => setArrowHovering('next', false)}
