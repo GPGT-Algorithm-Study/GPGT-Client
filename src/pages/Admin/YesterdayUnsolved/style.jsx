@@ -55,7 +55,7 @@ export const ScrollButton = styled.button`
   z-index: 999;
   right: ${(props) => (props.type == 'next' ? '0' : '')};
   left: ${(props) => (props.type == 'prev' ? '0' : '')};
-  height: 80px;
+  height: 100px;
   & div {
     color: #b6b6b6;
   }

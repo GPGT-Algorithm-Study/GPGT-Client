@@ -71,7 +71,7 @@ function YesterdayUnsolved() {
           onMouseOut={() => setArrowHovering('prev', false)}
           type="prev"
         >
-          {leftArrowHovering && (
+          {users.length > 0 && leftArrowHovering && (
             <div>
               <FaChevronLeft />
             </div>
@@ -85,7 +85,7 @@ function YesterdayUnsolved() {
           onMouseOut={() => setArrowHovering('next', false)}
           type="next"
         >
-          {rightArrowHovering && (
+          {users.length > 0 && rightArrowHovering && (
             <div>
               <FaChevronRight />
             </div>
