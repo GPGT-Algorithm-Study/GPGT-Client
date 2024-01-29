@@ -1,25 +1,25 @@
 #npm-publish.yml
 
-name: Deploy 
+name: Deploy
 
 on:
   push:
     branches:
-      - deploy 
+      - deploy
 
-jobs: 
+jobs:
   build:
     runs-on: ubuntu-latest
-    
-    strategy: 
-      matrix: 
-        node-version: [20.5.x] 
+
+    strategy:
+      matrix:
+        node-version: [20.5.x]
 
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
-        with: 
+        with:
           node-version: ${{ matrix.node-version }}
       - name: web docker build and push
         run: |
@@ -45,7 +45,7 @@ jobs:
       - name: Add Github Actions IP to Security group
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-          
+
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
