@@ -3,8 +3,10 @@ import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   padding: 20px;
-  height: ${(props) =>
-    props.eventCnt > 10 ? '800px' : `${160.4 + 63.4 * props.eventCnt + 25}px`};
+  /*height: ${(props) =>
+    props.eventCnt > 10
+      ? '800px'
+      : `${160.4 + 63.4 * props.eventCnt + 25}px`};*/
 `;
 
 export const Title = styled.div`
