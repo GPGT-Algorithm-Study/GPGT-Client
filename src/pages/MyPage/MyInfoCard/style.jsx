@@ -85,7 +85,7 @@ export const UpdateButton = styled.div`
     transform-origin: 50% 50%;
     @keyframes rotate_image {
       100% {
-        transform: rotate(360deg);
+        transform: rotate(-360deg);
       }
     }
   }
