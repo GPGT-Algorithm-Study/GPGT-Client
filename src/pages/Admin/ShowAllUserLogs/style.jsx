@@ -37,8 +37,8 @@ export const ModeButton = styled.button`
 `;
 
 export const Value = styled.div`
-  width: 80px;
   font-weight: bold;
+  margin-right: 5px;
 
   color: ${(props) =>
     props.plus
@@ -63,26 +63,43 @@ export const LogWrapper = styled.div`
 
 export const Log = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   margin-bottom: 25px;
   width: 100%;
   text-decoration: ${(props) => (props.state ? '' : 'line-through')};
   text-decoration-color: var(--color-textgrey);
+  flex-direction: column;
+  @media (min-width: 700px) {
+    flex-direction: row;
+  }
+  @media all and (max-width: 700px) {
+    border-top: 1px solid lightgray;
+  }
+`;
+
+export const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  flex-direction: column;
+  @media (min-width: 700px) {
+    flex-direction: row;
+  }
 `;
 
 export const TextWrapper = styled.div`
   display: flex;
+  width: 100%;
+  margin-top: 5px;
   //flex-direction: column;
 `;
 
 export const LogMsg = styled.div`
   flex-grow: 1;
+  width: fit-content;
   text-overflow: ellipsis;
   table-layout: fixed;
   margin-right: 20px;
-  @media all and (max-width: 600px) {
-    display: none;
-  }
 `;
 
 export const Date = styled.div`
