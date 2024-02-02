@@ -5,6 +5,7 @@ import {
   ButtonWrapper,
   Card,
   Date,
+  HeaderWrapper,
   Id,
   Log,
   LogMsg,
@@ -86,11 +87,13 @@ function CurrentPage({
                 <Name>{thisUser?.notionId}</Name>
               </TextWrapper>
             </label>
-            <LogMsg>{log.description}</LogMsg>
-            <Value plus={log.changedValue >= 0} mode={mode}>
-              {log.changedValue >= 0 ? '+' : '-'}
-              {Math.abs(log.changedValue)}
-            </Value>
+            <TextWrapper>
+              <LogMsg>{log.description}</LogMsg>
+              <Value plus={log.changedValue >= 0} mode={mode}>
+                {log.changedValue >= 0 ? '+' : '-'}
+                {Math.abs(log.changedValue)}
+              </Value>
+            </TextWrapper>
           </Log>
         );
       })}
@@ -309,13 +312,19 @@ function ShowAllUserLogs() {
             </legend>
           </fieldset>
         </Title>
-        <TextWrapper>
-          {isRollback ? <div style={{ width: '20px' }}></div> : ''}
-          <div style={{ width: '50px' }}>ID</div>
-          <div style={{ width: '150px' }}>날짜</div>
-          <div style={{ width: '130px' }}>노션 아이디</div>
-          <div>사유</div>
-        </TextWrapper>
+        <Log state={true}>
+          <label>
+            <TextWrapper>
+              {isRollback ? <div style={{ width: '20px' }}></div> : ''}
+              <Id mode={mode}>ID</Id>
+              <Date>날짜</Date>
+              <Name>노션 아이디</Name>
+            </TextWrapper>
+          </label>
+          <TextWrapper>
+            <LogMsg>사유</LogMsg>
+          </TextWrapper>
+        </Log>
 
         <CurrentPage
           key={mode === 1 ? allWarningLog : allPointLog}

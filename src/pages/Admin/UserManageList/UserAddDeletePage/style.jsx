@@ -69,16 +69,28 @@ export const Button = styled(CommonButton)`
   text-align: center;
   background-color: ${(props) => (props.isAdd ? 'green' : 'crimson')};
   color: white;
-  margin-right: 20px;
+  width: ${(props) => (props.isAdd ? '40vw' : '20vw')};
+  margin-right: 10px;
   ${(props) => {
     if (props.isAdd) {
       return 'margin-top: 20px; margin-left: 30px;';
     }
   }}
+  max-width: ${(props) => (props.isAdd ? '150px' : '80px')};
+  @media (max-width: 600px) {
+    scale: 80%;
+  }
 `;
 
 export const UserItem = styled.div`
   display: flex;
-  align-items: center;
   padding: 10px;
+`;
+
+export const UserDescription = styled.div`
+  display: flex;
+  align-items: center;
+  text-overflow: ellipsis;
+  width: 55vw;
+  margin-left: 10px;
 `;
