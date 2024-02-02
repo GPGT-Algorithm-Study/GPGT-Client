@@ -60,6 +60,11 @@ export const InputWrapper = styled.div`
 
 export const TextWrapper = styled.div`
   display: flex;
+  margin-top: 5px;
+  width: 100%;
+  @media all and (min-width: 700px) {
+    justify-content: space-between;
+  }
 `;
 
 export const EventWrapper = styled.div`
@@ -73,42 +78,63 @@ export const EventWrapper = styled.div`
 
 export const Event = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 25px;
+  //grid-template-columns: 1fr 1fr 2fr 2fr 2fr 1fr;
+
+  margin-bottom: 20px;
   width: 100%;
   height: auto;
+  @media all and (min-width: 700px) {
+    flex-direction: row;
+    align-items: center;
+  }
+  @media all and (max-width: 700px) {
+    border-top: 1px solid lightgray;
+  }
 `;
 
 export const EventDescription = styled.div`
-  flex-grow: 1;
+  //flex-grow: 1;
   text-overflow: ellipsis;
-  table-layout: fixed;
+  width: fit-content;
   margin-right: 20px;
-  @media all and (max-width: 600px) {
-    display: none;
+  @media all and (max-width: 700px) {
+    width: 90%;
   }
 `;
 
 export const DateWrapper = styled.div`
+  order: 3;
   width: 120px;
   color: var(--color-textgrey);
+  @media all and (max-width: 400px) {
+    font-size: 0.8rem;
+  }
 `;
 export const Name = styled.div`
+  order: 2;
   width: 150px;
   font-weight: bold;
 `;
 export const Id = styled.div`
+  order: 1;
   width: 30px;
   color: green;
 `;
 export const Value = styled.div`
-  width: 80px;
   font-weight: bold;
+  margin-left: auto;
+  margin-right: 5px;
 
   color: green;
   text-align: right;
   & p {
     display: inline;
     margin-left: 7px;
+  }
+
+  @media all and (max-width: 700px) {
+    margin-left: unset;
   }
 `;

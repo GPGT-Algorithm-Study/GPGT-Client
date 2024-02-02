@@ -7,6 +7,7 @@ import {
   Button,
   UserItem,
   Title,
+  UserDescription,
 } from './style';
 import { toast } from 'react-toastify';
 import UserAddInput from '../UserAddInput';
@@ -51,9 +52,11 @@ function UserAddDeletePage() {
       <VerticalUserListWrapper>
         {users.map((user) => (
           <UserItem key={user.notionId}>
-            <Button onClick={() => onClickUserDelete(user)}>유저 삭제</Button>
-            {user.notionId} {user.emoji} : 경고 {user.warning}회. 포인트{' '}
-            {user.point}.{' '}
+            <Button onClick={() => onClickUserDelete(user)}>삭제</Button>
+            <UserDescription>
+              {user.notionId} {user.emoji} : 경고 {user.warning}회. 포인트{' '}
+              {user.point}.{' '}
+            </UserDescription>
           </UserItem>
         ))}
       </VerticalUserListWrapper>

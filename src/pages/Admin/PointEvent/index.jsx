@@ -93,8 +93,10 @@ function PointEvent() {
             <DateWrapper>시작 시간</DateWrapper>
             <DateWrapper>종료 시간</DateWrapper>
           </TextWrapper>
-          <EventDescription>이벤트 설명</EventDescription>
-          <Value>%</Value>
+          <TextWrapper>
+            <EventDescription>이벤트 설명</EventDescription>
+            <Value>%</Value>
+          </TextWrapper>
         </Event>
         {events.map((event) => {
           return (
@@ -106,8 +108,10 @@ function PointEvent() {
                   <DateWrapper>{formatDateTime(event.startTime)}</DateWrapper>
                   <DateWrapper>{formatDateTime(event.endTime)}</DateWrapper>
                 </TextWrapper>
-                <EventDescription>{event.description}</EventDescription>
-                <Value>x{event.percentage}</Value>
+                <TextWrapper>
+                  <EventDescription>{event.description}</EventDescription>
+                  <Value>x{event.percentage}</Value>
+                </TextWrapper>
               </Event>
             </div>
           );
