@@ -149,16 +149,17 @@ const baseStyle = css`
     --color-teammoon: #fff8e7;
     --color-toggle: #3362c5;
     --color-freeze: #69b5f8;
-    --color-border: #dfdfdf;
+    --color-border: #d5d5d5;
     --color-team1: #ffd643;
     --color-team0: #ff6c6c;
+    --color-button-gray: #f1f3f5;
 
     --width-maxwidth: 1440px;
   }
   body {
     margin: 0;
     font-family: 'KoPubWorldDotum';
-    background-color: rgb(245, 245, 247);
+    background-color: #fff;
     height: 100%;
     /* overflow: hidden; */
     overflow: auto;

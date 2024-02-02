@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { isEmpty } from 'lodash';
-import { getRefreshTokenToCookie } from 'utils/auth';
+import { isLoginUser } from 'utils/auth';
 import Layout from './Layout';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
@@ -11,8 +10,7 @@ export default function PrivateRoute({
   userAuthentication,
   adminAuthentication,
 }) {
-  const token = getRefreshTokenToCookie();
-  const isLogin = !isEmpty(token);
+  const isLogin = isLoginUser();
   const { data: loginUser } = useSWR(
     isLogin ? `${USER_PREFIX_URL}/auth/parse/boj` : null,
     fetcher,

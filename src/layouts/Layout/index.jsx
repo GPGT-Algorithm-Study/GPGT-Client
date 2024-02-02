@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FlexWrapper,
@@ -17,18 +17,22 @@ import {
   CloseButton,
   Container,
   MobileHamburgerMenu,
+  HeaderLogoImg,
+  LoginButton,
+  MobileLoginButton,
 } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
 import { toast } from 'react-toastify';
-import { AiFillHome, AiFillSetting } from 'react-icons/ai';
-import { HiUsers } from 'react-icons/hi';
-import { BsBarChartFill } from 'react-icons/bs';
+import { AiFillSetting } from 'react-icons/ai';
 import { FiLogOut } from 'react-icons/fi';
-import { LuSwords } from 'react-icons/lu';
+// import { LuSwords } from 'react-icons/lu';
+// import { FaClipboardList, FaMap } from 'react-icons/fa';
+// import { HiUsers } from 'react-icons/hi';
+// import { BsBarChartFill } from 'react-icons/bs';
+// import { FaMedal } from 'react-icons/fa6';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { FaClipboardList, FaMap } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { userLogout } from 'api/user';
 import { logoutProc } from 'utils/auth';
@@ -38,18 +42,21 @@ import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import { EVT_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 import { IoArrowBackOutline } from 'react-icons/io5';
-import { FaMedal } from 'react-icons/fa6';
+import { isLoginUser } from 'utils/auth';
 
 function Layout({ children }) {
+  const isLogin = useMemo(() => {
+    return isLoginUser();
+  }, []);
   const [showStoreModal, setShowStoreModal] = useState(false);
   const [showRecommendModal, setShowRecommendModal] = useState(false);
   const { data: loginUser } = useSWR(
-    `${USER_PREFIX_URL}/auth/parse/boj`,
+    isLogin ? `${USER_PREFIX_URL}/auth/parse/boj` : '',
     fetcher,
   );
 
   const { data: pointEvent } = useSWR(
-    `${EVT_PREFIX_URL}/point/all/valid`,
+    isLogin ? `${EVT_PREFIX_URL}/point/all/valid` : '',
     fetcher,
   );
 
@@ -59,42 +66,47 @@ function Layout({ children }) {
 
   // 좌측 탭 목록
   const [tabs, setTabs] = useState({
-    home: { id: 0, name: '홈', icon: <AiFillHome size="18" />, route: '/home' },
     users: {
       id: 1,
       name: '스터디원',
-      icon: <HiUsers size="18" />,
+      icon: '👩🏻‍💻',
       route: '/users',
     },
     teams: {
       id: 2,
       name: '팀',
-      icon: <LuSwords size="18" />,
+      icon: '⚔️',
       route: '/teams',
     },
     statistics: {
       id: 3,
       name: '통계',
-      icon: <BsBarChartFill size="18" />,
+      icon: '📊',
       route: '/statistics',
     },
     ranking: {
       id: 4,
       name: '랭킹',
-      icon: <FaMedal size="18" />,
+      icon: '🏅',
       route: 'ranking',
     },
     roadmap: {
       id: 5,
       name: '로드맵',
-      icon: <FaMap size="18" />,
+      icon: '🗺️',
       route: '/roadmap',
     },
     board: {
       id: 6,
       name: '게시판',
-      icon: <FaClipboardList size="18" />,
+      icon: '📝',
       route: '/board',
+    },
+    store: {
+      id: 7,
+      name: '상점',
+      icon: '🏠',
+      route: '/store',
     },
   });
 
@@ -105,9 +117,9 @@ function Layout({ children }) {
       setTabs((prev) => ({
         ...prev,
         admin: {
-          id: 7,
+          id: 8,
           name: '관리자',
-          icon: <AiFillSetting size="18" />,
+          icon: '⚙️',
           route: '/admin',
         },
       }));
@@ -131,15 +143,6 @@ function Layout({ children }) {
     loginUser ? `${USER_PREFIX_URL}/info?bojHandle=${loginUser.claim}` : null,
     fetcher,
   );
-
-  const onClickStore = useCallback(() => {
-    if (!userInfo) return;
-    if (userInfo.warning == 4) {
-      toast.error('상점을 이용하실 수 없습니다.');
-      return;
-    }
-    setShowStoreModal(true);
-  }, [userInfo]);
 
   const onCloseModal = useCallback(() => {
     setShowStoreModal(false);
@@ -167,19 +170,27 @@ function Layout({ children }) {
         </MobileHamburgerMenu>
         <MobileMenuWrapper>
           <div>
-            {userInfo && (
+            {isLogin ? (
               <SideMyInfo onClick={onClickUserProfile}>
                 <ProfileImage
                   width="45"
                   height="45"
                   src={
-                    userInfo.profileImg == 'null'
+                    !userInfo || userInfo.profileImg == 'null'
                       ? 'https://static.solved.ac/misc/360x360/default_profile.png'
                       : userInfo.profileImg
                   }
                 />
                 {userInfo.notionId} {userInfo.emoji}
               </SideMyInfo>
+            ) : (
+              <MobileLoginButton
+                onClick={() => {
+                  navigate('/login');
+                }}
+              >
+                로그인
+              </MobileLoginButton>
             )}
             <MobileMenu>
               <div>
@@ -222,50 +233,48 @@ function Layout({ children }) {
               />
             </MobileMenuIcon>
             <Link to="/home">
-              <img src={process.env.PUBLIC_URL + '/header_logo.svg'} />
+              <HeaderLogoImg
+                src={process.env.PUBLIC_URL + '/header_logo.svg'}
+              />
             </Link>
+            <MenuWrapper>
+              <Menu>
+                {Object.keys(tabs).map((key) => (
+                  <MenuItem
+                    className={currentTab === key ? 'selected' : ''}
+                    key={tabs[key].id}
+                    onClick={() => {
+                      navigate(tabs[key].route);
+                    }}
+                  >
+                    <div>{tabs[key].name}</div>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </MenuWrapper>
           </FlexWrapper>
-          <MenuWrapper>
-            <Menu>
-              {Object.keys(tabs).map((key) => (
-                <MenuItem
-                  className={currentTab === key ? 'selected' : ''}
-                  key={tabs[key].id}
-                  onClick={() => {
-                    navigate(tabs[key].route);
-                  }}
-                >
-                  <div>{tabs[key].icon}</div>
-                </MenuItem>
-              ))}
-            </Menu>
-          </MenuWrapper>
-          <FlexWrapper>
-            <div
-              className="clickable"
+          {isLogin ? (
+            <SideMyInfo onClick={onClickUserProfile}>
+              <ProfileImage
+                width="35"
+                height="35"
+                src={
+                  !userInfo || userInfo.profileImg == 'null'
+                    ? 'https://static.solved.ac/misc/360x360/default_profile.png'
+                    : userInfo.profileImg
+                }
+              />
+            </SideMyInfo>
+          ) : (
+            <LoginButton
               onClick={() => {
-                setShowRecommendModal(true);
+                navigate('/login');
               }}
             >
-              문제추천
-            </div>
-            <div className="clickable" onClick={onClickStore}>
-              상점
-            </div>
-            {userInfo && (
-              <SideMyInfo onClick={onClickUserProfile}>
-                <ProfileImage
-                  width="35"
-                  height="35"
-                  src={
-                    userInfo.profileImg == 'null'
-                      ? 'https://static.solved.ac/misc/360x360/default_profile.png'
-                      : userInfo.profileImg
-                  }
-                />
-              </SideMyInfo>
-            )}
-          </FlexWrapper>
+              로그인
+            </LoginButton>
+          )}
+          {}
         </HeaderWrapper>
         {/* 이벤트 헤더 */}
         {showEventHeader && pointEvent && !isEmpty(pointEvent) && (

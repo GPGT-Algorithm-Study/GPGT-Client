@@ -28,6 +28,14 @@ function Store() {
     fetcher,
   );
 
+  const onClickStore = useCallback(() => {
+    if (!userInfo) return;
+    if (userInfo.warning == 4) {
+      toast.error('상점을 이용하실 수 없습니다.');
+      return;
+    }
+  }, [userInfo]);
+
   // 사용자 보유 아이템 목록
   const { mutate: mutateUserItem } = useSWR(
     loginUser ? `${ITEM_PREFIX_URL}/user?bojHandle=${loginUser.claim}` : null,
