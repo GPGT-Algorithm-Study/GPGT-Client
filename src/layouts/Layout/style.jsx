@@ -59,7 +59,7 @@ export const Menu = styled.div`
   .selected {
     color: var(--color-primary);
     font-weight: 600 !important;
-    background-color: transparent;
+    background-color: transparent !important;
   }
 `;
 

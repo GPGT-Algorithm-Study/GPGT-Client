@@ -28,7 +28,9 @@ function RefreshModalContent({ onCloseModal, changePoint }) {
       .then(() => {
         mutateProblem();
         onCloseModal();
-        changePoint(-COST);
+        if (changePoint) {
+          changePoint(-COST);
+        }
       })
       .catch((e) => {
         if (e.response) {
