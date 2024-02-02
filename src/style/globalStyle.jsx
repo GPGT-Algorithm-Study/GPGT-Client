@@ -2,7 +2,8 @@ import React from 'react';
 import { Global, css } from '@emotion/react';
 
 const baseStyle = css`
-  @import url('https://webfontworld.github.io/kopus/KoPubWorldDotum.css');
+  @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+  /* @import url('https://webfontworld.github.io/kopus/KoPubWorldDotum.css'); */
   /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -152,13 +153,17 @@ const baseStyle = css`
     --color-border: #d5d5d5;
     --color-team1: #ffd643;
     --color-team0: #ff6c6c;
+    /* 디자인 바꾸면서 정의한 색 */
     --color-button-gray: #f1f3f5;
+    --color-text-gray: #777777;
+    --color-deep-gray: #444444;
 
     --width-maxwidth: 1440px;
   }
   body {
     margin: 0;
-    font-family: 'KoPubWorldDotum';
+    /* font-family: 'KoPubWorldDotum'; */
+    font-family: 'Noto Sans KR', sans-serif;
     background-color: #fff;
     height: 100%;
     /* overflow: hidden; */
