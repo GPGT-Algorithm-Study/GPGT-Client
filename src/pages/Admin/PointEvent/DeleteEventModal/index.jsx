@@ -39,7 +39,8 @@ function EventInfo({ eventInfo, setEventInfo, reFetchEvents }) {
     const params = { eventId: eventInfo.id };
     deletePointEvent(params)
       .then((res) => {
-        if (res.code !== 200) console.log(res.data.message);
+        if (res.status !== 200) console.log(res.data.message);
+        toast.success('이벤트를 삭제했습니다.');
         return;
       })
       .catch((e) => {

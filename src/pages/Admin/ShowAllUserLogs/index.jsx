@@ -122,6 +122,7 @@ function ShowAllUserLogs() {
     size: pointSize,
     setSize: setPointSize,
     isLoading: isLoadingPointLog,
+    mutate: mutatePointLogs,
   } = useSWRInfinite(getPointKey, fetcher, { revalidateFirstPage: false });
 
   const [allPointLog, setAllPointLog] = useState([]);
@@ -152,6 +153,7 @@ function ShowAllUserLogs() {
     size: warningSize,
     setSize: setWarningSize,
     isLoading: isLoadingWarningLog,
+    mutate: mutateWarningLogs,
   } = useSWRInfinite(getWarningKey, fetcher, { revalidateFirstPage: false });
 
   const [allWarningLog, setAllWarningLog] = useState([]);
@@ -207,31 +209,40 @@ function ShowAllUserLogs() {
       selectedIds.map((id) => {
         putWarningLogRollback({ id: id.id })
           .then((res) => {
-            if (res.data.code !== 200)
+            if (res.status !== 200)
               //error handle
               console.log(res);
             else {
               setSelectedIds([]);
               mutateUsers();
-              reFetchWarningLog();
+              //reFetchWarningLog();
+              mutateWarningLogs();
+              toast.success('로그를 롤백했습니다.');
             }
           })
           .catch((e) => {
+            console.log(e);
+            /*
+            
             const { data } = e.response;
-            if (data && data.code === 400) toast.error(data.message);
+            if (data && (data.code == 400 || data.code == 404))
+              toast.error(data.message);
+            */
           });
       });
     } else if (mode === 2) {
       selectedIds.map((id) => {
         putPointLogRollback({ id: id.id })
           .then((res) => {
-            if (res.data.code !== 200)
+            if (res.status !== 200)
               //error handle
               console.log(res);
             else {
               setSelectedIds([]);
               mutateUsers();
               setPointSize(1);
+              mutatePointLogs();
+              toast.success('로그를 롤백했습니다.');
             }
           })
           .catch((e) => {

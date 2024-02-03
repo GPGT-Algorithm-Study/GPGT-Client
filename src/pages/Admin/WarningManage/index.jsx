@@ -82,15 +82,20 @@ function WarningManage() {
       };
       postUserWarning(value)
         .then((res) => {
-          if (res.data.code !== 200)
+          if (res.status !== 200)
             //에러처리
             console.log(res);
+          else toast.success(`경고를 ${isPlusMode ? '부여' : '차감'}했습니다.`);
           return;
         })
         .catch((e) => {
+          console.log(e);
+          /*
+          
           const { data } = e.response;
           if (data && (data.code == 400 || data.code == 404))
             toast.error(data.message);
+          */
         });
     });
     users.forEach((user) => {
@@ -98,7 +103,7 @@ function WarningManage() {
       if (input) input.checked = false;
     });
 
-    alert(`경고가 ${isPlusMode ? '부여' : '차감'}되었습니다..`);
+    //alert(`경고가 ${isPlusMode ? '부여' : '차감'}되었습니다..`);
     setReason('');
     setSelectedUsers([]);
     mutateUsers();
