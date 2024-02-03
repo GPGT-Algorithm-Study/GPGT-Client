@@ -1,14 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { CardWrapper, UserInfoWrapper, UserProblemInfo } from './style';
+import {
+  CardWrapper,
+  UserInfoWrapper,
+  UserProblemInfo,
+  Container,
+} from './style';
 import UserCard from './UserCard';
 import RandomProblemCard from './RandomProblemCard';
 import ProblemCard from './ProblemCard';
 import { isEmpty } from 'lodash';
-import LeftTime from 'components/LeftTime';
-import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
 import useSWR from 'swr';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
+import PageTitle from 'components/PageTitle';
 
 /**
  * 사용자 탭 내용 컴포넌트
@@ -73,11 +77,8 @@ function Users() {
   }
 
   return (
-    <div>
-      <CommonFlexWrapper>
-        <CommonTitle>스터디원</CommonTitle>
-        <LeftTime />
-      </CommonFlexWrapper>
+    <Container>
+      <PageTitle showLeftTime={true} title="스터디원" />
       <UserInfoWrapper>
         {sortedUsers &&
           sortedUsers.map((user, i) => {
@@ -105,7 +106,7 @@ function Users() {
             }
           })}
       </UserInfoWrapper>
-    </div>
+    </Container>
   );
 }
 

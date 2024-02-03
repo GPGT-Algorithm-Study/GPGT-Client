@@ -12,6 +12,4 @@ export const Info = styled.div`
   & div {
     margin-right: 5px;
   }
-  margin-bottom: 15px;
-  margin-left: 7px;
 `;

@@ -8,7 +8,7 @@ export const Card = styled(CommonCard)`
 
 export const ProblemTitle = styled.div`
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1rem;
   & p {
     display: inline;
     margin-left: 5px;
@@ -17,22 +17,22 @@ export const ProblemTitle = styled.div`
 
 export const ProblemWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: end;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 
-export const TagWrapper = styled.div`
-  margin-top: 15px;
-  max-width: 260px;
+export const SolvedWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
 `;
 
 export const LanguageTag = styled.span`
   border-radius: 50px;
   color: white;
   font-weight: bold;
-  padding: 5px 8px 3px 8px;
+  padding: 5px 8px;
   font-size: 0.8rem;
   border: none;
   background-color: var(--color-checked);
@@ -40,12 +40,31 @@ export const LanguageTag = styled.span`
   text-overflow: 'clip';
 `;
 
+export const TagWrapper = styled.div`
+  max-width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.3rem;
+`;
+
 export const Tag = styled.span`
   border-radius: 50px;
   font-weight: normal;
-  padding: 5px 8px 3px 8px;
+  padding: 5px 10px;
   font-size: 0.8rem;
   border: none;
-  background-color: var(--color-background);
-  margin: 0px 5px 5px 0px;
+  background-color: var(--color-button-gray);
+  text-overflow: 'ellipsis';
+`;
+
+export const ProblemNumber = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  color: var(--color-deep-gray);
+  > div {
+    margin-bottom: 4px;
+  }
 `;

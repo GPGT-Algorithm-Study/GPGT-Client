@@ -10,7 +10,7 @@ export const Title = styled.div`
 export const Card = styled(CommonCard)`
   flex: 0 0 auto;
   padding: 20px 20px 20px 20px;
-  width: 90%;
+  width: 100%;
 `;
 
 export const TitleWrapper = styled.div`
@@ -59,7 +59,7 @@ export const TagWrapper = styled.div`
 export const Tag = styled.span`
   border-radius: 50px;
   font-weight: normal;
-  padding: 5px 10px 3px 10px;
+  padding: 5px 10px;
   font-size: 0.8rem;
   border: none;
   background-color: var(--color-button-gray);
@@ -72,6 +72,9 @@ export const ProblemNumber = styled.div`
   gap: 4px;
   font-weight: 500;
   color: var(--color-deep-gray);
+  > div {
+    margin-bottom: 4px;
+  }
 `;
 
 export const ProblemSubInfo = styled.div`

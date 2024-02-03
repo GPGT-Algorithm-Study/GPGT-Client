@@ -18,6 +18,7 @@ export const CommonCard = styled.div`
   background-color: #fff;
   border-radius: 10px;
   border: 1px solid var(--color-border);
+  box-sizing: border-box;
   /* box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08); */
 `;
 

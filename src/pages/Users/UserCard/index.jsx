@@ -54,8 +54,8 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
           <ProfileWrapper>
             <div>
               <ProfileImage
-                width={80}
-                height={80}
+                width={70}
+                height={70}
                 src={
                   user.profileImg != 'null'
                     ? user.profileImg
