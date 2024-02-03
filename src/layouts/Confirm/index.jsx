@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { CreateModal, CloseModalButton } from './style';
 import { IoCloseOutline } from 'react-icons/io5';
 
-const Modal = ({ children, style, show, onCloseModal }) => {
+const Confirm = ({ children, style, show, onCloseModal }) => {
   const stopPropagation = useCallback((e) => {
     e.stopPropagation();
   }, []);
@@ -21,4 +21,4 @@ const Modal = ({ children, style, show, onCloseModal }) => {
   );
 };
 
-export default Modal;
+export default Confirm;

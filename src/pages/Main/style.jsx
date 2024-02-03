@@ -60,7 +60,7 @@ export const RadomRecommendInput = styled.div`
     width: 100%;
     height: 3.5rem;
     border-radius: 50px;
-    padding: 0 120px 0 30px;
+    padding: 0 120px 0 3cap;
     box-sizing: border-box;
     border: 1px solid var(--color-border);
     box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);

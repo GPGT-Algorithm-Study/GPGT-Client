@@ -11,12 +11,11 @@ export const Label = styled.span`
 
 export const Input = styled.input`
   border: none;
-  background-color: var(--color-background);
-  border-radius: 7px;
-  height: 40px;
+  border-radius: 5px;
   width: 100%;
   margin-bottom: 10px;
-  padding: 10px 0 10px 20px;
+  padding: 15px 0 15px 20px;
+  border: 1px solid var(--color-border);
   box-sizing: border-box;
 `;
 
@@ -24,16 +23,17 @@ export const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   border-radius: 7px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-color: white;
+  margin: 0 auto;
+  margin-top: 3rem;
   width: 450px;
   height: 420px;
   max-width: 80%;
-  padding: 0 80px 0 80px;
+  padding: 4cm0px 30px;
+  border-radius: 5px;
+  border: 1px solid var(--color-border);
   @media all and (max-width: 400px) {
     padding: 0 20px 0 20px;
   }
@@ -42,13 +42,12 @@ export const LoginWrapper = styled.div`
 export const Button = styled.button`
   border: none;
   width: 100%;
-  padding: 10px 0 10px 0;
+  padding: 15px 0 15px 0;
   background-color: var(--color-primary);
-  height: 40px;
   margin-top: 20px;
-  border-radius: 7px;
+  border-radius: 5px;
   color: white;
-  font-weight: bold;
+  font-weight: 500;
   cursor: pointer;
 `;
 
@@ -59,7 +58,14 @@ export const ErrorMsg = styled.div`
 `;
 
 export const LogoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   width: 100%;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 3.5rem;
+  font-weight: 300;
+  font-size: 1.8rem;
+  color: var(--color-deep-gray);
 `;

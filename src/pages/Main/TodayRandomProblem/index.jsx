@@ -20,6 +20,7 @@ import RefreshModalContent from 'pages/Users/RandomProblemCard/RefreshModalConte
 import useSWR from 'swr';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
+import Confirm from 'layouts/Confirm';
 
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트
@@ -134,7 +135,7 @@ function TodayRandomProblem() {
           )}
         </ProblemWrapper>
       </a>
-      <Modal
+      <Confirm
         show={showRefreshModal}
         onCloseModal={() => {
           setShowRefreshModal(false);
@@ -145,7 +146,7 @@ function TodayRandomProblem() {
             setShowRefreshModal(false);
           }}
         />
-      </Modal>
+      </Confirm>
     </Card>
   );
 }

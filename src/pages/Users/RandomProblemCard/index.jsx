@@ -16,11 +16,11 @@ import {
 } from './style';
 import { BiRefresh } from 'react-icons/bi';
 import { CommonTierImg } from 'style/commonStyle';
-import Modal from 'layouts/Modal';
 import RefreshModalContent from './RefreshModalContent';
 import useSWR from 'swr';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
+import Confirm from 'layouts/Confirm';
 
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트
@@ -155,7 +155,7 @@ function RandomProblemCard({ user, changePoint, background }) {
           </CardContent>
         </a>
       )}
-      <Modal
+      <Confirm
         show={showRefreshModal}
         onCloseModal={() => {
           setShowRefreshModal(false);
@@ -167,7 +167,7 @@ function RandomProblemCard({ user, changePoint, background }) {
           }}
           changePoint={changePoint}
         />
-      </Modal>
+      </Confirm>
     </Card>
   );
 }
