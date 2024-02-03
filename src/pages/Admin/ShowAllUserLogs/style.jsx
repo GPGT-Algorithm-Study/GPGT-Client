@@ -2,12 +2,20 @@ import styled from '@emotion/styled';
 import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
-  padding: 20px;
+  padding: 20px 0 20px 0;
+  @media all and (min-width: 1000px) {
+    width: calc(50% - 3px);
+    margin-right: 10px;
+  }
 `;
 
 export const Title = styled.div`
+  position: relative;
+  top: 0;
+  left: 0;
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
+  padding-left: 25px;
 `;
 
 export const ButtonWrapper = styled.div`
@@ -64,7 +72,7 @@ export const LogWrapper = styled.div`
 export const Log = styled.div`
   display: flex;
   justify-content: start;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
   width: 100%;
   text-decoration: ${(props) => (props.state ? '' : 'line-through')};
   text-decoration-color: var(--color-textgrey);
@@ -98,20 +106,20 @@ export const LogMsg = styled.div`
   flex-grow: 1;
   width: fit-content;
   text-overflow: ellipsis;
-  table-layout: fixed;
+  //table-layout: fixed;
   margin-right: 20px;
 `;
 
 export const Date = styled.div`
-  width: 150px;
+  width: 100px;
   color: var(--color-textgrey);
 `;
 export const Name = styled.div`
-  width: 130px;
+  width: 120px;
   font-weight: bold;
 `;
 export const Id = styled.div`
-  width: 50px;
+  width: 30px;
   color: ${(props) =>
     props.mode === 1 ? 'var(--color-error)' : 'var(--color-point)'};
 `;

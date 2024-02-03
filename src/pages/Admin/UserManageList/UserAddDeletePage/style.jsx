@@ -27,6 +27,8 @@ export const VerticalUserListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  height: 542.5px;
+  overflow-y: scroll;
 `;
 
 export const User = styled.div`
@@ -91,6 +93,6 @@ export const UserDescription = styled.div`
   display: flex;
   align-items: center;
   text-overflow: ellipsis;
-  width: 55vw;
+  width: fit-content;
   margin-left: 10px;
 `;

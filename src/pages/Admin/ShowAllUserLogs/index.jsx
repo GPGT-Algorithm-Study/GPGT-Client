@@ -29,6 +29,7 @@ import {
 } from 'utils/constants';
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
+import { Content } from '../PointManage/style';
 
 function CurrentPage({
   mode,
@@ -286,7 +287,7 @@ function ShowAllUserLogs() {
           ))}
         </ButtonWrapper>
       </TitleWrapper>
-      <div>
+      <Content>
         <Title>
           <Button
             onClick={(e) => {
@@ -360,7 +361,7 @@ function ShowAllUserLogs() {
         >
           더 보기
         </Button>
-      </div>
+      </Content>
     </Card>
   );
 }
