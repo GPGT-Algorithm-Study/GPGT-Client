@@ -90,17 +90,17 @@ function Layout({ children }) {
       icon: '🏅',
       route: '/ranking',
     },
-    roadmap: {
-      id: 5,
-      name: '로드맵',
-      icon: '🗺️',
-      route: '/roadmap',
-    },
     board: {
-      id: 6,
+      id: 5,
       name: '게시판',
       icon: '📝',
       route: '/board',
+    },
+    roadmap: {
+      id: 6,
+      name: '로드맵',
+      icon: '🗺️',
+      route: '/roadmap',
     },
     store: {
       id: 7,
