@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PaginationWrapper, PageButton, ButtonWrapper } from './style';
 import {
-  FaAngleDoubleLeft,
-  FaAngleLeft,
-  FaAngleRight,
-  FaAngleDoubleRight,
-} from 'react-icons/fa';
+  HiOutlineChevronDoubleLeft,
+  HiOutlineChevronDoubleRight,
+  HiOutlineChevronLeft,
+  HiOutlineChevronRight,
+} from 'react-icons/hi2';
 
 /**
  * 페이징 컴포넌트
@@ -25,8 +25,8 @@ const Pagination = ({ totalPage, limit, page, setPage }) => {
 
   return (
     <PaginationWrapper>
-      <FaAngleDoubleLeft onClick={() => setPage(1)} />
-      <FaAngleLeft
+      <HiOutlineChevronDoubleLeft onClick={() => setPage(1)} />
+      <HiOutlineChevronLeft
         onClick={() => {
           if (page !== 1) setPage(page - 1);
         }}
@@ -38,12 +38,12 @@ const Pagination = ({ totalPage, limit, page, setPage }) => {
           </PageButton>
         ))}
       </ButtonWrapper>
-      <FaAngleRight
+      <HiOutlineChevronRight
         onClick={() => {
           if (page !== totalPage) setPage(page + 1);
         }}
       />
-      <FaAngleDoubleRight onClick={() => setPage(totalPage)} />
+      <HiOutlineChevronDoubleRight onClick={() => setPage(totalPage)} />
     </PaginationWrapper>
   );
 };
