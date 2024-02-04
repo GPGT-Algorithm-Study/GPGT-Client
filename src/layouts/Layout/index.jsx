@@ -88,7 +88,7 @@ function Layout({ children }) {
       id: 4,
       name: '랭킹',
       icon: '🏅',
-      route: 'ranking',
+      route: '/ranking',
     },
     roadmap: {
       id: 5,
