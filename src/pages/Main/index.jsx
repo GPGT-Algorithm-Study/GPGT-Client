@@ -26,16 +26,22 @@ import { isLoginUser } from 'utils/auth';
  */
 function Main() {
   const [showRecommendModal, setShowRecommendModal] = useState(false);
-  const { data: message } = useSWR(`api/v2/boolshit/last`, fetcher);
-  const { data: noticeBoard } = useSWR(
-    `${BRD_PREFIX_URL}/all/type?type=${boardType.NOTICE.key}&page=0&size=1`,
-    fetcher,
-  );
   const [notice, setNotice] = useState({});
 
   const isLogin = useMemo(() => {
     return isLoginUser();
   }, []);
+
+  const { data: message } = useSWR(
+    isLogin ? `api/v2/boolshit/last` : '',
+    fetcher,
+  );
+  const { data: noticeBoard } = useSWR(
+    isLogin
+      ? `${BRD_PREFIX_URL}/all/type?type=${boardType.NOTICE.key}&page=0&size=1`
+      : '',
+    fetcher,
+  );
 
   const onCloseModal = useCallback(() => {
     setShowRecommendModal(false);
