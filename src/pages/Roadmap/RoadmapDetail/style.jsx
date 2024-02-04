@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { IoArrowBackSharp } from 'react-icons/io5';
 
 export const TopWrapper = styled.div`
   display: flex;
@@ -11,17 +10,21 @@ export const TopWrapper = styled.div`
     padding: 11px 20px;
     color: #fff;
     font-weight: 600;
-    border-radius: 50px;
+    border-radius: 5px;
     background: var(--color-primary);
     border: none;
     cursor: pointer;
   }
 `;
 
-export const BackButton = styled(IoArrowBackSharp)`
+export const BackButton = styled.div`
   color: var(--color-textgrey);
   cursor: pointer;
   margin-bottom: 15px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 `;
 
 export const Container = styled.div`
@@ -53,11 +56,11 @@ export const Week = styled.div`
   justify-content: center;
   color: ${(props) => (props.selected ? '#fff' : '#3e3e3e')};
   ${(props) => props.selected && 'background-color: var(--color-primary)'};
-  font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 0.9rem;
   cursor: pointer;
   padding: 10px 15px;
-  border-radius: 10px;
+  border-radius: 5px;
 `;
 
 export const ContentDiv = styled.div`

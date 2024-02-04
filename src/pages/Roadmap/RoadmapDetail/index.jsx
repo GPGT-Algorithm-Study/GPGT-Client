@@ -21,6 +21,7 @@ import ProblemCard from './ProblemCard';
 import { deleteRoadmap } from 'api/roadmap';
 import { toast } from 'react-toastify';
 import CreateRoadmapPopup from '../CreateRoadmapPopup';
+import { IoChevronBack } from 'react-icons/io5';
 
 /**
  * 로드맵 상세 페이지
@@ -117,7 +118,10 @@ function RoadmapDetail() {
         onClick={() => {
           navigate(-1);
         }}
-      />
+      >
+        <IoChevronBack />
+        목록으로
+      </BackButton>
       <TopWrapper>
         <TitleDiv
           onMouseOver={() => setHovering(true)}

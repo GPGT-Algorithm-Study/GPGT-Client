@@ -17,7 +17,9 @@ import ProblemCard from './ProblemCard';
 import { isEmpty, cloneDeep } from 'lodash';
 import { getProblemInfo } from 'api/problem';
 import { createRoadmapProblem, deleteRoadmapProblem } from 'api/roadmap';
+import { IoChevronBack } from 'react-icons/io5';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import PageTitle from 'components/PageTitle';
 
 /**
  * 로드맵 문제 편집 페이지
@@ -137,8 +139,11 @@ function CreateRoadmapProblem() {
         onClick={() => {
           navigate(-1);
         }}
-      />
-      <CommonTitle>[{roadmapInfo.name}] 문제 설정</CommonTitle>
+      >
+        <IoChevronBack />
+        로드맵으로
+      </BackButton>
+      <PageTitle title={`[${roadmapInfo.name}] 문제 설정`} />
       <ContentDiv>
         {problemInfo.map((week, problemIdx) => (
           <WeekInfo key={week.week}>

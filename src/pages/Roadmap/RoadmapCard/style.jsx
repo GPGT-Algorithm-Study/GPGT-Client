@@ -43,10 +43,10 @@ export const TagWrapper = styled.div`
   > div {
     border-radius: 50px;
     font-weight: normal;
-    padding: 5px 8px 3px 8px;
+    padding: 5px 8px;
     font-size: 0.8rem;
     border: none;
-    background-color: var(--color-background);
+    background-color: var(--color-button-gray);
     margin: 0px 5px 5px 0px;
   }
 `;

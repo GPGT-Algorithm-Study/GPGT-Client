@@ -40,9 +40,10 @@ function ProbelmCard({ problemInfo }) {
             <ProblemIdDiv>
               <CommonTierImg
                 src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
-                width="20"
-                height="20"
+                width="18"
+                height="18"
               />
+              <div>{problem.problemId}</div>
             </ProblemIdDiv>
             <ProblemTitle>{problem.titleKo}</ProblemTitle>
           </div>
