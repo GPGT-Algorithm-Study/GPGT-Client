@@ -22,7 +22,8 @@ function UserScoreInfo({ teamUser, isTop = false }) {
       </ProfileWrapper>
       <ScoreInfo>
         {teamUser.point}
-        <span> 포인트 획득 {isTop && '🎉'}</span>
+        <span> 포인트 획득 </span>
+        {isTop && ' 🎉'}
       </ScoreInfo>
     </Container>
   );

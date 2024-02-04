@@ -5,6 +5,7 @@ export const Container = styled.div`
   align-items: center;
   gap: 0.5rem;
   justify-content: space-between;
+  box-sizing: border-box;
 `;
 
 export const NameWrapper = styled.div`

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
-  padding: 2rem;
+  padding: 1rem;
   margin-bottom: 7px;
 `;
 
@@ -63,6 +63,8 @@ export const UserPointWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  box-sizing: border-box;
+  padding: 0 1rem 2rem 1rem;
 `;
 
 export const TitleWrapper = styled.div`
@@ -71,6 +73,7 @@ export const TitleWrapper = styled.div`
   font-weight: 600;
   margin-bottom: 2rem;
   align-items: center;
+  padding-left: 1rem;
 `;
 
 export const GraphDescription = styled.div`
