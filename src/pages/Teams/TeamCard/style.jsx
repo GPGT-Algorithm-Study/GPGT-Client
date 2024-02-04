@@ -68,7 +68,7 @@ export const TeamInfoWrapper = styled.div`
 
 export const TeamName = styled.div`
   font-size: 1.4rem;
-  font-weight: 300;
+  font-weight: 400;
 `;
 
 export const TeamScoreInfo = styled.div`

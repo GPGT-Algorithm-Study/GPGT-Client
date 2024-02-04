@@ -63,7 +63,8 @@ export const ProblemNumber = styled.div`
   align-items: center;
   gap: 4px;
   font-weight: 500;
-  color: var(--color-deep-gray);
+  color: var(--color-text-gray);
+  font-size: 0.95rem;
   > div {
     margin-bottom: 4px;
   }
