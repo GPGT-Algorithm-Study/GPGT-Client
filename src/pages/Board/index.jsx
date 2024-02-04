@@ -1,24 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { CommonTitle } from 'style/commonStyle';
 import {
   HeaderWrapper,
   Category,
   CategoryWrapper,
   BoardTitleWrapper,
+  TitleWrapper,
   BoardHeader,
   PageWrapper,
   SearchForm,
   Container,
+  BoardContent,
   WriteButton,
-  Card,
+  PostItem,
+  PostTitle,
+  PostInfo,
+  PostContent,
+  NoPost,
 } from './style';
 import { cloneDeep } from 'lodash';
-import { BsFillPencilFill } from 'react-icons/bs';
-import { AiOutlineSearch } from 'react-icons/ai';
 import Pagination from 'components/Pagination';
-import { boardType, writeType, getTypeLabel } from 'utils/board';
+import { boardType, getTypeLabel, writeType } from 'utils/board';
 import Write from './Write';
-import BoardTable from 'components/BoardTable';
 import useSWR from 'swr';
 import postFetcher from 'utils/postFetcher';
 import {
@@ -27,6 +29,10 @@ import {
   USER_PREFIX_URL,
 } from 'utils/constants';
 import fetcher from 'utils/fetcher';
+import PageTitle from 'components/PageTitle';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
 
 /**
  * 게시판 탭 내용 컴포넌트
@@ -43,6 +49,7 @@ function Board() {
     `${USER_PREFIX_URL}/auth/parse/boj`,
     fetcher,
   );
+  const navigate = useNavigate();
   const [params, setParams] = useState({
     page: 0,
     size: BOARD_PAGE_SIZE,
@@ -57,7 +64,6 @@ function Board() {
   const [page, setPage] = useState(params.page + 1);
   const [keyword, setKeyword] = useState('');
   const [postList, setPostList] = useState([]);
-  const [title, setTitle] = useState(getTypeLabel(boardType.FREE.key));
   const { data: postsInfo, mutate: mutatePosts } = useSWR(
     `${BRD_PREFIX_URL}/all/condition?page=${params.page}&size=${params.size}`,
     postFetcher(params.condition),
@@ -92,7 +98,6 @@ function Board() {
   // 현재 타입 바뀌면 다시 로드
   useEffect(() => {
     if (!curType) return;
-    setTitle(getTypeLabel(curType));
     if (curType === boardType.SEARCH.key) {
       return;
     }
@@ -148,6 +153,16 @@ function Board() {
 
   return (
     <Container>
+      <TitleWrapper>
+        <PageTitle title="게시판" />
+        <WriteButton
+          onClick={() => {
+            setWriteMode(true);
+          }}
+        >
+          작성하기
+        </WriteButton>
+      </TitleWrapper>
       <HeaderWrapper>
         {/* 카테고리 */}
         <CategoryWrapper>
@@ -165,48 +180,73 @@ function Board() {
         </CategoryWrapper>
       </HeaderWrapper>
       {/* 게시글 테이블 */}
-      <Card>
-        <div>
-          <BoardHeader>
-            <BoardTitleWrapper>
-              <CommonTitle>{title}</CommonTitle>
-              <p>{total} 개의 게시글</p>
-            </BoardTitleWrapper>
-            <SearchForm onSubmit={onSubmitSearchKeyword}>
-              <div>
-                <AiOutlineSearch />
-              </div>
-              <input
-                placeholder="검색어 입력"
-                value={keyword}
-                onChange={onChangeKeyword}
-              />
-            </SearchForm>
-          </BoardHeader>
-          {/* 테이블 */}
-          <BoardTable postList={postList} showTypeTitle={showTypeTitle} />
-        </div>
-        {/* 페이지네이션  */}
-        {Math.ceil(total / BOARD_PAGE_SIZE) > 1 && (
-          <PageWrapper>
-            <Pagination
-              totalPage={Math.ceil(total / BOARD_PAGE_SIZE)}
-              limit={5}
-              page={params.page + 1}
-              setPage={setPage}
+      <div>
+        <BoardHeader>
+          <BoardTitleWrapper>
+            <p>{total} 개의 게시글</p>
+          </BoardTitleWrapper>
+          <SearchForm onSubmit={onSubmitSearchKeyword}>
+            <input
+              placeholder="검색어 입력"
+              value={keyword}
+              onChange={onChangeKeyword}
             />
-          </PageWrapper>
-        )}
-      </Card>
-      {/* 글쓰기 버튼 */}
-      <WriteButton
-        primary
-        onClick={() => {
-          setWriteMode(true);
-        }}
-      >
-        <BsFillPencilFill />
-      </WriteButton>
+          </SearchForm>
+        </BoardHeader>
+        {/* 게시판 내용 */}
+        <BoardContent>
+          {postsInfo ? (
+            postList.length === 0 ? (
+              <NoPost>작성된 게시글이 없습니다.</NoPost>
+            ) : (
+              postList.map((post) => (
+                <PostItem
+                  key={post.id}
+                  onClick={() => {
+                    navigate(`/board/${post.id}`);
+                  }}
+                >
+                  <PostTitle>
+                    {showTypeTitle && `[${getTypeLabel(post.type)}] `}
+                    {post.title}
+                  </PostTitle>
+                  <PostContent>{post.content}</PostContent>
+                  <PostInfo>
+                    <div>
+                      {post.notionId} {post.emoji}
+                    </div>
+                    <div>{dayjs(post.createdDate).format('YYYY. MM. DD')}</div>
+                    <div>{post.commentCount}개의 댓글</div>
+                  </PostInfo>
+                </PostItem>
+              ))
+            )
+          ) : (
+            new Array(10).fill(0).map((_, i) => (
+              <PostItem key={i}>
+                <Skeleton width={200} height={20} />
+                <Skeleton width="100%" count={3} />
+                <PostInfo>
+                  <Skeleton width={70} />
+                  <Skeleton width={70} />
+                  <Skeleton width={70} />
+                </PostInfo>
+              </PostItem>
+            ))
+          )}
+        </BoardContent>
+      </div>
+      {/* 페이지네이션  */}
+      {Math.ceil(total / BOARD_PAGE_SIZE) > 1 && (
+        <PageWrapper>
+          <Pagination
+            totalPage={Math.ceil(total / BOARD_PAGE_SIZE)}
+            limit={5}
+            page={params.page + 1}
+            setPage={setPage}
+          />
+        </PageWrapper>
+      )}
     </Container>
   );
 }
