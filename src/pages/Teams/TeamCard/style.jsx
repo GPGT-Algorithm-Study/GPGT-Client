@@ -83,7 +83,7 @@ export const TeamScoreInfo = styled.div`
 
 export const MvpInfoWrapper = styled.div`
   border-top: 1px solid #e0e0e0;
-  padding: 1rem 0;
+  padding-top: 1rem;
 `;
 
 export const MvpTitle = styled.div`
