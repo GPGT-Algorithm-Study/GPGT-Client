@@ -160,7 +160,7 @@ export const ScrollButton = styled.button`
 
 export const IconWrapper = styled.div`
   position: absolute;
-  margin-top: -69px;
+  margin-top: -74px;
   right: 0;
 `;
 

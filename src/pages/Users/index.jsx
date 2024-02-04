@@ -76,7 +76,7 @@ function Users() {
   if (isLoading) {
     return (
       <Container>
-        <PageTitle showLeftTime={true} title="스터디원" />
+        <PageTitle showLeftTime title="스터디원" />
         <UserInfoWrapper>
           {new Array(3).fill(0).map((_, i) => (
             <CardWrapper key={i}>

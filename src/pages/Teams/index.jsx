@@ -21,7 +21,7 @@ function Teams() {
 
   return (
     <Container>
-      <PageTitle showLeftTime={true} title="팀" />
+      <PageTitle showLeftTime title="팀" />
       <TeamWrapper>
         {teams.map((team, i) => (
           <CardWrapper key={i}>

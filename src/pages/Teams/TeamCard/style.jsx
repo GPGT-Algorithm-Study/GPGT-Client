@@ -61,8 +61,9 @@ export const ImageWrapper = styled.div`
 
 export const TeamInfoWrapper = styled.div`
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   align-items: center;
+  position: relative;
 `;
 
 export const TeamName = styled.div`
