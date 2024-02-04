@@ -13,6 +13,7 @@ import useSWR from 'swr';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import PageTitle from 'components/PageTitle';
+import SkeletonUserCard from './SkeletonUserCard';
 
 /**
  * 사용자 탭 내용 컴포넌트
@@ -73,7 +74,20 @@ function Users() {
   );
 
   if (isLoading) {
-    return null;
+    return (
+      <Container>
+        <PageTitle showLeftTime={true} title="스터디원" />
+        <UserInfoWrapper>
+          {new Array(3).fill(0).map((_, i) => (
+            <CardWrapper key={i}>
+              <UserProblemInfo>
+                <SkeletonUserCard />
+              </UserProblemInfo>
+            </CardWrapper>
+          ))}
+        </UserInfoWrapper>
+      </Container>
+    );
   }
 
   return (

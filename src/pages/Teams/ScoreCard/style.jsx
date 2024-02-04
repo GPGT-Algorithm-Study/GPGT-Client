@@ -2,9 +2,8 @@ import styled from '@emotion/styled';
 import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
-  padding: 20px 50px 20px 40px;
+  padding: 2rem;
   margin-bottom: 7px;
-  height: 100%;
 `;
 
 export const RankWrapper = styled.div`
@@ -58,4 +57,24 @@ export const ImageWrapper = styled.div`
 export const WinnerIcon = styled.div`
   margin-left: 7px;
   margin-bottom: -12px;
+`;
+
+export const UserPointWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+export const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  align-items: center;
+`;
+
+export const GraphDescription = styled.div`
+  font-size: 0.8rem;
+  color: var(--color-text-gray);
+  margin-top: 2rem;
 `;

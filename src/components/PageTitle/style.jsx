@@ -7,8 +7,8 @@ export const TitleDiv = styled.div`
 
 export const TitleWrapper = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.7rem;
   align-items: center;
-  margin: 0 0 0 6px;
+  margin: 2px 0 0 6px;
   flex-wrap: wrap;
 `;

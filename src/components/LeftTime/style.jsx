@@ -4,8 +4,8 @@ export const Info = styled.div`
   display: flex;
   align-items: center;
   font-size: 0.9rem;
-  font-weight: normal;
-  color: var(--color-textgrey);
+  font-weight: 400;
+  color: var(--color-text-gray);
   & b {
     font-weight: bold;
   }

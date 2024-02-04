@@ -71,7 +71,7 @@ export const RadomRecommendInput = styled.div`
     right: 20px;
     top: 10px;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 400;
     background-color: var(--color-button-gray);
     border-radius: 5px;

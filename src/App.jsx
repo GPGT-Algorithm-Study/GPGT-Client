@@ -4,6 +4,7 @@ import Main from './pages/Main';
 import MyPage from 'pages/MyPage';
 import { ToastContainer, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PrivateRoute from 'layouts/PrivateRoute';
 import { getRefreshTokenToCookie, onSilentRefresh } from 'utils/auth';

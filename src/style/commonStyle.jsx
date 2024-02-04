@@ -9,6 +9,7 @@ export const CommonProfileImage = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   margin-right: 10px;
+  border: 1px solid var(--color-border);
 `;
 
 export const CommonCard = styled.div`
