@@ -16,6 +16,7 @@ import {
   PostInfo,
   PostContent,
   NoPost,
+  CommentInfo,
 } from './style';
 import { cloneDeep } from 'lodash';
 import Pagination from 'components/Pagination';
@@ -33,6 +34,7 @@ import PageTitle from 'components/PageTitle';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
+import { RxChatBubble } from 'react-icons/rx';
 
 /**
  * 게시판 탭 내용 컴포넌트
@@ -215,8 +217,12 @@ function Board() {
                     <div>
                       {post.notionId} {post.emoji}
                     </div>
-                    <div>{dayjs(post.createdDate).format('YYYY. MM. DD')}</div>
-                    <div>{post.commentCount}개의 댓글</div>
+                    ·<div>{dayjs(post.createdDate).format('YYYY. MM. DD')}</div>
+                    ·
+                    <CommentInfo>
+                      <RxChatBubble />
+                      {post.commentCount}
+                    </CommentInfo>
                   </PostInfo>
                 </PostItem>
               ))
@@ -244,6 +250,13 @@ function Board() {
             limit={5}
             page={params.page + 1}
             setPage={setPage}
+            onClickHandler={() => {
+              window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth',
+              });
+            }}
           />
         </PageWrapper>
       )}

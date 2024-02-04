@@ -10,7 +10,7 @@ import {
 /**
  * 페이징 컴포넌트
  */
-const Pagination = ({ totalPage, limit, page, setPage }) => {
+const Pagination = ({ totalPage, limit, page, setPage, onClickHandler }) => {
   const [currentPageArray, setCurrentPageArray] = useState([]);
 
   useEffect(() => {
@@ -25,15 +25,28 @@ const Pagination = ({ totalPage, limit, page, setPage }) => {
 
   return (
     <PaginationWrapper>
-      <HiOutlineChevronDoubleLeft onClick={() => setPage(1)} />
+      <HiOutlineChevronDoubleLeft
+        onClick={() => {
+          setPage(1);
+          if (onClickHandler) onClickHandler();
+        }}
+      />
       <HiOutlineChevronLeft
         onClick={() => {
           if (page !== 1) setPage(page - 1);
+          if (onClickHandler) onClickHandler();
         }}
       />
       <ButtonWrapper>
         {currentPageArray?.map((i) => (
-          <PageButton key={i} onClick={() => setPage(i)} selected={page === i}>
+          <PageButton
+            key={i}
+            onClick={() => {
+              setPage(i);
+              if (onClickHandler) onClickHandler();
+            }}
+            selected={page === i}
+          >
             {i}
           </PageButton>
         ))}
@@ -41,9 +54,15 @@ const Pagination = ({ totalPage, limit, page, setPage }) => {
       <HiOutlineChevronRight
         onClick={() => {
           if (page !== totalPage) setPage(page + 1);
+          if (onClickHandler) onClickHandler();
         }}
       />
-      <HiOutlineChevronDoubleRight onClick={() => setPage(totalPage)} />
+      <HiOutlineChevronDoubleRight
+        onClick={() => {
+          setPage(totalPage);
+          if (onClickHandler) onClickHandler();
+        }}
+      />
     </PaginationWrapper>
   );
 };

@@ -134,7 +134,7 @@ export const PostTitle = styled.div`
 
 export const PostInfo = styled.div`
   display: flex;
-  gap: 1.5rem;
+  gap: 0.5rem;
   font-size: 0.9rem;
   color: var(--color-text-gray);
   flex-grow: 1;
@@ -160,4 +160,10 @@ export const NoPost = styled.div`
   height: 15rem;
   font-size: 0.9rem;
   color: var(--color-text-gray);
+`;
+
+export const CommentInfo = styled.div`
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
 `;
