@@ -8,7 +8,7 @@ export const CommonProfileImage = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  margin-right: 10px;
+  margin-right: 8px;
   border: 1px solid var(--color-border);
 `;
 

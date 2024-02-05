@@ -9,7 +9,6 @@ import {
   WriteInfo,
   Content,
   CommentWrapper,
-  BackButton,
 } from './style';
 import CommentComponent from './CommentComponent';
 import { Link, useParams } from 'react-router-dom';
@@ -26,6 +25,8 @@ import { isEmpty } from 'lodash';
 import useSWR from 'swr';
 import { BRD_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
+import BackButton from 'components/BackButton';
+import PageTitle from 'components/PageTitle';
 
 /**
  * 게시판 글 상세 컴포넌트
@@ -95,7 +96,7 @@ function Detail() {
 
   if (!post) return null;
 
-  if (writeMode) {
+  if (post && writeMode) {
     return (
       <Write
         mode={writeType.EDIT}
@@ -109,20 +110,22 @@ function Detail() {
   return (
     <>
       <div>
-        <BackButton
-          size="25"
-          onClick={() => {
-            navigate(-1);
-          }}
-        />
-        <Title>{post.title}</Title>
+        <Title>
+          <BackButton
+            text="목록으로"
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
+          <PageTitle title={post.title} />
+        </Title>
         <Toolbar>
           <WriteInfo>
             <Link to={`/my-page/${post.bojHandle}`}>
               <Writer>
                 <CommonProfileImage
-                  width={20}
-                  height={20}
+                  width={17}
+                  height={17}
                   src={post.profileImg}
                 />
                 <div>
@@ -131,7 +134,7 @@ function Detail() {
               </Writer>
             </Link>
             <CreateDate>
-              {dayjs(post.createdDate).format('YYYY년 M월 DD일 HH:mm')}
+              {dayjs(post.createdDate).format('YYYY. MM. DD. HH:mm')}
             </CreateDate>
           </WriteInfo>
           <WriteInfo>
