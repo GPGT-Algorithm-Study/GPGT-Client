@@ -38,6 +38,7 @@ import fetcher from 'utils/fetcher';
 import { EVT_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 import { IoArrowBackOutline } from 'react-icons/io5';
 import { isLoginUser } from 'utils/auth';
+import { MdPerson } from 'react-icons/md';
 
 function Layout({ children }) {
   const isLogin = useMemo(() => {
@@ -278,7 +279,7 @@ function Layout({ children }) {
                         setShowMyPageMenu(false);
                       }}
                     >
-                      내 프로필
+                      <MdPerson />내 프로필
                     </div>
                     <div
                       onClick={() => {
@@ -286,7 +287,7 @@ function Layout({ children }) {
                         setShowMyPageMenu(false);
                       }}
                     >
-                      로그아웃
+                      <FiLogOut /> 로그아웃
                     </div>
                   </MyPageMenu>
                 </CreateModal>

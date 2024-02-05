@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
-import { Content } from './style';
+import { Content, ProfileContent, ProfileInfo, BasicInfo } from './style';
 import MyInfoCard from './MyInfoCard';
-import RandomCard from './RandomCard';
-import PointLogCard from './PointLogCard';
-import WarningLogCard from './WarningLogCard';
 import { useParams } from 'react-router-dom';
 import UserBoard from './UserBoard';
 import { USER_PREFIX_URL } from 'utils/constants';
@@ -13,6 +10,8 @@ import useSWR from 'swr';
 import RoadmapCard from './RoadmapCard';
 import RandomProblemCard from 'pages/Users/RandomProblemCard';
 import PageTitle from 'components/PageTitle';
+import StreakCard from './StreakCard';
+import LogCard from './LogCard';
 
 /**
  * 마이페이지 화면
@@ -28,30 +27,28 @@ function MyPage() {
     `${USER_PREFIX_URL}/info?bojHandle=${bojHandle}`,
     fetcher,
   );
-  const [isBlocked, setIsBlocked] = useState(false);
-
   useEffect(() => {
     if (!loginUser) return;
     setIsUser(loginUser.claim === bojHandle);
   }, [loginUser]);
-
-  useEffect(() => {
-    if (!userInfo || isEmpty(userInfo)) return;
-    setIsBlocked(userInfo.warning == 4);
-  }, [userInfo]);
 
   if (!userInfo) return null;
 
   return (
     <Content>
       <PageTitle title="프로필" />
-      <MyInfoCard userInfo={userInfo} isUser={isUser} />
-      <RandomProblemCard user={userInfo} changePoint={mutateUserInfo} />
-      {!isBlocked && <RandomCard />}
-      <PointLogCard totalPoint={userInfo.point} />
-      <WarningLogCard totalWarning={userInfo.warning} />
-      <RoadmapCard />
-      <UserBoard />
+      <ProfileContent>
+        <BasicInfo>
+          <MyInfoCard userInfo={userInfo} isUser={isUser} />
+          <RandomProblemCard user={userInfo} changePoint={mutateUserInfo} />
+        </BasicInfo>
+        <ProfileInfo>
+          <StreakCard userInfo={userInfo} />
+          <UserBoard />
+          <RoadmapCard />
+          <LogCard userInfo={userInfo} />
+        </ProfileInfo>
+      </ProfileContent>
     </Content>
   );
 }

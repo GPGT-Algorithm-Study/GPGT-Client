@@ -304,7 +304,12 @@ export const MyPageMenu = styled.div`
   top: 50px;
   right: 20px;
   background-color: #fff;
-  width: 7rem;
+  width: 5.5rem;
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 `;
 
 export const CreateModal = styled.div`

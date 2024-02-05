@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Title, Content } from './style';
+import { Card, Title, Content, RoadmapItem, RoadmapTitle } from './style';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROADMAP_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
@@ -22,19 +22,22 @@ function RoadmapCard() {
 
   return (
     <Card>
-      <Title>진행중인 로드맵</Title>
+      <Title>
+        🗺️ 진행중인 로드맵 <span>{progressInfo.length}개의 로드맵</span>
+      </Title>
       <Content>
-        {progressInfo.map((roadmap) => (
-          <div
+        {progressInfo.map((roadmap, i) => (
+          <RoadmapItem
             onClick={() => {
               navigate(`/roadmap/${roadmap.roadmapId}`);
             }}
+            key={i}
           >
-            {roadmap.name}
+            <RoadmapTitle>{roadmap.name}</RoadmapTitle>
             <div>
               <ProgressBar percentage={roadmap.progress} />
             </div>
-          </div>
+          </RoadmapItem>
         ))}
       </Content>
     </Card>

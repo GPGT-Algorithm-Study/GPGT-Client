@@ -11,14 +11,7 @@ import {
   UpdateButton,
 } from './style';
 import { CommonTierImg } from 'style/commonStyle';
-import {
-  WarningMsg,
-  ProfileImage,
-  RandomStreakInfo,
-  MaxStreak,
-} from 'pages/Users/UserCard/style';
-import { userLogout } from 'api/user';
-import { getHeaderRefreshTokenConfig, logoutProc } from 'utils/auth';
+import { WarningMsg, ProfileImage } from 'pages/Users/UserCard/style';
 import PasswordChangeModal from './PasswordChangeModal';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { scrapUserInfo } from 'api/scraping';
@@ -26,7 +19,6 @@ import { toast } from 'react-toastify';
 import useSWR from 'swr';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
-import Streak from 'components/Streak';
 import { Tooltip } from 'react-tooltip';
 
 /**
@@ -40,19 +32,6 @@ function MyInfoCard({ userInfo, isUser }) {
   );
 
   const [showPwChangeModal, setShowPwChangeModal] = useState(false);
-
-  const onClickLogout = useCallback(() => {
-    const params = { bojHandle: userInfo.bojHandle };
-    const config = getHeaderRefreshTokenConfig();
-    userLogout(params, config)
-      .then(() => {
-        // 로그아웃 처리
-        logoutProc();
-      })
-      .catch((e) => {
-        throw new Error(e);
-      });
-  }, [userInfo]);
 
   const [refreshing, setRefreshing] = useState(false);
   const refreshUserInfo = useCallback(() => {
@@ -84,9 +63,6 @@ function MyInfoCard({ userInfo, isUser }) {
             }}
           >
             비밀번호 변경
-          </Button>
-          <Button marginLeft="12px" onClick={onClickLogout}>
-            로그아웃
           </Button>
         </ButtonWrapper>
       )}
@@ -145,23 +121,6 @@ function MyInfoCard({ userInfo, isUser }) {
           />
         </>
       )}
-      <RandomStreakInfo>
-        <div>
-          Random Streak <span>{userInfo.currentRandomStreak}</span> days
-        </div>
-        {randomStreak && (
-          <Streak
-            randomStreak={randomStreak}
-            maxStreak={365}
-            line={5}
-            width={1470}
-            height={110}
-          />
-        )}
-        <MaxStreak>
-          최장<span> {userInfo.maxRandomStreak}</span>일
-        </MaxStreak>
-      </RandomStreakInfo>
       <PasswordChangeModal
         showModal={showPwChangeModal}
         closeModal={() => {
