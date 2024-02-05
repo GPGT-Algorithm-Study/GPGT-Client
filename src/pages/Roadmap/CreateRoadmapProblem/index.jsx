@@ -4,22 +4,20 @@ import useSWR from 'swr';
 import { ROADMAP_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import {
-  BackButton,
   Container,
   ContentDiv,
   WeekInfo,
   ProblemList,
   WeekAddButton,
 } from './style';
-import { CommonTitle } from 'style/commonStyle';
 import { toast } from 'react-toastify';
 import ProblemCard from './ProblemCard';
 import { isEmpty, cloneDeep } from 'lodash';
 import { getProblemInfo } from 'api/problem';
 import { createRoadmapProblem, deleteRoadmapProblem } from 'api/roadmap';
-import { IoChevronBack } from 'react-icons/io5';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PageTitle from 'components/PageTitle';
+import BackButton from 'components/BackButton';
 
 /**
  * 로드맵 문제 편집 페이지
@@ -135,14 +133,11 @@ function CreateRoadmapProblem() {
   return (
     <Container>
       <BackButton
-        size="25"
+        text="로드맵으로"
         onClick={() => {
           navigate(-1);
         }}
-      >
-        <IoChevronBack />
-        로드맵으로
-      </BackButton>
+      />
       <PageTitle title={`[${roadmapInfo.name}] 문제 설정`} />
       <ContentDiv>
         {problemInfo.map((week, problemIdx) => (

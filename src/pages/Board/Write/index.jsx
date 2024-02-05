@@ -17,12 +17,13 @@ import { isEmpty } from 'lodash';
 import axios from 'axios';
 import { boardType, writeType } from 'utils/board';
 import { createPost, updatePost } from 'api/board';
-import { BackButton } from '../Detail/style';
 import { getProblemInfo } from 'api/problem';
 import BoardProblemCard from '../BoardProblemCard';
 import useSWR from 'swr';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
+import PageTitle from 'components/PageTitle';
+import BackButton from 'components/BackButton';
 
 /**
  * 게시판 글 작성 컴포넌트
@@ -244,8 +245,8 @@ function Write({ mode, type, closeWriteMode, post }) {
   return (
     <Container>
       <Title>
-        <BackButton onClick={onClose} size="24" />
-        {mode === writeType.WRITE ? '글 작성' : '글 수정'}
+        <BackButton text="목록으로" onClick={onClose} />
+        <PageTitle title={mode === writeType.WRITE ? '글 작성' : '글 수정'} />
       </Title>
       <Form>
         <FormItem>
@@ -275,7 +276,7 @@ function Write({ mode, type, closeWriteMode, post }) {
         {/* 문제 번호 입력 (질문게시판, 문제풀이 게시판일 경우에만 제공) */}
         {hasProblemType && (
           <>
-            <FormItem width="50%">
+            <FormItem width="60%">
               <div>
                 <input
                   value={problemId}
@@ -347,8 +348,8 @@ function Write({ mode, type, closeWriteMode, post }) {
           </div>
         </FormItem>
         <ButtonWrapper>
-          <Button primary onClick={onClickWriteButton} width="100px">
-            작성
+          <Button onClick={onClickWriteButton} width="100px">
+            작성하기
           </Button>
         </ButtonWrapper>
       </Form>

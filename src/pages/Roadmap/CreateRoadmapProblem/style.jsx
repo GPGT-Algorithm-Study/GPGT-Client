@@ -22,16 +22,6 @@ export const TitleDiv = styled.div`
   }
 `;
 
-export const BackButton = styled.div`
-  color: var(--color-textgrey);
-  cursor: pointer;
-  margin-bottom: 15px;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
-`;
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;

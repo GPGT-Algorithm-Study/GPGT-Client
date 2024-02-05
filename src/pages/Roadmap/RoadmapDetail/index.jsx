@@ -6,7 +6,6 @@ import fetcher from 'utils/fetcher';
 import {
   TopWrapper,
   TitleDiv,
-  BackButton,
   Container,
   ProgressBarWrapper,
   WeekWrapper,
@@ -14,14 +13,15 @@ import {
   ContentDiv,
   ProblemList,
 } from './style';
-import { CommonTitle } from 'style/commonStyle';
 import ProgressBar from 'components/ProgressBar';
 import { isEmpty } from 'lodash';
 import ProblemCard from './ProblemCard';
 import { deleteRoadmap } from 'api/roadmap';
 import { toast } from 'react-toastify';
 import CreateRoadmapPopup from '../CreateRoadmapPopup';
-import { IoChevronBack } from 'react-icons/io5';
+import Skeleton from 'react-loading-skeleton';
+import PageTitle from 'components/PageTitle';
+import BackButton from 'components/BackButton';
 
 /**
  * 로드맵 상세 페이지
@@ -109,35 +109,34 @@ function RoadmapDetail() {
   // 로드맵 수정
   const [showUpdatePopup, setShowUpdatePopup] = useState(false);
 
-  if (!roadmapInfo) return null;
-
   return (
     <Container>
       <BackButton
-        size="25"
+        text="목록으로"
         onClick={() => {
           navigate(-1);
         }}
-      >
-        <IoChevronBack />
-        목록으로
-      </BackButton>
+      />
       <TopWrapper>
         <TitleDiv
           onMouseOver={() => setHovering(true)}
           onMouseOut={() => setHovering(false)}
         >
-          <CommonTitle>{roadmapInfo.name}</CommonTitle>
+          {roadmapInfo ? (
+            <PageTitle title={roadmapInfo.name} />
+          ) : (
+            <Skeleton height={25} width={200} />
+          )}
           {hovering && (
             <div>
-              <div
+              <span
                 onClick={() => {
                   setShowUpdatePopup(true);
                 }}
               >
                 수정
-              </div>
-              <div onClick={deleteRoadmapProc}>삭제</div>
+              </span>
+              <span onClick={deleteRoadmapProc}>삭제</span>
             </div>
           )}
         </TitleDiv>
@@ -177,13 +176,15 @@ function RoadmapDetail() {
           </ProblemList>
         )}
       </ContentDiv>
-      <CreateRoadmapPopup
-        show={showUpdatePopup}
-        onClose={() => {
-          setShowUpdatePopup(false);
-        }}
-        roadmapInfo={roadmapInfo}
-      />
+      {roadmapInfo && (
+        <CreateRoadmapPopup
+          show={showUpdatePopup}
+          onClose={() => {
+            setShowUpdatePopup(false);
+          }}
+          roadmapInfo={roadmapInfo}
+        />
+      )}
     </Container>
   );
 }

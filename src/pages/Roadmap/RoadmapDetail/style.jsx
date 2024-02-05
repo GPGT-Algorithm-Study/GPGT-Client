@@ -85,10 +85,10 @@ export const TitleDiv = styled.div`
     display: flex;
     gap: 12px;
     align-items: center;
-    > div {
-      color: #5d5d5d;
+    > span {
+      color: var(--color-text-gray);
       font-size: 15px;
-      font-weight: 500;
+      font-weight: 400;
     }
   }
 `;
