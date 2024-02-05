@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { Content } from './style';
 import MyInfoCard from './MyInfoCard';
-import MyItemCard from './MyItemCard';
 import RandomCard from './RandomCard';
 import PointLogCard from './PointLogCard';
 import WarningLogCard from './WarningLogCard';
@@ -48,7 +47,6 @@ function MyPage() {
         <MyInfoCard userInfo={userInfo} isUser={isUser} />
         <RandomProblemCard user={userInfo} changePoint={mutateUserInfo} />
         {!isBlocked && <RandomCard />}
-        {!isBlocked && <MyItemCard />}
         <PointLogCard totalPoint={userInfo.point} />
         <WarningLogCard totalWarning={userInfo.warning} />
         <RoadmapCard />

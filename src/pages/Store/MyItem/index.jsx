@@ -1,12 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import {
-  Card,
   Button,
-  ItemWrapper,
-  Item,
-  ItemName,
-  Left,
-  Title,
   NoItem,
   CommentTitle,
   CommentButton,
@@ -20,34 +14,31 @@ import { useItem } from 'api/item';
 import ItemIcon from 'components/ItemIcon';
 import { toast } from 'react-toastify';
 import Modal from 'layouts/Modal';
-import { useParams } from 'react-router-dom';
 import fetcher from 'utils/fetcher';
 import useSWR from 'swr';
 import { ITEM_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
+import {
+  ItemWrapper,
+  Item,
+  IconWrapper,
+  ItemName,
+  Description,
+} from '../style';
 
 /**
  * 마이페이지 보유 아이템 카드
  */
-function MyItemCard() {
-  // 사용자 정보
-  const { bojHandle } = useParams();
-  const { data: userInfo, mutate: mutateUserInfo } = useSWR(
-    `${USER_PREFIX_URL}/info?bojHandle=${bojHandle}`,
-    fetcher,
-  );
-  // 로그인한 사용자 여부
+function MyItem() {
   const { data: loginUser } = useSWR(
     `${USER_PREFIX_URL}/auth/parse/boj`,
     fetcher,
   );
-  const [isUser, setIsUser] = useState(false);
-  useEffect(() => {
-    if (!loginUser) return;
-    setIsUser(loginUser.claim === bojHandle);
-  }, [loginUser]);
-
+  const { data: userInfo, mutate: mutateUserInfo } = useSWR(
+    loginUser ? `${USER_PREFIX_URL}/info?bojHandle=${loginUser.claim}` : '',
+    fetcher,
+  );
   const { data: items, mutate: mutateUserItem } = useSWR(
-    `${ITEM_PREFIX_URL}/user?bojHandle=${bojHandle}`,
+    loginUser ? `${ITEM_PREFIX_URL}/user?bojHandle=${loginUser.claim}` : '',
     fetcher,
   );
 
@@ -121,27 +112,24 @@ function MyItemCard() {
   if (!items) return null;
 
   return (
-    <Card>
-      <Title>보유 아이템</Title>
+    <div>
       {isEmpty(items) && <NoItem>보유 아이템이 없습니다.</NoItem>}
       <ItemWrapper>
         {items.map((item) => (
           <Item key={item.item.id}>
-            <div>
+            <IconWrapper>
               <ItemIcon itemId={item.item.id} size="38" color="#3362c5" />
-            </div>
+            </IconWrapper>
             <ItemName>{item.item.name}</ItemName>
-            <Left>{item.count}개 보유</Left>
-            {isUser && (
-              <Button
-                disabled={item.item.id == 3}
-                onClick={() => {
-                  clickUseButton(item.item.id);
-                }}
-              >
-                {item.item.id == 3 ? '장착 중' : '사용하기'}
-              </Button>
-            )}
+            <Description>{item.count}개 보유</Description>
+            <Button
+              disabled={item.item.id == 3}
+              onClick={() => {
+                clickUseButton(item.item.id);
+              }}
+            >
+              {item.item.id == 3 ? '장착 중' : '사용하기'}
+            </Button>
           </Item>
         ))}
       </ItemWrapper>
@@ -150,7 +138,11 @@ function MyItemCard() {
           <div>나의 한마디 입력</div>
         </CommentTitle>
         <InputWrapper>
-          <Input value={comment} onChange={onChangeComment} />
+          <Input
+            value={comment}
+            onChange={onChangeComment}
+            placeholder="나의 한마디 입력"
+          />
           {commentError && <ErrorMsg>{commentErrorMsg}</ErrorMsg>}
         </InputWrapper>
         <ButtonWrapper>
@@ -159,8 +151,8 @@ function MyItemCard() {
           </CommentButton>
         </ButtonWrapper>
       </Modal>
-    </Card>
+    </div>
   );
 }
 
-export default MyItemCard;
+export default MyItem;
