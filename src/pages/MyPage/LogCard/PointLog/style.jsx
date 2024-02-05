@@ -43,6 +43,7 @@ export const Log = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 1rem;
   text-decoration: ${(props) => (props.state ? '' : 'line-through')};
   text-decoration-color: var(--color-textgrey);
 `;
