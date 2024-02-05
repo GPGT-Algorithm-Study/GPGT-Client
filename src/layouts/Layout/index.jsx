@@ -20,22 +20,17 @@ import {
   HeaderLogoImg,
   LoginButton,
   MobileLoginButton,
+  MyPageMenu,
+  CreateModal,
 } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import Store from 'pages/Store';
-import { toast } from 'react-toastify';
-import { AiFillSetting } from 'react-icons/ai';
 import { FiLogOut } from 'react-icons/fi';
-// import { LuSwords } from 'react-icons/lu';
-// import { FaClipboardList, FaMap } from 'react-icons/fa';
-// import { HiUsers } from 'react-icons/hi';
-// import { BsBarChartFill } from 'react-icons/bs';
-// import { FaMedal } from 'react-icons/fa6';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useLocation } from 'react-router-dom';
 import { userLogout } from 'api/user';
-import { logoutProc } from 'utils/auth';
+import { getHeaderRefreshTokenConfig, logoutProc } from 'utils/auth';
 import { isEmpty } from 'lodash';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
@@ -63,6 +58,8 @@ function Layout({ children }) {
   const currentTab = useLocation().pathname.slice(1).split('/')[0];
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  const [showMyPageMenu, setShowMyPageMenu] = useState(false);
 
   // 좌측 탭 목록
   const [tabs, setTabs] = useState({
@@ -129,7 +126,8 @@ function Layout({ children }) {
   const onClickLogout = useCallback(() => {
     if (!loginUser) return;
     const params = { bojHandle: loginUser.claim };
-    userLogout(params)
+    const config = getHeaderRefreshTokenConfig();
+    userLogout(params, config)
       .then(() => {
         // 로그아웃 처리
         logoutProc();
@@ -137,7 +135,7 @@ function Layout({ children }) {
       .catch((e) => {
         throw new Error(e);
       });
-  }, []);
+  }, [loginUser]);
 
   const { data: userInfo } = useSWR(
     loginUser ? `${USER_PREFIX_URL}/info?bojHandle=${loginUser.claim}` : null,
@@ -254,7 +252,7 @@ function Layout({ children }) {
             </MenuWrapper>
           </FlexWrapper>
           {isLogin ? (
-            <SideMyInfo onClick={onClickUserProfile}>
+            <SideMyInfo>
               <ProfileImage
                 width="35"
                 height="35"
@@ -263,7 +261,36 @@ function Layout({ children }) {
                     ? 'https://static.solved.ac/misc/360x360/default_profile.png'
                     : userInfo.profileImg
                 }
+                onClick={() => {
+                  setShowMyPageMenu((prev) => !prev);
+                }}
               />
+              {showMyPageMenu && (
+                <CreateModal
+                  onClick={() => {
+                    setShowMyPageMenu(false);
+                  }}
+                >
+                  <MyPageMenu>
+                    <div
+                      onClick={() => {
+                        onClickUserProfile();
+                        setShowMyPageMenu(false);
+                      }}
+                    >
+                      내 프로필
+                    </div>
+                    <div
+                      onClick={() => {
+                        onClickLogout();
+                        setShowMyPageMenu(false);
+                      }}
+                    >
+                      로그아웃
+                    </div>
+                  </MyPageMenu>
+                </CreateModal>
+              )}
             </SideMyInfo>
           ) : (
             <LoginButton

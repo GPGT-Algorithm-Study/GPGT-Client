@@ -74,13 +74,13 @@ export const MenuWrapper = styled.div`
 `;
 
 export const MobileMenuItem = styled.div`
-  font-weight: bold;
-  color: var(--color-textgrey);
+  font-weight: 500;
+  color: var(--color-text-gray);
   cursor: pointer;
   display: flex;
   padding: 10px;
   font-size: ${(props) => props.fontSize};
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   & div {
     margin-left: 10px;
   }
@@ -94,9 +94,9 @@ export const MobileMenu = styled.div`
   height: 85%;
   margin-top: 30px;
   .selected {
-    color: white;
-    background-color: var(--color-primary);
-    border-radius: 8px;
+    color: #000;
+    background-color: var(--color-button-gray);
+    border-radius: 5px;
     font-weight: normal;
   }
 `;
@@ -287,4 +287,32 @@ export const MobileLoginButton = styled.div`
   border-radius: 5px;
   padding: 10px 20px;
   cursor: pointer;
+`;
+
+export const MyPageMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  align-items: start;
+  color: var(--color-text-gray);
+  gap: 1rem;
+  padding: 1rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  font-weight: 400;
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  background-color: #fff;
+  width: 7rem;
+`;
+
+export const CreateModal = styled.div`
+  position: fixed;
+  text-align: center;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  z-index: 1022;
 `;

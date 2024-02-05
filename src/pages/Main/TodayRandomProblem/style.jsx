@@ -18,6 +18,8 @@ export const TitleWrapper = styled.div`
   justify-content: space-between;
   font-weight: bold;
   align-items: center;
+  flex-wrap: wrap-reverse;
+  row-gap: 1rem;
   & p {
     display: inline;
     color: var(--color-point);

@@ -12,6 +12,7 @@ import fetcher from 'utils/fetcher';
 import useSWR from 'swr';
 import RoadmapCard from './RoadmapCard';
 import RandomProblemCard from 'pages/Users/RandomProblemCard';
+import PageTitle from 'components/PageTitle';
 
 /**
  * 마이페이지 화면
@@ -42,17 +43,16 @@ function MyPage() {
   if (!userInfo) return null;
 
   return (
-    <div>
-      <Content>
-        <MyInfoCard userInfo={userInfo} isUser={isUser} />
-        <RandomProblemCard user={userInfo} changePoint={mutateUserInfo} />
-        {!isBlocked && <RandomCard />}
-        <PointLogCard totalPoint={userInfo.point} />
-        <WarningLogCard totalWarning={userInfo.warning} />
-        <RoadmapCard />
-        <UserBoard />
-      </Content>
-    </div>
+    <Content>
+      <PageTitle title="프로필" />
+      <MyInfoCard userInfo={userInfo} isUser={isUser} />
+      <RandomProblemCard user={userInfo} changePoint={mutateUserInfo} />
+      {!isBlocked && <RandomCard />}
+      <PointLogCard totalPoint={userInfo.point} />
+      <WarningLogCard totalWarning={userInfo.warning} />
+      <RoadmapCard />
+      <UserBoard />
+    </Content>
   );
 }
 
