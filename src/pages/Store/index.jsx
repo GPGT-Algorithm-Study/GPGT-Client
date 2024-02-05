@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import { ITEM_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
+import PageTitle from 'components/PageTitle';
 
 function Store() {
   const { data: items } = useSWR(`${ITEM_PREFIX_URL}/all`, fetcher);
@@ -73,13 +74,8 @@ function Store() {
 
   return (
     <Container>
-      <Title>
-        <h2>상점</h2>
-        <div>
-          (보유 포인트: {userInfo.point}
-          <span> P</span>)
-        </div>
-      </Title>
+      <PageTitle title="상점" />
+      {userInfo.point}
       <ItemWrapper>
         {items.map((item) => (
           <Item key={item.id}>
