@@ -14,31 +14,29 @@ export const Content = styled.div`
 `;
 
 export const Title = styled.div`
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 15px;
 `;
 
 export const Input = styled.input`
   border: none;
-  background-color: var(--color-background);
-  border-radius: 7px;
-  height: 40px;
+  border-radius: 5px;
   width: 100%;
   margin-bottom: 10px;
-  padding: 10px 0 10px 20px;
+  border: 1px solid var(--color-border);
+  padding: 1rem;
   box-sizing: border-box;
 `;
 
 export const Button = styled.button`
   border: none;
   width: 100%;
-  padding: 10px 0 10px 20px;
+  padding: 1rem;
   background-color: var(--color-primary);
-  height: 40px;
   margin-top: 20px;
-  border-radius: 7px;
+  border-radius: 5px;
   color: white;
-  font-weight: bold;
+  font-weight: 500;
   cursor: pointer;
 `;
 
@@ -50,7 +48,7 @@ export const ErrorMsg = styled.div`
 
 export const InfoMsg = styled.div`
   margin-bottom: 20px;
-  color: var(--color-textgrey);
+  color: var(--color-text-gray);
   font-size: 0.8rem;
   text-align: left;
   line-height: 1.2;
