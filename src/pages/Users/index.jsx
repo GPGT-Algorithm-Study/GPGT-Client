@@ -95,7 +95,7 @@ function Users() {
       <PageTitle showLeftTime={true} title="스터디원" />
       <UserInfoWrapper>
         {sortedUsers &&
-          sortedUsers.map((user, i) => {
+          sortedUsers.map((user) => {
             if (!isEmpty(user)) {
               return (
                 <CardWrapper key={user.notionId}>

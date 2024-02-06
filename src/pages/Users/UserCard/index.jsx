@@ -20,7 +20,7 @@ import {
   TierWrapper,
   CenterConatiner,
 } from './style';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import { CommonTierImg } from 'style/commonStyle';
 import SolvedIcon from 'components/SolvedIcon';
 import TeamIcon from 'components/TeamIcon';
@@ -141,8 +141,8 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
         }}
       >
         <span>
-          {!showProblemsId[user.notionId] && <FaChevronDown />}
-          {showProblemsId[user.notionId] && <FaChevronUp />}
+          {!showProblemsId[user.notionId] && <IoIosArrowDown />}
+          {showProblemsId[user.notionId] && <IoIosArrowUp />}
         </span>
       </ToggleButton>
     </Card>

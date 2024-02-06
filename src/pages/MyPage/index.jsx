@@ -23,14 +23,14 @@ function MyPage() {
     fetcher,
   );
   const [isUser, setIsUser] = useState(false);
-  const { data: userInfo, mutate: mutateUserInfo } = useSWR(
+  const { data: userInfo, mutate: mutaUserInfo } = useSWR(
     `${USER_PREFIX_URL}/info?bojHandle=${bojHandle}`,
     fetcher,
   );
   useEffect(() => {
     if (!loginUser) return;
     setIsUser(loginUser.claim === bojHandle);
-  }, [loginUser]);
+  }, [loginUser, bojHandle]);
 
   if (!userInfo) return null;
 
@@ -39,8 +39,11 @@ function MyPage() {
       <PageTitle title="프로필" />
       <ProfileContent>
         <BasicInfo>
-          <MyInfoCard userInfo={userInfo} isUser={isUser} />
-          <RandomProblemCard user={userInfo} changePoint={mutateUserInfo} />
+          <MyInfoCard
+            userInfo={userInfo}
+            isUser={isUser}
+            loadData={mutaUserInfo}
+          />
         </BasicInfo>
         <ProfileInfo>
           <StreakCard userInfo={userInfo} />

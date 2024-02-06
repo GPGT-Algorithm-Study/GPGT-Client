@@ -61,9 +61,10 @@ export const ProfileImage = styled(CommonProfileImage)`
 `;
 
 export const WarningMsg = styled.div`
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.9rem;
+  align-self: flex-start;
   color: var(--color-error);
-  margin-top: 8px;
 `;
 
 export const WarningWrapper = styled.div`
@@ -196,4 +197,5 @@ export const CenterConatiner = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 `;
