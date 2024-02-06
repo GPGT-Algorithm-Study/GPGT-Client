@@ -12,7 +12,7 @@ export const boardType = {
     key: 'question',
   },
   BLOG: {
-    label: '블로그',
+    label: '블로그 챌린지',
     key: 'blog',
   },
   NOTICE: {
