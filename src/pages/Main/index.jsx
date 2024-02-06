@@ -17,9 +17,11 @@ import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
 import fetcher from 'utils/fetcher';
 import useSWR from 'swr';
-import { BRD_PREFIX_URL } from 'utils/constants';
+import { BRD_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 import TodayRandomProblem from './TodayRandomProblem';
 import { isLoginUser } from 'utils/auth';
+import useInput from 'hooks/useInput';
+import { toast } from 'react-toastify';
 
 /**
  * 메인 화면
@@ -27,10 +29,21 @@ import { isLoginUser } from 'utils/auth';
 function Main() {
   const [showRecommendModal, setShowRecommendModal] = useState(false);
   const [notice, setNotice] = useState({});
+  const [bojId, onChangeBojId, setBojId] = useInput('');
 
   const isLogin = useMemo(() => {
     return isLoginUser();
   }, []);
+
+  const { data: loginUser } = useSWR(
+    isLogin ? `${USER_PREFIX_URL}/auth/parse/boj` : '',
+    fetcher,
+  );
+
+  useEffect(() => {
+    if (!loginUser || !isLogin) return;
+    setBojId(loginUser.claim);
+  }, [loginUser, isLogin]);
 
   const { data: message } = useSWR(
     isLogin ? `api/v2/boolshit/last` : '',
@@ -77,7 +90,11 @@ function Main() {
       <MainTitle>🤔 오늘 뭐 풀지?</MainTitle>
       <RandomPsDiv>
         <RadomRecommendInput>
-          <input placeholder="백준 아이디" />
+          <input
+            placeholder="백준 아이디"
+            value={bojId}
+            onChange={onChangeBojId}
+          />
           <div
             onClick={() => {
               setShowRecommendModal(true);
@@ -99,7 +116,7 @@ function Main() {
         )}
       </RandomPsDiv>
       <Modal show={showRecommendModal} onCloseModal={onCloseModal}>
-        <ProblemRecommend />
+        <ProblemRecommend bojId={bojId} />
       </Modal>
     </Container>
   );

@@ -5,9 +5,9 @@ import 'rc-slider/assets/index.css';
 const MAX_WIDTH = '610px';
 
 export const Label = styled.span`
-  color: var(--color-textgrey);
   font-size: 0.8rem;
-  font-weight: bold;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
   & span {
     margin-right: 5px;
   }
@@ -57,11 +57,11 @@ export const Title = styled.div`
 export const SwitchWrapper = styled.div`
   display: flex;
   align-items: center;
-  color: var(--color-textgrey);
+  color: var(--color-text-gray);
   font-size: 0.8rem;
-  font-weight: bold;
+  font-weight: 500;
   & div {
-    margin-right: 5px;
+    margin-right: 7px;
   }
   .switch {
     margin-right: 20px;
@@ -84,7 +84,7 @@ export const Slider = styled(RcSlider)`
 `;
 
 export const Form = styled.form`
-  margin: 10px;
+  margin-top: 1.5rem;
   .form-item {
     display: flex;
     flex-direction: column;
@@ -93,15 +93,6 @@ export const Form = styled.form`
   & div {
     margin-bottom: 10px;
   }
-`;
-
-export const Button = styled.button`
-  border-radius: 50px;
-  padding: 10px 20px 10px 20px;
-  border: none;
-  background-color: var(--color-primary);
-  color: white;
-  cursor: pointer;
 `;
 
 export const ErrorMsg = styled.div`
@@ -116,7 +107,21 @@ export const ErrorMsg = styled.div`
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 60px;
+  margin-top: 2rem;
+  > button {
+    border: none;
+    padding: 0.8rem 0.7rem;
+    background-color: var(--color-primary);
+    margin-top: 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: 400;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    width: 8rem;
+    cursor: pointer;
+    align-self: flex-end;
+  }
 `;
 
 export const ProblemWrapper = styled.div`
@@ -129,10 +134,10 @@ export const ProblemWrapper = styled.div`
 
 export const Tag = styled.span`
   border-radius: 50px;
-  padding: 7px 10px 5px 10px;
+  padding: 7px 10px;
   font-size: 0.8rem;
   border: none;
-  background-color: var(--color-background);
+  background-color: var(--color-button-gray);
   margin: 0px 5px 10px 5px;
   text-overflow: 'ellipsis';
 `;
