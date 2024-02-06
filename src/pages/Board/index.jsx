@@ -44,6 +44,7 @@ function Board() {
     boardType.FREE,
     boardType.PS,
     boardType.QUES,
+    boardType.BLOG,
     boardType.NOTICE,
     boardType.MY,
   ];
