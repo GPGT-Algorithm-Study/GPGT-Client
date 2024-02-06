@@ -11,6 +11,10 @@ export const boardType = {
     label: '질문',
     key: 'question',
   },
+  BLOG: {
+    label: '블로그 챌린지',
+    key: 'blog',
+  },
   NOTICE: {
     label: '공지사항',
     key: 'notice',
