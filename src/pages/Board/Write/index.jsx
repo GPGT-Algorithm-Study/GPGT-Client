@@ -123,6 +123,7 @@ function Write({ mode, type, closeWriteMode, post }) {
     return true;
   }, [title, content]);
 
+  const [uploading, setUploading] = useState(false);
   // 게시글 업로드
   const writePost = useCallback(() => {
     const newPost = {
@@ -135,6 +136,7 @@ function Write({ mode, type, closeWriteMode, post }) {
     if (hasProblemType && hasProblemInfo) {
       newPost.problemId = problemId;
     }
+    setUploading(true);
     createPost(newPost)
       .then((res) => {
         toast.success('글을 작성하였습니다.');
@@ -142,6 +144,9 @@ function Write({ mode, type, closeWriteMode, post }) {
       })
       .catch((e) => {
         toast.error('글을 작성하는데 실패하였습니다.');
+      })
+      .finally(() => {
+        setUploading(false);
       });
   }, [
     uuidList,
@@ -197,7 +202,7 @@ function Write({ mode, type, closeWriteMode, post }) {
 
   // 작성 버튼 클릭. 유효성 검사 후 작성이면 작성 수정이면 수정 함수 호출
   const onClickWriteButton = useCallback(() => {
-    if (!validate()) {
+    if (!validate() || uploading) {
       return;
     }
     if (mode === writeType.WRITE) {
