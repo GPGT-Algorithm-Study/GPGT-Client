@@ -1,46 +1,45 @@
 import styled from '@emotion/styled';
 import { IoArrowBackSharp } from 'react-icons/io5';
-import { CommonCard, CommonTitle } from 'style/commonStyle';
 
-export const Title = styled(CommonTitle)`
+export const Title = styled.div`
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  flex-direction: column;
 `;
+
 export const Toolbar = styled.div`
-  margin-top: 20px;
-  padding: 0 10px 25px 10px;
+  margin-top: 1.5rem;
+  padding: 0 0.5rem 2rem 0.5rem;
   display: flex;
   justify-content: space-between;
-  /* border-bottom: 1px solid var(--color-bordergrey); */
+  border-bottom: 1px solid var(--color-border);
 `;
 export const WriteInfo = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.85rem;
 `;
 export const Writer = styled.div`
   display: flex;
   align-items: center;
-  font-weight: bold;
+  font-weight: 600;
 `;
 export const CreateDate = styled.div`
-  color: var(--color-textgrey);
+  color: var(--color-text-gray);
 `;
 export const Button = styled.div`
-  color: var(--color-textgrey);
+  color: var(--color-text-gray);
   cursor: pointer;
 `;
-export const Content = styled(CommonCard)`
-  margin: 0 0 50px 0;
-  padding: 30px 10px;
-  border-radius: 10px;
-  background-color: white;
-  /* border-bottom: 1px solid var(--color-bordergrey); */
+export const Content = styled.div`
+  padding: 2.3rem 0;
+  box-sizing: border-box;
 `;
 
 export const CommentWrapper = styled.div`
-  margin: 0 0 70px 0;
-  padding: 0 10px 0 10px;
+  margin-bottom: 5rem;
+  padding: 0 0.6rem;
+  margin-top: 4rem;
 `;
 
 export const BackButton = styled(IoArrowBackSharp)`

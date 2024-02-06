@@ -5,6 +5,10 @@ import {
   ReplyButton,
   CommentWrapper,
   ReplyList,
+  InputWrapper,
+  NoComment,
+  CommentInputInfo,
+  ReplyMentionInputWrapper,
 } from './style';
 import { createComment } from 'api/comment';
 import { isEmpty } from 'lodash';
@@ -138,14 +142,12 @@ function CommentComponent({ boardId }) {
   return (
     <div>
       {/* 댓글 정보, input 폼 */}
-      <CommentInfo>{allCommentList.length} 개의 댓글</CommentInfo>
-      <MentionInput
-        onChangeComment={onChangeComment}
-        onSubmitComment={onSubmitComment}
-        commentContent={commentContent}
-      />
+      <CommentInfo>댓글 ({allCommentList.length})</CommentInfo>
       {/* 댓글 목록 */}
       <CommentList>
+        {commentList.length === 0 && (
+          <NoComment>아직 작성된 댓글이 없습니다.</NoComment>
+        )}
         {commentList.map((comment) => (
           <CommentWrapper key={comment.id}>
             <Comment comment={comment} />
@@ -154,33 +156,42 @@ function CommentComponent({ boardId }) {
                 toggleShowReply(comment.id);
               }}
             >
-              {showReplyMap[comment.id] ? '답글 접기' : '답글 보기'} (
-              {comment.replyList.length})
+              {showReplyMap[comment.id] ? '취소' : '답글 쓰기'}
             </ReplyButton>
             {/* 답글 목록 */}
-            {showReplyMap[comment.id] && (
-              <>
-                {!isEmpty(comment.replyList) && (
-                  <ReplyList>
-                    {comment.replyList.map((reply) => (
-                      <Comment key={reply.id} comment={reply} reply />
-                    ))}
-                  </ReplyList>
-                )}
-                <MentionInput
-                  onChangeComment={(e) => {
-                    onChangeReply(e, comment.id);
-                  }}
-                  commentContent={replyContentMap[comment.id] || ''}
-                  onSubmitComment={(e) => {
-                    onSubmitReply(e, comment.id);
-                  }}
-                />
-              </>
-            )}
+            <>
+              {!isEmpty(comment.replyList) && (
+                <ReplyList>
+                  {comment.replyList.map((reply) => (
+                    <Comment key={reply.id} comment={reply} reply />
+                  ))}
+                </ReplyList>
+              )}
+              {showReplyMap[comment.id] && (
+                <ReplyMentionInputWrapper>
+                  <MentionInput
+                    onChangeComment={(e) => {
+                      onChangeReply(e, comment.id);
+                    }}
+                    commentContent={replyContentMap[comment.id] || ''}
+                    onSubmitComment={(e) => {
+                      onSubmitReply(e, comment.id);
+                    }}
+                  />
+                </ReplyMentionInputWrapper>
+              )}
+            </>
           </CommentWrapper>
         ))}
       </CommentList>
+      <InputWrapper>
+        <CommentInputInfo>댓글 쓰기</CommentInputInfo>
+        <MentionInput
+          onChangeComment={onChangeComment}
+          onSubmitComment={onSubmitComment}
+          commentContent={commentContent}
+        />
+      </InputWrapper>
     </div>
   );
 }

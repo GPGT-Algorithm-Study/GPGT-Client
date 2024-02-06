@@ -8,9 +8,12 @@ export const Card = styled(CommonCard)`
   @media all and (max-width: 784px) {
     width: calc(100% - 3px);
   }
+`;
+
+export const ContentWrapper = styled.div`
   position: relative;
   display: flex;
-  padding: 30px 27px;
+  padding: 0 2rem 2rem 2rem;
   gap: 10px;
   box-sizing: border-box;
   flex-direction: column;
@@ -18,29 +21,30 @@ export const Card = styled(CommonCard)`
   align-items: center;
   min-height: 230px;
   > span {
-    color: #676767;
+    color: var(--color-text-gray);
     font-weight: 500;
+    font-size: 0.9rem;
   }
 `;
 
 export const NameInfo = styled.div`
-  font-size: 19px;
+  font-size: 1rem;
   font-weight: 600;
-  margin-top: 20px;
-`;
-
-export const Medal = styled.div`
-  position: absolute;
-  top: 80px;
-  left: 50%;
-  width: 40px;
-  height: 40px;
+  margin: 1rem 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 800;
-  background-color: ${(props) => props.color};
+  gap: 0.3rem;
+  font-size: 1.1rem;
+  > span {
+    color: var(--color-text-gray);
+    font-weight: 300;
+    font-size: 0.8rem;
+  }
+`;
+
+export const Title = styled.div`
+  font-weight: 600;
+  padding: 1rem 0 0 1rem;
 `;

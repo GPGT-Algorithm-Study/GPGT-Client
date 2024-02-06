@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
-import { Container, ButtonWrapper } from './style';
-import { CommonButton } from 'style/commonStyle';
+import { Container, ButtonWrapper, Button } from './style';
 import { rerollRandomProblem } from 'api/user';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
@@ -28,7 +27,9 @@ function RefreshModalContent({ onCloseModal, changePoint }) {
       .then(() => {
         mutateProblem();
         onCloseModal();
-        changePoint(-COST);
+        if (changePoint) {
+          changePoint(-COST);
+        }
       })
       .catch((e) => {
         if (e.response) {
@@ -41,17 +42,17 @@ function RefreshModalContent({ onCloseModal, changePoint }) {
     <Container>
       <div>
         <b>{COST}</b>
-        <span>P</span> 를 사용하여 오늘의 랜덤 문제를 다시 추천 받을 수
-        있습니다. <br />
-        진행하시겠습니까?
+        <span>P</span> 를 사용하여 오늘의 랜덤 문제를
+        <br />
+        다시 추천 받으시겠습니까? <br />
       </div>
       <ButtonWrapper>
-        <CommonButton width="30%" primary onClick={refreshProblem}>
+        <Button width="30%" primary onClick={refreshProblem}>
           확인
-        </CommonButton>
-        <CommonButton width="30%" onClick={onCloseModal}>
+        </Button>
+        <Button width="30%" onClick={onCloseModal}>
           취소
-        </CommonButton>
+        </Button>
       </ButtonWrapper>
     </Container>
   );

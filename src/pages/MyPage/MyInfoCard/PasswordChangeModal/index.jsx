@@ -6,6 +6,7 @@ import { getHeaderRefreshTokenConfig, logoutProc } from 'utils/auth';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import { USER_PREFIX_URL } from 'utils/constants';
+import { toast } from 'react-toastify';
 
 function PasswordChangeModal({ showModal, closeModal }) {
   const [pwError, setPwError] = useState(false);
@@ -34,6 +35,7 @@ function PasswordChangeModal({ showModal, closeModal }) {
     changePassword(params, config)
       .then((response) => {
         // 비밀번호 변경 성공 시 로그아웃 처리한다.
+        setPwError(false);
         if (response.status == 200) {
           toast.success('비밀번호를 변경하였습니다. 다시 로그인해주세요.');
           // 로그아웃 처리
@@ -44,10 +46,12 @@ function PasswordChangeModal({ showModal, closeModal }) {
       })
       .catch((e) => {
         if (e.response.data.message == 'Not matches Password') {
-          toast.error('기존 비밀번호가 틀립니다.');
+          setPwError(true);
+          setErrorMsg('기존 비밀번호가 틀립니다.');
           return;
         }
         toast.error('비밀번호 변경에 실패하였습니다.');
+        setPwError(false);
       });
   }, []);
 

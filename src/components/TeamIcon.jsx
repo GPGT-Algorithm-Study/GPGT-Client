@@ -11,9 +11,9 @@ function TeamIcon({ height, width, team }) {
         fill="none"
       >
         <g clipPath="url(#clip0_20_185)">
-          <path d="M0 0V191.014L84.9023 233L170 191.014V0H0Z" fill="#FF6C6C" />
+          <path d="M0 0V191.014L84.9023 233L170 191.014V0H0Z" fill="#fa7373" />
           <path
-            d="M0 154.281V172.447L84.9023 214.433L170 172.447V154.281L84.9023 196.266L0 154.281Z"
+            d="M0 154.281V161.5L84.9023 204L170 161.5V154.281L84.9023 196.266L0 154.281Z"
             fill="white"
           />
           <path
@@ -40,7 +40,7 @@ function TeamIcon({ height, width, team }) {
         <g clipPath="url(#clip0_24_229)">
           <path d="M0 0V191.014L84.9023 233L170 191.014V0H0Z" fill="#FFD643" />
           <path
-            d="M0 154.281V172.447L84.9023 214.433L170 172.447V154.281L84.9023 196.266L0 154.281Z"
+            d="M0 154.281V161.5L84.9023 204L170 161.5V154.281L84.9023 196.266L0 154.281Z"
             fill="white"
           />
           <ellipse cx="92" cy="87.5" rx="42" ry="41.5" fill="white" />

@@ -2,17 +2,21 @@ import styled from '@emotion/styled';
 import { MentionsInput } from 'react-mentions';
 
 export const StyledMentionsInput = styled(MentionsInput)`
-  padding: 10px 9px;
+  padding: 0.7rem 9px;
   background-color: white;
-  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
-  border-radius: 7px;
+  border-radius: 5px;
+  border: 1px solid var(--color-border);
   width: 100%;
+  font-size: 0.9rem;
+  height: 5rem;
+  box-sizing: border-box;
   & strong {
     background: var(--color-mention);
   }
 
   & textarea {
     height: 44px;
+    font-size: 0.9rem;
     padding: 9px 10px !important;
     outline: none !important;
     border-radius: 7px !important;
@@ -34,25 +38,25 @@ export const StyledMentionsInput = styled(MentionsInput)`
 
 export const InputForm = styled.form`
   display: flex;
-  margin-top: 15px;
+  flex-direction: column;
+  align-items: end;
   gap: 7px;
   width: 100%;
   & button {
-    width: 100px;
-    height: 40px;
-    padding: 0 25px;
-    border: none;
-    background-color: var(--color-primary);
-    border-radius: 7px;
-    color: white;
+    font-size: 0.9rem;
+    font-weight: 400;
+    background-color: var(--color-button-gray);
+    border-radius: 5px;
+    padding: 10px 20px;
     cursor: pointer;
+    border: none;
   }
 `;
 
 export const MentionWrapper = styled.div`
-  padding: 5px 10px;
+  padding: 10px;
   border-radius: 10px;
-  font-weight: bold;
-  font-size: 0.9rem;
+  font-weight: 500;
+  font-size: 0.8rem;
   ${(props) => props.focus && 'background-color:var(--color-background);'}
 `;

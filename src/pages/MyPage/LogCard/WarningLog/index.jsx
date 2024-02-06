@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import {
-  Card,
-  Title,
   Value,
   LogWrapper,
   Log,
@@ -10,8 +8,8 @@ import {
   TextWrapper,
   Date,
   TotalWarning,
-  Button,
   Warning,
+  NoLog,
 } from './style';
 import { LOG_PREFIX_URL, WARNING_PAEG_SIZE } from 'utils/constants';
 import useSWRInfinite from 'swr/infinite';
@@ -22,7 +20,7 @@ import useIntersect from 'hooks/useIntersect';
 /**
  * 마이페이지 경고 현황 카드
  */
-function WarningLogCard({ totalWarning }) {
+function WarningLog({ totalWarning }) {
   const [isEndPage, setIsEndPage] = useState(false);
   const [isLoadingLog, setIsLoadingLog] = useState(false);
   const { bojHandle } = useParams();
@@ -66,13 +64,13 @@ function WarningLogCard({ totalWarning }) {
   if (!warningLogs) return null;
 
   return (
-    <Card>
-      <Title>경고 현황</Title>
+    <div>
       <TotalWarning>
         <Warning />
         {totalWarning}
       </TotalWarning>
       <LogWrapper>
+        {warningLogs[0].length === 0 && <NoLog>로그가 없습니다.</NoLog>}
         {warningLogs.map((logs) =>
           logs.map((log) => (
             <Log state={log.state} key={log.id}>
@@ -89,8 +87,8 @@ function WarningLogCard({ totalWarning }) {
         )}
         <Log ref={bottomRef} />
       </LogWrapper>
-    </Card>
+    </div>
   );
 }
 
-export default WarningLogCard;
+export default WarningLog;

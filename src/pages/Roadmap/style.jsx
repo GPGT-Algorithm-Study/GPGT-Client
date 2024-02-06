@@ -17,7 +17,7 @@ export const TitleDiv = styled.div`
     padding: 11px 20px;
     color: #fff;
     font-weight: 600;
-    border-radius: 50px;
+    border-radius: 5px;
     background: var(--color-primary);
     border: none;
     cursor: pointer;

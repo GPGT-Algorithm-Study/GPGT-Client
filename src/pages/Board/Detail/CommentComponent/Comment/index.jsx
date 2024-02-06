@@ -130,16 +130,20 @@ function Comment({ comment, reply = false }) {
                 style={{ color: 'var(--color-textgrey)', marginRight: '5px' }}
               />
             )}
-            <CommonProfileImage
-              width={20}
-              height={20}
-              src={
-                comment.profileImg != 'null'
-                  ? comment.profileImg
-                  : 'https://static.solved.ac/misc/360x360/default_profile.png'
-              }
-            />
-            <div>{comment.notionId}</div>
+            <WriteInfo>
+              <CommonProfileImage
+                width={20}
+                height={20}
+                src={
+                  comment.profileImg != 'null'
+                    ? comment.profileImg
+                    : 'https://static.solved.ac/misc/360x360/default_profile.png'
+                }
+              />
+              <div>
+                {comment.notionId} {comment.emoji}
+              </div>
+            </WriteInfo>
             <CreateDate key={comment.id}>
               {dayjs(comment.createdDate).format('YYYY.MM.DD HH:mm')}
             </CreateDate>

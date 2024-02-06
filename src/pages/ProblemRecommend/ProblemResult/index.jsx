@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
-import { Title } from './style';
+import { Title, NoRecommend } from './style';
 import { CommonTierImg } from 'style/commonStyle';
 
 /**
@@ -19,7 +19,8 @@ function ProblemResult({ problem }) {
   // 문제 정보가 없을 경우
   if (isEmpty(problem)) return <></>;
   // 추천할 문제가 없을 경우
-  if (!problem.id) return <div>추천해 줄 문제가 없습니다.</div>;
+  if (!problem.id)
+    return <NoRecommend>추천드릴 문제가 없습니다 😭</NoRecommend>;
 
   return (
     <div>

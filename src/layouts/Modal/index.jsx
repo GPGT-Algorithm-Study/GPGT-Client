@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { CreateModal, CloseModalButton } from './style';
+import { IoCloseOutline } from 'react-icons/io5';
 
 const Modal = ({ children, style, show, onCloseModal }) => {
   const stopPropagation = useCallback((e) => {
@@ -11,7 +12,9 @@ const Modal = ({ children, style, show, onCloseModal }) => {
   return (
     <CreateModal onClick={onCloseModal}>
       <div style={style} onClick={stopPropagation}>
-        <CloseModalButton onClick={onCloseModal}>&times;</CloseModalButton>
+        <CloseModalButton onClick={onCloseModal}>
+          <IoCloseOutline size="21" />
+        </CloseModalButton>
         {children}
       </div>
     </CreateModal>
