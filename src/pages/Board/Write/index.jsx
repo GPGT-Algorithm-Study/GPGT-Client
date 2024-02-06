@@ -33,6 +33,7 @@ function Write({ mode, type, closeWriteMode, post }) {
     boardType.FREE,
     boardType.PS,
     boardType.QUES,
+    boardType.BLOG,
   ]);
   const [selectedCategory, setSelectedCategory] = useState(boardType.FREE.key);
   const [title, setTitle] = useState('');
