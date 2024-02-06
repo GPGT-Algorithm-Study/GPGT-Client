@@ -31,7 +31,7 @@ export const LoginWrapper = styled.div`
   width: 450px;
   height: 420px;
   max-width: 80%;
-  padding: 4cm0px 30px;
+  padding: 40px 30px;
   border-radius: 5px;
   border: 1px solid var(--color-border);
   @media all and (max-width: 400px) {

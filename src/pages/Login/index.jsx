@@ -66,8 +66,7 @@ function Login() {
   return (
     <LoginWrapper>
       <LogoWrapper>
-        로그인
-        {/* <img width="180" src={process.env.PUBLIC_URL + '/header_logo.svg'} /> */}
+        <img width="150" src={process.env.PUBLIC_URL + '/header_logo.svg'} />
       </LogoWrapper>
       <form onSubmit={loginProc}>
         <Input onChange={changeId} value={id} placeholder="ID" />
