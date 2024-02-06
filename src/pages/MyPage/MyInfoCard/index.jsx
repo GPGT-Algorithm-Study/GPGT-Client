@@ -9,6 +9,7 @@ import {
   UserInfo,
   SettingMenu,
   ToggleButton,
+  TierSpan,
 } from './style';
 import { WarningMsg, ProfileImage } from 'pages/Users/UserCard/style';
 import PasswordChangeModal from './PasswordChangeModal';
@@ -17,7 +18,7 @@ import { scrapUserInfo } from 'api/scraping';
 import { toast } from 'react-toastify';
 import { Tooltip } from 'react-tooltip';
 import { IoMdSettings } from 'react-icons/io';
-import { numToTierStrKo } from 'utils/tier';
+import { getTierColor, numToTierStrKo } from 'utils/tier';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import ProblemCard from 'pages/Users/ProblemCard';
 import RandomProblemCard from 'pages/Users/RandomProblemCard';
@@ -138,7 +139,10 @@ function MyInfoCard({ userInfo, isUser, loadData }) {
         </ProfileWrapper>
         <UserInfo>
           <div>
-            solved.ac 티어 <span>{numToTierStrKo(userInfo.tier - 1)}</span>
+            solved.ac 티어
+            <TierSpan color={getTierColor(userInfo.tier - 1)}>
+              {numToTierStrKo(userInfo.tier - 1)}
+            </TierSpan>
           </div>
           <div>
             푼 문제 수 <span>{userInfo.totalSolved}</span>
