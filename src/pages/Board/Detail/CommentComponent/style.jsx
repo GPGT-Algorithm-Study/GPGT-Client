@@ -103,7 +103,6 @@ export const FlexWrapper = styled.div`
 `;
 
 export const CommentWrapper = styled.div`
-  border-radius: 7px;
   background-color: white;
   padding: 2rem 0.7rem;
   box-sizing: border-box;
