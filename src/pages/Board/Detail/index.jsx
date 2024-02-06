@@ -9,6 +9,7 @@ import {
   WriteInfo,
   Content,
   CommentWrapper,
+  ProblemWrapper,
 } from './style';
 import CommentComponent from './CommentComponent';
 import { Link, useParams } from 'react-router-dom';
@@ -168,7 +169,11 @@ function Detail() {
             )}
           </WriteInfo>
         </Toolbar>
-        {hasProblem && <BoardProblemCard problem={problemInfo} />}
+        {hasProblem && (
+          <ProblemWrapper>
+            <BoardProblemCard problem={problemInfo} />
+          </ProblemWrapper>
+        )}
         {post ? (
           <Content data-color-mode="light">
             <MDEditor.Markdown

@@ -47,3 +47,7 @@ export const BackButton = styled(IoArrowBackSharp)`
   margin-bottom: 20px;
   cursor: pointer;
 `;
+
+export const ProblemWrapper = styled.div`
+  margin-top: 2rem;
+`;
