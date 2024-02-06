@@ -226,7 +226,20 @@ function ProblemRecommend() {
             allowCross={false}
             onChange={onChangeSlider}
             marks={tierMarks}
-            trackStyle={{ backgroundColor: 'var(--color-toggle)' }}
+            trackStyle={{
+              backgroundColor: 'var(--color-toggle)',
+              height: '8px',
+            }}
+            railStyle={{ height: '8px' }}
+            dotStyle={{ display: 'none' }}
+            handleStyle={{
+              height: '13px',
+              width: '13px',
+              marginTop: '-2px',
+              backgroundColor: '#fff',
+              opacity: '1',
+              border: '1px solid var(--color-border)',
+            }}
           />
         </div>
         <ButtonWrapper>

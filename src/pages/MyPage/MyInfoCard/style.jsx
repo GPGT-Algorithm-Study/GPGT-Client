@@ -61,6 +61,7 @@ export const UserInfo = styled.div`
   gap: 1rem;
   font-size: 0.85rem;
   margin-top: 1.5rem;
+  padding-bottom: 0.5rem;
   > div {
     display: flex;
     align-items: center;

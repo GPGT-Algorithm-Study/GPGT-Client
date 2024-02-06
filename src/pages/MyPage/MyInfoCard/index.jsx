@@ -21,6 +21,7 @@ import { numToTierStrKo } from 'utils/tier';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import ProblemCard from 'pages/Users/ProblemCard';
 import RandomProblemCard from 'pages/Users/RandomProblemCard';
+import SettingRandomPopup from './SettingRandomPopup';
 
 /**
  * 마이페이지 내 정보 카드
@@ -31,6 +32,7 @@ function MyInfoCard({ userInfo, isUser, loadData }) {
   const [showPwChangeModal, setShowPwChangeModal] = useState(false);
   const [showSettinMenu, setShowSettingMenu] = useState(false);
   const [showProblems, setShowProblems] = useState(false);
+  const [showRandomSetting, setShowRandomSetting] = useState(false);
 
   const [refreshing, setRefreshing] = useState(false);
   const refreshUserInfo = useCallback(() => {
@@ -80,7 +82,14 @@ function MyInfoCard({ userInfo, isUser, loadData }) {
                 >
                   비밀번호 변경
                 </div>
-                <div>랜덤 문제 추천 설정</div>
+                <div
+                  onClick={() => {
+                    setShowRandomSetting(true);
+                    setShowSettingMenu(false);
+                  }}
+                >
+                  랜덤 문제 추천 설정
+                </div>
                 <div data-tooltip-id="info-tooltip" onClick={refreshUserInfo}>
                   정보 업데이트
                   <HiOutlineRefresh
@@ -146,12 +155,20 @@ function MyInfoCard({ userInfo, isUser, loadData }) {
           <span>{showProblems ? <IoIosArrowUp /> : <IoIosArrowDown />}</span>
         </ToggleButton>
         {isUser && (
-          <PasswordChangeModal
-            showModal={showPwChangeModal}
-            closeModal={() => {
-              setShowPwChangeModal(false);
-            }}
-          />
+          <>
+            <PasswordChangeModal
+              showModal={showPwChangeModal}
+              closeModal={() => {
+                setShowPwChangeModal(false);
+              }}
+            />
+            <SettingRandomPopup
+              showModal={showRandomSetting}
+              closeModal={() => {
+                setShowRandomSetting(false);
+              }}
+            />
+          </>
         )}
       </Card>
       {showProblems && (

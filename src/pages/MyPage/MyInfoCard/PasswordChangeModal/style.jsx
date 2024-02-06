@@ -30,7 +30,8 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   border: none;
-  width: 100%;
+  width: 8rem;
+  align-self: flex-end;
   padding: 1rem;
   background-color: var(--color-primary);
   margin-top: 20px;

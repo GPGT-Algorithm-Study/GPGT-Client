@@ -8,7 +8,6 @@ import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import useSWR from 'swr';
 import RoadmapCard from './RoadmapCard';
-import RandomProblemCard from 'pages/Users/RandomProblemCard';
 import PageTitle from 'components/PageTitle';
 import StreakCard from './StreakCard';
 import LogCard from './LogCard';
