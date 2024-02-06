@@ -7,6 +7,14 @@ const tierClassKo = [
   '다이아몬드',
   '루비',
 ];
+const tierColor = [
+  '#a25c1f',
+  '#435972',
+  '#e09f37',
+  '#5ac48f',
+  '#50b1f6',
+  '#ea3364',
+];
 const tierMap = { b: 0, s: 1, g: 2, p: 3, d: 4, r: 5 };
 
 /**
@@ -21,6 +29,13 @@ export function numToTierStr(tier) {
  */
 export function numToTierStrKo(tier) {
   return `${tierClassKo[parseInt(tier / 5)]} ${5 - (tier % 5)}`;
+}
+
+/**
+ * 숫자로 들어오는 티어의 색상 반환 0~4 -> 브론즈
+ */
+export function getTierColor(tier) {
+  return tierColor[parseInt(tier / 5)];
 }
 
 /**

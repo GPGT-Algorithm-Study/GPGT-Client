@@ -3,7 +3,6 @@ import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   padding: 3rem 2rem;
-  overflow: auto;
   box-sizing: border-box;
   border: none;
   background-color: #f7f7f7;
@@ -125,4 +124,9 @@ export const ToggleButton = styled.div`
   & span {
     margin-top: 5px;
   }
+`;
+
+export const TierSpan = styled.div`
+  font-weight: 600;
+  color: ${(props) => (props.color ? props.color : 'var(--color-deep-gray)')};
 `;
