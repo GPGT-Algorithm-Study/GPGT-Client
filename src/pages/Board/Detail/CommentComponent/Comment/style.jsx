@@ -47,7 +47,7 @@ export const CommentWrapper = styled.div`
 `;
 
 export const ReplyWrapper = styled.div`
-  margin-left: 20px;
+  margin-left: 35px;
   white-space: pre-line;
   line-height: 1.5;
   margin-top: 0.7rem;
