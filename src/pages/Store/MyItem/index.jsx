@@ -101,6 +101,11 @@ function MyItem() {
   }, []);
 
   const clickUseButton = useCallback((itemId) => {
+    if (!userInfo) return;
+    if (userInfo.warning == 4) {
+      toast.error('아이템을 사용하실 수 없습니다.');
+      return;
+    }
     const params = { itemId, bojHandle: userInfo.bojHandle };
     if (itemId == 4) {
       setShowMyComment(true);

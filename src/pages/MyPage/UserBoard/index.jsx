@@ -13,7 +13,7 @@ import { isEmpty } from 'lodash';
 import Pagination from 'components/Pagination';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   MY_BOARD_PAGE_SIZE,
   BRD_PREFIX_URL,
@@ -29,6 +29,8 @@ function UserBoard() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [postList, setPostList] = useState([]);
+
+  const navigate = useNavigate();
 
   // 사용자 정보
   const { bojHandle } = useParams();
@@ -67,7 +69,12 @@ function UserBoard() {
         <>
           <BoardContent>
             {postList.map((post) => (
-              <PostItem key={post.id}>
+              <PostItem
+                key={post.id}
+                onClick={() => {
+                  navigate(`/board/${post.id}`);
+                }}
+              >
                 <PostTitle>
                   <div>
                     <span>[{getTypeLabel(post.type)}]</span>

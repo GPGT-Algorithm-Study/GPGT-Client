@@ -48,6 +48,7 @@ export const PostItem = styled.div`
   flex-wrap: wrap;
   padding: 1.5rem 0;
   row-gap: 0.8rem;
+  cursor: pointer;
 `;
 
 export const PostInfo = styled.div`

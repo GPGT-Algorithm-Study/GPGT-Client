@@ -76,7 +76,7 @@ function Login() {
           type="password"
           placeholder="Password"
         />
-        {loginError && <ErrorMsg>{errorMsg}</ErrorMsg>}
+        <ErrorMsg>{loginError && errorMsg}</ErrorMsg>
         <Button>로그인</Button>
       </form>
     </LoginWrapper>

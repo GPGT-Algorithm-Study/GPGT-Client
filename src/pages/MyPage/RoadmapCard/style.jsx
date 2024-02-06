@@ -44,6 +44,7 @@ export const RoadmapItem = styled.div`
   flex-wrap: wrap;
   padding: 1.5rem 0;
   row-gap: 0.8rem;
+  cursor: pointer;
 `;
 
 export const RoadmapTitle = styled.div`

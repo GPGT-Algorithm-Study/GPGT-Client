@@ -52,9 +52,8 @@ export const Button = styled.button`
 `;
 
 export const ErrorMsg = styled.div`
-  margin-top: 7px;
   color: var(--color-error);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 `;
 
 export const LogoWrapper = styled.div`
