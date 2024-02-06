@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import {
-  Card,
-  Title,
   Point,
   LogWrapper,
   Log,
@@ -10,7 +8,7 @@ import {
   TextWrapper,
   Date,
   TotalPoint,
-  Button,
+  NoLog,
 } from './style';
 import { LOG_PREFIX_URL, POINT_PAGE_SIZE } from 'utils/constants';
 import useSWRInfinite from 'swr/infinite';
@@ -21,7 +19,7 @@ import useIntersect from 'hooks/useIntersect';
 /**
  * 마이페이지 포인트 현황 카드
  */
-function PointLogCard({ totalPoint }) {
+function PointLog({ totalPoint }) {
   const [isEndPage, setIsEndPage] = useState(false);
   const [isLoadingLog, setIsLoadingLog] = useState(false);
   const { bojHandle } = useParams();
@@ -64,12 +62,12 @@ function PointLogCard({ totalPoint }) {
   if (!pointLogs) return null;
 
   return (
-    <Card>
-      <Title>포인트 현황</Title>
+    <div>
       <TotalPoint>
         <p>P</p> {totalPoint}
       </TotalPoint>
       <LogWrapper>
+        {pointLogs[0].length === 0 && <NoLog>로그가 없습니다.</NoLog>}
         {pointLogs.flat().map((log) => (
           <Log state={log.state} key={log.id}>
             <TextWrapper>
@@ -85,8 +83,8 @@ function PointLogCard({ totalPoint }) {
         ))}
         <Log ref={bottomRef} />
       </LogWrapper>
-    </Card>
+    </div>
   );
 }
 
-export default PointLogCard;
+export default PointLog;

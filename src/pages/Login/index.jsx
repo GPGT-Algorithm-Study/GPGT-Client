@@ -66,7 +66,7 @@ function Login() {
   return (
     <LoginWrapper>
       <LogoWrapper>
-        <img width="180" src={process.env.PUBLIC_URL + '/header_logo.svg'} />
+        <img width="150" src={process.env.PUBLIC_URL + '/header_logo.svg'} />
       </LogoWrapper>
       <form onSubmit={loginProc}>
         <Input onChange={changeId} value={id} placeholder="ID" />
@@ -76,8 +76,8 @@ function Login() {
           type="password"
           placeholder="Password"
         />
-        {loginError && <ErrorMsg>{errorMsg}</ErrorMsg>}
-        <Button>Login</Button>
+        <ErrorMsg>{loginError && errorMsg}</ErrorMsg>
+        <Button>로그인</Button>
       </form>
     </LoginWrapper>
   );

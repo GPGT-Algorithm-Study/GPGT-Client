@@ -1,23 +1,17 @@
 import React from 'react';
-import {
-  AiOutlineWarning,
-  AiFillSound,
-  AiOutlineFileText,
-} from 'react-icons/ai';
-import { BsSnow } from 'react-icons/bs';
 
-function ItemIcon({ itemId, size, color }) {
+function ItemIcon({ itemId }) {
   if (itemId == 1) {
-    return <AiOutlineFileText size={size} color={color} />;
+    return '📝';
   }
   if (itemId == 2) {
-    return <AiOutlineWarning size={size} color={color} />;
+    return '⛔️';
   }
   if (itemId == 3) {
-    return <BsSnow size={size} color={color} />;
+    return '❄️';
   }
   if (itemId == 4) {
-    return <AiFillSound size={size} color={color} />;
+    return '📣';
   }
   return <div />;
 }

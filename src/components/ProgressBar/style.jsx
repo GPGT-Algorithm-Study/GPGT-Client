@@ -4,13 +4,12 @@ export const ProgressBarDiv = styled.div`
   width: 100%;
   box-sizing: border-box;
   display: flex;
-  gap: 8px;
   > div {
     font-size: 0.9rem;
     font-weight: 500;
-    text-align: start;
+    text-align: end;
     color: var(--color-primary);
-    width: 70px;
+    width: 60px;
   }
   input[type='range'] {
     -webkit-appearance: none;

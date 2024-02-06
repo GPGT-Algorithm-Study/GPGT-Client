@@ -13,14 +13,16 @@ import {
   TagWrapper,
   NoRandomProblem,
   TagSwitchWrapper,
+  ProblemNumber,
+  SolvedWrapper,
 } from './style';
 import { BiRefresh } from 'react-icons/bi';
 import { CommonTierImg } from 'style/commonStyle';
-import Modal from 'layouts/Modal';
 import RefreshModalContent from './RefreshModalContent';
 import useSWR from 'swr';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
+import Confirm from 'layouts/Confirm';
 
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트
@@ -83,14 +85,9 @@ function RandomProblemCard({ user, changePoint, background }) {
           </NoRandomProblem>
           <CardContent isBlur>
             <TitleWrapper>
-              <Title>
-                오늘의 랜덤 문제
-                <p> +{problem.point} P</p>
-              </Title>
+              <Title />
             </TitleWrapper>
-            <ProblemTitle>
-              {problem.problemId}번 : {problem.titleKo}
-            </ProblemTitle>
+            <ProblemTitle />
             <ProblemWrapper>
               <SolvedIcon solved={problem.isTodayRandomSolved} />
             </ProblemWrapper>
@@ -109,16 +106,20 @@ function RandomProblemCard({ user, changePoint, background }) {
           <CardContent>
             <TitleWrapper>
               <Title>
-                오늘의 랜덤 문제
+                📩 오늘의 랜덤 문제
                 <p> +{problem.point} P</p>
                 {loginUser.claim === user.bojHandle &&
                   problem.problemId != 0 &&
                   !problem.isTodayRandomSolved && (
-                    <BiRefresh size="21" onClick={onClickRefreshButton} />
+                    <BiRefresh
+                      size="21"
+                      onClick={onClickRefreshButton}
+                      style={{ color: 'var(--color-text-gray)' }}
+                    />
                   )}
               </Title>
               <TagSwitchWrapper>
-                <span>Tags</span>
+                <span>태그</span>
                 <Switch
                   onChange={onClickTagButton}
                   checked={showTags}
@@ -132,30 +133,31 @@ function RandomProblemCard({ user, changePoint, background }) {
                 />
               </TagSwitchWrapper>
             </TitleWrapper>
-            <ProblemTitle>
-              {problem.level && (
-                <CommonTierImg
-                  src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
-                  width="20"
-                  height="20"
-                />
-              )}
-              <p>
-                {problem.problemId}번 : {problem.titleKo}
-              </p>
-            </ProblemTitle>
             <ProblemWrapper>
-              <TagWrapper>
-                {problem.tags &&
-                  showTags &&
-                  problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
-              </TagWrapper>
-              <SolvedIcon solved={problem.isTodayRandomSolved} />
+              <ProblemNumber>
+                {problem.level && (
+                  <CommonTierImg
+                    src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
+                    width="20"
+                    height="20"
+                  />
+                )}
+                <div>{problem.problemId}</div>
+              </ProblemNumber>
+              <ProblemTitle>{problem.titleKo}</ProblemTitle>
+              <SolvedWrapper>
+                <TagWrapper>
+                  {problem.tags &&
+                    showTags &&
+                    problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
+                </TagWrapper>
+                <SolvedIcon solved={problem.isTodayRandomSolved} />
+              </SolvedWrapper>
             </ProblemWrapper>
           </CardContent>
         </a>
       )}
-      <Modal
+      <Confirm
         show={showRefreshModal}
         onCloseModal={() => {
           setShowRefreshModal(false);
@@ -167,7 +169,7 @@ function RandomProblemCard({ user, changePoint, background }) {
           }}
           changePoint={changePoint}
         />
-      </Modal>
+      </Confirm>
     </Card>
   );
 }

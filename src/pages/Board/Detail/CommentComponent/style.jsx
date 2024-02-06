@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
-import { CommonCard } from 'style/commonStyle';
 import { MentionsInput } from 'react-mentions';
 
 export const CommentInfo = styled.div`
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.9rem;
+  width: 100%;
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid var(--color-border);
 `;
 
 export const StyledMentionsInput = styled(MentionsInput)`
@@ -68,13 +71,19 @@ export const CommentList = styled.div`
   flex-direction: column;
   gap: 5px;
   box-sizing: border-box;
+  > div {
+    border-bottom: 1px solid var(--color-border);
+  }
+  > :last-child {
+    border-bottom: none;
+  }
 `;
 
 export const ReplyButton = styled.div`
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--color-textgrey);
-  /* margin: 15px 10px 0 0; */
+  margin-bottom: 1rem;
   font-weight: normal;
 `;
 
@@ -93,10 +102,10 @@ export const FlexWrapper = styled.div`
   align-items: center;
 `;
 
-export const CommentWrapper = styled(CommonCard)`
+export const CommentWrapper = styled.div`
   border-radius: 7px;
   background-color: white;
-  padding: 15px;
+  padding: 2rem 0.7rem;
   box-sizing: border-box;
 `;
 
@@ -106,4 +115,30 @@ export const MentionWrapper = styled.div`
   font-weight: bold;
   font-size: 0.9rem;
   ${(props) => props.focus && 'background-color:var(--color-background);'}
+`;
+
+export const InputWrapper = styled.div`
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+`;
+
+export const CommentInputInfo = styled.div`
+  font-weight: 600;
+  font-size: 0.9rem;
+  width: 100%;
+  padding: 1rem 0.5rem;
+`;
+
+export const NoComment = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 10rem;
+  font-size: 0.9rem;
+  color: var(--color-text-gray);
+`;
+
+export const ReplyMentionInputWrapper = styled.div`
+  margin-top: 2rem;
 `;

@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
-  padding: 25px;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 2.5rem;
 `;
 
 export const RankInfo = styled.div`
@@ -16,20 +16,22 @@ export const RankInfo = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
   }
   > span {
-    color: #676767;
-    font-size: 16px;
+    color: var(--color-text-gray);
     font-weight: 500;
+    font-size: 0.9rem;
+    @media all and (max-width: 480px) {
+      display: none;
+    }
   }
 `;
 
 export const RankNumber = styled.div`
-  font-size: 16px;
   font-weight: 600;
-  margin-right: 15px;
+  margin-right: 13px;
+  width: 23px;
 `;
 
 export const TopThreeWrapper = styled.div`
@@ -37,4 +39,16 @@ export const TopThreeWrapper = styled.div`
   flex-wrap: wrap;
   gap: 15px;
   justify-content: space-between;
+  margin-top: 1.5rem;
+`;
+
+export const NameInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  > span {
+    font-size: 0.8rem;
+    color: var(--color-text-gray);
+    font-weight: 400;
+  }
 `;

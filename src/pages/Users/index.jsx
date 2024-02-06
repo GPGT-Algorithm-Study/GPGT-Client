@@ -1,14 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { CardWrapper, UserInfoWrapper, UserProblemInfo } from './style';
+import {
+  CardWrapper,
+  UserInfoWrapper,
+  UserProblemInfo,
+  Container,
+} from './style';
 import UserCard from './UserCard';
 import RandomProblemCard from './RandomProblemCard';
 import ProblemCard from './ProblemCard';
 import { isEmpty } from 'lodash';
-import LeftTime from 'components/LeftTime';
-import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
 import useSWR from 'swr';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
+import PageTitle from 'components/PageTitle';
+import SkeletonUserCard from './SkeletonUserCard';
 
 /**
  * 사용자 탭 내용 컴포넌트
@@ -69,18 +74,28 @@ function Users() {
   );
 
   if (isLoading) {
-    return null;
+    return (
+      <Container>
+        <PageTitle showLeftTime title="스터디원" />
+        <UserInfoWrapper>
+          {new Array(3).fill(0).map((_, i) => (
+            <CardWrapper key={i}>
+              <UserProblemInfo>
+                <SkeletonUserCard />
+              </UserProblemInfo>
+            </CardWrapper>
+          ))}
+        </UserInfoWrapper>
+      </Container>
+    );
   }
 
   return (
-    <div>
-      <CommonFlexWrapper>
-        <CommonTitle>스터디원</CommonTitle>
-        <LeftTime />
-      </CommonFlexWrapper>
+    <Container>
+      <PageTitle showLeftTime={true} title="스터디원" />
       <UserInfoWrapper>
         {sortedUsers &&
-          sortedUsers.map((user, i) => {
+          sortedUsers.map((user) => {
             if (!isEmpty(user)) {
               return (
                 <CardWrapper key={user.notionId}>
@@ -105,7 +120,7 @@ function Users() {
             }
           })}
       </UserInfoWrapper>
-    </div>
+    </Container>
   );
 }
 

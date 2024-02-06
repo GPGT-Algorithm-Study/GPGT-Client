@@ -3,7 +3,7 @@ import { CommonProfileImage } from 'style/commonStyle';
 import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
-  padding: 20px 20px 0 20px;
+  padding: 25px 20px 0 20px;
 `;
 
 export const UserInfo = styled.div`
@@ -18,8 +18,8 @@ export const UserInfo = styled.div`
     margin-left: 15px;
   }
   .user-id {
-    font-weight: bold;
-    font-size: 1.2rem;
+    font-weight: 500;
+    font-size: 1.1rem;
   }
   .boj-handle {
     display: flex;
@@ -34,7 +34,7 @@ export const UserInfo = styled.div`
     }
     .points {
       color: black;
-      font-weight: bold;
+      font-weight: 500;
       margin: 0 0 0 4px;
     }
   }
@@ -61,9 +61,10 @@ export const ProfileImage = styled(CommonProfileImage)`
 `;
 
 export const WarningMsg = styled.div`
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.9rem;
+  align-self: flex-start;
   color: var(--color-error);
-  margin-top: 8px;
 `;
 
 export const WarningWrapper = styled.div`
@@ -92,9 +93,12 @@ export const StreakSolved = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin-left: 6px;
+  margin-top: -3px;
+  margin-bottom: 3px;
   font-size: 0.9rem;
   & span {
-    font-weight: bold;
+    font-weight: 600;
+    color: var(--color-deep-gray);
   }
 `;
 
@@ -157,7 +161,7 @@ export const ScrollButton = styled.button`
 
 export const IconWrapper = styled.div`
   position: absolute;
-  margin-top: -69px;
+  margin-top: -74px;
   right: 0;
 `;
 
@@ -193,4 +197,5 @@ export const CenterConatiner = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 `;
