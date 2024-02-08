@@ -161,8 +161,9 @@ function Write({ mode, type, closeWriteMode, post }) {
 
   // 컨텐츠에서 이미지 uuid만 파싱
   const getImageUuids = useCallback((markdownContent) => {
-    const regex = /!\[\]\((.*?)\)/g;
+    const regex = /!\[.*?\]\((.*?)\)/g;
     const uuids = [];
+    console.log(markdownContent);
     let match;
     while ((match = regex.exec(markdownContent)) !== null) {
       const uuid = match[1].split('/').splice(-1)[0];
