@@ -34,10 +34,13 @@ export const ProblemIdDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #676767;
+  color: var(--color-text-gray);
   font-size: 15px;
   font-weight: 600;
   width: 100%;
+  > div {
+    margin-bottom: 3px;
+  }
 `;
 
 export const ProblemTitle = styled.div`

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Card, Title, Content } from './style';
+import { Card, Title, Content, RoadmapItem, RoadmapTitle } from './style';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROADMAP_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import useSWR from 'swr';
 import ProgressBar from 'components/ProgressBar';
+import { NoPosts } from '../UserBoard/style';
+import { isEmpty } from 'lodash';
 
 /**
  * 마이페이지 진행 중 로드맵 카드
@@ -22,20 +24,27 @@ function RoadmapCard() {
 
   return (
     <Card>
-      <Title>진행중인 로드맵</Title>
+      <Title>
+        🗺️ 진행중인 로드맵 <span>{progressInfo.length} 개의 로드맵</span>
+      </Title>
       <Content>
-        {progressInfo.map((roadmap) => (
-          <div
-            onClick={() => {
-              navigate(`/roadmap/${roadmap.roadmapId}`);
-            }}
-          >
-            {roadmap.name}
-            <div>
-              <ProgressBar percentage={roadmap.progress} />
-            </div>
-          </div>
-        ))}
+        {isEmpty(progressInfo) ? (
+          <NoPosts>진행중인 로드맵이 없습니다.</NoPosts>
+        ) : (
+          progressInfo.map((roadmap, i) => (
+            <RoadmapItem
+              onClick={() => {
+                navigate(`/roadmap/${roadmap.roadmapId}`);
+              }}
+              key={i}
+            >
+              <RoadmapTitle>{roadmap.name}</RoadmapTitle>
+              <div>
+                <ProgressBar percentage={roadmap.progress} />
+              </div>
+            </RoadmapItem>
+          ))
+        )}
       </Content>
     </Card>
   );

@@ -2,19 +2,23 @@ import React, { useCallback } from 'react';
 import {
   Container,
   ItemWrapper,
-  Title,
+  PointWrapper,
   Item,
   ItemName,
   Point,
   Description,
+  IconWrapper,
+  Button,
+  MyItemTitle,
 } from './style';
-import { CommonButton } from 'style/commonStyle';
 import { buyItem } from 'api/item';
 import ItemIcon from 'components/ItemIcon';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import { ITEM_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
+import PageTitle from 'components/PageTitle';
+import MyItem from './MyItem';
 
 function Store() {
   const { data: items } = useSWR(`${ITEM_PREFIX_URL}/all`, fetcher);
@@ -36,6 +40,11 @@ function Store() {
 
   const clickBuyButton = useCallback(
     (itemId) => {
+      if (!userInfo) return;
+      if (userInfo.warning == 4) {
+        toast.error('상점을 이용하실 수 없습니다.');
+        return;
+      }
       const params = {
         bojHandle: loginUser.claim,
         itemId: itemId,
@@ -56,7 +65,7 @@ function Store() {
           toast.error(res.data.message);
         });
     },
-    [loginUser],
+    [loginUser, userInfo],
   );
 
   if (!items || !loginUser || !userInfo) {
@@ -65,37 +74,36 @@ function Store() {
 
   return (
     <Container>
-      <Title>
-        <h2>상점</h2>
-        <div>
-          (보유 포인트: {userInfo.point}
-          <span> P</span>)
-        </div>
-      </Title>
+      <PageTitle title="상점" />
+      <PointWrapper>
+        {userInfo.point} <span>P</span>
+      </PointWrapper>
       <ItemWrapper>
         {items.map((item) => (
           <Item key={item.id}>
-            <div>
-              <ItemIcon itemId={item.id} size="38" color="#3362c5" />
-            </div>
+            <IconWrapper>
+              <ItemIcon itemId={item.id} />
+            </IconWrapper>
             <ItemName>{item.name}</ItemName>
-            <Description>
-              {item.description}
-              <div>(최대 {item.maxItemCount}개 보유 가능)</div>
-            </Description>
+            <Description>{item.description}</Description>
             <Point>
               {item.itemValue} <span>P</span>
             </Point>
-            <CommonButton
+            <Description>
+              <div>최대 {item.maxItemCount}개 보유 가능</div>
+            </Description>
+            <Button
               onClick={() => {
                 clickBuyButton(item.id);
               }}
             >
               구매하기
-            </CommonButton>
+            </Button>
           </Item>
         ))}
       </ItemWrapper>
+      <MyItemTitle>보유 아이템</MyItemTitle>
+      <MyItem />
     </Container>
   );
 }

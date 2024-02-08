@@ -1,70 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import {
   Card,
-  NameWrapper,
-  RankWrapper,
-  ScoreWrappeer,
-  ContributorWrapper,
-  ImageWrapper,
-  WinnerIcon,
+  UserPointWrapper,
+  TitleWrapper,
+  GraphDescription,
 } from './style';
-import { CommonProfileImage } from 'style/commonStyle';
+import UserScoreInfo from '../UserScoreInfo';
+import Tab from 'components/Tab';
+import { IoListSharp } from 'react-icons/io5';
+import { MdPieChart } from 'react-icons/md';
+import PieGraph from './PieGraph';
 
-function ScoreCard({ team }) {
+function ScoreCard({ teamInfo }) {
   const [users, setUsers] = useState([]);
+  const [curTab, setCurTab] = useState(0);
 
   // 포인트에 따라 사용자 정렬
   useEffect(() => {
-    setUsers(team.users?.sort((a, b) => b.point - a.point));
-  }, [team]);
+    setUsers(teamInfo.users?.sort((a, b) => b.point - a.point));
+  }, [teamInfo]);
 
   return (
-    <Card>
-      <ContributorWrapper>
-        <div>🎉 Top Contributor 🎉</div>
-        <ImageWrapper>
-          <CommonProfileImage
-            width={40}
-            height={40}
-            src={
-              team?.topContributor.profileImg != 'null'
-                ? team?.topContributor.profileImg
-                : 'https://static.solved.ac/misc/360x360/default_profile.png'
-            }
-          />
-          <p>
-            {team?.topContributor.notionId} {team?.topContributor.emoji}{' '}
-          </p>
-        </ImageWrapper>
-      </ContributorWrapper>
-      {users?.map((user) => (
-        <RankWrapper key={user.notionId}>
-          <NameWrapper>
-            <div>
-              {user.notionId == team?.topContributor.notionId && (
-                <WinnerIcon>
-                  <img src={`${process.env.PUBLIC_URL}/crown_icon.svg`} />
-                </WinnerIcon>
-              )}
-              <CommonProfileImage
-                width={40}
-                height={40}
-                src={
-                  user.profileImg != 'null'
-                    ? user.profileImg
-                    : 'https://static.solved.ac/misc/360x360/default_profile.png'
-                }
-              />
-            </div>
-
-            <div className="notion-id">
-              {user.notionId} {user.emoji}
-            </div>
-            <div className="boj-handle">{user.bojHandle}</div>
-          </NameWrapper>
-          <ScoreWrappeer>{user.point}</ScoreWrappeer>
-        </RankWrapper>
-      ))}
+    <Card style={curTab === 0 ? { height: '100%' } : {}}>
+      <TitleWrapper>
+        <div>기여도</div>
+        <Tab>
+          <div
+            onClick={() => {
+              setCurTab(0);
+            }}
+            className={curTab === 0 ? 'selected tab-item' : 'tab-item'}
+          >
+            <IoListSharp />
+          </div>
+          <div
+            onClick={() => {
+              setCurTab(1);
+            }}
+            className={curTab === 1 ? 'selected tab-item' : 'tab-item'}
+          >
+            <MdPieChart />
+          </div>
+        </Tab>
+      </TitleWrapper>
+      {curTab === 0 && (
+        <UserPointWrapper>
+          {users?.map((user, i) => (
+            <UserScoreInfo key={i} teamUser={user} />
+          ))}
+        </UserPointWrapper>
+      )}
+      {curTab === 1 && (
+        <div>
+          <PieGraph teamUsers={teamInfo.users} score={teamInfo.score} />
+          <GraphDescription>
+            소수점 첫째 자리에서 반올림한 수치입니다.
+          </GraphDescription>
+        </div>
+      )}
     </Card>
   );
 }

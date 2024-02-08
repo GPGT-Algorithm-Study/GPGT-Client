@@ -1,14 +1,10 @@
 import React from 'react';
-import LeftTime from 'components/LeftTime';
-import {
-  CommonFlexWrapper,
-  CommonProfileImage,
-  CommonTitle,
-} from 'style/commonStyle';
-import { Card, RankInfo, RankNumber, TopThreeWrapper } from './style';
+import { CommonProfileImage } from 'style/commonStyle';
+import { Card, RankInfo, RankNumber, TopThreeWrapper, NameInfo } from './style';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import TopThreeCard from './TopThreeCard';
+import PageTitle from 'components/PageTitle';
 
 function Ranking() {
   const { data: rankingList } = useSWR(
@@ -18,34 +14,32 @@ function Ranking() {
 
   return (
     <div>
-      <CommonFlexWrapper>
-        <CommonTitle>랭킹</CommonTitle>
-        <LeftTime />
-      </CommonFlexWrapper>
+      <PageTitle showLeftTime title="랭킹" />
       {rankingList && (
         <>
           <TopThreeWrapper>
             {rankingList.slice(0, 3).map((user, i) => (
-              <TopThreeCard user={user} rank={i + 1} />
+              <TopThreeCard user={user} rank={i + 1} key={i} />
             ))}
           </TopThreeWrapper>
           <Card>
             {rankingList.slice(3).map((user, i) => (
-              <RankInfo>
+              <RankInfo key={i}>
                 <div>
                   <RankNumber>{i + 4}</RankNumber>
                   <CommonProfileImage
-                    width={40}
-                    height={40}
+                    width={42}
+                    height={42}
                     src={
                       user.profileImg != 'null'
                         ? user.profileImg
                         : 'https://static.solved.ac/misc/360x360/default_profile.png'
                     }
                   />
-                  <div>
+                  <NameInfo>
                     {user.notionId}&nbsp;{user.emoji}
-                  </div>
+                    <span>{user.bojHandle}</span>
+                  </NameInfo>
                 </div>
                 <span>{user.totalSolved}문제 해결</span>
               </RankInfo>

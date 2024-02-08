@@ -7,6 +7,7 @@ import accessibility from 'highcharts/modules/accessibility';
 import useSWR from 'swr';
 import { STAT_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
+import Tab from 'components/Tab';
 
 accessibility(Highcharts);
 
@@ -124,19 +125,19 @@ function SolvedGraph() {
     <Card>
       <TitleWrapper>
         <Title>해결한 문제 현황</Title>
-        <ButtonWrapper>
+        <Tab>
           {modeList.map((m) => (
-            <ModeButton
+            <div
+              className={`tab-item ${m.key === mode ? 'selected' : ''}`}
               key={m.key}
               onClick={() => {
                 setMode(m.key);
               }}
-              selected={m.key === mode}
             >
               {m.name}
-            </ModeButton>
+            </div>
           ))}
-        </ButtonWrapper>
+        </Tab>
       </TitleWrapper>
       <HighchartsReact highcharts={Highcharts} options={options} />
     </Card>

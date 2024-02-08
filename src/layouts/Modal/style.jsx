@@ -30,10 +30,11 @@ export const CreateModal = styled.div`
 
 export const CloseModalButton = styled.button`
   position: absolute;
-  right: 6px;
-  top: 6px;
+  right: 8px;
+  top: 8px;
   background: transparent;
   border: none;
-  font-size: 25px;
+  font-size: 27px;
+  color: var(--color-text-gray);
   cursor: pointer;
 `;

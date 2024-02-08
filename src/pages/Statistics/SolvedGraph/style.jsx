@@ -18,6 +18,7 @@ export const ModeButton = styled.button`
   background-color: white;
   border-radius: 5px;
   color: var(--color-textgrey);
+  font-weight: 400;
   ${(props) => {
     if (props.selected) {
       return 'background-color: var(--color-background); font-weight: bold; color: black;';
@@ -33,4 +34,5 @@ export const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: start;
+  margin-bottom: 2rem;
 `;

@@ -14,6 +14,12 @@ export function getRefreshTokenToCookie() {
   return cookies.get('refresh_token');
 }
 
+export function isLoginUser() {
+  const token = getRefreshTokenToCookie();
+  const isLogin = !isEmpty(token);
+  return isLogin;
+}
+
 export function getHeaderRefreshTokenConfig() {
   const token = getRefreshTokenToCookie();
   if (isEmpty(token)) return null;
@@ -63,5 +69,5 @@ export function onSilentRefresh(setToken) {
 export function logoutProc() {
   cookies.remove('refresh_token');
   axios.defaults.headers.common['Access_Token'] = '';
-  window.location.href = '/login';
+  window.location.href = '/';
 }

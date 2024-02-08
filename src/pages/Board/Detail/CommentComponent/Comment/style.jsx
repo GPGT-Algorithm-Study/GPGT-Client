@@ -2,31 +2,29 @@ import styled from '@emotion/styled';
 
 export const WriteInfo = styled.div`
   display: flex;
-  column-gap: 7px;
-  row-gap: 3px;
   align-items: center;
-  margin-bottom: 10px;
+  font-size: 0.85rem;
   justify-content: space-between;
   flex-wrap: wrap;
+  row-gap: 0.5rem;
 `;
 
 export const Writer = styled.div`
-  font-weight: bold;
   display: flex;
   align-items: center;
+  gap: 1rem;
+  font-weight: 600;
 `;
 
 export const CreateDate = styled.div`
-  font-size: 0.8rem;
-  color: var(--color-textgrey);
-  font-weight: normal;
-  margin-left: 7px;
+  color: var(--color-text-gray);
+  font-weight: 400;
 `;
 
 export const ReplyButton = styled.div`
   cursor: pointer;
-  font-size: 0.9rem;
-  color: var(--color-textgrey);
+  font-size: 0.8rem;
+  color: var(--color-text-gray);
   /* margin: 15px 10px 0 0; */
   font-weight: normal;
 `;
@@ -44,18 +42,23 @@ export const CommentWrapper = styled.div`
   margin-bottom: 15px;
   white-space: pre-line;
   line-height: 1.5;
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
 `;
 
 export const ReplyWrapper = styled.div`
-  margin-left: 20px;
+  margin-left: 35px;
   white-space: pre-line;
   line-height: 1.5;
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
 `;
 
 export const FlexWrapper = styled.div`
   display: flex;
   gap: 7px;
   align-items: center;
+  margin-left: 1rem;
 `;
 
 export const Input = styled.input`

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { IoArrowBackSharp } from 'react-icons/io5';
 
 export const TitleDiv = styled.div`
   display: flex;
@@ -23,12 +22,6 @@ export const TitleDiv = styled.div`
   }
 `;
 
-export const BackButton = styled(IoArrowBackSharp)`
-  color: var(--color-textgrey);
-  cursor: pointer;
-  margin-bottom: 15px;
-`;
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,7 +30,7 @@ export const Container = styled.div`
 `;
 
 export const ContentDiv = styled.div`
-  padding: 0 10px;
+  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 20px;

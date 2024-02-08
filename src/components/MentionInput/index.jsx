@@ -60,7 +60,7 @@ function MentionInput({ onSubmitComment, commentContent, onChangeComment }) {
             renderSuggestion={renderUserSuggestion}
           />
         </StyledMentionsInput>
-        <button>확인</button>
+        <button>작성하기</button>
       </InputForm>
     </div>
   );

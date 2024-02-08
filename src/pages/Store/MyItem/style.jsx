@@ -36,12 +36,12 @@ export const Title = styled.div`
 `;
 
 export const Button = styled.button`
-  border-radius: 50px;
-  padding: 10px 20px 10px 20px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  background-color: var(--color-button-gray);
+  border-radius: 5px;
+  padding: 10px 20px;
   border: none;
-  background-color: var(--color-background);
-  color: black;
-  font-weight: bold;
   cursor: ${(props) => (props.disabled ? '' : 'pointer')};
   :disabled {
     color: var(--color-textgrey);
@@ -51,31 +51,31 @@ export const Button = styled.button`
 export const NoItem = styled.div`
   display: flex;
   justify-content: center;
-  margin: 20px 0 40px 0;
-  color: var(--color-textgrey);
+  align-items: center;
+  color: var(--color-text-gray);
+  height: 8rem;
+  font-size: 0.9rem;
 `;
 
 export const CommentTitle = styled.div`
-  margin-bottom: 15px;
-  font-weight: bold;
+  margin-bottom: 1.2rem;
+  font-weight: 500;
   display: flex;
   align-items: start;
 `;
 
 export const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: end;
   margin-top: 10px;
 `;
 
 export const CommentButton = styled.button`
   border: none;
-  width: 100%;
-  padding: 10px 0 10px 20px;
+  padding: 0.7rem 2.5rem;
   background-color: var(--color-primary);
-  height: 40px;
   margin-top: 10px;
-  border-radius: 7px;
+  border-radius: 5px;
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -87,8 +87,8 @@ export const Input = styled.textarea`
   resize: none;
   overflow: auto;
   border: none;
-  background-color: var(--color-background);
-  border-radius: 7px;
+  border-radius: 5px;
+  border: 1px solid var(--color-border);
   padding: 10px;
   box-sizing: border-box;
 `;

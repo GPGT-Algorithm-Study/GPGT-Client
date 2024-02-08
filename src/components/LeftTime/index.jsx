@@ -50,9 +50,10 @@ function LeftTime({ marginLeft }) {
       </div>
       <div>
         <AiFillQuestionCircle
-          size="18px"
+          size="17"
           color="var(--color-textgrey)"
           data-tooltip-id="info-tooltip"
+          style={{ marginTop: '2px' }}
         />
       </div>
       <Tooltip
