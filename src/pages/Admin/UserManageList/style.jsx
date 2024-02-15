@@ -89,7 +89,7 @@ export const ModeButton = styled.button`
   cursor: pointer;
   margin-left: 3px;
   border: none;
-  padding: 7px 13px 7px 13px;
+  padding: 7px;
   background-color: white;
   border-radius: 5px;
   color: var(--color-textgrey);

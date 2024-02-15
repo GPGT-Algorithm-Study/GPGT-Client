@@ -69,6 +69,7 @@ export const Title = styled.div`
 
 export const Button = styled(CommonButton)`
   text-align: center;
+  padding: 10px;
   background-color: ${(props) => (props.isAdd ? 'green' : 'crimson')};
   color: white;
   width: ${(props) => (props.isAdd ? '40vw' : '20vw')};

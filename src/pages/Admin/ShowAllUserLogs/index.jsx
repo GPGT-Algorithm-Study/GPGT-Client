@@ -288,15 +288,15 @@ function ShowAllUserLogs() {
         </ButtonWrapper>
       </TitleWrapper>
       <Content>
+        <Button
+          onClick={(e) => {
+            setIsRollback(!isRollback);
+            if (isRollback === false) resetAllCheckbox();
+          }}
+        >
+          {isRollback ? '취소' : '로그 롤백'}
+        </Button>
         <Title>
-          <Button
-            onClick={(e) => {
-              setIsRollback(!isRollback);
-              if (isRollback === false) resetAllCheckbox();
-            }}
-          >
-            {isRollback ? '취소' : '로그 롤백'}
-          </Button>
           {isRollback ? (
             <Button
               style={{ marginLeft: '10px', backgroundColor: 'tomato' }}
