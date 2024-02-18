@@ -6,7 +6,6 @@ export const Card = styled(CommonCard)`
 
   @media all and (min-width: 1000px) {
     width: calc(50% - 3px);
-    margin-left: 10px;
   }
 `;
 

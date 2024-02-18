@@ -3,9 +3,9 @@ import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   padding: 20px 0 20px 0;
+  width: 100%;
   @media all and (min-width: 1000px) {
     width: calc(50% - 3px);
-    margin-right: 10px;
   }
 `;
 

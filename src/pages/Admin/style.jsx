@@ -14,7 +14,9 @@ export const CardWrapper = styled.div`
   flex-direction: column;
   @media all and (min-width: 1000px) {
     flex-direction: row;
+    gap: 20px;
   }
+  align-items: center;
 `;
 
 export const GridCardWrapper = styled.div`
