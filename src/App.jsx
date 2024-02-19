@@ -33,6 +33,9 @@ function App() {
         }),
       );
     });
+    return () => {
+      localStorage.removeItem('boardParams');
+    };
   }, []);
 
   const refreshToken = getRefreshTokenToCookie();

@@ -1,4 +1,8 @@
 export const boardType = {
+  ALL: {
+    label: '전체 글',
+    key: '',
+  },
   FREE: {
     label: '자유',
     key: 'free',
