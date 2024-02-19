@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Content, User, UserWrapper, Title } from './style';
-import SolvedIcon from 'components/SolvedIcon';
 import useSWR from 'swr';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
@@ -11,8 +10,18 @@ import Skeleton from 'react-loading-skeleton';
  */
 function WarningGraph() {
   const { data: users } = useSWR(`${USER_PREFIX_URL}/info/all`, fetcher);
+  const [sortedUsers, setSortedUsers] = useState([]);
 
-  if (!users) return null;
+  useEffect(() => {
+    if (!users) return;
+    setSortedUsers(
+      users.sort((a, b) => {
+        if (a.warning === 4) return 1;
+        if (b.warning === 4) return -1;
+        return b.warning - a.warning;
+      }),
+    );
+  }, [users]);
 
   return (
     <Card>
@@ -20,7 +29,7 @@ function WarningGraph() {
       <Content>
         <UserWrapper>
           {users
-            ? users.map((user) => (
+            ? sortedUsers.map((user) => (
                 <User key={user.notionId}>
                   <WarningIcon warning={user.warning} />
                   <div>
