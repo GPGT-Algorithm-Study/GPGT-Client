@@ -11,6 +11,7 @@ import RoadmapCard from './RoadmapCard';
 import PageTitle from 'components/PageTitle';
 import StreakCard from './StreakCard';
 import LogCard from './LogCard';
+import ItemCard from './ItemCard';
 
 /**
  * 마이페이지 화면
@@ -46,6 +47,7 @@ function MyPage() {
         </BasicInfo>
         <ProfileInfo>
           <StreakCard userInfo={userInfo} />
+          <ItemCard userInfo={userInfo} isUser={isUser} />
           <UserBoard />
           <RoadmapCard />
           <LogCard userInfo={userInfo} />

@@ -102,8 +102,8 @@ function Store() {
           </Item>
         ))}
       </ItemWrapper>
-      <MyItemTitle>보유 아이템</MyItemTitle>
-      <MyItem />
+      {/* <MyItemTitle>보유 아이템</MyItemTitle>
+      <MyItem /> */}
     </Container>
   );
 }
