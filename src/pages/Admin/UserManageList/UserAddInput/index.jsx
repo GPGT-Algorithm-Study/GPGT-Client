@@ -48,7 +48,7 @@ function UserAddInput() {
     if (!isAgree) return;
     postNewUser(newUserData)
       .then((res) => {
-        if (res.data.code != 200)
+        if (res.status != 200)
           //에러 처리
           console.log(res);
         return;
@@ -64,6 +64,9 @@ function UserAddInput() {
       emoji: '',
       password: '',
     });
+    alert(
+      `신규 유저를 등록헀습니다\n : ${newUserData.emoji} ${newUserData.notionId}`,
+    );
   };
   return (
     <div align="center">

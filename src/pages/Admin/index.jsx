@@ -5,6 +5,7 @@ import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
 import ShowAllUserLogs from './ShowAllUserLogs';
 import PointEvent from './PointEvent';
 import LastLogin from './LastLogin';
+import { CardWrapper, ComponentWrapper } from './style';
 
 function Admin() {
   return (
@@ -16,8 +17,10 @@ function Admin() {
       <YesterdayUnsolved />
       <LastLogin />
       <PointEvent />
-      <ShowAllUserLogs />
-      <UserManageList />
+      <CardWrapper>
+        <ShowAllUserLogs />
+        <UserManageList />
+      </CardWrapper>
     </div>
   );
 }

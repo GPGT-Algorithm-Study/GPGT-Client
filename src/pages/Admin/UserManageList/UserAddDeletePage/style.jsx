@@ -27,6 +27,8 @@ export const VerticalUserListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  height: 542.5px;
+  overflow-y: scroll;
 `;
 
 export const User = styled.div`
@@ -67,6 +69,7 @@ export const Title = styled.div`
 
 export const Button = styled(CommonButton)`
   text-align: center;
+  padding: 10px;
   background-color: ${(props) => (props.isAdd ? 'green' : 'crimson')};
   color: white;
   width: ${(props) => (props.isAdd ? '40vw' : '20vw')};
@@ -91,6 +94,6 @@ export const UserDescription = styled.div`
   display: flex;
   align-items: center;
   text-overflow: ellipsis;
-  width: 55vw;
+  width: fit-content;
   margin-left: 10px;
 `;
