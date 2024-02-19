@@ -41,6 +41,7 @@ import { RxChatBubble } from 'react-icons/rx';
  */
 function Board() {
   const categories = [
+    boardType.ALL,
     boardType.FREE,
     boardType.PS,
     boardType.QUES,
@@ -53,15 +54,17 @@ function Board() {
     fetcher,
   );
   const navigate = useNavigate();
-  const [params, setParams] = useState({
-    page: 0,
-    size: BOARD_PAGE_SIZE,
-    condition: {
-      type: boardType.FREE.key,
-      bojHandle: '',
-      query: '',
+  const [params, setParams] = useState(
+    JSON.parse(localStorage.getItem('boardParams')) || {
+      page: 0,
+      size: BOARD_PAGE_SIZE,
+      condition: {
+        type: '',
+        bojHandle: '',
+        query: '',
+      },
     },
-  });
+  );
   const [curType, setCurType] = useState(params.condition.type);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(params.page + 1);
@@ -98,9 +101,25 @@ function Board() {
     setParams(newParams);
   }, []);
 
+  useEffect(() => {
+    if (!params) {
+      setParams({
+        page: 0,
+        size: BOARD_PAGE_SIZE,
+        condition: {
+          type: '',
+          bojHandle: '',
+          query: '',
+        },
+      });
+    }
+    localStorage.setItem('boardParams', JSON.stringify(params));
+    if (params.condition.bojHandle) setCurType(boardType.MY.key);
+    if (params.condition.query) setCurType(boardType.SEARCH.key);
+  }, [params]);
+
   // 현재 타입 바뀌면 다시 로드
   useEffect(() => {
-    if (!curType) return;
     if (curType === boardType.SEARCH.key) {
       return;
     }

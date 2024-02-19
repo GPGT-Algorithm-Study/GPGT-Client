@@ -9,7 +9,6 @@ import {
   Description,
   IconWrapper,
   Button,
-  MyItemTitle,
 } from './style';
 import { buyItem } from 'api/item';
 import ItemIcon from 'components/ItemIcon';
@@ -18,7 +17,7 @@ import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import { ITEM_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 import PageTitle from 'components/PageTitle';
-import MyItem from './MyItem';
+// import MyItem from './MyItem';
 
 function Store() {
   const { data: items } = useSWR(`${ITEM_PREFIX_URL}/all`, fetcher);
@@ -102,8 +101,8 @@ function Store() {
           </Item>
         ))}
       </ItemWrapper>
-      <MyItemTitle>보유 아이템</MyItemTitle>
-      <MyItem />
+      {/* <MyItemTitle>보유 아이템</MyItemTitle>
+      <MyItem /> */}
     </Container>
   );
 }
