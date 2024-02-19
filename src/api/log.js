@@ -87,6 +87,10 @@ export function getAllPointLogByPage(params) {
   );
 }
 
+/**
+ * 전체 경고 로그를 페이징 조회한다
+ * @param params { page, size }
+ */
 export function getAllWarningLogByPage(params) {
   return axios.get(
     `${PREFIX_URL}/warning/all/page?page=${params.page}&size=${params.size}`,

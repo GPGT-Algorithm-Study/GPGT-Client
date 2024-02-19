@@ -42,9 +42,8 @@ function PointManage() {
       };
       postUserPoint(info)
         .then((res) => {
-          if (res.data.code !== 200)
-            //에러처리
-            console.log(res);
+          if (res.status !== 200) console.log(res);
+          //에러처리
           return;
         })
         .catch((e) => {

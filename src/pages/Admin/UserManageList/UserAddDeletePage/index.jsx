@@ -31,7 +31,7 @@ function UserAddDeletePage() {
     if (!isAgree) return;
     delUser(user)
       .then((res) => {
-        if (res.data.code !== 200)
+        if (res.status !== 200)
           //에러 처리
           console.log(res);
         return;

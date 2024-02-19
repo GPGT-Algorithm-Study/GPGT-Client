@@ -11,7 +11,8 @@ export const Card = styled(CommonCard)`
 
 export const Title = styled.div`
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+  padding-left: 10px;
 `;
 
 export const ButtonWrapper = styled.div`
@@ -82,7 +83,7 @@ export const Event = styled.div`
   justify-content: space-between;
   //grid-template-columns: 1fr 1fr 2fr 2fr 2fr 1fr;
 
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   width: 100%;
   height: auto;
   @media all and (min-width: 700px) {

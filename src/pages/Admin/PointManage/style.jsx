@@ -108,6 +108,8 @@ export const VerticalUserListWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 30px;
+  height: 476.98px;
+  overflow-y: scroll;
 `;
 
 export const UserItem = styled.div`

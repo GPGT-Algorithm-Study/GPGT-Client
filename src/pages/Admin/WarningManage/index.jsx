@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import {
   Title,
@@ -73,6 +73,7 @@ function WarningManage() {
     );
     if (!isAgree) return;
 
+    let ok = true;
     selectedUsers.map((user) => {
       const selected = users.find((u) => u.notionId === user.notionId);
       const value = {
@@ -81,24 +82,19 @@ function WarningManage() {
         description: reason,
       };
       postUserWarning(value)
-        .then((res) => {
-          if (res.data.code !== 200)
-            //에러처리
-            console.log(res);
-          return;
-        })
+        .then((res) => {})
         .catch((e) => {
-          const { data } = e.response;
-          if (data && (data.code == 400 || data.code == 404))
-            toast.error(data.message);
+          toast.error(
+            `에러 : ${value.bojHandle}에게 경고를 ${
+              isPlusMode ? '부여' : '차감'
+            }하는데 실패하였습니다.`,
+          );
+          ok = false;
         });
-    });
-    users.forEach((user) => {
       const input = document.getElementById(`warningInput-${user.notionId}`);
       if (input) input.checked = false;
     });
-
-    alert(`경고가 ${isPlusMode ? '부여' : '차감'}되었습니다..`);
+    if (ok) toast.success(`경고를 ${isPlusMode ? '부여' : '차감'}했습니다.`);
     setReason('');
     setSelectedUsers([]);
     mutateUsers();
@@ -176,6 +172,9 @@ function WarningManage() {
             {isPlusMode === false && (
               <>
                 <option value="스트릭 프리즈 사용">• 스트릭 프리즈 사용</option>
+                <option value="노션 3문제 solve">• 노션 3문제 solve</option>
+                <option value="시간 오차 정정">• 시간 오차 정정</option>
+                <option value="뉴비 유예 기간">• 뉴비 유예 기간</option>
               </>
             )}
             <option value="">• 직접 입력하기</option>

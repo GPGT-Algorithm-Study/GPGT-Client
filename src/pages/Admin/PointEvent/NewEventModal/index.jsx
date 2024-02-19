@@ -64,8 +64,8 @@ function NewEventModal() {
     if (!isAgree) return;
     postPointEvent(EventInfo)
       .then((res) => {
-        if (res.code !== 200) console.log(res.data.message);
-        toast.success('이벤트를 새로 등록했습니다.');
+        if (res.status !== 200) console.log(res.data.message);
+        else toast.success('이벤트를 새로 등록했습니다.');
         return;
       })
       .catch((e) => {
