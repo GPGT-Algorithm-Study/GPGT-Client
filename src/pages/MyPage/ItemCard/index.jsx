@@ -114,7 +114,7 @@ function ItemCard({ userInfo, isUser }) {
 
   return (
     <Card>
-      <Title>👝 보유 아이템</Title>
+      <Title>💰 보유 아이템</Title>
       <Content>
         {isEmpty(items) && <NoItems>보유 아이템이 없습니다.</NoItems>}
         <ItemWrapper>
