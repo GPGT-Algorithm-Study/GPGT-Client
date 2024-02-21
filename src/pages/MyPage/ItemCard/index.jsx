@@ -72,26 +72,29 @@ function ItemCard({ userInfo, isUser }) {
     useItemProc(params);
   }, [comment]);
 
-  const useItemProc = useCallback((params) => {
-    if (!isUser) return;
-    useItem(params)
-      .then((res) => {
-        const { data } = res;
-        if (data.code == 200) {
-          toast.success('아이템을 사용했습니다.');
-          mutateUserItem();
-        } else {
-          toast.error('아이템 사용에 실패했습니다.');
-        }
-      })
-      .catch((e) => {
-        const res = e.response;
-        toast.error(res.data.message);
-      })
-      .finally(() => {
-        onCloseModal();
-      });
-  }, []);
+  const useItemProc = useCallback(
+    (params) => {
+      if (!isUser) return;
+      useItem(params)
+        .then((res) => {
+          const { data } = res;
+          if (data.code == 200) {
+            toast.success('아이템을 사용했습니다.');
+            mutateUserItem();
+          } else {
+            toast.error('아이템 사용에 실패했습니다.');
+          }
+        })
+        .catch((e) => {
+          const res = e.response;
+          toast.error(res.data.message);
+        })
+        .finally(() => {
+          onCloseModal();
+        });
+    },
+    [isUser, userInfo],
+  );
 
   const clickUseButton = useCallback(
     (itemId) => {
