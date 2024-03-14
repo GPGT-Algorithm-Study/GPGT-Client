@@ -68,9 +68,9 @@ function Main() {
     }
   }, [noticeBoard]);
 
-  const isInaWeek = useCallback((createdDate) => {
+  const isInPeriod = useCallback((createdDate) => {
     const targetDate = dayjs(createdDate);
-    const eightDaysAgo = dayjs().subtract(8, 'day');
+    const eightDaysAgo = dayjs().subtract(4, 'day');
     return targetDate.isAfter(eightDaysAgo);
   }, []);
 
@@ -104,14 +104,14 @@ function Main() {
           </div>
         </RadomRecommendInput>
         {isLogin && <TodayRandomProblem />}
-        {isLogin && !isEmpty(notice) && isInaWeek(notice.createdDate) && (
+        {isLogin && !isEmpty(notice) && isInPeriod(notice.createdDate) && (
           <NoticeInfo
             onClick={() => {
               navigate(`/board/${notice.id}`);
             }}
           >
             <span>new!</span>
-            새로운 공지 사항이 있어요
+            [공지사항] {notice.title}
           </NoticeInfo>
         )}
       </RandomPsDiv>
