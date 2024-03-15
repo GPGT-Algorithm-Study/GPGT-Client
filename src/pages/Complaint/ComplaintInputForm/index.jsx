@@ -20,6 +20,7 @@ function ComplaintInputForm() {
     `${USER_PREFIX_URL}/info?bojHandle=${loginUser.claim}`,
     fetcher,
   );
+  /* TODO : API 연결 */
   return (
     <Container>
       <Form>
