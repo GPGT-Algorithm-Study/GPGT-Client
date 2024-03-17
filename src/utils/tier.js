@@ -28,6 +28,9 @@ export function numToTierStr(tier) {
  * 숫자로 들어오는 티어를 한글 문자열로 변경해서 반환한다. (0 -> 브론즈 5)
  */
 export function numToTierStrKo(tier) {
+  if (tier === 0) {
+    return 'Unrated';
+  }
   return `${tierClassKo[parseInt(tier / 5)]} ${5 - (tier % 5)}`;
 }
 
@@ -35,6 +38,9 @@ export function numToTierStrKo(tier) {
  * 숫자로 들어오는 티어의 색상 반환 0~4 -> 브론즈
  */
 export function getTierColor(tier) {
+  if (tier === 0) {
+    return '#282828';
+  }
   return tierColor[parseInt(tier / 5)];
 }
 
