@@ -21,7 +21,10 @@ export function getAllComplaint() {
  *
  */
 export function getAllSortedComplaint() {
-  return axios.get(`${PROCESSOR_PREFIX_URL}/all/sort`);
+  return axios.get(
+    `${PROCESSOR_PREFIX_URL}/all/sort`,
+    getHeaderRefreshTokenConfig(),
+  );
 }
 
 /**
@@ -31,6 +34,7 @@ export function getAllSortedComplaint() {
 export function getComplaintOfRequester(params) {
   return axios.get(
     `${PROCESSOR_PREFIX_URL}/requester?requester=${params.requester}`,
+    getHeaderRefreshTokenConfig(),
   );
 }
 
@@ -41,6 +45,7 @@ export function getComplaintOfRequester(params) {
 export function getComplaintOfProcessor(params) {
   return axios.get(
     `${PROCESSOR_PREFIX_URL}/processor?processor=${params.processor}`,
+    getHeaderRefreshTokenConfig(),
   );
 }
 
@@ -51,6 +56,7 @@ export function getComplaintOfProcessor(params) {
 export function getComplaintByType(params) {
   return axios.get(
     `${PROCESSOR_PREFIX_URL}/complaint-type?complaintType=${params.complaintType}`,
+    getHeaderRefreshTokenConfig(),
   );
 }
 
@@ -59,14 +65,21 @@ export function getComplaintByType(params) {
  * params : id(Number), processType, processor, reply
  */
 export function updateComplaintType(params) {
-  return axios.put(`${PROCESSOR_PREFIX_URL}/`, params);
+  return axios.put(
+    `${PROCESSOR_PREFIX_URL}/`,
+    params,
+    getHeaderRefreshTokenConfig(),
+  );
 }
 
 /**
  * 나의 모든 민원 조회
  */
 export function getMyComplaint() {
-  return axios.get(`${REQUESTER_PREFIX_URL}/all`);
+  return axios.get(
+    `${REQUESTER_PREFIX_URL}/all`,
+    getHeaderRefreshTokenConfig(),
+  );
 }
 
 /**
@@ -74,7 +87,11 @@ export function getMyComplaint() {
  * complaint : requester, content, complaintType(Number)
  */
 export function createComplaint(complaint) {
-  return axios.post(`${REQUESTER_PREFIX_URL}/register`, complaint);
+  return axios.post(
+    `${REQUESTER_PREFIX_URL}/register`,
+    complaint,
+    getHeaderRefreshTokenConfig(),
+  );
 }
 
 /**
@@ -82,7 +99,11 @@ export function createComplaint(complaint) {
  * complaint : requester, content, complaintType(Number)
  */
 export function updateComplaint(complaint) {
-  return axios.post(`${REQUESTER_PREFIX_URL}/update`, complaint);
+  return axios.post(
+    `${REQUESTER_PREFIX_URL}/update`,
+    complaint,
+    getHeaderRefreshTokenConfig(),
+  );
 }
 
 /**
