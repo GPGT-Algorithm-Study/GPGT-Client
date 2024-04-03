@@ -96,7 +96,7 @@ export function createComplaint(complaint) {
 
 /**
  * 민원 수정
- * complaint : requester, content, complaintType(Number)
+ * complaint : id, content, complaintType(Number)
  */
 export function updateComplaint(complaint) {
   return axios.post(
