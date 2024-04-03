@@ -31,7 +31,7 @@ export const NoPosts = styled.div`
   font-size: 0.9rem;
 `;
 
-export const BoardContent = styled.div`
+export const ComplaintContent = styled.div`
   display: flex;
   flex-direction: column;
   > div {
@@ -42,7 +42,7 @@ export const BoardContent = styled.div`
   }
 `;
 
-export const PostItem = styled.div`
+export const ComplaintItem = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -51,14 +51,14 @@ export const PostItem = styled.div`
   cursor: pointer;
 `;
 
-export const PostInfo = styled.div`
+export const ComplaintInfo = styled.div`
   display: flex;
   gap: 0.5rem;
   font-size: 0.8rem;
   color: var(--color-text-gray);
 `;
 
-export const PostTitle = styled.div`
+export const ComplaintTitle = styled.div`
   color: var(--color-deep-gray);
   font-size: 0.9rem;
   display: flex;
@@ -68,4 +68,8 @@ export const PostTitle = styled.div`
     font-weight: 600;
     margin-right: 0.3rem;
   }
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  width: 100%;
 `;
