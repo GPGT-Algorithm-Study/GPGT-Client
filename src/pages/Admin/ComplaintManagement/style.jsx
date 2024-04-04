@@ -1,19 +1,64 @@
 import styled from '@emotion/styled';
-import { CommonCard } from 'style/commonStyle';
-
+import { CommonCard, CommonButton } from 'style/commonStyle';
 export const Card = styled(CommonCard)`
   padding: 20px 0 20px 0;
   width: 100%;
 
   @media all and (min-width: 1000px) {
-    width: 50%;
+    width: calc(50% - 3px);
   }
 `;
 
+export const Content = styled.div`
+  display: flex;
+  padding: 20px;
+`;
+
 export const Title = styled.div`
+  position: relative;
+  top: 0;
+  left: 0;
   font-weight: bold;
   margin-bottom: 25px;
   padding-left: 25px;
+`;
+
+export const ScrollButton = styled.button`
+  border: none;
+  position: absolute;
+  background: transparent;
+  text-align: center;
+  cursor: pointer;
+  z-index: 999;
+  right: ${(props) => (props.type == 'next' ? '0' : '')};
+  left: ${(props) => (props.type == 'prev' ? '0' : '')};
+  height: 80px;
+  & div {
+    color: #b6b6b6;
+  }
+`;
+export const TabWrapper = styled.span`
+  display: relative;
+  text-align: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-width: 2px;
+  border-style: outset;
+`;
+
+export const ModeButton = styled.button`
+  cursor: pointer;
+  margin-left: 3px;
+  border: none;
+  padding: 7px;
+  background-color: white;
+  border-radius: 5px;
+  color: var(--color-textgrey);
+  ${(props) => {
+    if (props.selected) {
+      return 'background-color: var(--color-background); font-weight: bold; color: black;';
+    }
+  }}
 `;
 
 export const ButtonWrapper = styled.div`
@@ -27,39 +72,6 @@ export const TitleWrapper = styled.div`
   align-items: start;
 `;
 
-export const ModeButton = styled.button`
-  cursor: pointer;
-  margin-left: 3px;
-  border: none;
-  padding: 7px 13px 7px 13px;
-  background-color: white;
-  border-radius: 5px;
-  color: var(--color-textgrey);
-  ${(props) => {
-    if (props.selected) {
-      return 'background-color: var(--color-background); font-weight: bold; color: black;';
-    }
-  }}
-`;
-
-export const Button = styled.button`
-  width: 80px;
-  padding: 8px 0 8px 0;
-  border-radius: 7px;
-  background-color: lightgray;
-  border: none;
-  cursor: pointer;
-`;
-
-export const FormWrapper = styled.div`
-  display: relative;
-`;
-
-export const InputWrapper = styled.div`
-  display: flex;
-  padding: 5px;
-`;
-
 export const TextWrapper = styled.div`
   display: flex;
   margin-top: 5px;
@@ -68,7 +80,7 @@ export const TextWrapper = styled.div`
   //@media all and (min-width: 700px) {}
 `;
 
-export const EventWrapper = styled.div`
+export const ComplaintWrapper = styled.div`
   height: 500px;
   overflow-y: auto;
   margin-top: 25px;
@@ -79,7 +91,7 @@ export const EventWrapper = styled.div`
   scrollbar-width: none;
 `;
 
-export const Event = styled.div`
+export const Complaint = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -97,7 +109,7 @@ export const Event = styled.div`
   }
 `;
 
-export const EventDescription = styled.div`
+export const ComplaintContent = styled.div`
   //flex-grow: 1;
   text-overflow: ellipsis;
   width: fit-content;

@@ -6,8 +6,13 @@ import ShowAllUserLogs from './ShowAllUserLogs';
 import PointEvent from './PointEvent';
 import LastLogin from './LastLogin';
 import { CardWrapper, ComponentWrapper } from './style';
+import { getAllComplaint } from 'api/complaint';
+import ComplaintManagement from './ComplaintManagement';
 
 function Admin() {
+  const complaint = getAllComplaint()
+    .then((res) => console.info(res))
+    .catch((e) => console.info(e));
   return (
     <div>
       <CommonFlexWrapper>
@@ -16,7 +21,10 @@ function Admin() {
       <br></br>
       <YesterdayUnsolved />
       <LastLogin />
-      <PointEvent />
+      <CardWrapper>
+        <PointEvent />
+        <ComplaintManagement />
+      </CardWrapper>
       <CardWrapper>
         <ShowAllUserLogs />
         <UserManageList />

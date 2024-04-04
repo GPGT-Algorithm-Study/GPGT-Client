@@ -5,7 +5,7 @@ export const Card = styled(CommonCard)`
   width: 100%;
 
   @media all and (min-width: 1000px) {
-    width: calc(50% - 3px);
+    width: 50%;
   }
 `;
 
