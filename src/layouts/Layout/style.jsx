@@ -290,6 +290,9 @@ export const MobileLoginButton = styled.div`
 `;
 
 export const MyPageMenu = styled.div`
+  position: fixed;
+  top: 50px;
+  right: 20px;
   display: flex;
   flex-direction: column;
   font-size: 0.9rem;
@@ -300,11 +303,9 @@ export const MyPageMenu = styled.div`
   border-radius: 10px;
   border: 1px solid var(--color-border);
   font-weight: 400;
-  position: absolute;
-  top: 50px;
-  right: 20px;
   background-color: #fff;
   width: 5.5rem;
+  z-index: 2999;
   > div {
     display: flex;
     align-items: center;

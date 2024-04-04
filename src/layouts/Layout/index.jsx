@@ -39,12 +39,12 @@ import { EVT_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 import { IoArrowBackOutline } from 'react-icons/io5';
 import { isLoginUser } from 'utils/auth';
 import { MdPerson } from 'react-icons/md';
+import OverlayMenu from 'components/OverlayMenu';
 
 function Layout({ children }) {
   const isLogin = useMemo(() => {
     return isLoginUser();
   }, []);
-  const [showStoreModal, setShowStoreModal] = useState(false);
   const [showRecommendModal, setShowRecommendModal] = useState(false);
   const { data: loginUser } = useSWR(
     isLogin ? `${USER_PREFIX_URL}/auth/parse/boj` : '',
@@ -160,7 +160,6 @@ function Layout({ children }) {
   );
 
   const onCloseModal = useCallback(() => {
-    setShowStoreModal(false);
     setShowRecommendModal(false);
   }, []);
 
@@ -282,32 +281,6 @@ function Layout({ children }) {
                   setShowMyPageMenu((prev) => !prev);
                 }}
               />
-              {showMyPageMenu && (
-                <CreateModal
-                  onClick={() => {
-                    setShowMyPageMenu(false);
-                  }}
-                >
-                  <MyPageMenu>
-                    <div
-                      onClick={() => {
-                        onClickUserProfile();
-                        setShowMyPageMenu(false);
-                      }}
-                    >
-                      <MdPerson />내 프로필
-                    </div>
-                    <div
-                      onClick={() => {
-                        onClickLogout();
-                        setShowMyPageMenu(false);
-                      }}
-                    >
-                      <FiLogOut /> 로그아웃
-                    </div>
-                  </MyPageMenu>
-                </CreateModal>
-              )}
             </SideMyInfo>
           ) : (
             <LoginButton
@@ -345,13 +318,37 @@ function Layout({ children }) {
             </CloseButton>
           </EventHeader>
         )}
+
+        {showMyPageMenu && (
+          <OverlayMenu
+            onClose={() => {
+              setShowMyPageMenu(false);
+            }}
+          >
+            <MyPageMenu>
+              <div
+                onClick={() => {
+                  onClickUserProfile();
+                  setShowMyPageMenu(false);
+                }}
+              >
+                <MdPerson />내 프로필
+              </div>
+              <div
+                onClick={() => {
+                  onClickLogout();
+                  setShowMyPageMenu(false);
+                }}
+              >
+                <FiLogOut /> 로그아웃
+              </div>
+            </MyPageMenu>
+          </OverlayMenu>
+        )}
         <section>{children}</section>
       </Content>
       <Modal show={showRecommendModal} onCloseModal={onCloseModal}>
         <ProblemRecommend />
-      </Modal>
-      <Modal show={showStoreModal} onCloseModal={onCloseModal}>
-        <Store />
       </Modal>
     </Container>
   );
