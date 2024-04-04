@@ -21,12 +21,11 @@ import {
   LoginButton,
   MobileLoginButton,
   MyPageMenu,
-  NotificationIcon,
-  NewNotificationIcon,
+  CreateModal,
 } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
-import { FaBell } from 'react-icons/fa';
+import Store from 'pages/Store';
 import { FiLogOut } from 'react-icons/fi';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useLocation } from 'react-router-dom';
@@ -36,16 +35,11 @@ import { isEmpty } from 'lodash';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
-import {
-  EVT_PREFIX_URL,
-  USER_PREFIX_URL,
-  NOTIFY_PREFIX_URL,
-} from 'utils/constants';
+import { EVT_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
 import { IoArrowBackOutline } from 'react-icons/io5';
 import { isLoginUser } from 'utils/auth';
 import { MdPerson } from 'react-icons/md';
 import OverlayMenu from 'components/OverlayMenu';
-import NotificationPopup from 'components/\bNotificationPopup';
 
 function Layout({ children }) {
   const isLogin = useMemo(() => {
@@ -67,7 +61,6 @@ function Layout({ children }) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const [showMyPageMenu, setShowMyPageMenu] = useState(false);
-  const [showNotification, setShowNotification] = useState(false);
 
   // 좌측 탭 목록
   const [tabs, setTabs] = useState({
@@ -163,11 +156,6 @@ function Layout({ children }) {
 
   const { data: userInfo } = useSWR(
     loginUser ? `${USER_PREFIX_URL}/info?bojHandle=${loginUser.claim}` : null,
-    fetcher,
-  );
-
-  const { data: notificationCount } = useSWR(
-    loginUser ? `${NOTIFY_PREFIX_URL}/search/unread/count` : null,
     fetcher,
   );
 
@@ -281,14 +269,6 @@ function Layout({ children }) {
           </FlexWrapper>
           {isLogin ? (
             <SideMyInfo>
-              <NotificationIcon
-                onClick={() => {
-                  setShowNotification((prev) => !prev);
-                }}
-              >
-                <FaBell size="21" />
-                {notificationCount?.count > 0 && <NewNotificationIcon />}
-              </NotificationIcon>
               <ProfileImage
                 width="35"
                 height="35"
@@ -338,6 +318,7 @@ function Layout({ children }) {
             </CloseButton>
           </EventHeader>
         )}
+
         {showMyPageMenu && (
           <OverlayMenu
             onClose={() => {
@@ -362,15 +343,6 @@ function Layout({ children }) {
                 <FiLogOut /> 로그아웃
               </div>
             </MyPageMenu>
-          </OverlayMenu>
-        )}
-        {showNotification && (
-          <OverlayMenu
-            onClose={() => {
-              setShowNotification(false);
-            }}
-          >
-            <NotificationPopup />
           </OverlayMenu>
         )}
         <section>{children}</section>
