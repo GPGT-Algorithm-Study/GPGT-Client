@@ -34,6 +34,10 @@ export const NoPosts = styled.div`
 export const ComplaintContent = styled.div`
   display: flex;
   flex-direction: column;
+  max-height: 430px;
+  overflow: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   > div {
     border-bottom: 1px solid #e0e0e0;
   }
