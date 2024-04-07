@@ -49,7 +49,6 @@ function ComplaintInputForm() {
     { name: 'ETC', description: '기타' },
   ];
 
-  /* TODO : API 연결 */
   const onChangeContent = useCallback((e) => {
     setContent(e.target.value);
   }, []);
@@ -75,7 +74,7 @@ function ComplaintInputForm() {
       updateComplaint(updatedComplaint)
         .then((res) => {
           toast.success('민원을 수정했습니다.');
-          navigate(-1);
+          navigate(-1); //이전 페이지로 리다이렉션
         })
         .catch((err) => {
           toast.error(`민원 수정에 실패했습니다 : ${err.message}`);

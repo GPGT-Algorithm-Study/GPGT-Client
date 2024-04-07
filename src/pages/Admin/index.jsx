@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import YesterdayUnsolved from './YesterdayUnsolved';
 import UserManageList from './UserManageList';
 import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
@@ -8,6 +8,7 @@ import LastLogin from './LastLogin';
 import { CardWrapper, ComponentWrapper } from './style';
 import { getAllComplaint } from 'api/complaint';
 import ComplaintManagement from './ComplaintManagement';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 function Admin() {
   const complaint = getAllComplaint()

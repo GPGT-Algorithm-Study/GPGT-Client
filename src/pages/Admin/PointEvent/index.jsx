@@ -95,7 +95,6 @@ function PointEvent() {
               <DateWrapper>시작 시간</DateWrapper>
               <DateWrapper>종료 시간</DateWrapper>
             </TextWrapper>
-            <br />
             <TextWrapper>
               <EventDescription>이벤트 설명</EventDescription>
               <Value>%</Value>

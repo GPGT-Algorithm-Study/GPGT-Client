@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
-  padding: 20px 0 20px 0;
+  padding: 20px 0 0 0;
   width: 100%;
 
   @media all and (min-width: 1000px) {
@@ -102,6 +102,7 @@ export const EventDescription = styled.div`
   text-overflow: ellipsis;
   width: fit-content;
   margin-right: 20px;
+  padding-bottom: 5px;
   @media all and (max-width: 700px) {
     width: 90%;
   }

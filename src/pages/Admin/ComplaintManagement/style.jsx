@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { CommonCard, CommonButton } from 'style/commonStyle';
 export const Card = styled(CommonCard)`
-  padding: 20px 0 20px 0;
+  padding: 20px 0 0 0;
   width: 100%;
 
   @media all and (min-width: 1000px) {
-    width: calc(50% - 3px);
+    width: 50%;
   }
 `;
 
@@ -81,9 +81,9 @@ export const TextWrapper = styled.div`
 `;
 
 export const ComplaintWrapper = styled.div`
-  height: 500px;
+  height: 557px;
   overflow-y: auto;
-  margin-top: 25px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   margin-bottom: 25px;
@@ -101,6 +101,7 @@ export const Complaint = styled.div`
   width: 100%;
   height: auto;
   border-bottom: 1px solid lightgray;
+  padding-bottom: 5px;
   align-items: center;
   @media all and (min-width: 700px) {
     //flex-direction: row;
@@ -111,9 +112,12 @@ export const Complaint = styled.div`
 
 export const ComplaintContent = styled.div`
   //flex-grow: 1;
+  max-height: 2.5rem;
+  overflow: hidden;
   text-overflow: ellipsis;
-  width: fit-content;
-  margin-right: 20px;
+  width: 100%;
+  //margin-right: 20px;
+  //white-space: nowrap;
   @media all and (max-width: 700px) {
     width: 90%;
   }
@@ -135,7 +139,7 @@ export const Name = styled.div`
 export const Id = styled.div`
   order: 1;
   width: 30px;
-  color: green;
+  color: orange;
 `;
 export const Value = styled.div`
   font-weight: bold;
