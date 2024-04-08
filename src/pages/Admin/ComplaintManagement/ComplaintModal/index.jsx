@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
+import { updateComplaint, updateComplaintType } from 'api/complaint';
 
 function getKrComplaintTypeName(complaintType) {
   if (complaintType === 'NEW_FUNCTION') return '신규 기능 건의';
@@ -10,7 +11,7 @@ function getKrComplaintTypeName(complaintType) {
 }
 function getKrProcessTypeName(processType) {
   if (processType === 'WAITING') return '대기중';
-  if (processType === 'PROCESS') return '처리중';
+  if (processType === 'PROCESSING') return '처리중';
   if (processType === 'DONE') return '처리 완료';
 }
 
@@ -34,11 +35,19 @@ function ComplaintModal(props) {
         processor: processor,
         reply: reply,
       };
-      console.info(updatedComplaint);
+      //console.info(updatedComplaint);
+      /* TODO : API 연결 */
+      updateComplaintType(updatedComplaint)
+        .then((res) => {
+          toast.success(`민원을 성공적으로 처리하였습니다.`);
+          props.closeModal();
+        })
+        .catch((err) => {
+          toast.error(`민원 처리에 실패하였습니다 : ${err.message}`);
+        });
     }
   };
 
-  console.info(props);
   return (
     <div>
       <p>
@@ -49,20 +58,37 @@ function ComplaintModal(props) {
       <p>처리 상태 : {getKrProcessTypeName(complaint.processType)}</p>
       <p>담당자 : {complaint.processor ? complaint.processor : '-'}</p>
       <br />
+      <p>내용</p>
       <p>{complaint.content}</p>
       <br />
 
       <form onSubmit={(e) => onSubmit(e)}>
-        <input name="processor" placeholder={'담당자'} />
+        <input
+          name="processor"
+          placeholder={'담당자'}
+          defaultValue={complaint.processor ? complaint.processor : undefined}
+        />
         <div>
           <select name="type">
-            <option value="WAITING">대기중</option>
-            <option value="PROCESSING">처리중</option>
-            <option value="DONE">처리 완료</option>
+            <option
+              value="WAITING"
+              selected={complaint.processType === 'WAITING'}
+            >
+              대기중
+            </option>
+            <option
+              value="PROCESSING"
+              selected={complaint.processType === 'PROCESSING'}
+            >
+              처리중
+            </option>
+            <option value="DONE" selected={complaint.processType === 'DONE'}>
+              처리 완료
+            </option>
           </select>
         </div>
         <textarea
-          row="5"
+          row="10"
           name="reply"
           id="reply"
           placeholder="코멘트 작성.."

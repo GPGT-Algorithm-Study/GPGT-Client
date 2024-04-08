@@ -48,6 +48,7 @@ function ComplaintInputForm() {
     { name: 'PROBLEM', description: '문제점' },
     { name: 'ETC', description: '기타' },
   ];
+  const [submitDisabled, setSubmitDisabled] = useState(false);
 
   const onChangeContent = useCallback((e) => {
     setContent(e.target.value);
@@ -63,6 +64,10 @@ function ComplaintInputForm() {
     }
   });
   const onSubmit = useCallback((e) => {
+    if (submitDisabled) {
+      toast.error('이미 제출중입니다.');
+      return;
+    }
     if (validate() === false) return;
     if (currentComplaint) {
       //수정모드
@@ -71,6 +76,7 @@ function ComplaintInputForm() {
         content: content,
         complaintType: complaintType,
       };
+      setSubmitDisabled(true);
       updateComplaint(updatedComplaint)
         .then((res) => {
           toast.success('민원을 수정했습니다.');
@@ -78,6 +84,9 @@ function ComplaintInputForm() {
         })
         .catch((err) => {
           toast.error(`민원 수정에 실패했습니다 : ${err.message}`);
+        })
+        .finally(() => {
+          setSubmitDisabled(false);
         });
     } else {
       //새로 등록 모드
@@ -86,14 +95,18 @@ function ComplaintInputForm() {
         content: content,
         complaintType: complaintType,
       };
+      setSubmitDisabled(true);
       createComplaint(newComplaint)
         .then((res) => {
           toast.success('민원을 등록했습니다.');
+          setComplaintType('');
+          setContent('');
         })
         .catch((err) => {
           toast.error(`민원 등록에 실패했습니다 : ${err.message}`);
           console.info(err);
-        });
+        })
+        .finally(() => setSubmitDisabled(false));
     }
   });
 

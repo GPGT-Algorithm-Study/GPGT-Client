@@ -33,7 +33,7 @@ function getKrComplaintTypeName(complaintType) {
 }
 function getKrProcessTypeName(processType) {
   if (processType === 'WAITING') return '대기중';
-  if (processType === 'PROCESS') return '처리중';
+  if (processType === 'PROCESSING') return '처리중';
   if (processType === 'DONE') return '처리 완료';
 }
 
@@ -163,6 +163,10 @@ function ComplaintManagement() {
           requesterInfo={userInfo.find(
             (user) => currentComplaint.requester === user.bojHandle,
           )}
+          closeModal={() => {
+            setShowComplaintModal(false);
+            mutateComplaints();
+          }}
         />
       </Modal>
     </Card>
