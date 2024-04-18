@@ -111,5 +111,8 @@ export function updateComplaint(complaint) {
  * params : id(Number)
  */
 export function deleteComplaint(params) {
-  return axios.delete(`${REQUESTER_PREFIX_URL}/delete`, params);
+  return axios.delete(`${REQUESTER_PREFIX_URL}/delete`, {
+    ...getHeaderRefreshTokenConfig(),
+    data: { id: params.id },
+  });
 }

@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
-import { updateComplaint, updateComplaintType } from 'api/complaint';
+import {
+  deleteComplaint,
+  updateComplaint,
+  updateComplaintType,
+} from 'api/complaint';
+import { Button } from 'pages/Admin/PointEvent/DeleteEventModal/style';
 
 function getKrComplaintTypeName(complaintType) {
   if (complaintType === 'NEW_FUNCTION') return '신규 기능 건의';
@@ -18,6 +23,8 @@ function getKrProcessTypeName(processType) {
 function ComplaintModal(props) {
   const complaint = props.complaint;
   const requesterInfo = props.requesterInfo;
+  const [submitLock, setSubmitLock] = useState(false);
+  const [deleteLock, setDeleteLock] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -35,8 +42,8 @@ function ComplaintModal(props) {
         processor: processor,
         reply: reply,
       };
-      //console.info(updatedComplaint);
-      /* TODO : API 연결 */
+
+      setSubmitLock(true);
       updateComplaintType(updatedComplaint)
         .then((res) => {
           toast.success(`민원을 성공적으로 처리하였습니다.`);
@@ -44,8 +51,27 @@ function ComplaintModal(props) {
         })
         .catch((err) => {
           toast.error(`민원 처리에 실패하였습니다 : ${err.message}`);
+        })
+        .finally(() => {
+          setSubmitLock(false);
         });
     }
+  };
+  const onDeleteClick = (e) => {
+    const isAgree = confirm('해당 민원을 정!말! 삭제하시겠습니까?');
+    if (!isAgree) return;
+    setDeleteLock(true);
+    deleteComplaint({ id: complaint.id })
+      .then((res) => {
+        toast.success('민원을 성공적으로 삭제하였습니다.');
+        props.closeModal();
+      })
+      .catch((err) =>
+        toast.error('민원 삭제에 실패하였습니다. : ' + err.message),
+      )
+      .finally(() => {
+        setDeleteLock(false);
+      });
   };
 
   return (
@@ -61,7 +87,18 @@ function ComplaintModal(props) {
       <p>내용</p>
       <p>{complaint.content}</p>
       <br />
-
+      <Button
+        style={{
+          backgroundColor: 'crimson',
+          color: 'white',
+        }}
+        onClick={onDeleteClick}
+      >
+        삭제
+      </Button>
+      <hr />
+      <p>민원 처리</p>
+      <br />
       <form onSubmit={(e) => onSubmit(e)}>
         <input
           name="processor"
