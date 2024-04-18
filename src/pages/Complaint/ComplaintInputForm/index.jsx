@@ -15,6 +15,7 @@ import {
 import Skeleton from 'react-loading-skeleton';
 import {
   createComplaint,
+  deleteComplaint,
   getAllComplaint,
   getMyComplaint,
   updateComplaint,
@@ -49,6 +50,7 @@ function ComplaintInputForm() {
     { name: 'ETC', description: '기타' },
   ];
   const [submitDisabled, setSubmitDisabled] = useState(false);
+  const [deleteLock, setDeleteLock] = useState(false);
 
   const onChangeContent = useCallback((e) => {
     setContent(e.target.value);
@@ -104,10 +106,22 @@ function ComplaintInputForm() {
         })
         .catch((err) => {
           toast.error(`민원 등록에 실패했습니다 : ${err.message}`);
-          console.info(err);
         })
         .finally(() => setSubmitDisabled(false));
     }
+  });
+  const onClickDelete = useCallback((e) => {
+    if (!confirm('민원을 정말 삭제하시겠습니까?')) return;
+    setDeleteLock(true);
+    deleteComplaint({ id: currentComplaint.id })
+      .then((res) => {
+        toast.success('민원을 삭제하였습니다.');
+        navigate(-1);
+      })
+      .catch((err) => {
+        toast.error('민원 삭제에 실패하였습니다. : ' + err.message);
+      })
+      .finally(() => setDeleteLock(false));
   });
 
   return userInfo ? (
@@ -147,6 +161,14 @@ function ComplaintInputForm() {
         </FormItem>
         <FormItem>
           <ButtonWrapper>
+            {currentComplaint ? (
+              <Button
+                style={{ backgroundColor: 'crimson' }}
+                onClick={onClickDelete}
+              >
+                민원 삭제
+              </Button>
+            ) : undefined}
             <Button onClick={onSubmit}>민원 제출</Button>
           </ButtonWrapper>
         </FormItem>

@@ -16,25 +16,25 @@ import fetcher from 'utils/fetcher';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 
+function getKrComplaintTypeName(complaintType) {
+  if (complaintType === 'NEW_FUNCTION') return '신규 기능 건의';
+  if (complaintType === 'BUG') return '버그 제보';
+  if (complaintType === 'PROBLEM') return '문제점';
+  else return '기타';
+}
+function getKrProcessTypeName(processType) {
+  if (processType === 'WAITING') return '대기중';
+  if (processType === 'PROCESS') return '처리중';
+  if (processType === 'DONE') return '처리 완료';
+}
 /** 마이페이지 유저가 제출한 민원 목록 컴포넌트 */
 function ComplaintCard({ userInfo, isUser }) {
-  function getKrComplaintTypeName(complaintType) {
-    if (complaintType === 'NEW_FUNCTION') return '신규 기능 건의';
-    if (complaintType === 'BUG') return '버그 제보';
-    if (complaintType === 'PROBLEM') return '문제점';
-    else return '기타';
-  }
-  function getKrProcessTypeName(processType) {
-    if (processType === 'WAITING') return '대기중';
-    if (processType === 'PROCESS') return '처리중';
-    if (processType === 'DONE') return '처리 완료';
-  }
-  if (!isUser || !userInfo) return;
   const navigate = useNavigate();
   const { data: complaintList } = useSWR(
     `${COMPLAINT_REQUESTER_PREFIX_URL}/all`,
     fetcher,
   );
+  if (!isUser || !userInfo) return;
   const total = complaintList ? complaintList.length : 0;
   return (
     <Card>
