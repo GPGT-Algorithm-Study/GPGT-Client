@@ -15,6 +15,7 @@ import { COMPLAINT_REQUESTER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function getKrComplaintTypeName(complaintType) {
   if (complaintType === 'NEW_FUNCTION') return '신규 기능 건의';
@@ -52,7 +53,11 @@ function ComplaintCard({ userInfo, isUser }) {
               <ComplaintItem
                 key={complaint.id}
                 onClick={() => {
-                  navigate(`/complaint`, { state: { complaint } });
+                  if (complaint.processType === 'WAITING')
+                    navigate(`/complaint`, { state: { complaint } });
+                  else if (complaint.processType === 'PROCESS')
+                    toast.error('이미 처리중인 민원입니다.');
+                  else toast.error('이미 처리 완료된 민원입니다.');
                 }}
               >
                 <ComplaintTitle style={{ fontWeight: 'bold' }}>
