@@ -10,8 +10,8 @@ export const Card = styled(CommonCard)`
 `;
 
 export const Content = styled.div`
-  display: flex;
-  padding: 20px;
+  //display: flex;
+  padding: 20px 0;
 `;
 
 export const Title = styled.div`
@@ -98,8 +98,9 @@ export const Complaint = styled.div`
   //grid-template-columns: 1fr 1fr 2fr 2fr 2fr 1fr;
 
   margin-bottom: 10px;
-  width: 100%;
+  width: 95%;
   height: auto;
+  margin: 0 auto;
   border-bottom: 1px solid lightgray;
   padding-bottom: 5px;
   align-items: center;
