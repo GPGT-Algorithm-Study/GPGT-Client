@@ -121,6 +121,16 @@ function Layout({ children }) {
           route: '/admin',
         },
       }));
+    } else {
+      setTabs((prev) => ({
+        ...prev,
+        complaint: {
+          id: 8,
+          name: '민원',
+          icon: '💢',
+          route: '/complaint',
+        },
+      }));
     }
   }, [loginUser]);
 

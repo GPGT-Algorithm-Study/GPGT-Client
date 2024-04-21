@@ -21,6 +21,7 @@ import RoadmapDetail from 'pages/Roadmap/RoadmapDetail';
 import Layout from 'layouts/Layout';
 import Login from 'pages/Login';
 import Store from 'pages/Store';
+import Complaint from 'pages/Complaint';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -82,6 +83,17 @@ function App() {
             }
           >
             <Route path="/admin" element={<Admin />} />
+          </Route>
+          {/* 일반 사용자들만 접속 가능한 페이지 정의 */}
+          <Route
+            element={
+              <PrivateRoute
+                userAuthentication={true}
+                adminAuthentication={false}
+              />
+            }
+          >
+            <Route path="/complaint" element={<Complaint />} />
           </Route>
           <Route
             path="/home"

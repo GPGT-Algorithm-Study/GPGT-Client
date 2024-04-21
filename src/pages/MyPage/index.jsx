@@ -12,6 +12,7 @@ import PageTitle from 'components/PageTitle';
 import StreakCard from './StreakCard';
 import LogCard from './LogCard';
 import ItemCard from './ItemCard';
+import ComplaintCard from './ComplaintCard';
 
 /**
  * 마이페이지 화면
@@ -51,6 +52,7 @@ function MyPage() {
           <UserBoard />
           <RoadmapCard />
           <LogCard userInfo={userInfo} />
+          <ComplaintCard userInfo={userInfo} isUser={isUser} />
         </ProfileInfo>
       </ProfileContent>
     </Content>
