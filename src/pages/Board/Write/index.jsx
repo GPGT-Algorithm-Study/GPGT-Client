@@ -64,7 +64,9 @@ function Write({ mode, type, closeWriteMode, post }) {
     if (type === boardType.SEARCH.key || type === boardType.MY.key) {
       return;
     }
-    setSelectedCategory(type);
+    let curType = type;
+    if (type === boardType.ALL.key) curType = boardType.FREE.key;
+    setSelectedCategory(curType);
   }, [type]);
 
   useEffect(() => {
