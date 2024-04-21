@@ -41,7 +41,7 @@ function ComplaintCard({ userInfo, isUser }) {
     <Card>
       <Title>
         💢 내 민원 목록{' '}
-        <span>{total} 개의 민원 | 민원을 클릭하여 수정할 수 있습니다.</span>
+        <span>{total} 개의 민원 · 민원을 클릭하여 수정할 수 있습니다.</span>
       </Title>
       {/* TODO : API 연결 */}
       {isEmpty(complaintList) ? (
