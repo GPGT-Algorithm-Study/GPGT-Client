@@ -100,11 +100,31 @@ function ComplaintModal(props) {
       <p>민원 처리</p>
       <br />
       <form onSubmit={(e) => onSubmit(e)}>
-        <input
-          name="processor"
-          placeholder={'담당자'}
-          defaultValue={complaint.processor ? complaint.processor : undefined}
-        />
+        <div>
+          <select name="processor">
+            <option
+              value="seyeon0207"
+              selected={complaint.processor === 'seyeon0207'}
+            >
+              양세연
+            </option>
+            <option value="fin" selected={complaint.processor === 'fin'}>
+              김성민
+            </option>
+            <option
+              value="asdf016182"
+              selected={complaint.processor === 'asdf016182'}
+            >
+              장희영
+            </option>
+            <option
+              value="emforhs0315"
+              selected={complaint.processor === 'emforhs0315'}
+            >
+              조성훈
+            </option>
+          </select>
+        </div>
         <div>
           <select name="type">
             <option
