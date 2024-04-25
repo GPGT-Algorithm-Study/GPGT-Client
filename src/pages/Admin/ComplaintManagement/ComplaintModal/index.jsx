@@ -31,31 +31,36 @@ function ComplaintModal(props) {
     const processor = e.target[0].value;
     const processType = e.target[1].value;
     const reply = e.target[2].value;
-    if (isEmpty(processor)) toast.error('담당자를 지정해주세요.');
-    else if (processType === complaint.processType)
-      toast.error('민원의 처리 상태를 변경해주세요.');
-    else if (isEmpty(reply)) toast.error('코멘트를 작성해주세요.');
-    else {
-      const updatedComplaint = {
-        id: complaint.id,
-        processType: processType,
-        processor: processor,
-        reply: reply,
-      };
 
-      setSubmitLock(true);
-      updateComplaintType(updatedComplaint)
-        .then((res) => {
-          toast.success(`민원을 성공적으로 처리하였습니다.`);
-          props.closeModal();
-        })
-        .catch((err) => {
-          toast.error(`민원 처리에 실패하였습니다 : ${err.message}`);
-        })
-        .finally(() => {
-          setSubmitLock(false);
-        });
+    const updatedComplaint = {
+      id: complaint.id,
+      processType: processType,
+      processor: processor,
+      reply: reply,
+    };
+    if (
+      updatedComplaint.processType === complaint.processType &&
+      updatedComplaint.processor === complaint.processor &&
+      updatedComplaint.reply === complaint.reply
+    ) {
+      toast.error('변경사항이 없습니다.');
+      return;
+    } else if (isEmpty(reply)) {
+      toast.error('코멘트를 작성해주세요.');
+      return;
     }
+    setSubmitLock(true);
+    updateComplaintType(updatedComplaint)
+      .then((res) => {
+        toast.success(`민원을 성공적으로 처리하였습니다.`);
+        props.closeModal();
+      })
+      .catch((err) => {
+        toast.error(`민원 처리에 실패하였습니다 : ${err.message}`);
+      })
+      .finally(() => {
+        setSubmitLock(false);
+      });
   };
   const onDeleteClick = (e) => {
     const isAgree = confirm('해당 민원을 정!말! 삭제하시겠습니까?');
@@ -104,22 +109,22 @@ function ComplaintModal(props) {
           <select name="processor">
             <option
               value="seyeon0207"
-              selected={complaint.processor === 'seyeon0207'}
+              defaultValue={complaint.processor === 'seyeon0207'}
             >
               양세연
             </option>
-            <option value="fin" selected={complaint.processor === 'fin'}>
+            <option value="fin" defaultValue={complaint.processor === 'fin'}>
               김성민
             </option>
             <option
               value="asdf016182"
-              selected={complaint.processor === 'asdf016182'}
+              defaultValue={complaint.processor === 'asdf016182'}
             >
               장희영
             </option>
             <option
               value="emforhs0315"
-              selected={complaint.processor === 'emforhs0315'}
+              defaultValue={complaint.processor === 'emforhs0315'}
             >
               조성훈
             </option>
@@ -149,6 +154,7 @@ function ComplaintModal(props) {
           name="reply"
           id="reply"
           placeholder="코멘트 작성.."
+          defaultValue={complaint.reply}
         ></textarea>
         <br />
         <input type="submit"></input>
