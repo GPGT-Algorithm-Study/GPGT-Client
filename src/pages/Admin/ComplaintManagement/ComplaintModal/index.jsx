@@ -38,16 +38,26 @@ function ComplaintModal(props) {
       processor: processor,
       reply: reply,
     };
-    if (
-      updatedComplaint.processType === complaint.processType &&
-      updatedComplaint.processor === complaint.processor &&
-      updatedComplaint.reply === complaint.reply
-    ) {
-      toast.error('변경사항이 없습니다.');
-      return;
-    } else if (isEmpty(reply)) {
-      toast.error('코멘트를 작성해주세요.');
-      return;
+    if (complaint.processType === 'WAITING') {
+      if (isEmpty(updatedComplaint.processor)) {
+        toast.error('담당자를 선택해주세요.');
+        return;
+      } else if (updatedComplaint.processType === 'WAITING') {
+        toast.error('처리 상태를 변경해주세요.');
+        return;
+      } else if (isEmpty(updatedComplaint.reply)) {
+        toast.error('코멘트를 작성해주세요.');
+        return;
+      }
+    } else {
+      if (
+        updatedComplaint.processType === complaint.processType &&
+        updatedComplaint.processor === complaint.processor &&
+        updatedComplaint.reply === complaint.reply
+      ) {
+        toast.error('변경사항이 없습니다.');
+        return;
+      }
     }
     setSubmitLock(true);
     updateComplaintType(updatedComplaint)
@@ -90,7 +100,7 @@ function ComplaintModal(props) {
       <p>담당자 : {complaint.processor ? complaint.processor : '-'}</p>
       <br />
       <p>내용</p>
-      <p>{complaint.content}</p>
+      <p style={{ whiteSpace: 'pre' }}>{complaint.content}</p>
       <br />
       <Button
         style={{
@@ -106,55 +116,32 @@ function ComplaintModal(props) {
       <br />
       <form onSubmit={(e) => onSubmit(e)}>
         <div>
-          <select name="processor">
-            <option
-              value="seyeon0207"
-              defaultValue={complaint.processor === 'seyeon0207'}
-            >
-              양세연
+          <select
+            name="processor"
+            defaultValue={complaint.processor ? complaint.processor : ''}
+          >
+            <option value="" disabled hidden>
+              담당자 선택
             </option>
-            <option value="fin" defaultValue={complaint.processor === 'fin'}>
-              김성민
-            </option>
-            <option
-              value="asdf016182"
-              defaultValue={complaint.processor === 'asdf016182'}
-            >
-              장희영
-            </option>
-            <option
-              value="emforhs0315"
-              defaultValue={complaint.processor === 'emforhs0315'}
-            >
-              조성훈
-            </option>
+            <option value="seyeon0207">양세연</option>
+            <option value="fin">김성민</option>
+            <option value="asdf016182">장희영</option>
+            <option value="emforhs0315">조성훈</option>
           </select>
         </div>
         <div>
-          <select name="type">
-            <option
-              value="WAITING"
-              selected={complaint.processType === 'WAITING'}
-            >
-              대기중
-            </option>
-            <option
-              value="PROCESSING"
-              selected={complaint.processType === 'PROCESSING'}
-            >
-              처리중
-            </option>
-            <option value="DONE" selected={complaint.processType === 'DONE'}>
-              처리 완료
-            </option>
+          <select name="type" defaultValue={complaint.processType}>
+            <option value="WAITING">대기중</option>
+            <option value="PROCESSING">처리중</option>
+            <option value="DONE">처리 완료</option>
           </select>
         </div>
         <textarea
-          row="10"
           name="reply"
           id="reply"
           placeholder="코멘트 작성.."
           defaultValue={complaint.reply}
+          style={{ width: '80%', height: '100px' }}
         ></textarea>
         <br />
         <input type="submit"></input>
