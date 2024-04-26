@@ -154,11 +154,7 @@ function ComplaintInputForm() {
           <ContentArea
             rows="10"
             id="content"
-<<<<<<< HEAD
             placeholder="민원 내용 작성.."
-=======
-            placeholder="민원 내용을 작성해주세요"
->>>>>>> cf60f2b816d220c402114aa4c82ae91654bfa486
             value={content}
             onChange={onChangeContent}
           ></ContentArea>

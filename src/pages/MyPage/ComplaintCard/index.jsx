@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
-=======
-import React, { useState } from 'react';
->>>>>>> cf60f2b816d220c402114aa4c82ae91654bfa486
 import {
   Card,
   ComplaintContent,
@@ -15,22 +11,14 @@ import {
 import useSWR from 'swr';
 import { getMyComplaint } from 'api/complaint';
 import { isEmpty } from 'lodash';
-<<<<<<< HEAD
 import {
   COMPLAINT_REQUESTER_PREFIX_URL,
   USER_PREFIX_URL,
 } from 'utils/constants';
-=======
-import { COMPLAINT_REQUESTER_PREFIX_URL } from 'utils/constants';
->>>>>>> cf60f2b816d220c402114aa4c82ae91654bfa486
 import fetcher from 'utils/fetcher';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-<<<<<<< HEAD
-import { getUserInfo } from 'api/user';
-=======
->>>>>>> cf60f2b816d220c402114aa4c82ae91654bfa486
 
 function getKrComplaintTypeName(complaintType) {
   if (complaintType === 'NEW_FUNCTION') return '신규 기능 건의';
@@ -50,26 +38,18 @@ function ComplaintCard({ userInfo, isUser }) {
     `${COMPLAINT_REQUESTER_PREFIX_URL}/all`,
     fetcher,
   );
-<<<<<<< HEAD
   const { data: allUserInfo } = useSWR(`${USER_PREFIX_URL}/info/all`, fetcher);
-=======
->>>>>>> cf60f2b816d220c402114aa4c82ae91654bfa486
   if (!isUser || !userInfo) return;
   const total = complaintList ? complaintList.length : 0;
   return (
     <Card>
       <Title>
-<<<<<<< HEAD
         💢 내 민원 목록 <span>{total} 개의 민원</span>
       </Title>
       <Title>
         <span>
           마우스 커서를 올려 자세히 보거나, 클릭하여 수정할 수 있습니다.
         </span>
-=======
-        💢 내 민원 목록{' '}
-        <span>{total} 개의 민원 · 민원을 클릭하여 수정할 수 있습니다.</span>
->>>>>>> cf60f2b816d220c402114aa4c82ae91654bfa486
       </Title>
       {/* TODO : API 연결 */}
       {isEmpty(complaintList) ? (
@@ -77,12 +57,9 @@ function ComplaintCard({ userInfo, isUser }) {
       ) : (
         <ComplaintContent>
           {complaintList.map((complaint) => {
-<<<<<<< HEAD
             const processor = allUserInfo?.find(
               (u) => u.bojHandle === complaint.processor,
             )?.notionId;
-=======
->>>>>>> cf60f2b816d220c402114aa4c82ae91654bfa486
             return (
               <ComplaintItem
                 key={complaint.id}
@@ -97,19 +74,14 @@ function ComplaintCard({ userInfo, isUser }) {
                 <ComplaintTitle style={{ fontWeight: 'bold' }}>
                   [{getKrComplaintTypeName(complaint.complaintType)}]
                 </ComplaintTitle>
-<<<<<<< HEAD
                 <ComplaintTitle className="hover-to-detail">
                   {complaint.content}
                 </ComplaintTitle>
-=======
-                <ComplaintTitle>{complaint.content}</ComplaintTitle>
->>>>>>> cf60f2b816d220c402114aa4c82ae91654bfa486
                 <ComplaintInfo>
                   <div>
                     {dayjs(complaint.createdDate).format('YYYY. MM. DD')}
                   </div>
                   <div>·</div>
-<<<<<<< HEAD
                   <div>{processor ? processor : '-'}</div>
                   <div>·</div>
                   <div>{getKrProcessTypeName(complaint.processType)}</div>
@@ -120,10 +92,6 @@ function ComplaintCard({ userInfo, isUser }) {
                     <p style={{ fontStyle: 'italic' }}>{complaint.reply}</p>
                   </ComplaintTitle>
                 ) : undefined}
-=======
-                  <div>{getKrProcessTypeName(complaint.processType)}</div>
-                </ComplaintInfo>
->>>>>>> cf60f2b816d220c402114aa4c82ae91654bfa486
               </ComplaintItem>
             );
           })}
