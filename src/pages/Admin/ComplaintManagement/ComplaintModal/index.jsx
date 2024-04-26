@@ -31,31 +31,46 @@ function ComplaintModal(props) {
     const processor = e.target[0].value;
     const processType = e.target[1].value;
     const reply = e.target[2].value;
-    if (isEmpty(processor)) toast.error('담당자를 지정해주세요.');
-    else if (processType === complaint.processType)
-      toast.error('민원의 처리 상태를 변경해주세요.');
-    else if (isEmpty(reply)) toast.error('코멘트를 작성해주세요.');
-    else {
-      const updatedComplaint = {
-        id: complaint.id,
-        processType: processType,
-        processor: processor,
-        reply: reply,
-      };
 
-      setSubmitLock(true);
-      updateComplaintType(updatedComplaint)
-        .then((res) => {
-          toast.success(`민원을 성공적으로 처리하였습니다.`);
-          props.closeModal();
-        })
-        .catch((err) => {
-          toast.error(`민원 처리에 실패하였습니다 : ${err.message}`);
-        })
-        .finally(() => {
-          setSubmitLock(false);
-        });
+    const updatedComplaint = {
+      id: complaint.id,
+      processType: processType,
+      processor: processor,
+      reply: reply,
+    };
+    if (complaint.processType === 'WAITING') {
+      if (isEmpty(updatedComplaint.processor)) {
+        toast.error('담당자를 선택해주세요.');
+        return;
+      } else if (updatedComplaint.processType === 'WAITING') {
+        toast.error('처리 상태를 변경해주세요.');
+        return;
+      } else if (isEmpty(updatedComplaint.reply)) {
+        toast.error('코멘트를 작성해주세요.');
+        return;
+      }
+    } else {
+      if (
+        updatedComplaint.processType === complaint.processType &&
+        updatedComplaint.processor === complaint.processor &&
+        updatedComplaint.reply === complaint.reply
+      ) {
+        toast.error('변경사항이 없습니다.');
+        return;
+      }
     }
+    setSubmitLock(true);
+    updateComplaintType(updatedComplaint)
+      .then((res) => {
+        toast.success(`민원을 성공적으로 처리하였습니다.`);
+        props.closeModal();
+      })
+      .catch((err) => {
+        toast.error(`민원 처리에 실패하였습니다 : ${err.message}`);
+      })
+      .finally(() => {
+        setSubmitLock(false);
+      });
   };
   const onDeleteClick = (e) => {
     const isAgree = confirm('해당 민원을 정!말! 삭제하시겠습니까?');
@@ -85,7 +100,7 @@ function ComplaintModal(props) {
       <p>담당자 : {complaint.processor ? complaint.processor : '-'}</p>
       <br />
       <p>내용</p>
-      <p>{complaint.content}</p>
+      <p style={{ whiteSpace: 'pre' }}>{complaint.content}</p>
       <br />
       <Button
         style={{
@@ -100,35 +115,33 @@ function ComplaintModal(props) {
       <p>민원 처리</p>
       <br />
       <form onSubmit={(e) => onSubmit(e)}>
-        <input
-          name="processor"
-          placeholder={'담당자'}
-          defaultValue={complaint.processor ? complaint.processor : undefined}
-        />
         <div>
-          <select name="type">
-            <option
-              value="WAITING"
-              selected={complaint.processType === 'WAITING'}
-            >
-              대기중
+          <select
+            name="processor"
+            defaultValue={complaint.processor ? complaint.processor : ''}
+          >
+            <option value="" disabled hidden>
+              담당자 선택
             </option>
-            <option
-              value="PROCESSING"
-              selected={complaint.processType === 'PROCESSING'}
-            >
-              처리중
-            </option>
-            <option value="DONE" selected={complaint.processType === 'DONE'}>
-              처리 완료
-            </option>
+            <option value="seyeon0207">양세연</option>
+            <option value="fin">김성민</option>
+            <option value="asdf016182">장희영</option>
+            <option value="emforhs0315">조성훈</option>
+          </select>
+        </div>
+        <div>
+          <select name="type" defaultValue={complaint.processType}>
+            <option value="WAITING">대기중</option>
+            <option value="PROCESSING">처리중</option>
+            <option value="DONE">처리 완료</option>
           </select>
         </div>
         <textarea
-          row="10"
           name="reply"
           id="reply"
           placeholder="코멘트 작성.."
+          defaultValue={complaint.reply}
+          style={{ width: '80%', height: '100px' }}
         ></textarea>
         <br />
         <input type="submit"></input>

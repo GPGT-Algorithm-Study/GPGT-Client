@@ -113,6 +113,7 @@ function ComplaintManagement() {
             const requester = userInfo.find(
               (user) => user.bojHandle === complaint.requester,
             );
+            const createdDate = new Date(complaint.createdDate);
             const type = complaint.processType;
             if (
               mode === -1 ||
@@ -129,7 +130,9 @@ function ComplaintManagement() {
                   <TextWrapper>
                     <Id>{complaint.id}</Id>
                     <Name>{requester.notionId}</Name>
-                    <DateWrapper>YYYY-MM-DD, HH:MM:SS</DateWrapper>
+                    <DateWrapper>{`${createdDate.toLocaleDateString()}  ${createdDate
+                      .toTimeString()
+                      .substring(0, 8)}`}</DateWrapper>
                     <DateWrapper>
                       [{getKrComplaintTypeName(complaint.complaintType)}]
                     </DateWrapper>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   ComplaintContent,
@@ -11,7 +11,10 @@ import {
 import useSWR from 'swr';
 import { getMyComplaint } from 'api/complaint';
 import { isEmpty } from 'lodash';
-import { COMPLAINT_REQUESTER_PREFIX_URL } from 'utils/constants';
+import {
+  COMPLAINT_REQUESTER_PREFIX_URL,
+  USER_PREFIX_URL,
+} from 'utils/constants';
 import fetcher from 'utils/fetcher';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
@@ -35,13 +38,18 @@ function ComplaintCard({ userInfo, isUser }) {
     `${COMPLAINT_REQUESTER_PREFIX_URL}/all`,
     fetcher,
   );
+  const { data: allUserInfo } = useSWR(`${USER_PREFIX_URL}/info/all`, fetcher);
   if (!isUser || !userInfo) return;
   const total = complaintList ? complaintList.length : 0;
   return (
     <Card>
       <Title>
-        💢 내 민원 목록{' '}
-        <span>{total} 개의 민원 · 민원을 클릭하여 수정할 수 있습니다.</span>
+        💢 내 민원 목록 <span>{total} 개의 민원</span>
+      </Title>
+      <Title>
+        <span>
+          마우스 커서를 올려 자세히 보거나, 클릭하여 수정할 수 있습니다.
+        </span>
       </Title>
       {/* TODO : API 연결 */}
       {isEmpty(complaintList) ? (
@@ -49,6 +57,9 @@ function ComplaintCard({ userInfo, isUser }) {
       ) : (
         <ComplaintContent>
           {complaintList.map((complaint) => {
+            const processor = allUserInfo?.find(
+              (u) => u.bojHandle === complaint.processor,
+            )?.notionId;
             return (
               <ComplaintItem
                 key={complaint.id}
@@ -63,14 +74,24 @@ function ComplaintCard({ userInfo, isUser }) {
                 <ComplaintTitle style={{ fontWeight: 'bold' }}>
                   [{getKrComplaintTypeName(complaint.complaintType)}]
                 </ComplaintTitle>
-                <ComplaintTitle>{complaint.content}</ComplaintTitle>
+                <ComplaintTitle className="hover-to-detail">
+                  {complaint.content}
+                </ComplaintTitle>
                 <ComplaintInfo>
                   <div>
                     {dayjs(complaint.createdDate).format('YYYY. MM. DD')}
                   </div>
                   <div>·</div>
+                  <div>{processor ? processor : '-'}</div>
+                  <div>·</div>
                   <div>{getKrProcessTypeName(complaint.processType)}</div>
                 </ComplaintInfo>
+                {complaint.reply ? (
+                  <ComplaintTitle className="hover-to-detail">
+                    [REPLY] <br />
+                    <p style={{ fontStyle: 'italic' }}>{complaint.reply}</p>
+                  </ComplaintTitle>
+                ) : undefined}
               </ComplaintItem>
             );
           })}

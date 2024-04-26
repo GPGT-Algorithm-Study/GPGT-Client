@@ -31,6 +31,25 @@ export const NoPosts = styled.div`
   font-size: 0.9rem;
 `;
 
+export const ComplaintItem = styled.div`
+  //display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+  row-gap: 0.8rem;
+  cursor: pointer;
+  &:hover .hover-to-detail {
+    display: block;
+  }
+`;
+
+export const ComplaintInfo = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-text-gray);
+  padding: 0.4rem 0;
+`;
 export const ComplaintContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,26 +65,9 @@ export const ComplaintContent = styled.div`
   }
 `;
 
-export const ComplaintItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 1.5rem 0;
-  row-gap: 0.8rem;
-  cursor: pointer;
-`;
-
-export const ComplaintInfo = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  font-size: 0.8rem;
-  color: var(--color-text-gray);
-`;
-
 export const ComplaintTitle = styled.div`
   color: var(--color-deep-gray);
   font-size: 0.9rem;
-  display: flex;
   align-items: center;
   gap: 0.5rem;
   & span {
@@ -76,4 +78,8 @@ export const ComplaintTitle = styled.div`
   text-overflow: ellipsis;
   white-space: pre;
   width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  padding: 0.2rem 0;
 `;
