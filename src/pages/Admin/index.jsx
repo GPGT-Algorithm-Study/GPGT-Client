@@ -11,6 +11,9 @@ import ComplaintManagement from './ComplaintManagement';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
 function Admin() {
+  const complaint = getAllComplaint()
+    .then((res) => console.info(res))
+    .catch((e) => console.info(e));
   return (
     <div>
       <CommonFlexWrapper>
