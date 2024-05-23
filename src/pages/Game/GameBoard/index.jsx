@@ -5,6 +5,7 @@ import {
   RowWrapper,
   ControlsWrapper,
   Timer,
+  Combo,
   RestartButton,
 } from '../style';
 import { CommonButton } from 'style/commonStyle';
@@ -74,6 +75,8 @@ const Board = ({ rows, cols, mines }) => {
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [time, setTime] = useState(0);
+  const [combo, setCombo] = useState(0);
+  const [lastClickTime, setLastClickTime] = useState(null);
 
   useEffect(() => {
     let timer;
@@ -84,6 +87,15 @@ const Board = ({ rows, cols, mines }) => {
     }
     return () => clearInterval(timer);
   }, [gameOver, gameWon]);
+
+  useEffect(() => {
+    if (combo > 0 && !gameOver) {
+      const comboResetTimer = setTimeout(() => {
+        setCombo(0);
+      }, 5000);
+      return () => clearTimeout(comboResetTimer);
+    }
+  }, [combo, gameOver]);
 
   const handleClick = (row, col) => {
     if (
@@ -106,6 +118,15 @@ const Board = ({ rows, cols, mines }) => {
     newBoard[row][col].revealed = true;
     setBoard(newBoard);
     checkWin(newBoard);
+
+    // 콤보 로직
+    const currentTime = Date.now();
+    if (lastClickTime && currentTime - lastClickTime <= 5000) {
+      setCombo(combo + 1);
+    } else {
+      setCombo(1);
+    }
+    setLastClickTime(currentTime);
   };
 
   const handleContextMenu = (e, row, col) => {
@@ -182,12 +203,27 @@ const Board = ({ rows, cols, mines }) => {
     setGameOver(false);
     setGameWon(false);
     setTime(0);
+    setCombo(0);
+    setLastClickTime(null);
   };
 
   return (
     <div>
       <ControlsWrapper>
         <Timer>{time}s</Timer>
+        <Combo combo={combo}>
+          {combo > 1
+            ? combo >= 5
+              ? combo >= 10
+                ? combo >= 15
+                  ? combo >= 20
+                    ? '🤯'
+                    : '🤩'
+                  : '😎'
+                : '😆'
+              : '😏'
+            : '😴'}
+        </Combo>
       </ControlsWrapper>
       <BoardWrapper>
         {board.map((row, rowIndex) => (

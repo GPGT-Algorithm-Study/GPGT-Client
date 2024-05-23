@@ -57,3 +57,10 @@ export const RestartButton = styled.button`
     background-color: #0056b3;
   }
 `;
+
+export const Combo = styled.div`
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: ${(props) => `rgb(${Math.min(255, 100 + props.combo * 5)}, 0, 0)`};
+  margin-left: 1rem;
+`;
