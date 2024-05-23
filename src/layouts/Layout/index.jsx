@@ -106,6 +106,12 @@ function Layout({ children }) {
       icon: '🏠',
       route: '/store',
     },
+    game: {
+      id: 8,
+      name: '게임',
+      icon: '🎮',
+      route: '/game',
+    },
   });
 
   useEffect(() => {
@@ -115,7 +121,7 @@ function Layout({ children }) {
       setTabs((prev) => ({
         ...prev,
         admin: {
-          id: 8,
+          id: 9,
           name: '관리자',
           icon: '⚙️',
           route: '/admin',
@@ -125,7 +131,7 @@ function Layout({ children }) {
       setTabs((prev) => ({
         ...prev,
         complaint: {
-          id: 8,
+          id: 9,
           name: '민원',
           icon: '💢',
           route: '/complaint',

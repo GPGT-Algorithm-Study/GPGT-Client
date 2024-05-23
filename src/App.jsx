@@ -54,7 +54,6 @@ function App() {
           {/* 인증을 반드시 하지 않아야만 접속 가능한 페이지 정의 */}
           <Route element={<PrivateRoute userAuthentication={false} />}>
             <Route path="/login" element={<Login />} />
-            <Route path="/game" element={<Game />} />
           </Route>
           {/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
           <Route element={<PrivateRoute userAuthentication={true} />}>
@@ -64,6 +63,7 @@ function App() {
             <Route path="/statistics" element={<Statistics />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/store" element={<Store />} />
+            <Route path="/game" element={<Game />} />
             <Route path="/roadmap">
               <Route index element={<Roadmap />} />
               <Route path="problem/:id" element={<CreateRoadmapProblem />} />
