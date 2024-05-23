@@ -22,6 +22,7 @@ import Layout from 'layouts/Layout';
 import Login from 'pages/Login';
 import Store from 'pages/Store';
 import Complaint from 'pages/Complaint';
+import Game from 'pages/Game';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -53,6 +54,7 @@ function App() {
           {/* 인증을 반드시 하지 않아야만 접속 가능한 페이지 정의 */}
           <Route element={<PrivateRoute userAuthentication={false} />}>
             <Route path="/login" element={<Login />} />
+            <Route path="/game" element={<Game />} />
           </Route>
           {/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
           <Route element={<PrivateRoute userAuthentication={true} />}>
