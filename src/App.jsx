@@ -22,6 +22,7 @@ import Layout from 'layouts/Layout';
 import Login from 'pages/Login';
 import Store from 'pages/Store';
 import Complaint from 'pages/Complaint';
+import Game from 'pages/Game';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -62,6 +63,7 @@ function App() {
             <Route path="/statistics" element={<Statistics />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/store" element={<Store />} />
+            <Route path="/game" element={<Game />} />
             <Route path="/roadmap">
               <Route index element={<Roadmap />} />
               <Route path="problem/:id" element={<CreateRoadmapProblem />} />
