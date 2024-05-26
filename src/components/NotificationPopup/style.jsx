@@ -7,6 +7,7 @@ export const Container = styled.div`
   width: 30rem;
   max-width: 75%;
   max-height: 25rem;
+  height: ${({ fixHeight }) => (fixHeight ? '25rem' : 'auto')};
   /* border-radius: 10px; */
   border: 1px solid var(--color-border);
   background-color: #fff;
