@@ -36,7 +36,11 @@ import { isEmpty } from 'lodash';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
-import { EVT_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
+import {
+  EVT_PREFIX_URL,
+  USER_PREFIX_URL,
+  NOTIFY_PREFIX_URL,
+} from 'utils/constants';
 import { IoArrowBackOutline } from 'react-icons/io5';
 import { isLoginUser } from 'utils/auth';
 import { MdPerson } from 'react-icons/md';
@@ -162,6 +166,11 @@ function Layout({ children }) {
     fetcher,
   );
 
+  const { data: notificationCount } = useSWR(
+    loginUser ? `${NOTIFY_PREFIX_URL}/search/unread/count` : null,
+    fetcher,
+  );
+
   const onCloseModal = useCallback(() => {
     setShowRecommendModal(false);
   }, []);
@@ -278,7 +287,7 @@ function Layout({ children }) {
                 }}
               >
                 <FaBell size="21" />
-                <NewNotificationIcon />
+                {notificationCount?.count > 0 && <NewNotificationIcon />}
               </NotificationIcon>
               <ProfileImage
                 width="35"
