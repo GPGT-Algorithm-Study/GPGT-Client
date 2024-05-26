@@ -23,6 +23,7 @@ import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import ProblemCard from 'pages/Users/ProblemCard';
 import RandomProblemCard from 'pages/Users/RandomProblemCard';
 import SettingRandomPopup from './SettingRandomPopup';
+import OverlayMenu from 'components/OverlayMenu';
 
 /**
  * 마이페이지 내 정보 카드
@@ -74,40 +75,46 @@ function MyInfoCard({ userInfo, isUser, loadData }) {
               />
             </ButtonWrapper>
             {showSettinMenu && (
-              <SettingMenu>
-                <div
-                  onClick={() => {
-                    setShowPwChangeModal(true);
-                    setShowSettingMenu(false);
-                  }}
-                >
-                  비밀번호 변경
-                </div>
-                <div
-                  onClick={() => {
-                    setShowRandomSetting(true);
-                    setShowSettingMenu(false);
-                  }}
-                >
-                  랜덤 문제 추천 설정
-                </div>
-                <div data-tooltip-id="info-tooltip" onClick={refreshUserInfo}>
-                  정보 업데이트
-                  <HiOutlineRefresh
-                    size="12"
-                    className={refreshing ? 'loading' : ''}
+              <OverlayMenu
+                onClose={() => {
+                  setShowSettingMenu(false);
+                }}
+              >
+                <SettingMenu>
+                  <div
+                    onClick={() => {
+                      setShowPwChangeModal(true);
+                      setShowSettingMenu(false);
+                    }}
+                  >
+                    비밀번호 변경
+                  </div>
+                  <div
+                    onClick={() => {
+                      setShowRandomSetting(true);
+                      setShowSettingMenu(false);
+                    }}
+                  >
+                    랜덤 문제 추천 설정
+                  </div>
+                  <div data-tooltip-id="info-tooltip" onClick={refreshUserInfo}>
+                    정보 업데이트
+                    <HiOutlineRefresh
+                      size="12"
+                      className={refreshing ? 'loading' : ''}
+                    />
+                  </div>
+                  <Tooltip
+                    id="info-tooltip"
+                    place="top"
+                    content={
+                      <div style={{ lineHeight: '1.5' }}>
+                        20분에 한 번만 업데이트 할 수 있습니다.
+                      </div>
+                    }
                   />
-                </div>
-                <Tooltip
-                  id="info-tooltip"
-                  place="top"
-                  content={
-                    <div style={{ lineHeight: '1.5' }}>
-                      20분에 한 번만 업데이트 할 수 있습니다.
-                    </div>
-                  }
-                />
-              </SettingMenu>
+                </SettingMenu>
+              </OverlayMenu>
             )}
           </>
         )}
