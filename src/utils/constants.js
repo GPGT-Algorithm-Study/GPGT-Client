@@ -19,3 +19,4 @@ export const COMPLAINT_PROCESSOR_PREFIX_URL =
   PREFIX_URL + '/complaint/processor';
 export const COMPLAINT_REQUESTER_PREFIX_URL =
   PREFIX_URL + '/complaint/requester';
+export const NOTIFY_PREFIX_URL = '/api/v1/notify';

@@ -21,11 +21,12 @@ import {
   LoginButton,
   MobileLoginButton,
   MyPageMenu,
-  CreateModal,
+  NotificationIcon,
+  NewNotificationIcon,
 } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
-import Store from 'pages/Store';
+import { FaBell } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useLocation } from 'react-router-dom';
@@ -35,16 +36,21 @@ import { isEmpty } from 'lodash';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
-import { EVT_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
+import {
+  EVT_PREFIX_URL,
+  USER_PREFIX_URL,
+  NOTIFY_PREFIX_URL,
+} from 'utils/constants';
 import { IoArrowBackOutline } from 'react-icons/io5';
 import { isLoginUser } from 'utils/auth';
 import { MdPerson } from 'react-icons/md';
+import OverlayMenu from 'components/OverlayMenu';
+import NotificationPopup from 'components/\bNotificationPopup';
 
 function Layout({ children }) {
   const isLogin = useMemo(() => {
     return isLoginUser();
   }, []);
-  const [showStoreModal, setShowStoreModal] = useState(false);
   const [showRecommendModal, setShowRecommendModal] = useState(false);
   const { data: loginUser } = useSWR(
     isLogin ? `${USER_PREFIX_URL}/auth/parse/boj` : '',
@@ -61,6 +67,7 @@ function Layout({ children }) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const [showMyPageMenu, setShowMyPageMenu] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   // 좌측 탭 목록
   const [tabs, setTabs] = useState({
@@ -159,8 +166,12 @@ function Layout({ children }) {
     fetcher,
   );
 
+  const { data: notificationCount } = useSWR(
+    loginUser ? `${NOTIFY_PREFIX_URL}/search/unread/count` : null,
+    fetcher,
+  );
+
   const onCloseModal = useCallback(() => {
-    setShowStoreModal(false);
     setShowRecommendModal(false);
   }, []);
 
@@ -270,6 +281,14 @@ function Layout({ children }) {
           </FlexWrapper>
           {isLogin ? (
             <SideMyInfo>
+              <NotificationIcon
+                onClick={() => {
+                  setShowNotification((prev) => !prev);
+                }}
+              >
+                <FaBell size="21" />
+                {notificationCount?.count > 0 && <NewNotificationIcon />}
+              </NotificationIcon>
               <ProfileImage
                 width="35"
                 height="35"
@@ -282,32 +301,6 @@ function Layout({ children }) {
                   setShowMyPageMenu((prev) => !prev);
                 }}
               />
-              {showMyPageMenu && (
-                <CreateModal
-                  onClick={() => {
-                    setShowMyPageMenu(false);
-                  }}
-                >
-                  <MyPageMenu>
-                    <div
-                      onClick={() => {
-                        onClickUserProfile();
-                        setShowMyPageMenu(false);
-                      }}
-                    >
-                      <MdPerson />내 프로필
-                    </div>
-                    <div
-                      onClick={() => {
-                        onClickLogout();
-                        setShowMyPageMenu(false);
-                      }}
-                    >
-                      <FiLogOut /> 로그아웃
-                    </div>
-                  </MyPageMenu>
-                </CreateModal>
-              )}
             </SideMyInfo>
           ) : (
             <LoginButton
@@ -345,13 +338,45 @@ function Layout({ children }) {
             </CloseButton>
           </EventHeader>
         )}
+        {showMyPageMenu && (
+          <OverlayMenu
+            onClose={() => {
+              setShowMyPageMenu(false);
+            }}
+          >
+            <MyPageMenu>
+              <div
+                onClick={() => {
+                  onClickUserProfile();
+                  setShowMyPageMenu(false);
+                }}
+              >
+                <MdPerson />내 프로필
+              </div>
+              <div
+                onClick={() => {
+                  onClickLogout();
+                  setShowMyPageMenu(false);
+                }}
+              >
+                <FiLogOut /> 로그아웃
+              </div>
+            </MyPageMenu>
+          </OverlayMenu>
+        )}
+        {showNotification && (
+          <OverlayMenu
+            onClose={() => {
+              setShowNotification(false);
+            }}
+          >
+            <NotificationPopup />
+          </OverlayMenu>
+        )}
         <section>{children}</section>
       </Content>
       <Modal show={showRecommendModal} onCloseModal={onCloseModal}>
         <ProblemRecommend />
-      </Modal>
-      <Modal show={showStoreModal} onCloseModal={onCloseModal}>
-        <Store />
       </Modal>
     </Container>
   );

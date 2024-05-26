@@ -115,7 +115,7 @@ export const SideMyInfo = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  gap: 7px;
+  gap: 1.2rem;
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
@@ -290,6 +290,9 @@ export const MobileLoginButton = styled.div`
 `;
 
 export const MyPageMenu = styled.div`
+  position: fixed;
+  top: 50px;
+  right: 20px;
   display: flex;
   flex-direction: column;
   font-size: 0.9rem;
@@ -300,11 +303,10 @@ export const MyPageMenu = styled.div`
   border-radius: 10px;
   border: 1px solid var(--color-border);
   font-weight: 400;
-  position: absolute;
-  top: 50px;
-  right: 20px;
   background-color: #fff;
   width: 5.5rem;
+  cursor: pointer;
+  z-index: 2999;
   > div {
     display: flex;
     align-items: center;
@@ -312,12 +314,18 @@ export const MyPageMenu = styled.div`
   }
 `;
 
-export const CreateModal = styled.div`
-  position: fixed;
-  text-align: center;
-  left: 0;
-  bottom: 0;
+export const NotificationIcon = styled.div`
+  color: var(--color-deep-gray);
+  position: relative;
+  margin-top: 3px;
+`;
+
+export const NewNotificationIcon = styled.div`
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: #f24343;
+  position: absolute;
   top: 0;
-  right: 0;
-  z-index: 1022;
+  right: 1px;
 `;
