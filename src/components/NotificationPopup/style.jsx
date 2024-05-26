@@ -19,13 +19,10 @@ export const Container = styled.div`
     display: none; /* Chrome, Safari, Opera*/
   }
   @media all and (max-width: 520px) {
-    width: 100%;
+    width: 95%;
     max-width: 100%;
     height: 100vh;
-    max-height: 100%;
-    top: 58px;
-    right: 0;
-    border: none;
+    right: 5px;
   }
 `;
 
