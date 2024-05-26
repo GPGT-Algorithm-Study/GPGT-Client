@@ -55,6 +55,7 @@ function NotificationPopup() {
             if (notification.relatedBoardId) {
               navigate(`/board/${notification.relatedBoardId}`);
             }
+            if (notification.isRead) return;
             readNotificationProc(notification.id);
           }}
         >
