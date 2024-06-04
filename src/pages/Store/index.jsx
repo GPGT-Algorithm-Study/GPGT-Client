@@ -40,7 +40,7 @@ function Store() {
   const clickBuyButton = useCallback(
     (itemId) => {
       if (!userInfo) return;
-      if (userInfo.warning == 4) {
+      if (userInfo.warning == 4 && !userInfo.manager) {
         toast.error('상점을 이용하실 수 없습니다.');
         return;
       }
