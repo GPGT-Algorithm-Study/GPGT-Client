@@ -127,14 +127,20 @@ function MyInfoCard({ userInfo, isUser, loadData }) {
                 ? userInfo.profileImg
                 : 'https://static.solved.ac/misc/360x360/default_profile.png'
             }
-            isWarning={userInfo.warning == 4}
+            isWarning={userInfo.warning == 4 && !userInfo.manager}
           />
           <UserId>
             <div className="user-id">
               {userInfo.notionId} {userInfo.emoji}
             </div>
             <div className="boj-handle">{userInfo.bojHandle}</div>
-            {userInfo.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
+            {userInfo.warning == 4 && !userInfo.manager ? (
+              <WarningMsg>BLOCKED</WarningMsg>
+            ) : (
+              <div>
+                🛠️<b>관리자</b>🛠️
+              </div>
+            )}
             {userInfo.warning < 4 && (
               <WarningWrapper>
                 {[...Array(3)].map((_, i) => (
