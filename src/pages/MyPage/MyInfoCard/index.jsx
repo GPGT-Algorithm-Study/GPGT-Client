@@ -134,13 +134,15 @@ function MyInfoCard({ userInfo, isUser, loadData }) {
               {userInfo.notionId} {userInfo.emoji}
             </div>
             <div className="boj-handle">{userInfo.bojHandle}</div>
-            {userInfo.warning == 4 && !userInfo.manager ? (
-              <WarningMsg>BLOCKED</WarningMsg>
-            ) : (
-              <div>
-                🛠️<b>관리자</b>🛠️
-              </div>
-            )}
+            {userInfo.warning == 4 ? (
+              !userInfo.manager ? (
+                <WarningMsg>BLOCKED</WarningMsg>
+              ) : (
+                <p>
+                  🛠️<b>관리자</b>🛠️
+                </p>
+              )
+            ) : null}
             {userInfo.warning < 4 && (
               <WarningWrapper>
                 {[...Array(3)].map((_, i) => (
