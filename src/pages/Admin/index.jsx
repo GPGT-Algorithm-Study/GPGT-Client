@@ -10,6 +10,7 @@ import { getAllComplaint } from 'api/complaint';
 import ComplaintManagement from './ComplaintManagement';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import UserSetting from './UserSetting';
+import AdminApiList from './AdminApiList';
 
 function Admin() {
   const complaint = getAllComplaint()
@@ -32,6 +33,7 @@ function Admin() {
         <UserManageList />
       </CardWrapper>
       <UserSetting />
+      <AdminApiList />
     </div>
   );
 }
