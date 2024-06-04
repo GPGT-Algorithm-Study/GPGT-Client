@@ -6,6 +6,7 @@ export const BOARD_PAGE_SIZE = 10;
 export const MY_BOARD_PAGE_SIZE = 5;
 export const PREFIX_URL = '/api/v1';
 export const USER_PREFIX_URL = '/api/v1/user';
+export const USER_SETTING_PREFIX_URL = '/api/v1/user/setting';
 export const STAT_PREFIX_URL = '/api/v2/stat';
 export const REC_PREFIX_URL = '/api/v1/recommend';
 export const PRB_PREFIX_URL = '/api/v1/problem';

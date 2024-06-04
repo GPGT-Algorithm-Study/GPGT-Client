@@ -9,6 +9,7 @@ import { CardWrapper, ComponentWrapper } from './style';
 import { getAllComplaint } from 'api/complaint';
 import ComplaintManagement from './ComplaintManagement';
 import { SkeletonTheme } from 'react-loading-skeleton';
+import UserSetting from './UserSetting';
 
 function Admin() {
   const complaint = getAllComplaint()
@@ -30,6 +31,7 @@ function Admin() {
         <ShowAllUserLogs />
         <UserManageList />
       </CardWrapper>
+      <UserSetting />
     </div>
   );
 }
