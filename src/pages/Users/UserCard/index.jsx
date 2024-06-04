@@ -46,6 +46,8 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
     window.open(url, '_blank');
   }, []);
 
+  console.log(user);
+
   return (
     <Card>
       <Link to={`/my-page/${user.bojHandle}`}>
@@ -61,7 +63,7 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
                     ? user.profileImg
                     : 'https://static.solved.ac/misc/360x360/default_profile.png'
                 }
-                isWarning={user.warning == 4}
+                isWarning={user.warning == 4 && !user.manager}
               />
             </div>
             <div className="id-wrapper">
@@ -89,12 +91,22 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
         <SolvedInfo>
           <FlexWrapper>
             <CenterConatiner>
-              <WarningWrapper>
-                {[...Array(3)].map((_, i) => (
-                  <Warning key={i} warning={i + 1 <= user.warning} />
-                ))}
-              </WarningWrapper>
-              {user.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
+              {user.manager && user.warning == 4 ? null : (
+                <WarningWrapper>
+                  {[...Array(3)].map((_, i) => (
+                    <Warning key={i} warning={i + 1 <= user.warning} />
+                  ))}
+                </WarningWrapper>
+              )}
+              {user.warning == 4 ? (
+                !user.manager ? (
+                  <WarningMsg>BLOCKED</WarningMsg>
+                ) : (
+                  <p>
+                    🛠️<b>관리자</b>🛠️
+                  </p>
+                )
+              ) : null}
             </CenterConatiner>
             <TierWrapper>
               <CommonTierImg
