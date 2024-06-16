@@ -74,6 +74,12 @@ function ComplaintManagement() {
         <ButtonWrapper>
           <ModeButton
             onClick={() => onClickModeButton(0)}
+            selected={mode === -1}
+          >
+            전체
+          </ModeButton>
+          <ModeButton
+            onClick={() => onClickModeButton(0)}
             selected={mode === 0}
           >
             대기중

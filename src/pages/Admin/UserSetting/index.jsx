@@ -86,8 +86,6 @@ function UserSetting() {
 
   if (!userSetting) return null;
 
-  console.log(userSetting);
-
   return (
     <Card>
       <Title>유저 설정</Title>
