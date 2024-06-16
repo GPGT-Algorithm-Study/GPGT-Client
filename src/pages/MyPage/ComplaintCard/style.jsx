@@ -76,7 +76,7 @@ export const ComplaintTitle = styled.div`
   }
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: pre;
+  white-space: pre-wrap;
   width: 100%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
