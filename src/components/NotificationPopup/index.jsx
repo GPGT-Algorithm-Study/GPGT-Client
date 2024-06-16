@@ -6,6 +6,7 @@ import {
   Notification,
   NotifyType,
   Read,
+  Time,
 } from './style';
 import { isLoginUser } from 'utils/auth';
 import fetcher from 'utils/fetcher';
@@ -15,6 +16,27 @@ import useSWR from 'swr';
 import { toast } from 'react-toastify';
 import { readNotification } from 'api/notify';
 import { useNavigate } from 'react-router-dom';
+
+function timeDifferenceFromNow(dateString) {
+  const now = new Date();
+  const createdDate = new Date(dateString);
+  const delta = now - createdDate;
+
+  const seconds = Math.floor(delta / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (seconds < 60) {
+    return '방금';
+  } else if (minutes < 60) {
+    return `${minutes}분 전`;
+  } else if (hours < 24) {
+    return `${hours}시간 전`;
+  } else {
+    return `${days}일 전`;
+  }
+}
 
 function NotificationPopup() {
   const { data: loginUser } = useSWR(
@@ -41,6 +63,7 @@ function NotificationPopup() {
 
   const navigate = useNavigate();
   const hasNotification = notificationList?.length > 0;
+  console.log(notificationList);
 
   return (
     <Container fixHeight={!hasNotification}>
@@ -61,6 +84,7 @@ function NotificationPopup() {
         >
           <NotifyType>{notificationType[notification.type].label}</NotifyType>
           <Message>{notification.message}</Message>
+          <Time>{timeDifferenceFromNow(notification.createdDate)}</Time>
           <Read>{notification.isRead ? '읽음' : ''}</Read>
         </Notification>
       ))}

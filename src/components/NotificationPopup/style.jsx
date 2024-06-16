@@ -54,6 +54,15 @@ export const Message = styled.div`
   font-size: 0.9rem;
 `;
 
+export const Time = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.7rem;
+  font-weight: 400 !important;
+  color: var(--color-text-gray);
+`;
+
 export const Read = styled.div`
   position: absolute;
   top: 1rem;
