@@ -7,6 +7,26 @@ import {
   updateComplaintType,
 } from 'api/complaint';
 import { Button } from 'pages/Admin/PointEvent/DeleteEventModal/style';
+import { CommonProfileImage } from 'style/commonStyle';
+import {
+  User,
+  ComplaintWrapper,
+  Input,
+  Content,
+  ProcessType,
+  ProcessTypeWrapper,
+  DeleteButton,
+  ButtonWrapper,
+  SelectWrapper,
+  OptionWrapper,
+  ComplaintDetails,
+  RowWrapper,
+  Badge,
+  TypeBadge,
+} from './style';
+import { Complaint } from '../style';
+import { complaintProcessingType } from 'utils/complaint';
+import PageTitle from 'components/PageTitle';
 
 function getKrComplaintTypeName(complaintType) {
   if (complaintType === 'NEW_FUNCTION') return '신규 기능 건의';
@@ -25,16 +45,23 @@ function ComplaintModal(props) {
   const requesterInfo = props.requesterInfo;
   const [submitLock, setSubmitLock] = useState(false);
   const [deleteLock, setDeleteLock] = useState(false);
+  const [processTypes, setProcessTypes] = useState([
+    complaintProcessingType.WAITING,
+    complaintProcessingType.PROCESSING,
+    complaintProcessingType.DONE,
+  ]);
+  const [selectedProcessType, setSelectedProcessType] = useState(
+    complaint.processType,
+  );
 
   const onSubmit = (e) => {
     e.preventDefault();
     const processor = e.target[0].value;
-    const processType = e.target[1].value;
-    const reply = e.target[2].value;
+    const reply = e.target[1].value;
 
     const updatedComplaint = {
       id: complaint.id,
-      processType: processType,
+      processType: selectedProcessType,
       processor: processor,
       reply: reply,
     };
@@ -90,63 +117,102 @@ function ComplaintModal(props) {
   };
 
   return (
-    <div>
-      <p>
-        작성자 : {requesterInfo.emoji} {requesterInfo.notionId}
-      </p>
-      <p>ID : {complaint.id}</p>
-      <p>민원 유형 : {getKrComplaintTypeName(complaint.complaintType)}</p>
-      <p>처리 상태 : {getKrProcessTypeName(complaint.processType)}</p>
-      <p>담당자 : {complaint.processor ? complaint.processor : '-'}</p>
-      <br />
-      <p>내용</p>
-      <p style={{ whiteSpace: 'pre' }}>{complaint.content}</p>
-      <br />
-      <Button
-        style={{
-          backgroundColor: 'crimson',
-          color: 'white',
-        }}
-        onClick={onDeleteClick}
-      >
-        삭제
-      </Button>
-      <hr />
-      <p>민원 처리</p>
-      <br />
+    <ComplaintWrapper>
+      <RowWrapper>
+        <ComplaintDetails>
+          <div>
+            <b>[ID]</b> {'  '} <span>{complaint.id}</span>
+          </div>
+          <div>
+            <b>[유형]</b>
+            {'  '}
+            <span>
+              {
+                <TypeBadge type={complaint.complaintType}>
+                  {getKrComplaintTypeName(complaint.complaintType)}
+                </TypeBadge>
+              }
+            </span>
+          </div>
+          <div>
+            <b>[상태]</b>
+            {'  '}
+            <span>
+              {
+                <Badge type={complaint.processType}>
+                  {getKrProcessTypeName(complaint.processType)}
+                </Badge>
+              }
+            </span>
+          </div>
+          <div>
+            <b>[담당자]</b>
+            {'  '}
+            <span>{complaint.processor ? complaint.processor : '-'}</span>
+          </div>
+        </ComplaintDetails>
+        <User key={requesterInfo.notionId}>
+          <div>
+            {requesterInfo.notionId} {requesterInfo.emoji}
+          </div>
+          <CommonProfileImage
+            width="50"
+            height="50"
+            src={
+              requesterInfo.profileImg != 'null'
+                ? requesterInfo.profileImg
+                : 'https://static.solved.ac/misc/360x360/default_profile.png'
+            }
+            onClick={(e) => onClickProfileImg(e, requesterInfo.bojHandle)}
+            style={{ cursor: 'pointer' }}
+          ></CommonProfileImage>
+        </User>
+      </RowWrapper>
+      <PageTitle title="민원" />
+      <Content disabled={true} defaultValue={complaint.content}></Content>
+      <PageTitle title="답변" />
       <form onSubmit={(e) => onSubmit(e)}>
         <div>
-          <select
-            name="processor"
-            defaultValue={complaint.processor ? complaint.processor : ''}
-          >
-            <option value="" disabled hidden>
-              담당자 선택
-            </option>
-            <option value="seyeon0207">양세연</option>
-            <option value="fin">김성민</option>
-            <option value="asdf016182">장희영</option>
-            <option value="emforhs0315">조성훈</option>
-          </select>
+          <ProcessTypeWrapper>
+            {processTypes.map((type, index) => (
+              <ProcessType
+                key={index}
+                selected={type.key == selectedProcessType}
+                onClick={() => {
+                  setSelectedProcessType(type.key);
+                }}
+              >
+                {type.label}
+              </ProcessType>
+            ))}
+            <div>
+              <SelectWrapper
+                name="processor"
+                defaultValue={complaint.processor ? complaint.processor : ''}
+              >
+                <OptionWrapper value="" disabled hidden>
+                  담당자 선택
+                </OptionWrapper>
+                <OptionWrapper value="seyeon0207">양세연</OptionWrapper>
+                <OptionWrapper value="fin">김성민</OptionWrapper>
+                <OptionWrapper value="asdf016182">장희영</OptionWrapper>
+                <OptionWrapper value="emforhs0315">조성훈</OptionWrapper>
+              </SelectWrapper>
+            </div>
+          </ProcessTypeWrapper>
         </div>
-        <div>
-          <select name="type" defaultValue={complaint.processType}>
-            <option value="WAITING">대기중</option>
-            <option value="PROCESSING">처리중</option>
-            <option value="DONE">처리 완료</option>
-          </select>
-        </div>
-        <textarea
+        <Content
           name="reply"
           id="reply"
           placeholder="코멘트 작성.."
           defaultValue={complaint.reply}
-          style={{ width: '80%', height: '100px' }}
-        ></textarea>
-        <br />
-        <input type="submit"></input>
+        ></Content>
+        <ButtonWrapper>
+          <DeleteButton onClick={onDeleteClick}>삭제</DeleteButton>
+          <Input type="submit" value={'작성'}></Input>
+        </ButtonWrapper>
       </form>
-    </div>
+    </ComplaintWrapper>
   );
 }
 
