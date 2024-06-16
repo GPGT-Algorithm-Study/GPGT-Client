@@ -13,9 +13,6 @@ import UserSetting from './UserSetting';
 import AdminApiList from './AdminApiList';
 
 function Admin() {
-  const complaint = getAllComplaint()
-    .then((res) => console.info(res))
-    .catch((e) => console.info(e));
   return (
     <div>
       <CommonFlexWrapper>

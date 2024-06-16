@@ -108,7 +108,6 @@ function AdminApiList() {
         if (res.status !== 200)
           //에러 처리
           alert(res);
-        console.log(res);
         toast.success('크론 배치잡 (Every 20 min)에 성공했습니다.');
         return;
       })
