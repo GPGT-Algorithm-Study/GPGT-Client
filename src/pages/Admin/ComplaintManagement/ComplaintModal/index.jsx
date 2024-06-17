@@ -7,7 +7,7 @@ import {
   updateComplaintType,
 } from 'api/complaint';
 import { Button } from 'pages/Admin/PointEvent/DeleteEventModal/style';
-import { CommonProfileImage } from 'style/commonStyle';
+import { CommonFlexWrapper, CommonProfileImage } from 'style/commonStyle';
 import {
   User,
   ComplaintWrapper,
@@ -23,6 +23,8 @@ import {
   RowWrapper,
   Badge,
   TypeBadge,
+  SemiTitle,
+  StateWrapper,
 } from './style';
 import { Complaint } from '../style';
 import { complaintProcessingType } from 'utils/complaint';
@@ -120,11 +122,12 @@ function ComplaintModal(props) {
     <ComplaintWrapper>
       <RowWrapper>
         <ComplaintDetails>
-          <div>
-            <b>[ID]</b> {'  '} <span>{complaint.id}</span>
-          </div>
-          <div>
-            <b>[유형]</b>
+          <StateWrapper>
+            <SemiTitle>ID &nbsp;&nbsp;</SemiTitle>{' '}
+            <span>&nbsp;{complaint.id}</span>
+          </StateWrapper>
+          <StateWrapper>
+            <SemiTitle>유형</SemiTitle>
             {'  '}
             <span>
               {
@@ -133,9 +136,9 @@ function ComplaintModal(props) {
                 </TypeBadge>
               }
             </span>
-          </div>
-          <div>
-            <b>[상태]</b>
+          </StateWrapper>
+          <StateWrapper>
+            <SemiTitle>상태</SemiTitle>
             {'  '}
             <span>
               {
@@ -144,12 +147,12 @@ function ComplaintModal(props) {
                 </Badge>
               }
             </span>
-          </div>
-          <div>
-            <b>[담당자]</b>
+          </StateWrapper>
+          <StateWrapper>
+            <SemiTitle>담당</SemiTitle>
             {'  '}
             <span>{complaint.processor ? complaint.processor : '-'}</span>
-          </div>
+          </StateWrapper>
         </ComplaintDetails>
         <User key={requesterInfo.notionId}>
           <div>
