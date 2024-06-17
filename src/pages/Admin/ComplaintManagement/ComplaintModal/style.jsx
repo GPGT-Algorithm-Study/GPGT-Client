@@ -98,6 +98,7 @@ export const User = styled.div`
   align-items: center;
   font-weight: bold;
   font: 0.9rem;
+  alignself: flex-end;
   & div {
     margin-bottom: 20px;
   }
@@ -158,6 +159,7 @@ export const ComplaintDetails = styled.div`
   margin-bottom: 10px;
   align-items: flex-start;
   font-size: 15px;
+  alignself: flex-start;
 
   & > div {
     display: flex;
@@ -189,6 +191,14 @@ export const TypeBadge = styled.span`
     }
   }};
   color: #fff; // 흰색
+`;
+
+export const SemiTitle = styled.div`
+  font-weight: bold;
+`;
+
+export const StateWrapper = styled.div`
+  gap: 20px;
 `;
 
 export const Badge = styled.span`
