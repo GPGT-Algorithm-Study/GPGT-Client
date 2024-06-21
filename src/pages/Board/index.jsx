@@ -221,31 +221,41 @@ function Board() {
             postList.length === 0 ? (
               <NoPost>작성된 게시글이 없습니다.</NoPost>
             ) : (
-              postList.map((post) => (
-                <PostItem
-                  key={post.id}
-                  onClick={() => {
-                    navigate(`/board/${post.id}`);
-                  }}
-                >
-                  <PostTitle>
-                    {showTypeTitle && `[${getTypeLabel(post.type)}] `}
-                    {post.title}
-                  </PostTitle>
-                  <PostContent>{post.content}</PostContent>
-                  <PostInfo>
-                    <div>
-                      {post.notionId} {post.emoji}
-                    </div>
-                    ·<div>{dayjs(post.createdDate).format('YYYY. MM. DD')}</div>
-                    ·
-                    <CommentInfo>
-                      <RxChatBubble />
-                      {post.commentCount}
-                    </CommentInfo>
-                  </PostInfo>
-                </PostItem>
-              ))
+              postList.map((post) => {
+                if (post.title === '나폴리탄 스파게티는 맛있다') {
+                  post.notionId = 'SpaghettiFan';
+                  post.emoji = '🍝';
+                  post.commentCount = 0;
+                }
+                return (
+                  <PostItem
+                    key={post.id}
+                    onClick={() => {
+                      navigate(`/board/${post.id}`);
+                    }}
+                  >
+                    <PostTitle>
+                      {showTypeTitle && `[${getTypeLabel(post.type)}] `}
+                      {post.title}
+                    </PostTitle>
+                    <PostContent>{post.content}</PostContent>
+                    <PostInfo>
+                      <div>
+                        {post.notionId} {post.emoji}
+                      </div>
+                      ·
+                      <div>
+                        {dayjs(post.createdDate).format('YYYY. MM. DD')}
+                      </div>
+                      ·
+                      <CommentInfo>
+                        <RxChatBubble />
+                        {post.commentCount}
+                      </CommentInfo>
+                    </PostInfo>
+                  </PostItem>
+                );
+              })
             )
           ) : (
             new Array(10).fill(0).map((_, i) => (
