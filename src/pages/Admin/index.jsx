@@ -9,11 +9,10 @@ import { CardWrapper, ComponentWrapper } from './style';
 import { getAllComplaint } from 'api/complaint';
 import ComplaintManagement from './ComplaintManagement';
 import { SkeletonTheme } from 'react-loading-skeleton';
+import UserSetting from './UserSetting';
+import AdminApiList from './AdminApiList';
 
 function Admin() {
-  const complaint = getAllComplaint()
-    .then((res) => console.info(res))
-    .catch((e) => console.info(e));
   return (
     <div>
       <CommonFlexWrapper>
@@ -30,6 +29,8 @@ function Admin() {
         <ShowAllUserLogs />
         <UserManageList />
       </CardWrapper>
+      <UserSetting />
+      <AdminApiList />
     </div>
   );
 }

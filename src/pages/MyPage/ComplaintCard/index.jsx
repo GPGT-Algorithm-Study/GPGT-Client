@@ -89,7 +89,9 @@ function ComplaintCard({ userInfo, isUser }) {
                 {complaint.reply ? (
                   <ComplaintTitle className="hover-to-detail">
                     [REPLY] <br />
-                    <p style={{ fontStyle: 'italic' }}>{complaint.reply}</p>
+                    <p style={{ fontStyle: 'italic', whiteSpace: 'pre-wrap' }}>
+                      {complaint.reply}
+                    </p>
                   </ComplaintTitle>
                 ) : undefined}
               </ComplaintItem>
