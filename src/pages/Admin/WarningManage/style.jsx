@@ -110,12 +110,14 @@ export const VerticalUserListWrapper = styled.div`
   margin-bottom: 30px;
   height: 439.87px;
   overflow-y: scroll;
+  width: 100%;
 `;
 
 export const UserItem = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
+  width: 100%;
 `;
 
 export const Button = styled(CommonButton)`
@@ -158,4 +160,9 @@ export const ReasonSelectWrapper = styled.select`
   //border-bottom: transparent;
   border-radius: 4px 4px 0px 0px;
   box-sizing: border-box;
+`;
+
+export const Label = styled.label`
+  display: flex;
+  width: 100%;
 `;
