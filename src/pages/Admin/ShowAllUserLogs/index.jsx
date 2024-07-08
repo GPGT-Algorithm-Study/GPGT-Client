@@ -12,6 +12,7 @@ import {
   LogWrapper,
   ModeButton,
   Name,
+  SubtitleWrapper,
   TextWrapper,
   Title,
   TitleWrapper,
@@ -30,77 +31,7 @@ import {
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
 import { Content } from '../PointManage/style';
-
-function CurrentPage({
-  mode,
-  curLogList,
-  isOnly,
-  users,
-  isRollback,
-  setSelectedIds,
-  selectedIds,
-  scrollPosition,
-  onScroll,
-}) {
-  const onSelect = (e) => {
-    const { name, value, checked } = e.target;
-    if (!checked) {
-      setSelectedIds(selectedIds.filter((user) => user.id !== value));
-    } else {
-      const newUser = { [name]: value };
-      setSelectedIds(selectedIds.concat(newUser));
-    }
-  };
-
-  const scrollRef = useRef();
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollPosition;
-    }
-  }, [scrollPosition]);
-
-  return (
-    <LogWrapper ref={scrollRef} onScroll={onScroll}>
-      {curLogList.map((log, index) => {
-        const thisUser =
-          users && users.find((u) => u.bojHandle === log.bojHandle);
-        if (isOnly === true && log.changedValue >= 0) return;
-        return (
-          <Log state={log.state} key={index}>
-            <label style={{ display: 'flex' }}>
-              <input
-                type="checkbox"
-                id={
-                  mode === 1
-                    ? `warningCheckbox-${log.id}`
-                    : `pointCheckbox-${log.id}`
-                }
-                name="id"
-                value={log.id}
-                onChange={onSelect}
-                style={{
-                  display: isRollback === true ? '' : 'none',
-                }}
-              ></input>
-              <TextWrapper>
-                <Id mode={mode}>{log.id}.</Id>
-                <Date>{dayjs(log.createdDate).format('M월D일 HH:mm:ss')}</Date>
-                <Name>{thisUser?.notionId}</Name>
-              </TextWrapper>
-            </label>
-            <TextWrapper>
-              <LogMsg>{log.description}</LogMsg>
-              <Value plus={log.changedValue >= 0} mode={mode}>
-                {log.changedValue >= 0 ? '+' : '-'}
-                {Math.abs(log.changedValue)}
-              </Value>
-            </TextWrapper>
-          </Log>
-        );
-      })}
-    </LogWrapper>
-  );
-}
+import LogList from './LogList';
 
 function ShowAllUserLogs() {
   const { data: users, mutate: mutateUsers } = useSWR(
@@ -287,7 +218,7 @@ function ShowAllUserLogs() {
           ))}
         </ButtonWrapper>
       </TitleWrapper>
-      <Content>
+      <SubtitleWrapper>
         <Button
           onClick={(e) => {
             setIsRollback(!isRollback);
@@ -296,49 +227,49 @@ function ShowAllUserLogs() {
         >
           {isRollback ? '취소' : '로그 롤백'}
         </Button>
-        <Title>
-          {isRollback ? (
-            <Button
-              style={{ marginLeft: '10px', backgroundColor: 'tomato' }}
-              onClick={onSubmit}
-            >
-              롤백 제출
-            </Button>
-          ) : (
-            ''
-          )}
-          <fieldset align="right">
-            <legend>
-              <label style={{ cursor: 'pointer' }}>
-                {mode === 1
-                  ? '경고 차감 내역만 보기'
-                  : '포인트 사용 내역만 보기'}
-                <input
-                  type="checkbox"
-                  id="isOnlyCheckbox"
-                  onClick={(e) => {
-                    setIsOnly(e.target.checked);
-                  }}
-                ></input>
-              </label>
-            </legend>
-          </fieldset>
-        </Title>
+        {isRollback ? (
+          <Button
+            style={{ marginLeft: '10px', backgroundColor: 'tomato' }}
+            onClick={onSubmit}
+          >
+            롤백 제출
+          </Button>
+        ) : undefined}
+
+        <fieldset align="right">
+          <legend>
+            <label style={{ cursor: 'pointer' }}>
+              {mode === 1 ? '경고 차감 내역만 보기' : '포인트 사용 내역만 보기'}
+              <input
+                type="checkbox"
+                id="isOnlyCheckbox"
+                onClick={(e) => {
+                  setIsOnly(e.target.checked);
+                }}
+              ></input>
+            </label>
+          </legend>
+        </fieldset>
+      </SubtitleWrapper>
+      <Content>
         <Log state={true}>
           <label>
             <TextWrapper>
               {isRollback ? <div style={{ width: '20px' }}></div> : ''}
               <Id mode={mode}>ID</Id>
-              <Date>날짜</Date>
               <Name>노션 아이디</Name>
             </TextWrapper>
           </label>
-          <TextWrapper>
-            <LogMsg>사유</LogMsg>
+          <TextWrapper msg={true}>
+            <TextWrapper>
+              <LogMsg>사유</LogMsg>
+              <Date>날짜</Date>
+            </TextWrapper>
+            <Value>n</Value>
           </TextWrapper>
         </Log>
 
-        <CurrentPage
+        <LogList
           key={mode === 1 ? allWarningLog : allPointLog}
           mode={mode}
           curLogList={mode === 1 ? allWarningLog : allPointLog}

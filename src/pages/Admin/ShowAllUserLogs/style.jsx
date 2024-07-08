@@ -62,11 +62,16 @@ export const Value = styled.div`
 `;
 export const LogWrapper = styled.div`
   height: 440px;
-  overflow-y: auto;
+  overflow-y: scroll;
   margin-top: 25px;
   display: flex;
   flex-direction: column;
   margin-bottom: 25px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 export const Log = styled.div`
@@ -76,10 +81,10 @@ export const Log = styled.div`
   width: 100%;
   text-decoration: ${(props) => (props.state ? '' : 'line-through')};
   text-decoration-color: var(--color-textgrey);
-  flex-direction: column;
+  /* flex-direction: column;
   @media (min-width: 700px) {
     flex-direction: row;
-  }
+  } */
   @media all and (max-width: 700px) {
     border-top: 1px solid lightgray;
   }
@@ -99,27 +104,34 @@ export const TextWrapper = styled.div`
   display: flex;
   width: 100%;
   margin-top: 5px;
-  //flex-direction: column;
+  justify-content: space-evenly;
+  @media (max-width: 700px) {
+    flex-direction: ${(props) => (props.msg ? 'row' : 'column')};
+  }
 `;
 
 export const LogMsg = styled.div`
   flex-grow: 1;
   width: fit-content;
   text-overflow: ellipsis;
+  overflow-wrap: break-word;
   //table-layout: fixed;
   margin-right: 20px;
 `;
 
 export const Date = styled.div`
-  width: 100px;
+  width: 70px;
   color: var(--color-textgrey);
+  @media (max-width: 700px) {
+    width: 100%;
+  }
 `;
 export const Name = styled.div`
   width: 120px;
   font-weight: bold;
 `;
 export const Id = styled.div`
-  width: 30px;
+  width: 50px;
   color: ${(props) =>
     props.mode === 1 ? 'var(--color-error)' : 'var(--color-point)'};
 `;
@@ -131,4 +143,11 @@ export const Button = styled.button`
   background-color: lightgray;
   border: none;
   cursor: pointer;
+`;
+
+export const SubtitleWrapper = styled.div`
+  display: flex;
+  padding: 5px 20px;
+  justify-content: space-between;
+  align-items: center;
 `;
