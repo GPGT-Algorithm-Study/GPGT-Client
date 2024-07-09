@@ -5,7 +5,6 @@ import {
   Complaint,
   ComplaintContent,
   ComplaintWrapper,
-  Content,
   DateWrapper,
   Id,
   ModeButton,
@@ -24,6 +23,8 @@ import { getUserInfo } from 'api/user';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import Modal from 'layouts/Modal';
 import ComplaintModal from './ComplaintModal';
+import { Content } from '../PointManage/style';
+import { Badge, TypeBadge } from './ComplaintModal/style';
 
 function getKrComplaintTypeName(complaintType) {
   if (complaintType === 'NEW_FUNCTION') return '신규 기능 건의';
@@ -104,10 +105,10 @@ function ComplaintManagement() {
             <TextWrapper>
               <Id>ID</Id>
               <Name>요청인 이름</Name>
-              <DateWrapper>등록 날짜</DateWrapper>
               <DateWrapper>유형</DateWrapper>
             </TextWrapper>
-            <TextWrapper>
+            <TextWrapper style={{ flexDirection: 'column-reverse' }}>
+              <DateWrapper>등록 날짜</DateWrapper>
               <ComplaintContent>내용</ComplaintContent>
             </TextWrapper>
             <TextWrapper>
@@ -136,19 +137,27 @@ function ComplaintManagement() {
                   <TextWrapper>
                     <Id>{complaint.id}</Id>
                     <Name>{requester.notionId}</Name>
+                    <DateWrapper>
+                      {
+                        <TypeBadge type={complaint.complaintType}>
+                          {getKrComplaintTypeName(complaint.complaintType)}
+                        </TypeBadge>
+                      }
+                    </DateWrapper>
+                  </TextWrapper>
+                  <TextWrapper style={{ flexDirection: 'column-reverse' }}>
                     <DateWrapper>{`${createdDate.toLocaleDateString()}  ${createdDate
                       .toTimeString()
                       .substring(0, 8)}`}</DateWrapper>
-                    <DateWrapper>
-                      [{getKrComplaintTypeName(complaint.complaintType)}]
-                    </DateWrapper>
-                  </TextWrapper>
-                  <TextWrapper>
                     <ComplaintContent>{complaint.content}</ComplaintContent>
                   </TextWrapper>
                   <TextWrapper>
                     <DateWrapper>
-                      [{getKrProcessTypeName(complaint.processType)}]
+                      {
+                        <Badge type={complaint.processType}>
+                          {getKrProcessTypeName(complaint.processType)}
+                        </Badge>
+                      }
                     </DateWrapper>
                     <DateWrapper>
                       {complaint.processor ? complaint.processor : '-'}

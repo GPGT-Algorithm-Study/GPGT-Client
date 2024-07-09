@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { CommonCard, CommonButton } from 'style/commonStyle';
 export const Card = styled(CommonCard)`
-  padding: 20px 0 0 0;
+  padding: 20px 0;
   width: 100%;
 
   @media all and (min-width: 1000px) {
@@ -102,7 +102,7 @@ export const Complaint = styled.div`
   height: auto;
   margin: 0 auto;
   border-bottom: 1px solid lightgray;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
   align-items: center;
   @media all and (min-width: 700px) {
     //flex-direction: row;
@@ -126,7 +126,7 @@ export const ComplaintContent = styled.div`
 
 export const DateWrapper = styled.div`
   order: 3;
-  width: 120px;
+  width: 100%;
   color: var(--color-textgrey);
   @media all and (max-width: 400px) {
     font-size: 0.8rem;
