@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { CommonCard } from 'style/commonStyle';
+import { CommonCard, CommonButton } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
   padding: 20px 0 20px 0;
@@ -33,7 +33,7 @@ export const ModeButton = styled.button`
   cursor: pointer;
   margin-left: 3px;
   border: none;
-  padding: 7px 13px 7px 13px;
+  padding: 7px;
   background-color: white;
   border-radius: 5px;
   color: var(--color-textgrey);
@@ -133,18 +133,20 @@ export const Id = styled.div`
     props.mode === 1 ? 'var(--color-error)' : 'var(--color-point)'};
 `;
 
-export const Button = styled.button`
-  width: 60px;
-  padding: 5px 1px;
-  border-radius: 7px;
+export const Button = styled(CommonButton)`
   background-color: lightgray;
-  border: none;
   cursor: pointer;
+  border-radius: 10px;
+  @media (max-width: 700px) {
+    padding: 7px;
+    font-size: 0.8rem;
+  }
 `;
 
 export const SubtitleWrapper = styled.div`
   display: flex;
-  padding: 5px 20px;
   justify-content: space-between;
+  padding: 5px 15px;
   align-items: center;
+  font-size: 0.9rem;
 `;

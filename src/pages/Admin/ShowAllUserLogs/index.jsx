@@ -32,6 +32,7 @@ import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
 import { Content } from '../PointManage/style';
 import LogList from './LogList';
+import { Label } from '../WarningManage/style';
 
 function ShowAllUserLogs() {
   const { data: users, mutate: mutateUsers } = useSWR(
@@ -219,26 +220,32 @@ function ShowAllUserLogs() {
         </ButtonWrapper>
       </TitleWrapper>
       <SubtitleWrapper>
-        <Button
-          onClick={(e) => {
-            setIsRollback(!isRollback);
-            if (isRollback === false) resetAllCheckbox();
-          }}
-        >
-          {isRollback ? '취소' : '로그 롤백'}
-        </Button>
-        {isRollback ? (
+        <ButtonWrapper>
           <Button
-            style={{ marginLeft: '10px', backgroundColor: 'tomato' }}
-            onClick={onSubmit}
+            onClick={(e) => {
+              setIsRollback(!isRollback);
+              if (isRollback === false) resetAllCheckbox();
+            }}
           >
-            제출
+            {isRollback ? '취소' : '로그 롤백'}
           </Button>
-        ) : undefined}
+          {isRollback ? (
+            <Button
+              style={{
+                marginLeft: '10px',
+                backgroundColor: 'tomato',
+                justifySelf: 'flex-start',
+              }}
+              onClick={onSubmit}
+            >
+              제출
+            </Button>
+          ) : undefined}
+        </ButtonWrapper>
 
         <fieldset align="right">
           <legend>
-            <label style={{ cursor: 'pointer' }}>
+            <Label>
               {mode === 1 ? '차감 내역만 보기' : '사용 내역만 보기'}
               <input
                 type="checkbox"
@@ -247,7 +254,8 @@ function ShowAllUserLogs() {
                   setIsOnly(e.target.checked);
                 }}
               ></input>
-            </label>
+            </Label>
+            <label style={{ cursor: 'pointer' }}></label>
           </legend>
         </fieldset>
       </SubtitleWrapper>

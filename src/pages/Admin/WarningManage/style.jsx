@@ -165,4 +165,5 @@ export const ReasonSelectWrapper = styled.select`
 export const Label = styled.label`
   display: flex;
   width: 100%;
+  cursor: pointer;
 `;
