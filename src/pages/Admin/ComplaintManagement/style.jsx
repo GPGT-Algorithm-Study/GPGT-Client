@@ -102,7 +102,7 @@ export const Complaint = styled.div`
   height: auto;
   margin: 0 auto;
   border-bottom: 1px solid lightgray;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
   align-items: center;
   @media all and (min-width: 700px) {
     //flex-direction: row;

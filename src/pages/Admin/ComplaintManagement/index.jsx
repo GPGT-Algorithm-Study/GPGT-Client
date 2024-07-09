@@ -24,6 +24,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import Modal from 'layouts/Modal';
 import ComplaintModal from './ComplaintModal';
 import { Content } from '../PointManage/style';
+import { Badge, TypeBadge } from './ComplaintModal/style';
 
 function getKrComplaintTypeName(complaintType) {
   if (complaintType === 'NEW_FUNCTION') return '신규 기능 건의';
@@ -137,7 +138,11 @@ function ComplaintManagement() {
                     <Id>{complaint.id}</Id>
                     <Name>{requester.notionId}</Name>
                     <DateWrapper>
-                      [{getKrComplaintTypeName(complaint.complaintType)}]
+                      {
+                        <TypeBadge type={complaint.complaintType}>
+                          {getKrComplaintTypeName(complaint.complaintType)}
+                        </TypeBadge>
+                      }
                     </DateWrapper>
                   </TextWrapper>
                   <TextWrapper style={{ flexDirection: 'column-reverse' }}>
@@ -148,7 +153,11 @@ function ComplaintManagement() {
                   </TextWrapper>
                   <TextWrapper>
                     <DateWrapper>
-                      [{getKrProcessTypeName(complaint.processType)}]
+                      {
+                        <Badge type={complaint.processType}>
+                          {getKrProcessTypeName(complaint.processType)}
+                        </Badge>
+                      }
                     </DateWrapper>
                     <DateWrapper>
                       {complaint.processor ? complaint.processor : '-'}
