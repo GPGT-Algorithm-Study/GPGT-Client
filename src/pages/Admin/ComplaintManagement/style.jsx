@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { CommonCard, CommonButton } from 'style/commonStyle';
 export const Card = styled(CommonCard)`
-  padding: 20px 0 0 0;
+  padding: 20px 0;
   width: 100%;
 
   @media all and (min-width: 1000px) {
@@ -126,7 +126,7 @@ export const ComplaintContent = styled.div`
 
 export const DateWrapper = styled.div`
   order: 3;
-  width: 120px;
+  width: 100%;
   color: var(--color-textgrey);
   @media all and (max-width: 400px) {
     font-size: 0.8rem;
