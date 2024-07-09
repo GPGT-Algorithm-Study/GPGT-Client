@@ -6,6 +6,10 @@ import { toast } from 'react-toastify';
 import useSWR from 'swr';
 import { USER_PREFIX_URL } from 'utils/constants';
 import fetcher from 'utils/fetcher';
+import {
+  UserDescription,
+  UserDescriptionName,
+} from '../UserManageList/UserAddDeletePage/style';
 
 function PointManage() {
   const { data: users, mutate: mutateUsers } = useSWR(
@@ -94,10 +98,14 @@ function PointManage() {
               id={`pointInput-${user.notionId}`}
               type="number"
               onChange={(e) => onPointChange(e, user.notionId, user.bojHandle)}
-              style={{ width: '40px' }}
+              style={{ width: '40px', marginRight: '10px' }}
             ></input>
-            {user.emoji} {user.notionId}. 경고:{user.warning}회. 보유중인
-            포인트:{user.point}
+            <UserDescription>
+              <UserDescriptionName>
+                {user.emoji} {user.notionId}
+              </UserDescriptionName>
+              경고:{user.warning}회 | 포인트:{user.point}
+            </UserDescription>
           </UserItem>
         ))}
       </VerticalUserListWrapper>

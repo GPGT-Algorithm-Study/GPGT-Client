@@ -8,12 +8,17 @@ import {
   Content,
   ReasonInputWrapper,
   ReasonSelectWrapper,
+  Label,
 } from './style';
 import { postUserWarning } from 'api/log';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import { USER_PREFIX_URL } from 'utils/constants';
+import {
+  UserDescription,
+  UserDescriptionName,
+} from '../UserManageList/UserAddDeletePage/style';
 
 function WarningManage() {
   const { data: users, mutate: mutateUsers } = useSWR(
@@ -136,7 +141,7 @@ function WarningManage() {
       <VerticalUserListWrapper>
         {users.map((user) => (
           <UserItem key={user.notionId}>
-            <label>
+            <Label>
               <input
                 id={`warningInput-${user.notionId}`}
                 type="checkbox"
@@ -144,9 +149,13 @@ function WarningManage() {
                 value={user.notionId}
                 onChange={onSelect}
               />
-              {user.notionId} {user.emoji} : 경고 {user.warning}회. 포인트{' '}
-              {user.point}.{' '}
-            </label>
+              <UserDescription>
+                <UserDescriptionName>
+                  {user.notionId} {user.emoji}
+                </UserDescriptionName>
+                경고 {user.warning}회 | 포인트 {user.point}
+              </UserDescription>
+            </Label>
           </UserItem>
         ))}
       </VerticalUserListWrapper>

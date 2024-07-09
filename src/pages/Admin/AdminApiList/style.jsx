@@ -81,4 +81,12 @@ export const Button = styled.button`
   text-decoration: none;
   cursor: pointer;
   font-size: 12px;
+  margin: 5px;
+  width: 120px;
+`;
+
+export const ButtonListWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 10px;
 `;

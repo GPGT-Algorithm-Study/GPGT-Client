@@ -6,7 +6,7 @@ import {
   runCronEveryTermJob,
   runCronEveryWeekTermJob,
 } from 'api/admin';
-import { Button, Card, Content, Title } from './style';
+import { Button, ButtonListWrapper, Card, Content, Title } from './style';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 
@@ -188,7 +188,7 @@ function AdminApiList() {
       {apiLoading ? (
         <Content addPadding={true}>😎 처리 중이야!! 잠시만 기다려!!!!</Content>
       ) : (
-        <Content>
+        <ButtonListWrapper>
           <Button onClick={() => onClickMakeAllUsersTodayRandomProblem()}>
             모든 유저의 랜덤 문제 생성 및 할당
           </Button>
@@ -207,7 +207,7 @@ function AdminApiList() {
           <Button onClick={() => onClickRunCronEveryWeekTermJob()}>
             크론 배치잡 (Evrey Week Job)
           </Button>
-        </Content>
+        </ButtonListWrapper>
       )}
     </Card>
   );
