@@ -232,14 +232,14 @@ function ShowAllUserLogs() {
             style={{ marginLeft: '10px', backgroundColor: 'tomato' }}
             onClick={onSubmit}
           >
-            롤백 제출
+            제출
           </Button>
         ) : undefined}
 
         <fieldset align="right">
           <legend>
             <label style={{ cursor: 'pointer' }}>
-              {mode === 1 ? '경고 차감 내역만 보기' : '포인트 사용 내역만 보기'}
+              {mode === 1 ? '차감 내역만 보기' : '사용 내역만 보기'}
               <input
                 type="checkbox"
                 id="isOnlyCheckbox"
@@ -254,17 +254,15 @@ function ShowAllUserLogs() {
       <Content>
         <Log state={true}>
           <label>
-            <TextWrapper>
+            <TextWrapper wrap={true}>
               {isRollback ? <div style={{ width: '20px' }}></div> : ''}
               <Id mode={mode}>ID</Id>
               <Name>노션 아이디</Name>
-            </TextWrapper>
-          </label>
-          <TextWrapper msg={true}>
-            <TextWrapper>
-              <LogMsg>사유</LogMsg>
               <Date>날짜</Date>
             </TextWrapper>
+          </label>
+          <TextWrapper>
+            <LogMsg>사유</LogMsg>
             <Value>n</Value>
           </TextWrapper>
         </Log>

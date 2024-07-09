@@ -63,20 +63,18 @@ export default function LogList({
                   display: isRollback === true ? '' : 'none',
                 }}
               ></input>
-              <TextWrapper>
+              <TextWrapper wrap={true}>
                 <Id mode={mode}>{log.id}.</Id>
                 <Name>{thisUser?.notionId}</Name>
+                <Date>{dayjs(log.createdDate).format('M월D일 HH:mm:ss')}</Date>
               </TextWrapper>
             </label>
-            <TextWrapper>
-              <TextWrapper msg={true}>
-                <LogMsg>{log.description}</LogMsg>
-                <Value plus={log.changedValue >= 0} mode={mode}>
-                  {log.changedValue >= 0 ? '+' : '-'}
-                  {Math.abs(log.changedValue)}
-                </Value>
-              </TextWrapper>
-              <Date>{dayjs(log.createdDate).format('M월D일 HH:mm:ss')}</Date>
+            <TextWrapper wrap={false}>
+              <LogMsg>{log.description}</LogMsg>
+              <Value plus={log.changedValue >= 0} mode={mode}>
+                {log.changedValue >= 0 ? '+' : '-'}
+                {Math.abs(log.changedValue)}
+              </Value>
             </TextWrapper>
           </Log>
         );

@@ -76,6 +76,7 @@ export const LogWrapper = styled.div`
 
 export const Log = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: start;
   margin-bottom: 10px;
   width: 100%;
@@ -102,43 +103,39 @@ export const HeaderWrapper = styled.div`
 
 export const TextWrapper = styled.div`
   display: flex;
+  flex-wrap: ${(props) => (props.wrap ? 'wrap' : 'no-wrap')};
   width: 100%;
   margin-top: 5px;
-  justify-content: space-evenly;
   @media (max-width: 700px) {
-    flex-direction: ${(props) => (props.msg ? 'row' : 'column')};
+    /* flex-direction: ${(props) => (props.msg ? 'row' : 'column')}; */
   }
 `;
 
 export const LogMsg = styled.div`
   flex-grow: 1;
-  width: fit-content;
   text-overflow: ellipsis;
   overflow-wrap: break-word;
   //table-layout: fixed;
-  margin-right: 20px;
+  margin-right: 5px;
 `;
 
 export const Date = styled.div`
-  width: 70px;
   color: var(--color-textgrey);
-  @media (max-width: 700px) {
-    width: 100%;
-  }
+  margin: 0 2px;
 `;
 export const Name = styled.div`
-  width: 120px;
   font-weight: bold;
+  margin: 0 2px;
 `;
 export const Id = styled.div`
-  width: 50px;
+  margin-right: 2px;
   color: ${(props) =>
     props.mode === 1 ? 'var(--color-error)' : 'var(--color-point)'};
 `;
 
 export const Button = styled.button`
-  width: 80px;
-  padding: 8px 0 8px 0;
+  width: 60px;
+  padding: 5px 1px;
   border-radius: 7px;
   background-color: lightgray;
   border: none;
