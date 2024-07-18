@@ -1,9 +1,12 @@
 import styled from '@emotion/styled';
 import { CommonCard, CommonButton } from 'style/commonStyle';
 export const Card = styled(CommonCard)`
-  position: relative;
-  flex-wrap: nowrap;
   padding: 20px 0 20px 0;
+  width: 100%;
+
+  @media all and (min-width: 1000px) {
+    width: 50%;
+  }
 `;
 
 export const UserWrapper = styled.div`
@@ -17,8 +20,8 @@ export const UserWrapper = styled.div`
 `;
 
 export const Content = styled.div`
-  position: relative;
   display: flex;
+  padding: 20px;
 `;
 
 export const VerticalUserListWrapper = styled.div`
@@ -85,7 +88,7 @@ export const ModeButton = styled.button`
   cursor: pointer;
   margin-left: 3px;
   border: none;
-  padding: 7px 13px 7px 13px;
+  padding: 7px;
   background-color: white;
   border-radius: 5px;
   color: var(--color-textgrey);

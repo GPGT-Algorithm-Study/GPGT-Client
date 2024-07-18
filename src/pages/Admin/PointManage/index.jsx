@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import {
-  Content,
-  FormWrapper,
-  Title,
-  UserItem,
-  VerticalUserListWrapper,
-} from './style';
-import useFetch from 'hooks/useFetch';
-import { getAllUsers } from 'api/user';
+import { Content, Title, UserItem, VerticalUserListWrapper } from './style';
 import { Button } from './style';
 import { postUserPoint } from 'api/log';
 import { toast } from 'react-toastify';
+import useSWR from 'swr';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
+import {
+  UserDescription,
+  UserDescriptionName,
+} from '../UserManageList/UserAddDeletePage/style';
 
 function PointManage() {
-  const [users, reFetch] = useFetch(getAllUsers, []);
+  const { data: users, mutate: mutateUsers } = useSWR(
+    `${USER_PREFIX_URL}/info/all`,
+    fetcher,
+  );
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [pointManageReason, setPointManageReason] = useState('');
   const onReasonChange = (e) => {
@@ -44,9 +46,8 @@ function PointManage() {
       };
       postUserPoint(info)
         .then((res) => {
-          if (res.data.code !== 200)
-            //에러처리
-            console.log(res);
+          if (res.status !== 200) console.log(res);
+          //에러처리
           return;
         })
         .catch((e) => {
@@ -64,8 +65,7 @@ function PointManage() {
     if (input) input.value = '';
     setSelectedUsers([]);
     setPointManageReason('');
-    reFetch();
-    //location.reload();
+    mutateUsers();
   };
   const onPointChange = (e, userNotionId, bojHandle) => {
     const { value } = e.target;
@@ -98,10 +98,14 @@ function PointManage() {
               id={`pointInput-${user.notionId}`}
               type="number"
               onChange={(e) => onPointChange(e, user.notionId, user.bojHandle)}
-              style={{ width: '40px' }}
+              style={{ width: '40px', marginRight: '10px' }}
             ></input>
-            {user.emoji} {user.notionId}. 경고:{user.warning}회. 보유중인
-            포인트:{user.point}
+            <UserDescription>
+              <UserDescriptionName>
+                {user.emoji} {user.notionId}
+              </UserDescriptionName>
+              경고:{user.warning}회 | 포인트:{user.point}
+            </UserDescription>
           </UserItem>
         ))}
       </VerticalUserListWrapper>

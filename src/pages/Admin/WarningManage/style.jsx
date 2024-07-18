@@ -108,18 +108,21 @@ export const VerticalUserListWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 30px;
+  height: 439.87px;
+  overflow-y: scroll;
+  width: 100%;
 `;
 
 export const UserItem = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
+  width: 100%;
 `;
 
 export const Button = styled(CommonButton)`
   text-align: center;
   color: white;
-  font-size: 1px;
   font-weight: hard;
 `;
 
@@ -134,4 +137,33 @@ export const FlexWrapper = styled.div`
   align-items: start;
   flex-wrap: wrap;
   padding-bottom: 10px;
+`;
+
+export const ReasonInputWrapper = styled.input`
+  width: 100%;
+
+  height: 30px;
+  margin-bottom: 20px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  //border-top: transparent;
+  border-radius: 0px 0px 4px 4px;
+  box-sizing: border-box;
+`;
+
+export const ReasonSelectWrapper = styled.select`
+  width: 100%;
+
+  height: 30px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  //border-bottom: transparent;
+  border-radius: 4px 4px 0px 0px;
+  box-sizing: border-box;
+`;
+
+export const Label = styled.label`
+  display: flex;
+  width: 100%;
+  cursor: pointer;
 `;

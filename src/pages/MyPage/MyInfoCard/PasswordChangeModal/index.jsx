@@ -2,8 +2,10 @@ import React, { useCallback, useState } from 'react';
 import Modal from 'layouts/Modal';
 import { Content, Title, Input, Button, ErrorMsg, InfoMsg } from './style';
 import { changePassword } from 'api/user';
-import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import { getHeaderRefreshTokenConfig, logoutProc } from 'utils/auth';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
+import { USER_PREFIX_URL } from 'utils/constants';
 import { toast } from 'react-toastify';
 
 function PasswordChangeModal({ showModal, closeModal }) {
@@ -13,8 +15,10 @@ function PasswordChangeModal({ showModal, closeModal }) {
   const [reNewPassword, setReNewPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
 
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
 
   const onChangeNewPassword = useCallback((e) => {
     setNewPassword(e.target.value);
@@ -27,30 +31,34 @@ function PasswordChangeModal({ showModal, closeModal }) {
   }, []);
 
   const changePasswordProc = useCallback((params) => {
-    const config = getHeaderRefreshTokenConfing();
+    const config = getHeaderRefreshTokenConfig();
     changePassword(params, config)
       .then((response) => {
         // 비밀번호 변경 성공 시 로그아웃 처리한다.
+        setPwError(false);
         if (response.status == 200) {
           toast.success('비밀번호를 변경하였습니다. 다시 로그인해주세요.');
           // 로그아웃 처리
-          logoutProc(dispatch);
+          logoutProc();
           return;
         }
         toast.error('비밀번호 변경에 실패하였습니다.');
       })
       .catch((e) => {
         if (e.response.data.message == 'Not matches Password') {
-          toast.error('기존 비밀번호가 틀립니다.');
+          setPwError(true);
+          setErrorMsg('기존 비밀번호가 틀립니다.');
           return;
         }
         toast.error('비밀번호 변경에 실패하였습니다.');
+        setPwError(false);
       });
   }, []);
 
   const onClickChangeButton = useCallback(
     (e) => {
       e.preventDefault();
+      if (!loginUser) return;
       if (!newPassword.trim() || !oldPassword.trim() || !reNewPassword.trim()) {
         setPwError(true);
         setErrorMsg('비밀번호를 입력해주세요.');
@@ -76,7 +84,7 @@ function PasswordChangeModal({ showModal, closeModal }) {
       }
       setPwError(false);
       const params = {
-        bojHandle: user.bojHandle,
+        bojHandle: loginUser.claim,
         oldPassword,
         newPassword,
       };

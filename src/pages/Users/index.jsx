@@ -1,26 +1,36 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import useFetch from 'hooks/useFetch';
-import { CardWrapper, UserInfoWrapper, UserProblemInfo } from './style';
-import { getAllUsers } from 'api/user';
+import {
+  CardWrapper,
+  UserInfoWrapper,
+  UserProblemInfo,
+  Container,
+} from './style';
 import UserCard from './UserCard';
 import RandomProblemCard from './RandomProblemCard';
 import ProblemCard from './ProblemCard';
-import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
-import Layout from 'layouts/Layout';
-import LeftTime from 'components/LeftTime';
-import { CommonFlexWrapper, CommonTitle } from 'style/commonStyle';
+import useSWR from 'swr';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
+import PageTitle from 'components/PageTitle';
+import SkeletonUserCard from './SkeletonUserCard';
 
 /**
  * 사용자 탭 내용 컴포넌트
  */
 function Users() {
   // 모든 사용자 정보 조회
-  const [users, , , setUsers] = useFetch(getAllUsers, []);
+  const { data: users, isLoading } = useSWR(
+    `${USER_PREFIX_URL}/info/all`,
+    fetcher,
+  );
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
   const [sortedUsers, setSortedUsers] = useState([]);
   // 하단 문제 정보 펼칠지 여부
   const [showProblemsId, setShowProblemsId] = useState({});
-  const loginUser = useSelector((state) => state.user);
 
   const toggleShowProblemsId = (key) => {
     setShowProblemsId((prev) => ({
@@ -29,19 +39,27 @@ function Users() {
     }));
   };
 
+  // user 정보 가공
   useEffect(() => {
-    const tmpUsers = [...users].sort(
+    if (!users || !loginUser) return;
+    let tmpUsers = [...users].sort(
       (a, b) =>
         parseInt(b.todaySolvedProblemCount) -
         parseInt(a.todaySolvedProblemCount),
     );
-    // 배열 맨 앞에 로그인한 사용자가 오도록 수정
+    // 배열 맨 앞에 로그인한 사용자가 오고 block된 사용자는 맨뒤로 가도록 수정
     const loginUserIdx = tmpUsers.findIndex(
-      (user) => user.bojHandle == loginUser.bojHandle,
+      (user) => user.bojHandle == loginUser.claim,
     );
     const tmpLoginUser = { ...tmpUsers[loginUserIdx] };
     tmpUsers.splice(loginUserIdx, 1);
-    tmpUsers.unshift(tmpLoginUser);
+
+    const blockedUsers = tmpUsers.filter((user) => user.warning == 4);
+    const otherUsers = tmpUsers.filter((user) =>
+      blockedUsers.every((b) => b.bojHandle != user.bojHandle),
+    );
+
+    tmpUsers = [tmpLoginUser, ...otherUsers, ...blockedUsers];
     setSortedUsers(tmpUsers);
   }, [users]);
 
@@ -55,15 +73,29 @@ function Users() {
     [sortedUsers],
   );
 
+  if (isLoading) {
+    return (
+      <Container>
+        <PageTitle showLeftTime title="스터디원" />
+        <UserInfoWrapper>
+          {new Array(3).fill(0).map((_, i) => (
+            <CardWrapper key={i}>
+              <UserProblemInfo>
+                <SkeletonUserCard />
+              </UserProblemInfo>
+            </CardWrapper>
+          ))}
+        </UserInfoWrapper>
+      </Container>
+    );
+  }
+
   return (
-    <div>
-      <CommonFlexWrapper>
-        <CommonTitle>스터디원</CommonTitle>
-        <LeftTime />
-      </CommonFlexWrapper>
+    <Container>
+      <PageTitle showLeftTime={true} title="스터디원" />
       <UserInfoWrapper>
         {sortedUsers &&
-          sortedUsers.map((user, i) => {
+          sortedUsers.map((user) => {
             if (!isEmpty(user)) {
               return (
                 <CardWrapper key={user.notionId}>
@@ -88,7 +120,7 @@ function Users() {
             }
           })}
       </UserInfoWrapper>
-    </div>
+    </Container>
   );
 }
 

@@ -3,9 +3,10 @@ import {
   Card,
   ProblemTitle,
   ProblemWrapper,
-  LanguageTag,
   Tag,
   TagWrapper,
+  ProblemNumber,
+  SolvedWrapper,
 } from './style';
 import { CommonTierImg } from 'style/commonStyle';
 
@@ -21,25 +22,25 @@ function BoardProblemCard({ problem }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <ProblemTitle>
-            <CommonTierImg
-              src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
-              width="20"
-              height="20"
-            />
-            <p>
-              {problem.problemId != 0 && `${problem.problemId}번 : `}
-              {problem.titleKo}
-            </p>
-          </ProblemTitle>
-          {problem.problemId != 0 && (
-            <ProblemWrapper>
-              <TagWrapper>
-                {problem.tags &&
-                  problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
-              </TagWrapper>
-            </ProblemWrapper>
-          )}
+          <ProblemWrapper>
+            <ProblemNumber>
+              <CommonTierImg
+                src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
+                width="20"
+                height="20"
+              />
+              <div>{problem.problemId}</div>
+            </ProblemNumber>
+            <ProblemTitle>{problem.titleKo}</ProblemTitle>
+            {problem.problemId != 0 && (
+              <SolvedWrapper>
+                <TagWrapper>
+                  {problem.tags &&
+                    problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
+                </TagWrapper>
+              </SolvedWrapper>
+            )}
+          </ProblemWrapper>
         </a>
       </Card>
     </div>

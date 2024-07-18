@@ -8,17 +8,19 @@ export const CommonProfileImage = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  margin-right: 10px;
+  margin-right: 8px;
+  border: 1px solid var(--color-border);
 `;
 
 export const CommonCard = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
-  background-color: white;
+  background-color: #fff;
   border-radius: 10px;
-  /* border: 1px solid var(--color-background); */
-  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-border);
+  box-sizing: border-box;
+  /* box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08); */
 `;
 
 export const CommonTierImg = styled.img`
@@ -31,7 +33,7 @@ export const CommonTierImg = styled.img`
 export const CommonTitle = styled.div`
   font-weight: bold;
   font-size: 21px;
-  margin: 0 0 5px 6px;
+  margin: 0 0 0 6px;
 `;
 
 export const CommonFlexWrapper = styled.div`

@@ -1,6 +1,4 @@
 import React, { useCallback } from 'react';
-import useFetch from 'hooks/useFetch';
-import { getUserRandomStreakGrass } from 'api/user';
 import { Link } from 'react-router-dom';
 import {
   Card,
@@ -22,11 +20,14 @@ import {
   TierWrapper,
   CenterConatiner,
 } from './style';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import { CommonTierImg } from 'style/commonStyle';
 import SolvedIcon from 'components/SolvedIcon';
 import TeamIcon from 'components/TeamIcon';
 import Streak from 'components/Streak';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
+import { USER_PREFIX_URL } from 'utils/constants';
 
 /**
  * 사용자 정보 카드 컴포넌트
@@ -34,15 +35,18 @@ import Streak from 'components/Streak';
 function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
   const MAX_STREAK = 102;
   // 유저의 스트릭 잔디 정보
-  const [randomStreak] = useFetch(getUserRandomStreakGrass, [], {
-    bojHandle: user.bojHandle,
-  });
+  const { data: randomStreak } = useSWR(
+    `${USER_PREFIX_URL}/streak/grass?bojHandle=${user.bojHandle}`,
+    fetcher,
+  );
 
   const clickAcLogo = useCallback((e) => {
     e.preventDefault();
     const url = `https://solved.ac/profile/${user.bojHandle}`;
     window.open(url, '_blank');
   }, []);
+
+  console.log(user);
 
   return (
     <Card>
@@ -52,14 +56,14 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
           <ProfileWrapper>
             <div>
               <ProfileImage
-                width={80}
-                height={80}
+                width={70}
+                height={70}
                 src={
                   user.profileImg != 'null'
                     ? user.profileImg
                     : 'https://static.solved.ac/misc/360x360/default_profile.png'
                 }
-                isWarning={user.warning == 4}
+                isWarning={user.warning == 4 && !user.manager}
               />
             </div>
             <div className="id-wrapper">
@@ -87,12 +91,22 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
         <SolvedInfo>
           <FlexWrapper>
             <CenterConatiner>
-              <WarningWrapper>
-                {[...Array(3)].map((_, i) => (
-                  <Warning key={i} warning={i + 1 <= user.warning} />
-                ))}
-              </WarningWrapper>
-              {user.warning == 4 && <WarningMsg>BLOCKED</WarningMsg>}
+              {user.manager && user.warning == 4 ? null : (
+                <WarningWrapper>
+                  {[...Array(3)].map((_, i) => (
+                    <Warning key={i} warning={i + 1 <= user.warning} />
+                  ))}
+                </WarningWrapper>
+              )}
+              {user.warning == 4 ? (
+                !user.manager ? (
+                  <WarningMsg>BLOCKED</WarningMsg>
+                ) : (
+                  <p>
+                    🛠️<b>관리자</b>🛠️
+                  </p>
+                )
+              ) : null}
             </CenterConatiner>
             <TierWrapper>
               <CommonTierImg
@@ -119,13 +133,15 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
         <div>
           Random Streak <span>{user.currentRandomStreak}</span> days
         </div>
-        <Streak
-          randomStreak={randomStreak}
-          maxStreak={MAX_STREAK}
-          line={3}
-          width={680}
-          height={65}
-        />
+        {randomStreak && (
+          <Streak
+            randomStreak={randomStreak}
+            maxStreak={MAX_STREAK}
+            line={3}
+            width={680}
+            height={65}
+          />
+        )}
         <MaxStreak>
           최장<span> {user.maxRandomStreak}</span>일
         </MaxStreak>
@@ -137,8 +153,8 @@ function UserCard({ user, toggleShowProblemsId, showProblemsId }) {
         }}
       >
         <span>
-          {!showProblemsId[user.notionId] && <FaChevronDown />}
-          {showProblemsId[user.notionId] && <FaChevronUp />}
+          {!showProblemsId[user.notionId] && <IoIosArrowDown />}
+          {showProblemsId[user.notionId] && <IoIosArrowUp />}
         </span>
       </ToggleButton>
     </Card>

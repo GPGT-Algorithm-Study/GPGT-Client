@@ -9,15 +9,13 @@ import {
   WriteInfo,
   Content,
   CommentWrapper,
-  BackButton,
+  ProblemWrapper,
 } from './style';
 import CommentComponent from './CommentComponent';
 import { Link, useParams } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import useFetch from 'hooks/useFetch';
-import { deletePost, getPost } from 'api/board';
+import { deletePost } from 'api/board';
 import { toast } from 'react-toastify';
 import Write from '../Write';
 import { writeType } from 'utils/board';
@@ -25,16 +23,26 @@ import { CommonProfileImage } from 'style/commonStyle';
 import BoardProblemCard from '../BoardProblemCard';
 import { getProblemInfo } from 'api/problem';
 import { isEmpty } from 'lodash';
+import useSWR from 'swr';
+import { BRD_PREFIX_URL, USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
+import BackButton from 'components/BackButton';
+import PageTitle from 'components/PageTitle';
+import Skeleton from 'react-loading-skeleton';
 
 /**
  * 게시판 글 상세 컴포넌트
  */
 function Detail() {
-  const user = useSelector((state) => state.user);
   const { id } = useParams();
-  const [post, fetchPost] = useFetch(getPost, {}, { boardId: id }, () => {
-    navigate('/board');
-  });
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
+  const { data: post, mutate: mutatePost } = useSWR(
+    `${BRD_PREFIX_URL}/detail?boardId=${id}`,
+    fetcher,
+  );
   const navigate = useNavigate();
   const [writeMode, setWriteMode] = useState(false);
   const [problemInfo, setProblemInfo] = useState(false);
@@ -42,6 +50,11 @@ function Detail() {
 
   // 게시글에 문제 정보 있으면 가져오기
   useEffect(() => {
+    if (!post) return;
+    if (isEmpty(post)) {
+      navigate('/board');
+      return;
+    }
     if (post.problemId) {
       getProblemInfo({ problemId: post.problemId.toString() })
         .then((res) => {
@@ -79,11 +92,11 @@ function Detail() {
   }, [id]);
 
   const closeWriteMode = useCallback(() => {
-    fetchPost();
+    mutatePost();
     setWriteMode(false);
   }, []);
 
-  if (writeMode) {
+  if (post && writeMode) {
     return (
       <Write
         mode={writeType.EDIT}
@@ -97,33 +110,52 @@ function Detail() {
   return (
     <>
       <div>
-        <BackButton
-          size="25"
-          onClick={() => {
-            navigate(-1);
-          }}
-        />
-        <Title>{post.title}</Title>
+        <Title>
+          <BackButton
+            text="목록으로"
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
+          {post ? (
+            <PageTitle title={post.title} />
+          ) : (
+            <Skeleton width="30%" height={30} />
+          )}
+        </Title>
         <Toolbar>
           <WriteInfo>
-            <Link to={`/my-page/${post.bojHandle}`}>
+            <Link to={post ? `/my-page/${post.bojHandle}` : ''}>
               <Writer>
-                <CommonProfileImage
-                  width={20}
-                  height={20}
-                  src={post.profileImg}
-                />
-                <div>
-                  {post.notionId} {post.emoji}
-                </div>
+                {post ? (
+                  <>
+                    <CommonProfileImage
+                      width={17}
+                      height={17}
+                      src={post.profileImg}
+                    />
+                    <div>
+                      {post.notionId} {post.emoji}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Skeleton circle width={17} height={17} />
+                    <Skeleton width={50} />
+                  </>
+                )}
               </Writer>
             </Link>
-            <CreateDate>
-              {dayjs(post.createdDate).format('YYYY년 M월 DD일 HH:mm')}
-            </CreateDate>
+            {post ? (
+              <CreateDate>
+                {dayjs(post.createdDate).format('YYYY. MM. DD. HH:mm')}
+              </CreateDate>
+            ) : (
+              <Skeleton width={120} />
+            )}
           </WriteInfo>
           <WriteInfo>
-            {user.bojHandle == post.bojHandle && (
+            {post && loginUser && loginUser.claim == post.bojHandle && (
               <>
                 <Button
                   onClick={() => {
@@ -137,17 +169,28 @@ function Detail() {
             )}
           </WriteInfo>
         </Toolbar>
-        {hasProblem && <BoardProblemCard problem={problemInfo} />}
-        <Content data-color-mode="light">
-          <MDEditor.Markdown
-            style={{
-              padding: 10,
-              backgroundColor: 'transparent',
-            }}
-            source={post.content}
-            autoFocus={false}
-          />
-        </Content>
+        {hasProblem && (
+          <ProblemWrapper>
+            <BoardProblemCard problem={problemInfo} />
+          </ProblemWrapper>
+        )}
+        {post ? (
+          <Content data-color-mode="light">
+            <MDEditor.Markdown
+              style={{
+                padding: 10,
+                backgroundColor: 'transparent',
+              }}
+              source={post.content}
+              autoFocus={false}
+            />
+          </Content>
+        ) : (
+          <Content data-color-mode="light">
+            <Skeleton width="100%" count={7} />
+          </Content>
+        )}
+
         <CommentWrapper>
           <CommentComponent boardId={id} />
         </CommentWrapper>

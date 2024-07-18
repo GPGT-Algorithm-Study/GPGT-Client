@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FlexWrapper,
@@ -16,125 +16,233 @@ import {
   EventHeader,
   CloseButton,
   Container,
+  MobileHamburgerMenu,
+  HeaderLogoImg,
+  LoginButton,
+  MobileLoginButton,
+  MyPageMenu,
+  NotificationIcon,
+  NewNotificationIcon,
 } from './style';
 import Modal from 'layouts/Modal';
 import ProblemRecommend from 'pages/ProblemRecommend';
-import Store from 'pages/Store';
-import useFetch from 'hooks/useFetch';
-import { getUserInfo } from 'api/user';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setShowRecommendModal,
-  setShowStoreModal,
-  setShowWarningManageModal,
-  setShowPointManageModal,
-} from 'redux/modal';
-import { toast } from 'react-toastify';
-import { AiFillHome, AiFillSetting } from 'react-icons/ai';
-import { HiUsers } from 'react-icons/hi';
-import { BsBarChartFill } from 'react-icons/bs';
+import { FaBell } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
-import { LuSwords } from 'react-icons/lu';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { FaClipboardList } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { userLogout } from 'api/user';
-import { getHeaderRefreshTokenConfing, logoutProc } from 'utils/auth';
-import { getValidPointEvents } from 'api/event';
+import { getHeaderRefreshTokenConfig, logoutProc } from 'utils/auth';
 import { isEmpty } from 'lodash';
 import dayjs from 'dayjs';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
+import {
+  EVT_PREFIX_URL,
+  USER_PREFIX_URL,
+  NOTIFY_PREFIX_URL,
+} from 'utils/constants';
+import { IoArrowBackOutline } from 'react-icons/io5';
+import { isLoginUser } from 'utils/auth';
+import { MdPerson } from 'react-icons/md';
+import OverlayMenu from 'components/OverlayMenu';
+import NotificationPopup from 'components/\bNotificationPopup';
 
 function Layout({ children }) {
-  const dispatch = useDispatch();
-  const { showStoreModal, showRecommendModal } = useSelector(
-    (state) => state.modal,
+  const isLogin = useMemo(() => {
+    return isLoginUser();
+  }, []);
+  const [showRecommendModal, setShowRecommendModal] = useState(false);
+  const { data: loginUser } = useSWR(
+    isLogin ? `${USER_PREFIX_URL}/auth/parse/boj` : '',
+    fetcher,
   );
-  const user = useSelector((state) => state.user);
+
+  const { data: pointEvent } = useSWR(
+    isLogin ? `${EVT_PREFIX_URL}/point/all/valid` : '',
+    fetcher,
+  );
+
   const currentTab = useLocation().pathname.slice(1).split('/')[0];
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const { isAdmin } = useSelector((state) => state.user);
-  const [pointEvent] = useFetch(getValidPointEvents);
+
+  const [showMyPageMenu, setShowMyPageMenu] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   // 좌측 탭 목록
   const [tabs, setTabs] = useState({
-    home: { id: 0, name: '홈', icon: <AiFillHome size="18" />, route: '/home' },
     users: {
       id: 1,
       name: '스터디원',
-      icon: <HiUsers size="18" />,
+      icon: '👩🏻‍💻',
       route: '/users',
     },
     teams: {
       id: 2,
       name: '팀',
-      icon: <LuSwords size="18" />,
+      icon: '⚔️',
       route: '/teams',
     },
     statistics: {
       id: 3,
       name: '통계',
-      icon: <BsBarChartFill size="18" />,
+      icon: '📊',
       route: '/statistics',
     },
-    board: {
+    ranking: {
       id: 4,
+      name: '랭킹',
+      icon: '🏅',
+      route: '/ranking',
+    },
+    board: {
+      id: 5,
       name: '게시판',
-      icon: <FaClipboardList size="18" />,
+      icon: '📝',
       route: '/board',
+    },
+    roadmap: {
+      id: 6,
+      name: '로드맵',
+      icon: '🗺️',
+      route: '/roadmap',
+    },
+    store: {
+      id: 7,
+      name: '상점',
+      icon: '🏠',
+      route: '/store',
+    },
+    game: {
+      id: 8,
+      name: '게임',
+      icon: '🎮',
+      route: '/game',
     },
   });
 
   useEffect(() => {
+    if (!loginUser) return;
     // 관리자일 경우 관리자 탭 추가
-    if (isAdmin) {
+    if (loginUser.manager) {
       setTabs((prev) => ({
         ...prev,
         admin: {
-          id: 5,
+          id: 9,
           name: '관리자',
-          icon: <AiFillSetting size="18" />,
+          icon: '⚙️',
           route: '/admin',
         },
       }));
+    } else {
+      setTabs((prev) => ({
+        ...prev,
+        complaint: {
+          id: 9,
+          name: '민원',
+          icon: '💢',
+          route: '/complaint',
+        },
+      }));
     }
-  }, [isAdmin]);
+  }, [loginUser]);
 
   const onClickLogout = useCallback(() => {
-    const params = { bojHandle: user.bojHandle };
-    const config = getHeaderRefreshTokenConfing();
+    if (!loginUser) return;
+    const params = { bojHandle: loginUser.claim };
+    const config = getHeaderRefreshTokenConfig();
     userLogout(params, config)
-      .then((response) => {
+      .then(() => {
         // 로그아웃 처리
-        logoutProc(dispatch);
+        logoutProc();
       })
       .catch((e) => {
         throw new Error(e);
       });
-  }, []);
+  }, [loginUser]);
 
-  const [userInfo] = useFetch(getUserInfo, {}, { bojHandle: user.bojHandle });
+  const { data: userInfo } = useSWR(
+    loginUser ? `${USER_PREFIX_URL}/info?bojHandle=${loginUser.claim}` : null,
+    fetcher,
+  );
 
-  const onClickStore = useCallback(() => {
-    if (userInfo.warning == 4) {
-      toast.error('상점을 이용하실 수 없습니다.');
-      return;
-    }
-    dispatch(setShowStoreModal(true));
-  }, [userInfo]);
+  const { data: notificationCount } = useSWR(
+    loginUser ? `${NOTIFY_PREFIX_URL}/search/unread/count` : null,
+    fetcher,
+  );
 
   const onCloseModal = useCallback(() => {
-    dispatch(setShowStoreModal(false));
-    dispatch(setShowRecommendModal(false));
-    dispatch(setShowWarningManageModal(false));
-    dispatch(setShowPointManageModal(false));
+    setShowRecommendModal(false);
   }, []);
 
   const onClickUserProfile = useCallback(() => {
-    window.location.href = `/my-page/${user.bojHandle}`;
-  }, [user]);
+    setShowMobileMenu(false);
+    navigate(`/my-page/${loginUser.claim}`);
+  }, [loginUser]);
 
   const [showEventHeader, setShowEventHeader] = useState(true);
+
+  if (showMobileMenu) {
+    return (
+      <>
+        <MobileHamburgerMenu>
+          <IoArrowBackOutline
+            style={{ cursor: 'pointer', marginLeft: '10px' }}
+            onClick={() => {
+              setShowMobileMenu((prev) => !prev);
+            }}
+            size="21"
+          />
+        </MobileHamburgerMenu>
+        <MobileMenuWrapper>
+          <div>
+            {isLogin ? (
+              <SideMyInfo onClick={onClickUserProfile}>
+                <ProfileImage
+                  width="45"
+                  height="45"
+                  src={
+                    !userInfo || userInfo.profileImg == 'null'
+                      ? 'https://static.solved.ac/misc/360x360/default_profile.png'
+                      : userInfo.profileImg
+                  }
+                />
+                {userInfo.notionId} {userInfo.emoji}
+              </SideMyInfo>
+            ) : (
+              <MobileLoginButton
+                onClick={() => {
+                  navigate('/login');
+                }}
+              >
+                로그인
+              </MobileLoginButton>
+            )}
+            <MobileMenu>
+              <div>
+                {Object.keys(tabs).map((key) => (
+                  <MobileMenuItem
+                    className={currentTab === key ? 'selected' : ''}
+                    key={tabs[key].id}
+                    onClick={() => {
+                      navigate(tabs[key].route);
+                      setShowMobileMenu(false);
+                    }}
+                  >
+                    {tabs[key].icon}
+                    <div>{tabs[key].name}</div>
+                  </MobileMenuItem>
+                ))}
+              </div>
+              <MobileMenuItem onClick={onClickLogout}>
+                <FiLogOut /> <div>로그아웃</div>
+              </MobileMenuItem>
+            </MobileMenu>
+          </div>
+        </MobileMenuWrapper>
+      </>
+    );
+  }
 
   return (
     <Container>
@@ -151,49 +259,60 @@ function Layout({ children }) {
               />
             </MobileMenuIcon>
             <Link to="/home">
-              <img src={process.env.PUBLIC_URL + '/header_logo.svg'} />
+              <HeaderLogoImg
+                src={process.env.PUBLIC_URL + '/header_logo.svg'}
+              />
             </Link>
+            <MenuWrapper>
+              <Menu>
+                {Object.keys(tabs).map((key) => (
+                  <MenuItem
+                    className={currentTab === key ? 'selected' : ''}
+                    key={tabs[key].id}
+                    onClick={() => {
+                      navigate(tabs[key].route);
+                    }}
+                  >
+                    <div>{tabs[key].name}</div>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </MenuWrapper>
           </FlexWrapper>
-          <FlexWrapper>
-            <div
-              className="clickable"
-              onClick={() => {
-                dispatch(setShowRecommendModal(true));
-              }}
-            >
-              문제추천
-            </div>
-            <div className="clickable" onClick={onClickStore}>
-              상점
-            </div>
-            <SideMyInfo onClick={onClickUserProfile}>
+          {isLogin ? (
+            <SideMyInfo>
+              <NotificationIcon
+                onClick={() => {
+                  setShowNotification((prev) => !prev);
+                }}
+              >
+                <FaBell size="21" />
+                {notificationCount?.count > 0 && <NewNotificationIcon />}
+              </NotificationIcon>
               <ProfileImage
                 width="35"
                 height="35"
                 src={
-                  userInfo.profileImg == 'null'
+                  !userInfo || userInfo.profileImg == 'null'
                     ? 'https://static.solved.ac/misc/360x360/default_profile.png'
                     : userInfo.profileImg
                 }
+                onClick={() => {
+                  setShowMyPageMenu((prev) => !prev);
+                }}
               />
             </SideMyInfo>
-          </FlexWrapper>
+          ) : (
+            <LoginButton
+              onClick={() => {
+                navigate('/login');
+              }}
+            >
+              로그인
+            </LoginButton>
+          )}
+          {}
         </HeaderWrapper>
-        <MenuWrapper>
-          <Menu>
-            {Object.keys(tabs).map((key) => (
-              <MenuItem
-                className={currentTab === key ? 'selected' : ''}
-                key={tabs[key].id}
-                onClick={() => {
-                  navigate(tabs[key].route);
-                }}
-              >
-                <div>{tabs[key].icon}</div>
-              </MenuItem>
-            ))}
-          </Menu>
-        </MenuWrapper>
         {/* 이벤트 헤더 */}
         {showEventHeader && pointEvent && !isEmpty(pointEvent) && (
           <EventHeader length={pointEvent.length}>
@@ -219,52 +338,45 @@ function Layout({ children }) {
             </CloseButton>
           </EventHeader>
         )}
-        {/* 모바일 화면 메뉴 */}
-        {showMobileMenu && (
-          <MobileMenuWrapper>
-            <div>
-              <SideMyInfo onClick={onClickUserProfile}>
-                <ProfileImage
-                  width="45"
-                  height="45"
-                  src={
-                    userInfo.profileImg == 'null'
-                      ? 'https://static.solved.ac/misc/360x360/default_profile.png'
-                      : userInfo.profileImg
-                  }
-                />
-                {userInfo.notionId} {userInfo.emoji}
-              </SideMyInfo>
-              <MobileMenu>
-                <div>
-                  {Object.keys(tabs).map((key) => (
-                    <MobileMenuItem
-                      className={currentTab === key ? 'selected' : ''}
-                      key={tabs[key].id}
-                      onClick={() => {
-                        navigate(tabs[key].route);
-                        setShowMobileMenu(false);
-                      }}
-                    >
-                      {tabs[key].icon}
-                      <div>{tabs[key].name}</div>
-                    </MobileMenuItem>
-                  ))}
-                </div>
-                <MobileMenuItem onClick={onClickLogout}>
-                  <FiLogOut /> <div>로그아웃</div>
-                </MobileMenuItem>
-              </MobileMenu>
-            </div>
-          </MobileMenuWrapper>
+        {showMyPageMenu && (
+          <OverlayMenu
+            onClose={() => {
+              setShowMyPageMenu(false);
+            }}
+          >
+            <MyPageMenu>
+              <div
+                onClick={() => {
+                  onClickUserProfile();
+                  setShowMyPageMenu(false);
+                }}
+              >
+                <MdPerson />내 프로필
+              </div>
+              <div
+                onClick={() => {
+                  onClickLogout();
+                  setShowMyPageMenu(false);
+                }}
+              >
+                <FiLogOut /> 로그아웃
+              </div>
+            </MyPageMenu>
+          </OverlayMenu>
+        )}
+        {showNotification && (
+          <OverlayMenu
+            onClose={() => {
+              setShowNotification(false);
+            }}
+          >
+            <NotificationPopup />
+          </OverlayMenu>
         )}
         <section>{children}</section>
       </Content>
       <Modal show={showRecommendModal} onCloseModal={onCloseModal}>
         <ProblemRecommend />
-      </Modal>
-      <Modal show={showStoreModal} onCloseModal={onCloseModal}>
-        <Store />
       </Modal>
     </Container>
   );

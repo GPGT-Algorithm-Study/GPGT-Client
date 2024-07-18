@@ -75,3 +75,24 @@ export function putPointLogRollback(params) {
 export function putWarningLogRollback(params) {
   return axios.put(`${PREFIX_URL}/warning/rollback?logId=${params.id}`);
 }
+
+/**
+ * 전체 포인트 로그를 페이징 조회한다
+ * @param params { page, size }
+ */
+
+export function getAllPointLogByPage(params) {
+  return axios.get(
+    `${PREFIX_URL}/point/all/page?page=${params.page}&size=${params.size}`,
+  );
+}
+
+/**
+ * 전체 경고 로그를 페이징 조회한다
+ * @param params { page, size }
+ */
+export function getAllWarningLogByPage(params) {
+  return axios.get(
+    `${PREFIX_URL}/warning/all/page?page=${params.page}&size=${params.size}`,
+  );
+}

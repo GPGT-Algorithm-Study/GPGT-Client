@@ -1,53 +1,61 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
-import { Content } from './style';
+import { Content, ProfileContent, ProfileInfo, BasicInfo } from './style';
 import MyInfoCard from './MyInfoCard';
-import MyItemCard from './MyItemCard';
-import RandomCard from './RandomCard';
-import PointLogCard from './PointLogCard';
-import WarningLogCard from './WarningLogCard';
-import { getUserInfo } from 'api/user';
-import useFetch from 'hooks/useFetch';
 import { useParams } from 'react-router-dom';
 import UserBoard from './UserBoard';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
+import useSWR from 'swr';
+import RoadmapCard from './RoadmapCard';
+import PageTitle from 'components/PageTitle';
+import StreakCard from './StreakCard';
+import LogCard from './LogCard';
+import ItemCard from './ItemCard';
+import ComplaintCard from './ComplaintCard';
 
 /**
  * 마이페이지 화면
  */
 function MyPage() {
   const { bojHandle } = useParams();
-  const user = useSelector((state) => state.user);
-  const [isUser] = useState(bojHandle == user.bojHandle);
-  const [userInfo, fetchUserInfo] = useFetch(
-    getUserInfo,
-    { bojHandle: bojHandle },
-    { bojHandle: bojHandle },
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
   );
-  const [isBlocked, setIsBlocked] = useState(false);
-
+  const [isUser, setIsUser] = useState(false);
+  const { data: userInfo, mutate: mutaUserInfo } = useSWR(
+    `${USER_PREFIX_URL}/info?bojHandle=${bojHandle}`,
+    fetcher,
+  );
   useEffect(() => {
-    if (isEmpty(userInfo)) return;
-    setIsBlocked(userInfo.warning == 4);
-  }, [userInfo]);
+    if (!loginUser) return;
+    setIsUser(loginUser.claim === bojHandle);
+  }, [loginUser, bojHandle]);
+
+  if (!userInfo) return null;
 
   return (
-    <div>
-      <Content>
-        <MyInfoCard userInfo={userInfo} isUser={isUser} />
-        {!isBlocked && (
-          <MyItemCard
+    <Content>
+      <PageTitle title="프로필" />
+      <ProfileContent>
+        <BasicInfo>
+          <MyInfoCard
             userInfo={userInfo}
-            fetchUserInfo={fetchUserInfo}
             isUser={isUser}
+            loadData={mutaUserInfo}
           />
-        )}
-        {!isBlocked && <RandomCard userInfo={userInfo} isUser={isUser} />}
-        <PointLogCard userInfo={userInfo} isUser={isUser} />
-        <WarningLogCard userInfo={userInfo} isUser={isUser} />
-        <UserBoard userInfo={userInfo} />
-      </Content>
-    </div>
+        </BasicInfo>
+        <ProfileInfo>
+          <StreakCard userInfo={userInfo} />
+          <ItemCard userInfo={userInfo} isUser={isUser} />
+          <UserBoard />
+          <RoadmapCard />
+          <LogCard userInfo={userInfo} />
+          <ComplaintCard userInfo={userInfo} isUser={isUser} />
+        </ProfileInfo>
+      </ProfileContent>
+    </Content>
   );
 }
 

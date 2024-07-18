@@ -27,6 +27,13 @@ export const VerticalUserListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  height: 542.5px;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 export const User = styled.div`
@@ -67,20 +74,43 @@ export const Title = styled.div`
 
 export const Button = styled(CommonButton)`
   text-align: center;
+  padding: 10px 0;
   background-color: ${(props) => (props.isAdd ? 'green' : 'crimson')};
   color: white;
-  font-size: 1px;
-  font-weight: hard;
-  margin-right: 20px;
+  width: ${(props) => (props.isAdd ? '40vw' : '20vw')};
+  margin-right: 10px;
   ${(props) => {
     if (props.isAdd) {
       return 'margin-top: 20px; margin-left: 30px;';
     }
   }}
+  max-width: ${(props) => (props.isAdd ? '150px' : '50px')};
+  @media (max-width: 600px) {
+    scale: 80%;
+  }
 `;
 
 export const UserItem = styled.div`
   display: flex;
+  padding: 10px 2px;
+  width: 100%;
+`;
+
+export const UserDescription = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 10px;
+  text-overflow: ellipsis;
+  width: 100%;
+  margin-left: 10px;
+  justify-content: space-evenly;
+
+  @media all and (min-width: ${MAX_WIDTH}) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
+
+export const UserDescriptionName = styled.div`
+  font-weight: 700;
 `;

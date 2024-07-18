@@ -1,6 +1,4 @@
-import React from 'react';
-import { getAllUsers } from 'api/user';
-import useFetch from 'hooks/useFetch';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import {
   Title,
@@ -8,15 +6,28 @@ import {
   UserItem,
   Button,
   Content,
+  ReasonInputWrapper,
+  ReasonSelectWrapper,
+  Label,
 } from './style';
 import { postUserWarning } from 'api/log';
 import { toast } from 'react-toastify';
+import useSWR from 'swr';
+import fetcher from 'utils/fetcher';
+import { USER_PREFIX_URL } from 'utils/constants';
+import {
+  UserDescription,
+  UserDescriptionName,
+} from '../UserManageList/UserAddDeletePage/style';
 
 function WarningManage() {
-  const [users, reFetch] = useFetch(getAllUsers, []);
+  const { data: users, mutate: mutateUsers } = useSWR(
+    `${USER_PREFIX_URL}/info/all`,
+    fetcher,
+  );
   const [isPlusMode, setIsPlusMode] = useState(true);
   const [reason, setReason] = useState('');
-  const [selectedUsers, setSelectedUsers] = useState(users);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const onSelect = (e) => {
     const { name, value, checked } = e.target;
@@ -39,7 +50,6 @@ function WarningManage() {
     const selectedUserNotionId = selectedUsers
       .map((user) => `${user.notionId}`)
       .join(', '); //선택된 유저들의 notion아이디를 문자열화
-
     const isWarningCountInvalid = { flag: false };
     selectedUsers.map((user) => {
       //경고 수가 0~4 범위를 넘지 않는지 확인
@@ -68,6 +78,7 @@ function WarningManage() {
     );
     if (!isAgree) return;
 
+    let ok = true;
     selectedUsers.map((user) => {
       const selected = users.find((u) => u.notionId === user.notionId);
       const value = {
@@ -76,28 +87,26 @@ function WarningManage() {
         description: reason,
       };
       postUserWarning(value)
-        .then((res) => {
-          if (res.data.code !== 200)
-            //에러처리
-            console.log(res);
-          return;
-        })
+        .then((res) => {})
         .catch((e) => {
-          const { data } = e.response;
-          if (data && (data.code == 400 || data.code == 404))
-            toast.error(data.message);
+          toast.error(
+            `에러 : ${value.bojHandle}에게 경고를 ${
+              isPlusMode ? '부여' : '차감'
+            }하는데 실패하였습니다.`,
+          );
+          ok = false;
         });
-    });
-    users.forEach((user) => {
       const input = document.getElementById(`warningInput-${user.notionId}`);
       if (input) input.checked = false;
     });
-
-    alert(`경고가 ${isPlusMode ? '부여' : '차감'}되었습니다..`);
+    if (ok) toast.success(`경고를 ${isPlusMode ? '부여' : '차감'}했습니다.`);
     setReason('');
     setSelectedUsers([]);
-    reFetch();
+    mutateUsers();
   };
+
+  if (!users) return null;
+
   return (
     <Content>
       <Title>
@@ -132,7 +141,7 @@ function WarningManage() {
       <VerticalUserListWrapper>
         {users.map((user) => (
           <UserItem key={user.notionId}>
-            <label>
+            <Label>
               <input
                 id={`warningInput-${user.notionId}`}
                 type="checkbox"
@@ -140,15 +149,46 @@ function WarningManage() {
                 value={user.notionId}
                 onChange={onSelect}
               />
-              {user.notionId} {user.emoji} : 경고 {user.warning}회. 포인트{' '}
-              {user.point}.{' '}
-            </label>
+              <UserDescription>
+                <UserDescriptionName>
+                  {user.notionId} {user.emoji}
+                </UserDescriptionName>
+                경고 {user.warning}회 | 포인트 {user.point}
+              </UserDescription>
+            </Label>
           </UserItem>
         ))}
       </VerticalUserListWrapper>
       <div align="center">
         <form onSubmit={onSubmit}>
-          <input
+          <ReasonSelectWrapper
+            value="select"
+            onChange={(e) => {
+              setReason(e.target.value);
+            }}
+          >
+            <option value="select" disabled hidden>
+              사유 선택..
+            </option>
+            {isPlusMode === true && (
+              <>
+                <option value="주 노션 5일 미만 작성">
+                  • 주 노션 5일 미만 작성
+                </option>
+                <option value="스트릭 break">• 스트릭 break</option>
+              </>
+            )}
+            {isPlusMode === false && (
+              <>
+                <option value="스트릭 프리즈 사용">• 스트릭 프리즈 사용</option>
+                <option value="노션 3문제 solve">• 노션 3문제 solve</option>
+                <option value="시간 오차 정정">• 시간 오차 정정</option>
+                <option value="뉴비 유예 기간">• 뉴비 유예 기간</option>
+              </>
+            )}
+            <option value="">• 직접 입력하기</option>
+          </ReasonSelectWrapper>
+          <ReasonInputWrapper
             type="text"
             placeholder={
               isPlusMode ? '경고 부여 사유 입력...' : '경고 차감 사유 입력...'
@@ -156,8 +196,8 @@ function WarningManage() {
             name="reason"
             value={reason}
             onChange={onChange}
-            style={{ width: '100%', height: '30px', marginBottom: '10px' }}
-          ></input>
+          />
+
           <Button
             onClick={onSubmit}
             style={{

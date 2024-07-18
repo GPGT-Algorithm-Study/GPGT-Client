@@ -1,63 +1,38 @@
-import useFetch from 'hooks/useFetch';
 import React from 'react';
-import { Card, Content, Title, User, ScrollButton, UserWrapper } from './style';
+import { Card, Content, User, UserWrapper, Title } from './style';
 import SolvedIcon from 'components/SolvedIcon';
-import useScroll from 'hooks/useScroll';
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
-import { getUserTodaySolved } from 'api/statistics';
+import useSWR from 'swr';
+import { STAT_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
+import Skeleton from 'react-loading-skeleton';
 
 function TodaySolved() {
-  const [users] = useFetch(getUserTodaySolved, []);
-  const [
-    leftArrowHovering,
-    rightArrowHovering,
-    setArrowHovering,
-    horizontalScrollRef,
-    handleNextButtonClick,
-  ] = useScroll();
+  const { data: users } = useSWR(
+    `${STAT_PREFIX_URL}/graph/is-today-solved`,
+    fetcher,
+  );
 
   return (
     <Card>
       <Title>오늘의 문제 해결 현황</Title>
       <Content>
-        <UserWrapper ref={horizontalScrollRef}>
-          {users.map((user) => (
-            <User key={user.notionId}>
-              <div>
-                {user.notionId} {user.emoji}
-              </div>
-              <SolvedIcon solved={user.isTodaySolved} />
-            </User>
-          ))}
+        <UserWrapper>
+          {users
+            ? users.map((user) => (
+                <User key={user.notionId}>
+                  <SolvedIcon solved={user.isTodaySolved} />
+                  <div>
+                    {user.notionId} {user.emoji}
+                  </div>
+                </User>
+              ))
+            : new Array(12).fill(0).map((_, i) => (
+                <User key={i}>
+                  <Skeleton width={40} height={40} circle />
+                  <Skeleton width={70} />
+                </User>
+              ))}
         </UserWrapper>
-        <ScrollButton
-          onClick={() => {
-            handleNextButtonClick('prev');
-          }}
-          onMouseOver={() => setArrowHovering('prev', true)}
-          onMouseOut={() => setArrowHovering('prev', false)}
-          type="prev"
-        >
-          {leftArrowHovering && (
-            <div>
-              <FaChevronLeft />
-            </div>
-          )}
-        </ScrollButton>
-        <ScrollButton
-          onClick={() => {
-            handleNextButtonClick('next');
-          }}
-          onMouseOver={() => setArrowHovering('next', true)}
-          onMouseOut={() => setArrowHovering('next', false)}
-          type="next"
-        >
-          {rightArrowHovering && (
-            <div>
-              <FaChevronRight />
-            </div>
-          )}
-        </ScrollButton>
       </Content>
     </Card>
   );

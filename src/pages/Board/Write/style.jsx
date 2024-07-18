@@ -1,16 +1,14 @@
 import styled from '@emotion/styled';
 import { CommonButton } from 'style/commonStyle';
-import { CommonTitle } from 'style/commonStyle';
 
-export const Title = styled(CommonTitle)`
+export const Title = styled.div`
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  flex-direction: column;
 `;
 
 export const CategoryWrapper = styled.span`
   display: flex;
-  gap: 15px;
+  gap: 0.5rem;
   flex-wrap: wrap;
 `;
 
@@ -19,31 +17,32 @@ export const FormItem = styled.div`
   & input {
     width: ${(props) => (props.width ? props.width : '100%')};
     border: 1px solid var(--color-unchecked);
-    padding: 10px;
+    padding: 1rem;
     box-sizing: border-box;
     border-radius: 7px;
   }
   & button {
-    height: 35px;
-    padding: 0 25px;
+    padding: 1rem 1.1rem;
     border: none;
-    background-color: var(--color-primary);
-    border-radius: 7px;
-    color: white;
+    background-color: var(--color-button-gray);
+    border-radius: 5px;
+    color: var(--color-deep-gray);
     cursor: pointer;
     margin-left: 10px;
   }
 `;
 
 export const Category = styled.div`
-  border-radius: 50px;
+  border-radius: 5px;
   background-color: ${(props) =>
     props.selected ? 'var(--color-primary)' : 'white'};
-  color: ${(props) => (props.selected ? 'white' : '')};
-  font-weight: normal;
+  color: ${(props) => (props.selected ? 'white' : 'var(--color-deep-gray)')};
+  border: ${(props) =>
+    props.selected ? 'none' : '1px solid var(--color-border)'};
+  font-weight: 400;
   cursor: pointer;
-  padding: 8px 15px 8px 15px;
-  font-size: 0.9rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.8rem;
 `;
 
 export const Form = styled.div`
@@ -51,6 +50,7 @@ export const Form = styled.div`
   flex-direction: column;
   gap: 25px;
   padding: 0 5px 0 5px;
+  margin-top: 2rem;
 `;
 
 export const ButtonWrapper = styled.div`
@@ -60,14 +60,17 @@ export const ButtonWrapper = styled.div`
   justify-content: end;
 `;
 
-export const Button = styled(CommonButton)`
-  background-color: ${(props) =>
-    props.primary ? 'var(--color-primary)' : 'var(--color-tag)'};
-  font-size: 1rem;
-  font-weight: normal;
+export const Button = styled.div`
+  padding: 1rem 1.1rem;
+  border: none;
+  background-color: var(--color-primary);
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
 `;
 
 export const Container = styled.div`
-  overflow: scroll;
+  /* overflow: scroll; */
   padding-bottom: 50px;
 `;

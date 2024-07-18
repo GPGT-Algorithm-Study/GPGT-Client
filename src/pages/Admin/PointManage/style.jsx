@@ -108,12 +108,15 @@ export const VerticalUserListWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 30px;
+  height: 476.98px;
+  overflow-y: scroll;
 `;
 
 export const UserItem = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
+  width: 100%;
 `;
 
 export const FormWrapper = styled.div`
@@ -124,7 +127,6 @@ export const FormWrapper = styled.div`
 export const Button = styled(CommonButton)`
   text-align: center;
   color: white;
-  font-size: 1px;
   font-weight: hard;
 `;
 

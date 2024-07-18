@@ -1,7 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setUser } from 'redux/user';
 import { userLogin } from 'api/user';
 import { LoginWrapper, Input, LogoWrapper, Button, ErrorMsg } from './style';
 import { onSilentRefresh, setRefreshTokenToCookie } from 'utils/auth';
@@ -9,8 +7,10 @@ import { useNavigate } from 'react-router-dom';
 
 const JWT_EXPIRY_TIME = 60 * 1000; // 만료 시간: 1분
 
+/**
+ * 로그인 페이지
+ */
 function Login() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -47,18 +47,15 @@ function Login() {
           const { data } = response;
           const { accessToken, refreshToken } = data.jwt;
           axios.defaults.headers.common['Access_Token'] = accessToken;
-          dispatch(
-            setUser({ bojHandle: data.bojHandle, isAdmin: data.manager }),
-          );
           // 리프레쉬 토큰 저장
           setRefreshTokenToCookie(refreshToken);
           // 액세스 토큰 만료 3초전에 재발급
           setTimeout(() => {
-            onSilentRefresh(dispatch);
+            onSilentRefresh();
           }, JWT_EXPIRY_TIME - 3000);
           navigate('/home');
         })
-        .catch((e) => {
+        .catch(() => {
           setLoginError(true);
           setErrorMsg('아이디 또는 비밀번호를 다시 확인해주세요.');
         });
@@ -69,7 +66,7 @@ function Login() {
   return (
     <LoginWrapper>
       <LogoWrapper>
-        <img width="180" src={process.env.PUBLIC_URL + '/header_logo.svg'} />
+        <img width="150" src={process.env.PUBLIC_URL + '/header_logo.svg'} />
       </LogoWrapper>
       <form onSubmit={loginProc}>
         <Input onChange={changeId} value={id} placeholder="ID" />
@@ -79,8 +76,8 @@ function Login() {
           type="password"
           placeholder="Password"
         />
-        {loginError && <ErrorMsg>{errorMsg}</ErrorMsg>}
-        <Button>Login</Button>
+        <ErrorMsg>{loginError && errorMsg}</ErrorMsg>
+        <Button>로그인</Button>
       </form>
     </LoginWrapper>
   );

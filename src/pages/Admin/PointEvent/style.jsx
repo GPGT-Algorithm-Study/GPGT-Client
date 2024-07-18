@@ -2,12 +2,18 @@ import styled from '@emotion/styled';
 import { CommonCard } from 'style/commonStyle';
 
 export const Card = styled(CommonCard)`
-  padding: 20px;
+  padding: 20px 0 0 0;
+  width: 100%;
+
+  @media all and (min-width: 1000px) {
+    width: 50%;
+  }
 `;
 
 export const Title = styled.div`
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
+  padding-left: 25px;
 `;
 
 export const ButtonWrapper = styled.div`
@@ -56,6 +62,10 @@ export const InputWrapper = styled.div`
 
 export const TextWrapper = styled.div`
   display: flex;
+  margin-top: 5px;
+  width: 100%;
+  //justify-content: space-between;
+  //@media all and (min-width: 700px) {}
 `;
 
 export const EventWrapper = styled.div`
@@ -65,47 +75,70 @@ export const EventWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 25px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export const Event = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 25px;
+  //grid-template-columns: 1fr 1fr 2fr 2fr 2fr 1fr;
+
+  margin-bottom: 10px;
   width: 100%;
-  //text-decoration: ${(props) => (props.state ? '' : 'line-through')};
-  //text-decoration-color: var(--color-textgrey);
+  height: auto;
+  border-bottom: 1px solid lightgray;
+  align-items: center;
+  @media all and (min-width: 700px) {
+    //flex-direction: row;
+  }
+  @media all and (max-width: 700px) {
+  }
 `;
 
 export const EventDescription = styled.div`
-  flex-grow: 1;
+  //flex-grow: 1;
   text-overflow: ellipsis;
-  table-layout: fixed;
+  width: fit-content;
   margin-right: 20px;
-  @media all and (max-width: 600px) {
-    display: none;
+  padding-bottom: 5px;
+  @media all and (max-width: 700px) {
+    width: 90%;
   }
 `;
 
 export const DateWrapper = styled.div`
+  order: 3;
   width: 120px;
   color: var(--color-textgrey);
+  @media all and (max-width: 400px) {
+    font-size: 0.8rem;
+  }
 `;
 export const Name = styled.div`
+  order: 2;
   width: 150px;
   font-weight: bold;
 `;
 export const Id = styled.div`
+  order: 1;
   width: 30px;
   color: green;
 `;
 export const Value = styled.div`
-  width: 80px;
   font-weight: bold;
+  margin-left: auto;
+  margin-right: 5px;
 
   color: green;
   text-align: right;
   & p {
     display: inline;
     margin-left: 7px;
+  }
+
+  @media all and (max-width: 700px) {
+    margin-left: unset;
   }
 `;

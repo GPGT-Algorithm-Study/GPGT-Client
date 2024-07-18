@@ -1,35 +1,44 @@
 import React from 'react';
 import {
   Card,
-  FlexWrapper,
+  TeamInfoContainer,
   ColumnWrapper,
-  ImageWrapper,
-  ContributorWrapper,
-  IconWrapper,
+  TeamInfoWrapper,
+  TeamName,
+  TeamScoreInfo,
+  MvpInfoWrapper,
+  MvpTitle,
 } from './style';
-import { CommonProfileImage } from 'style/commonStyle';
 import TeamIcon from 'components/TeamIcon';
+import UserScoreInfo from '../UserScoreInfo';
 
 /**
  * 팀 카드 컴포넌트
  */
-function TeamCard({ team }) {
+function TeamCard({ teamInfo }) {
   return (
     <Card>
-      <FlexWrapper>
-        <IconWrapper>
-          <TeamIcon height="120" width="65" team={team?.team.teamNumber} />
-        </IconWrapper>
-        <ColumnWrapper team={team?.team.teamNumber}>
-          <div>RANK</div> <p>#{team?.rank}</p>
-        </ColumnWrapper>
-        <ColumnWrapper team={team?.team.teamNumber}>
-          <div>SCORE</div> <p>{team?.team.teamPoint}</p>
-        </ColumnWrapper>
-        <ColumnWrapper team={team?.team.teamNumber}>
-          <div>SOLVED</div> <p>{team?.solved}</p>
-        </ColumnWrapper>
-      </FlexWrapper>
+      <TeamInfoContainer>
+        <TeamInfoWrapper>
+          <TeamIcon width="65" team={teamInfo.team.teamNumber} />
+          <TeamName>{teamInfo.team.teamName}</TeamName>
+        </TeamInfoWrapper>
+        <TeamScoreInfo>
+          <ColumnWrapper team={teamInfo.team.teamNumber}>
+            <p>{teamInfo.rank}</p> <div>rank</div>
+          </ColumnWrapper>
+          <ColumnWrapper team={teamInfo.team.teamNumber}>
+            <p>{teamInfo.team.teamPoint}</p> <div>score</div>
+          </ColumnWrapper>
+          <ColumnWrapper team={teamInfo.team.teamNumber}>
+            <p>{teamInfo.solved}</p> <div>solved</div>
+          </ColumnWrapper>
+        </TeamScoreInfo>
+      </TeamInfoContainer>
+      <MvpInfoWrapper>
+        <MvpTitle>🏆 MVP</MvpTitle>
+        <UserScoreInfo teamUser={teamInfo.topContributor} isTop />
+      </MvpInfoWrapper>
     </Card>
   );
 }

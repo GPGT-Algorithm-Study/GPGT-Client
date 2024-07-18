@@ -8,11 +8,6 @@ export const FlexWrapper = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  padding: 10px 0 10px 0;
-  & div {
-    font-weight: bold;
-    margin: 3px 15px 3px 5px;
-  }
   .clickable {
     cursor: pointer;
   }
@@ -30,10 +25,10 @@ export const ProfileImage = styled(CommonProfileImage)`
 
 export const Content = styled.div`
   width: 100%;
-  height: 100vh;
-  overflow: scroll;
+  /* height: 100vh; */
+  /* overflow: scroll; */
   & section {
-    padding: 20px 10px 100px 10px;
+    padding: 2rem 2rem 10rem 2rem;
     margin-left: auto;
     margin-right: auto;
     max-width: var(--width-maxwidth);
@@ -44,53 +39,48 @@ export const Content = styled.div`
 `;
 
 export const MenuItem = styled.div`
-  font-weight: bold;
-  color: var(--color-textgrey);
+  color: #000;
+  font-weight: 400 !important;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: ${(props) => props.fontSize};
-  & div {
-    margin-left: 10px;
+  font-size: 0.9rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  :hover {
+    background-color: var(--color-button-gray);
   }
 `;
 
 export const Menu = styled.div`
   display: flex;
   z-index: 999;
-  gap: 30px;
-  justify-content: center;
   .selected {
     color: var(--color-primary);
-    border-radius: 50%;
-    font-weight: normal;
+    font-weight: 600 !important;
+    background-color: transparent !important;
   }
 `;
 
 export const MenuWrapper = styled.div`
-  position: absolute;
-  left: 50%;
-  top: 5px;
-  transform: translate(-50%, 0);
   display: flex;
-  justify-content: center;
-  padding: 20px;
   background-color: transparent;
-  z-index: 999;
+  z-index: 1001;
+  margin-left: 20px;
   @media all and (max-width: ${MOBILE_WIDTH}) {
     display: none;
   }
 `;
 
 export const MobileMenuItem = styled.div`
-  font-weight: bold;
-  color: var(--color-textgrey);
+  font-weight: 500;
+  color: var(--color-text-gray);
   cursor: pointer;
   display: flex;
   padding: 10px;
   font-size: ${(props) => props.fontSize};
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   & div {
     margin-left: 10px;
   }
@@ -102,10 +92,11 @@ export const MobileMenu = styled.div`
   width: 100%;
   justify-content: space-between;
   height: 85%;
+  margin-top: 30px;
   .selected {
-    color: white;
-    background-color: var(--color-primary);
-    border-radius: 8px;
+    color: #000;
+    background-color: var(--color-button-gray);
+    border-radius: 5px;
     font-weight: normal;
   }
 `;
@@ -123,9 +114,9 @@ export const SideMenu = styled.aside`
 export const SideMyInfo = styled.div`
   display: flex;
   align-items: center;
-  margin: 20px 0 30px 0;
   text-align: center;
-  font-size: 22px;
+  gap: 1.2rem;
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
 `;
@@ -147,7 +138,7 @@ export const MobileMenuWrapper = styled.div`
   padding: 0 30px 0 30px;
   box-sizing: border-box;
   position: absolute;
-  background-color: rgb(245, 245, 247);
+  background-color: #fff;
   z-index: 999;
   top: 65px;
 `;
@@ -251,9 +242,11 @@ export const HeaderWrapper = styled.div`
   top: 0;
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
-  background-color: rgb(245, 245, 247);
-  z-index: 999;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid var(--color-border);
+  z-index: 1001;
 `;
 
 export const Container = styled.div`
@@ -265,4 +258,74 @@ export const CloseButton = styled.span`
   position: sticky;
   right: 10px;
   cursor: pointer;
+`;
+
+export const MobileHamburgerMenu = styled.div`
+  margin: 20px 0 0 10px;
+`;
+
+export const HeaderLogoImg = styled.img`
+  width: 75px;
+  margin-top: 2px;
+`;
+
+export const LoginButton = styled.div`
+  font-size: 0.9rem;
+  font-weight: 400;
+  background-color: var(--color-button-gray);
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+`;
+
+export const MobileLoginButton = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: var(--color-button-gray);
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+`;
+
+export const MyPageMenu = styled.div`
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  align-items: start;
+  color: var(--color-text-gray);
+  gap: 1rem;
+  padding: 1rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  font-weight: 400;
+  background-color: #fff;
+  width: 5.5rem;
+  cursor: pointer;
+  z-index: 2999;
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+`;
+
+export const NotificationIcon = styled.div`
+  color: var(--color-deep-gray);
+  position: relative;
+  margin-top: 3px;
+`;
+
+export const NewNotificationIcon = styled.div`
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: #f24343;
+  position: absolute;
+  top: 0;
+  right: 1px;
 `;

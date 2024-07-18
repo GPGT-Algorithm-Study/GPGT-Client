@@ -1,7 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { isEmpty } from 'lodash';
-import useFetch from 'hooks/useFetch';
-import { getUserTodayRandomProblem } from 'api/user';
 import SolvedIcon from 'components/SolvedIcon';
 import Switch from 'react-switch';
 import {
@@ -15,34 +13,38 @@ import {
   TagWrapper,
   NoRandomProblem,
   TagSwitchWrapper,
+  ProblemNumber,
+  SolvedWrapper,
 } from './style';
 import { BiRefresh } from 'react-icons/bi';
 import { CommonTierImg } from 'style/commonStyle';
-import Modal from 'layouts/Modal';
 import RefreshModalContent from './RefreshModalContent';
-import { useSelector } from 'react-redux';
+import useSWR from 'swr';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
+import Confirm from 'layouts/Confirm';
 
 /**
  * 사용자의 랜덤 문제 카드 컴포넌트
  */
-function RandomProblemCard({ user, changePoint }) {
+function RandomProblemCard({ user, changePoint, background }) {
   const [showTags, setShowTags] = useState(false);
   const [problem, setProblem] = useState({});
   const [showRefreshModal, setShowRefreshModal] = useState(false);
-  const loingUser = useSelector((state) => state.user);
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
 
   // 유저의 랜덤 문제
-  const [randomProblem, fetchProblem] = useFetch(
-    getUserTodayRandomProblem,
-    {},
-    {
-      bojHandle: user.bojHandle,
-    },
+  const { data: randomProblem } = useSWR(
+    `${USER_PREFIX_URL}/streak/streak?bojHandle=${user.bojHandle}`,
+    fetcher,
   );
 
   // 랜덤 문제 데이터 가공
   useEffect(() => {
-    if (isEmpty(randomProblem)) return;
+    if (!randomProblem && isEmpty(randomProblem)) return;
     let { todayRandomProblem } = randomProblem;
     todayRandomProblem.isTodayRandomSolved = randomProblem.isTodayRandomSolved;
     if (todayRandomProblem.problemId == 0) {
@@ -72,71 +74,90 @@ function RandomProblemCard({ user, changePoint }) {
     setShowRefreshModal(true);
   }, []);
 
+  if (!randomProblem || !loginUser) return null;
+
   return (
-    <Card>
-      {problem.problemId == 0 && (
-        <NoRandomProblem>
-          <div>랜덤 문제 범위가 설정되지 않았습니다.</div>
-        </NoRandomProblem>
-      )}
-      <a
-        href={
-          problem.problemId != 0
-            ? `https://www.acmicpc.net/problem/${problem.problemId}`
-            : ''
-        }
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <CardContent isBlur={problem.problemId == 0}>
-          <TitleWrapper>
-            <Title>
-              오늘의 랜덤 문제
-              <p> +{problem.point} P</p>
-              {loingUser.bojHandle === user.bojHandle &&
-                problem.problemId != 0 &&
-                !problem.isTodayRandomSolved && (
-                  <BiRefresh size="21" onClick={onClickRefreshButton} />
+    <Card background={background}>
+      {problem.problemId == 0 ? (
+        <div>
+          <NoRandomProblem>
+            <div>랜덤 문제 범위가 설정되지 않았습니다.</div>
+          </NoRandomProblem>
+          <CardContent isBlur>
+            <TitleWrapper>
+              <Title />
+            </TitleWrapper>
+            <ProblemTitle />
+            <ProblemWrapper>
+              <SolvedIcon solved={problem.isTodayRandomSolved} />
+            </ProblemWrapper>
+          </CardContent>
+        </div>
+      ) : (
+        <a
+          href={
+            problem.problemId != 0
+              ? `https://www.acmicpc.net/problem/${problem.problemId}`
+              : ''
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <CardContent>
+            <TitleWrapper>
+              <Title>
+                📩 오늘의 랜덤 문제
+                <p> +{problem.point} P</p>
+                {loginUser.claim === user.bojHandle &&
+                  problem.problemId != 0 &&
+                  !problem.isTodayRandomSolved && (
+                    <BiRefresh
+                      size="21"
+                      onClick={onClickRefreshButton}
+                      style={{ color: 'var(--color-text-gray)' }}
+                    />
+                  )}
+              </Title>
+              <TagSwitchWrapper>
+                <span>태그</span>
+                <Switch
+                  onChange={onClickTagButton}
+                  checked={showTags}
+                  checkedIcon={false}
+                  uncheckedIcon={false}
+                  width={40}
+                  height={20}
+                  onColor="#3362c5"
+                  offColor="#d2d2d2"
+                  disabled={problem.problemId == 0}
+                />
+              </TagSwitchWrapper>
+            </TitleWrapper>
+            <ProblemWrapper>
+              <ProblemNumber>
+                {problem.level && (
+                  <CommonTierImg
+                    src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
+                    width="20"
+                    height="20"
+                  />
                 )}
-            </Title>
-            <TagSwitchWrapper>
-              <span>Tags</span>
-              <Switch
-                onChange={onClickTagButton}
-                checked={showTags}
-                checkedIcon={false}
-                uncheckedIcon={false}
-                width={40}
-                height={20}
-                onColor="#3362c5"
-                offColor="#d2d2d2"
-                disabled={problem.problemId == 0}
-              />
-            </TagSwitchWrapper>
-          </TitleWrapper>
-          <ProblemTitle>
-            {problem.level && (
-              <CommonTierImg
-                src={`https://static.solved.ac/tier_small/${problem.level}.svg`}
-                width="20"
-                height="20"
-              />
-            )}
-            <p>
-              {problem.problemId}번 : {problem.titleKo}
-            </p>
-          </ProblemTitle>
-          <ProblemWrapper>
-            <TagWrapper>
-              {problem.tags &&
-                showTags &&
-                problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
-            </TagWrapper>
-            <SolvedIcon solved={problem.isTodayRandomSolved} />
-          </ProblemWrapper>
-        </CardContent>
-      </a>
-      <Modal
+                <div>{problem.problemId}</div>
+              </ProblemNumber>
+              <ProblemTitle>{problem.titleKo}</ProblemTitle>
+              <SolvedWrapper>
+                <TagWrapper>
+                  {problem.tags &&
+                    showTags &&
+                    problem.tags.map((tag) => <Tag key={tag}>#{tag} </Tag>)}
+                </TagWrapper>
+                <SolvedIcon solved={problem.isTodayRandomSolved} />
+              </SolvedWrapper>
+            </ProblemWrapper>
+          </CardContent>
+        </a>
+      )}
+      <Confirm
         show={showRefreshModal}
         onCloseModal={() => {
           setShowRefreshModal(false);
@@ -146,10 +167,9 @@ function RandomProblemCard({ user, changePoint }) {
           onCloseModal={() => {
             setShowRefreshModal(false);
           }}
-          fetchProblem={fetchProblem}
           changePoint={changePoint}
         />
-      </Modal>
+      </Confirm>
     </Card>
   );
 }

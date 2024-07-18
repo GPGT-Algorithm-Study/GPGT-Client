@@ -1,30 +1,25 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { getRecommend } from 'api/recommend';
-import { useSelector } from 'react-redux';
 import ProblemResult from './ProblemResult';
 import { numToTierStr } from 'utils/tier';
 import Switch from 'react-switch';
 import {
-  Input,
   Slider,
   Form,
   Label,
   Title,
   ButtonWrapper,
-  ErrorMsg,
   ProblemWrapper,
   Tag,
   SwitchWrapper,
   SettingWrapper,
 } from './style';
-import { CommonTierImg, CommonButton } from 'style/commonStyle';
+import { CommonTierImg } from 'style/commonStyle';
 
 /**
  * 문제 추천 화면
  */
-function ProblemRecommend() {
-  const user = useSelector((state) => state.user);
-  const [bojId, setBojId] = useState(user.bojHandle);
+function ProblemRecommend({ bojId }) {
   const [startTier, setStartTier] = useState(0);
   const [endTier, setEndTier] = useState(4);
   const [problem, setProblem] = useState({});
@@ -54,18 +49,6 @@ function ProblemRecommend() {
         return { ...accumulator, [index]: value };
       }, {}),
     );
-  }, []);
-
-  /**
-   * 아이디 변경 핸들러
-   */
-  const onChangeId = useCallback((e) => {
-    const id = e.target.value.trim();
-    setBojId(id);
-    // id 유효성 검사
-    const regExp = /^[a-z0-9](?!_)[a-z0-9_]{1,19}$/g;
-    setIdError(id == '' || !regExp.test(id));
-    setLoadFlag(true);
   }, []);
 
   /**
@@ -109,11 +92,6 @@ function ProblemRecommend() {
   const onSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
-      // 아이디가 없는 경우
-      if (bojId == '' || idError) {
-        setIdError(true);
-        return;
-      }
       // 새로 로드하지 않아도 되는 경우
       if (!loadFlag && problemIdx + 1 < problemList.length) {
         setProblemIdx((prev) => prev + 1);
@@ -132,7 +110,7 @@ function ProblemRecommend() {
           }
           // 데이터 제대로 못 받았을 경우 에러처리
         })
-        .catch((e) => {});
+        .catch(() => {});
     },
     [bojId, startTier, endTier, loadFlag, problemIdx, isKo],
   );
@@ -165,7 +143,7 @@ function ProblemRecommend() {
             />
           </SwitchWrapper>
           <SwitchWrapper>
-            <div>Tags</div>
+            <div>태그</div>
             <Switch
               onChange={onClickTagButton}
               checked={showTags}
@@ -180,19 +158,8 @@ function ProblemRecommend() {
         </SettingWrapper>
       </Title>
 
-      {/* 아이디, 난이도 입력 폼 */}
+      {/* 난이도 입력 폼 */}
       <Form onSubmit={onSubmitForm}>
-        <div className="form-item">
-          <Label>백준 아이디</Label>
-          <Input
-            value={bojId}
-            onChange={onChangeId}
-            placeholder="백준 아이디를 입력해주세요. 풀지 않은 문제를 추천해드립니다."
-          />
-          <ErrorMsg>
-            {idError && <div>유효하지 않은 아이디입니다.</div>}
-          </ErrorMsg>
-        </div>
         <div className="form-item">
           <Label>
             <span>난이도</span>
@@ -216,11 +183,24 @@ function ProblemRecommend() {
             allowCross={false}
             onChange={onChangeSlider}
             marks={tierMarks}
-            trackStyle={{ backgroundColor: 'var(--color-toggle)' }}
+            trackStyle={{
+              backgroundColor: 'var(--color-toggle)',
+              height: '8px',
+            }}
+            railStyle={{ height: '8px' }}
+            dotStyle={{ display: 'none' }}
+            handleStyle={{
+              height: '13px',
+              width: '13px',
+              marginTop: '-2px',
+              backgroundColor: '#fff',
+              opacity: '1',
+              border: '1px solid var(--color-border)',
+            }}
           />
         </div>
         <ButtonWrapper>
-          <CommonButton primary>추천 받기</CommonButton>
+          <button>추천 받기</button>
         </ButtonWrapper>
       </Form>
 

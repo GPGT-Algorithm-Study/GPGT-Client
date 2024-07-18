@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PaginationWrapper, PageButton, ButtonWrapper } from './style';
 import {
-  FaAngleDoubleLeft,
-  FaAngleLeft,
-  FaAngleRight,
-  FaAngleDoubleRight,
-} from 'react-icons/fa';
+  HiOutlineChevronDoubleLeft,
+  HiOutlineChevronDoubleRight,
+  HiOutlineChevronLeft,
+  HiOutlineChevronRight,
+} from 'react-icons/hi2';
 
 /**
  * 페이징 컴포넌트
  */
-const Pagination = ({ totalPage, limit, page, setPage }) => {
+const Pagination = ({ totalPage, limit, page, setPage, onClickHandler }) => {
   const [currentPageArray, setCurrentPageArray] = useState([]);
 
   useEffect(() => {
@@ -21,29 +21,48 @@ const Pagination = ({ totalPage, limit, page, setPage }) => {
       pageCount = totalPage - start + 1;
     }
     setCurrentPageArray(Array.from({ length: pageCount }, (_, i) => i + start));
-  }, [page]);
+  }, [page, totalPage]);
 
   return (
     <PaginationWrapper>
-      <FaAngleDoubleLeft onClick={() => setPage(1)} />
-      <FaAngleLeft
+      <HiOutlineChevronDoubleLeft
+        onClick={() => {
+          setPage(1);
+          if (onClickHandler) onClickHandler();
+        }}
+      />
+      <HiOutlineChevronLeft
         onClick={() => {
           if (page !== 1) setPage(page - 1);
+          if (onClickHandler) onClickHandler();
         }}
       />
       <ButtonWrapper>
         {currentPageArray?.map((i) => (
-          <PageButton key={i} onClick={() => setPage(i)} selected={page === i}>
+          <PageButton
+            key={i}
+            onClick={() => {
+              setPage(i);
+              if (onClickHandler) onClickHandler();
+            }}
+            selected={page === i}
+          >
             {i}
           </PageButton>
         ))}
       </ButtonWrapper>
-      <FaAngleRight
+      <HiOutlineChevronRight
         onClick={() => {
           if (page !== totalPage) setPage(page + 1);
+          if (onClickHandler) onClickHandler();
         }}
       />
-      <FaAngleDoubleRight onClick={() => setPage(totalPage)} />
+      <HiOutlineChevronDoubleRight
+        onClick={() => {
+          setPage(totalPage);
+          if (onClickHandler) onClickHandler();
+        }}
+      />
     </PaginationWrapper>
   );
 };

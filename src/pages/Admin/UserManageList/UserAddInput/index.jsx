@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  FormWrapper,
-  InputWrapper,
-  TextWrapper,
-  Title,
-  UserAddWrapper,
-} from './style';
+import { Button, FormWrapper, InputWrapper, TextWrapper, Title } from './style';
 import { useState } from 'react';
 import { postNewUser } from 'api/user';
 import { toast } from 'react-toastify';
@@ -21,8 +14,6 @@ function UserAddInput() {
     password: '',
   });
   const onInfoChange = (e) => {
-    const { name, value } = e.target;
-
     setNewUserData((prevUserData) => ({
       ...prevUserData,
       [e.target.name]: e.target.value,
@@ -57,7 +48,7 @@ function UserAddInput() {
     if (!isAgree) return;
     postNewUser(newUserData)
       .then((res) => {
-        if (res.data.code != 200)
+        if (res.status != 200)
           //에러 처리
           console.log(res);
         return;
@@ -73,6 +64,9 @@ function UserAddInput() {
       emoji: '',
       password: '',
     });
+    alert(
+      `신규 유저를 등록헀습니다\n : ${newUserData.emoji} ${newUserData.notionId}`,
+    );
   };
   return (
     <div align="center">

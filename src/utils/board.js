@@ -1,15 +1,23 @@
 export const boardType = {
+  ALL: {
+    label: '전체 글',
+    key: '',
+  },
   FREE: {
-    label: '자유게시판',
+    label: '자유',
     key: 'free',
   },
   PS: {
-    label: '문제풀이',
+    label: '문제 풀이',
     key: 'ps',
   },
   QUES: {
-    label: '질문게시판',
+    label: '질문',
     key: 'question',
+  },
+  BLOG: {
+    label: '블로그 챌린지',
+    key: 'blog',
   },
   NOTICE: {
     label: '공지사항',

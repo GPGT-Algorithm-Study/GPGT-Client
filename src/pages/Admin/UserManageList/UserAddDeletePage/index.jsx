@@ -1,21 +1,27 @@
 import React from 'react';
-import { delUser, getAllUsers, postNewUser } from 'api/user';
-import useFetch from 'hooks/useFetch';
+import { delUser } from 'api/user';
 import { useState } from 'react';
 import {
   Content,
-  UserWrapper,
   VerticalUserListWrapper,
   Button,
   UserItem,
   Title,
+  UserDescription,
+  UserDescriptionName,
 } from './style';
 import { toast } from 'react-toastify';
 import UserAddInput from '../UserAddInput';
 import Modal from 'layouts/Modal';
+import { USER_PREFIX_URL } from 'utils/constants';
+import fetcher from 'utils/fetcher';
+import useSWR from 'swr';
 
 function UserAddDeletePage() {
-  const [users, reFetch] = useFetch(getAllUsers, []);
+  const { data: users, mutate: mutateUsers } = useSWR(
+    `${USER_PREFIX_URL}/info/all`,
+    fetcher,
+  );
   const [showUserAddModal, setShowUserAddModal] = useState(false);
   const onClickUserDelete = (user) => {
     const isAgree = confirm(
@@ -26,7 +32,7 @@ function UserAddDeletePage() {
     if (!isAgree) return;
     delUser(user)
       .then((res) => {
-        if (res.data.code !== 200)
+        if (res.status !== 200)
           //에러 처리
           console.log(res);
         return;
@@ -36,17 +42,24 @@ function UserAddDeletePage() {
         if (data && data.code == 400) toast.error(data.message);
       });
     alert('삭제되었습니다...');
-    reFetch();
+    mutateUsers();
   };
+
+  if (!users) return null;
+
   return (
     <Content>
       <Title>기존 유저 삭제 / 신규 유저 등록</Title>
       <VerticalUserListWrapper>
         {users.map((user) => (
           <UserItem key={user.notionId}>
-            <Button onClick={() => onClickUserDelete(user)}>유저 삭제</Button>
-            {user.notionId} {user.emoji} : 경고 {user.warning}회. 포인트{' '}
-            {user.point}.{' '}
+            <Button onClick={() => onClickUserDelete(user)}>삭제</Button>
+            <UserDescription>
+              <UserDescriptionName>
+                {user.notionId} {user.emoji}
+              </UserDescriptionName>
+              경고 {user.warning}회. 포인트 {user.point}.{' '}
+            </UserDescription>
           </UserItem>
         ))}
       </VerticalUserListWrapper>
@@ -62,7 +75,7 @@ function UserAddDeletePage() {
         show={showUserAddModal}
         onCloseModal={() => {
           setShowUserAddModal(false);
-          reFetch();
+          mutateUsers();
         }}
       >
         <UserAddInput />

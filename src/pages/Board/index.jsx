@@ -1,51 +1,78 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { CommonTitle } from 'style/commonStyle';
 import {
   HeaderWrapper,
   Category,
   CategoryWrapper,
   BoardTitleWrapper,
+  TitleWrapper,
   BoardHeader,
   PageWrapper,
   SearchForm,
   Container,
+  BoardContent,
   WriteButton,
-  Card,
+  PostItem,
+  PostTitle,
+  PostInfo,
+  PostContent,
+  NoPost,
+  CommentInfo,
 } from './style';
-import { isEmpty, cloneDeep } from 'lodash';
-import { BsFillPencilFill } from 'react-icons/bs';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { cloneDeep } from 'lodash';
 import Pagination from 'components/Pagination';
-import { boardType, writeType, SIZE, getTypeLabel } from 'utils/board';
-import useFetch from 'hooks/useFetch';
-import { getPostsByCondition } from 'api/board';
+import { boardType, getTypeLabel, writeType } from 'utils/board';
 import Write from './Write';
-import { useDispatch, useSelector } from 'react-redux';
-import BoardTable from 'components/BoardTable';
-import { setBoardParam, setBoardTitle } from 'redux/boardParam';
+import useSWR from 'swr';
+import postFetcher from 'utils/postFetcher';
+import {
+  BOARD_PAGE_SIZE,
+  BRD_PREFIX_URL,
+  USER_PREFIX_URL,
+} from 'utils/constants';
+import fetcher from 'utils/fetcher';
+import PageTitle from 'components/PageTitle';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import { RxChatBubble } from 'react-icons/rx';
 
 /**
  * 게시판 탭 내용 컴포넌트
  */
 function Board() {
   const categories = [
+    boardType.ALL,
     boardType.FREE,
     boardType.PS,
     boardType.QUES,
+    boardType.BLOG,
     boardType.NOTICE,
     boardType.MY,
   ];
-  const user = useSelector((state) => state.user);
-  const { params, title } = useSelector((state) => state.boardParam);
+  const { data: loginUser } = useSWR(
+    `${USER_PREFIX_URL}/auth/parse/boj`,
+    fetcher,
+  );
+  const navigate = useNavigate();
+  const [params, setParams] = useState(
+    JSON.parse(localStorage.getItem('boardParams')) || {
+      page: 0,
+      size: BOARD_PAGE_SIZE,
+      condition: {
+        type: '',
+        bojHandle: '',
+        query: '',
+      },
+    },
+  );
   const [curType, setCurType] = useState(params.condition.type);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(params.page + 1);
   const [keyword, setKeyword] = useState('');
   const [postList, setPostList] = useState([]);
-  const [postsInfo, , setPostParams] = useFetch(
-    getPostsByCondition,
-    [],
-    params,
+  const { data: postsInfo, mutate: mutatePosts } = useSWR(
+    `${BRD_PREFIX_URL}/all/condition?page=${params.page}&size=${params.size}`,
+    postFetcher(params.condition),
   );
   const [writeMode, setWriteMode] = useState(false);
   const [showTypeTitle, setShowTypeTitle] = useState(false);
@@ -53,7 +80,9 @@ function Board() {
     setWriteMode(false);
   }, []);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    mutatePosts();
+  }, [params]);
 
   const changeParams = useCallback((bojHandle, type, query) => {
     const newParams = cloneDeep(params);
@@ -69,19 +98,34 @@ function Board() {
       newParams.condition.query = query;
       newParams.page = 0;
     }
-    dispatch(setBoardParam(newParams));
-    setPostParams(newParams);
+    setParams(newParams);
   }, []);
+
+  useEffect(() => {
+    if (!params) {
+      setParams({
+        page: 0,
+        size: BOARD_PAGE_SIZE,
+        condition: {
+          type: '',
+          bojHandle: '',
+          query: '',
+        },
+      });
+    }
+    localStorage.setItem('boardParams', JSON.stringify(params));
+    if (params.condition.bojHandle) setCurType(boardType.MY.key);
+    if (params.condition.query) setCurType(boardType.SEARCH.key);
+  }, [params]);
 
   // 현재 타입 바뀌면 다시 로드
   useEffect(() => {
-    if (!curType) return;
-    dispatch(setBoardTitle(getTypeLabel(curType)));
     if (curType === boardType.SEARCH.key) {
       return;
     }
     if (curType === boardType.MY.key) {
-      changeParams(user.bojHandle, '', '');
+      if (!loginUser) return;
+      changeParams(loginUser.claim, '', '');
       setShowTypeTitle(true);
     } else {
       changeParams('', curType, '');
@@ -93,13 +137,12 @@ function Board() {
   useEffect(() => {
     const newParams = cloneDeep(params);
     newParams.page = page - 1;
-    dispatch(setBoardParam(newParams));
-    setPostParams(newParams);
+    setParams(newParams);
   }, [page]);
 
   // 응답 받은 게시물 데이터 가공
   useEffect(() => {
-    if (isEmpty(postsInfo)) return;
+    if (!postsInfo) return;
     setPostList(postsInfo.content);
     setTotal(postsInfo.totalElements);
   }, [postsInfo]);
@@ -132,6 +175,16 @@ function Board() {
 
   return (
     <Container>
+      <TitleWrapper>
+        <PageTitle title="게시판" />
+        <WriteButton
+          onClick={() => {
+            setWriteMode(true);
+          }}
+        >
+          작성하기
+        </WriteButton>
+      </TitleWrapper>
       <HeaderWrapper>
         {/* 카테고리 */}
         <CategoryWrapper>
@@ -149,16 +202,12 @@ function Board() {
         </CategoryWrapper>
       </HeaderWrapper>
       {/* 게시글 테이블 */}
-      <Card>
+      <div>
         <BoardHeader>
           <BoardTitleWrapper>
-            <CommonTitle>{title}</CommonTitle>
             <p>{total} 개의 게시글</p>
           </BoardTitleWrapper>
           <SearchForm onSubmit={onSubmitSearchKeyword}>
-            <div>
-              <AiOutlineSearch />
-            </div>
             <input
               placeholder="검색어 입력"
               value={keyword}
@@ -166,29 +215,81 @@ function Board() {
             />
           </SearchForm>
         </BoardHeader>
-        {/* 테이블 */}
-        <BoardTable postList={postList} showTypeTitle={showTypeTitle} />
-        {/* 페이지네이션  */}
-        {Math.ceil(total / SIZE) > 1 && (
-          <PageWrapper>
-            <Pagination
-              totalPage={Math.ceil(total / SIZE)}
-              limit={5}
-              page={params.page + 1}
-              setPage={setPage}
-            />
-          </PageWrapper>
-        )}
-      </Card>
-      {/* 글쓰기 버튼 */}
-      <WriteButton
-        primary
-        onClick={() => {
-          setWriteMode(true);
-        }}
-      >
-        <BsFillPencilFill />
-      </WriteButton>
+        {/* 게시판 내용 */}
+        <BoardContent>
+          {postsInfo ? (
+            postList.length === 0 ? (
+              <NoPost>작성된 게시글이 없습니다.</NoPost>
+            ) : (
+              postList.map((post) => {
+                if (post.title === '나폴리탄 스파게티는 맛있다') {
+                  post.notionId = 'SpaghettiFan';
+                  post.emoji = '🍝';
+                  post.commentCount = 0;
+                }
+                return (
+                  <PostItem
+                    key={post.id}
+                    onClick={() => {
+                      navigate(`/board/${post.id}`);
+                    }}
+                  >
+                    <PostTitle>
+                      {showTypeTitle && `[${getTypeLabel(post.type)}] `}
+                      {post.title}
+                    </PostTitle>
+                    <PostContent>{post.content}</PostContent>
+                    <PostInfo>
+                      <div>
+                        {post.notionId} {post.emoji}
+                      </div>
+                      ·
+                      <div>
+                        {dayjs(post.createdDate).format('YYYY. MM. DD')}
+                      </div>
+                      ·
+                      <CommentInfo>
+                        <RxChatBubble />
+                        {post.commentCount}
+                      </CommentInfo>
+                    </PostInfo>
+                  </PostItem>
+                );
+              })
+            )
+          ) : (
+            new Array(10).fill(0).map((_, i) => (
+              <PostItem key={i}>
+                <Skeleton width={200} height={20} />
+                <Skeleton width="100%" count={3} />
+                <PostInfo>
+                  <Skeleton width={70} />
+                  <Skeleton width={70} />
+                  <Skeleton width={70} />
+                </PostInfo>
+              </PostItem>
+            ))
+          )}
+        </BoardContent>
+      </div>
+      {/* 페이지네이션  */}
+      {Math.ceil(total / BOARD_PAGE_SIZE) > 1 && (
+        <PageWrapper>
+          <Pagination
+            totalPage={Math.ceil(total / BOARD_PAGE_SIZE)}
+            limit={5}
+            page={params.page + 1}
+            setPage={setPage}
+            onClickHandler={() => {
+              window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth',
+              });
+            }}
+          />
+        </PageWrapper>
+      )}
     </Container>
   );
 }

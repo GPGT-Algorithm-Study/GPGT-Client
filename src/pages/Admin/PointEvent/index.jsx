@@ -7,9 +7,7 @@ import {
   Event,
   EventDescription,
   EventWrapper,
-  FormWrapper,
   Id,
-  InputWrapper,
   Name,
   TextWrapper,
   Title,
@@ -17,11 +15,12 @@ import {
   Value,
 } from './style';
 import Modal from 'layouts/Modal';
-import { getAllPointEvents, postPointEvent } from 'api/event';
-import { toast } from 'react-toastify';
-import useFetch from 'hooks/useFetch';
 import NewEventModal from './NewEventModal';
 import DeleteEventModal from './DeleteEventModal';
+import fetcher from 'utils/fetcher';
+import { EVT_PREFIX_URL } from 'utils/constants';
+import useSWR from 'swr';
+import { Content } from '../PointManage/style';
 
 function formatDateTime(dateTimeString) {
   const date = new Date(dateTimeString);
@@ -48,92 +47,103 @@ function PointEvent() {
   const onClickDeleteEventButton = () => {
     setShowDeleteEventModal(true);
   };
-  const [events, reFetchEvents] = useFetch(getAllPointEvents, []);
+  const { data: events, mutate: mutateEvents } = useSWR(
+    `${EVT_PREFIX_URL}/point/all`,
+    fetcher,
+  );
+
+  if (!events) return null;
 
   return (
-    <Card>
+    <Card eventCnt={events.length}>
       <TitleWrapper>
         <Title>포인트 이벤트</Title>
       </TitleWrapper>
-      <ButtonWrapper>
-        <Button
-          onClick={onClickNewEventButton}
-          style={{
-            fontWeight: 'bold',
-            color: 'white',
-            backgroundColor: 'green',
-            fontSize: '12px',
-            marginBottom: '10px',
-          }}
-        >
-          이벤트 추가
-        </Button>
-        <Button
-          onClick={onClickDeleteEventButton}
-          style={{
-            fontWeight: 'bold',
-            color: 'white',
-            backgroundColor: 'crimson',
-            fontSize: '12px',
-            marginBottom: '10px',
-            marginLeft: '10px',
-          }}
-        >
-          이벤트 편집
-        </Button>
-      </ButtonWrapper>
-      <EventWrapper>
-        <Event>
-          <TextWrapper>
-            <Id>ID</Id>
-            <Name>이벤트 이름</Name>
-            <DateWrapper>시작 시간</DateWrapper>
-            <DateWrapper>종료 시간</DateWrapper>
-          </TextWrapper>
-          <EventDescription>이벤트 설명</EventDescription>
-          <Value>%</Value>
-        </Event>
-        {events.map((event) => {
-          return (
-            <>
-              <Event key={event.id}>
-                <TextWrapper>
-                  <Id>{event.id}</Id>
-                  <Name>{event.eventName}</Name>
-                  <DateWrapper>{formatDateTime(event.startTime)}</DateWrapper>
-                  <DateWrapper>{formatDateTime(event.endTime)}</DateWrapper>
-                </TextWrapper>
-                <EventDescription>{event.description}</EventDescription>
-                <Value>x{event.percentage}</Value>
-              </Event>
-            </>
-          );
-        })}
-      </EventWrapper>
-      <div>
-        <Modal
-          key="NewEventModal"
-          show={showNewEventModal}
-          onCloseModal={() => {
-            setShowNewEventModal(false);
-            reFetchEvents();
-          }}
-        >
-          <NewEventModal reFetchEvents={reFetchEvents} />
-        </Modal>
-      </div>
-      <div>
-        <Modal
-          key="DeleteEventModal"
-          show={showDeleteEventModal}
-          onCloseModal={() => {
-            setShowDeleteEventModal(false);
-            reFetchEvents();
-          }}
-        >
-          <DeleteEventModal events={events} reFetchEvents={reFetchEvents} />
-        </Modal>
-      </div>
+      <Content>
+        <ButtonWrapper>
+          <Button
+            onClick={onClickNewEventButton}
+            style={{
+              fontWeight: 'bold',
+              color: 'white',
+              backgroundColor: 'green',
+              fontSize: '12px',
+              marginBottom: '10px',
+            }}
+          >
+            이벤트 추가
+          </Button>
+          <Button
+            onClick={onClickDeleteEventButton}
+            style={{
+              fontWeight: 'bold',
+              color: 'white',
+              backgroundColor: 'crimson',
+              fontSize: '12px',
+              marginBottom: '10px',
+              marginLeft: '10px',
+            }}
+          >
+            이벤트 편집
+          </Button>
+        </ButtonWrapper>
+        <EventWrapper>
+          <Event>
+            <TextWrapper>
+              <Id>ID</Id>
+              <Name>이벤트 이름</Name>
+              <DateWrapper>시작 시간</DateWrapper>
+              <DateWrapper>종료 시간</DateWrapper>
+            </TextWrapper>
+            <TextWrapper>
+              <EventDescription>이벤트 설명</EventDescription>
+              <Value>%</Value>
+            </TextWrapper>
+          </Event>
+          {events.map((event) => {
+            return (
+              <div key={event.id}>
+                <Event>
+                  <TextWrapper>
+                    <Id>{event.id}</Id>
+                    <Name>{event.eventName}</Name>
+                    <DateWrapper>{formatDateTime(event.startTime)}</DateWrapper>
+                    <DateWrapper>{formatDateTime(event.endTime)}</DateWrapper>
+                  </TextWrapper>
+                  <TextWrapper>
+                    <EventDescription>{event.description}</EventDescription>
+                    <Value>x{event.percentage}</Value>
+                  </TextWrapper>
+                </Event>
+              </div>
+            );
+          })}
+        </EventWrapper>
+        <div>
+          <Modal
+            key="NewEventModal"
+            show={showNewEventModal}
+            onCloseModal={() => {
+              setShowNewEventModal(false);
+              mutateEvents();
+            }}
+          >
+            <NewEventModal />
+          </Modal>
+        </div>
+        <div>
+          <Modal
+            key="DeleteEventModal"
+            show={showDeleteEventModal}
+            onCloseModal={() => {
+              setShowDeleteEventModal(false);
+              mutateEvents();
+            }}
+          >
+            <DeleteEventModal />
+          </Modal>
+        </div>
+      </Content>
     </Card>
   );
 }
